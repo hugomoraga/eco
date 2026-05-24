@@ -81,6 +81,7 @@ class Echo(BaseModel):
         return any(t.to_semantic_key() == tag_key for t in self.known_tags)
 
     known_tags: list[IdeologicalTag] = Field(default_factory=list)
+    manifestos: list[str] = Field(default_factory=list)
 
     @property
     def identity_modifiers(self) -> dict[str, float]:
@@ -122,6 +123,7 @@ class World(BaseModel):
     echoes: list[Echo] = Field(default_factory=list)
     circles: list[Circle] = Field(default_factory=list)
     factions: list[Faction] = Field(default_factory=list)
+    manifestos: list[Manifesto] = Field(default_factory=list)
     population: int = 10000
     stability: float = 50.0
     resources: dict[str, float] = Field(default_factory=lambda: {
@@ -193,3 +195,13 @@ class EssenceRegistry:
 
         affinities = cls._affinity.get(essence1, {})
         return affinities.get(essence2, 0.0)
+
+
+class Manifesto(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    author_echo_id: str = ""
+    content: str = ""
+    tags: list[str] = Field(default_factory=list)
+    world_tick_created: int = 0
+    essence: str = "anarchism"
+    influence_generated: float = 0.0

@@ -41,6 +41,10 @@
 | 17 | Risks | in_progress | v0.1.0 | Needs update |
 || 18 | Game Definition | draft | v0.1.0 | Implementation pending |
 || 20 | Integration | implemented | v0.2.0 | Connect 4 systems to simulation |
+| 21 | Testing Coverage | draft | v0.1.0 | Tests for 10 core systems |
+| 22 | AI Manifesto | draft | v0.1.0 | Generate manifesto text + extract tags |
+| 23 | i18n | draft | v0.1.0 | Spanish/English language system |
+| 24 | Configuration | draft | v0.1.0 | .env, config.yaml, API keys |
 
 ## 19.4 Historical Commits
 

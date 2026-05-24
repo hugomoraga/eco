@@ -19,6 +19,7 @@ class SimulationEngine:
         autoplay: bool = False,
         autoplay_mode: str = "autoplay",
         autoplay_style: str = "preservationist",
+        ai_adapter_type: str = "mock",
     ):
         self.seed = seed
         self.max_turns = max_turns
@@ -26,6 +27,7 @@ class SimulationEngine:
         self.autoplay = autoplay
         self.autoplay_mode = autoplay_mode
         self.autoplay_style = autoplay_style
+        self.ai_adapter_type = ai_adapter_type
         self.rng = SeededRandom.get_instance(seed)
         self.run_dir = Path(run_dir) if run_dir else self._create_run_dir()
         if not self.run_dir.is_absolute():
@@ -107,9 +109,27 @@ class SimulationEngine:
         from game_core.actions.echo_actions import FoundCircle, PropagateIdea, Talk, WriteManifesto, Sabotage, Ritualize
         from game_core.engine.faction_tick import FactionTickSystem
         from game_core.engine.event_generator import EventGenerator
-        from game_core.ai import MockAdapter
         from game_core.domain.npc_generator import NPCGenerator
         from game_core.autoplayer import AutoplayMode, AutoplayerEngine
+
+        # Import adapters
+        from game_core.ai import MockAdapter, MiniMaxAdapter, OpenAIAdapter
+
+        # Select AI adapter based on config
+        if self.ai_adapter_type == "openai":
+            try:
+                ai_adapter = OpenAIAdapter()
+            except Exception:
+                print("Warning: OpenAI adapter failed, falling back to MockAdapter")
+                ai_adapter = MockAdapter()
+        elif self.ai_adapter_type == "minimax":
+            try:
+                ai_adapter = MiniMaxAdapter()
+            except Exception:
+                print("Warning: MiniMax adapter failed, falling back to MockAdapter")
+                ai_adapter = MockAdapter()
+        else:
+            ai_adapter = MockAdapter()
 
         action_classes = {
             "found_circle": FoundCircle,
@@ -123,7 +143,6 @@ class SimulationEngine:
         faction_system = FactionTickSystem(seed=self.seed)
         faction_tick_interval = 3
 
-        ai_adapter = MockAdapter()
         event_gen = EventGenerator(ai_adapter, seed=self.seed)
         npc_gen = NPCGenerator(ai_adapter, seed=self.seed)
         event_interval = 5

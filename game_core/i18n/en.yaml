@@ -1,0 +1,101 @@
+events:
+  la_huelga_del_silencio:
+    event_title: "The Strike of Silence"
+    summary: "The workers stopped speaking for seven days."
+    choices:
+      - label: "Support the silence"
+        effect_tags: ["increase_absurdism"]
+      - label: "Turn it into a ritual"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+
+  el_laboratorio_abierto:
+    event_title: "The Open Laboratory"
+    summary: "New horizontal coordination protocols were discovered."
+    choices:
+      - label: "Adopt the protocols"
+        effect_tags: ["increase_technocracy"]
+      - label: "Document without implementing"
+        effect_tags: ["increase_memory"]
+
+npcs:
+  dra_maela_ruun:
+    name: "Dr. Maela Ruun"
+    role: "dissident researcher"
+    archetype: "scientist"
+    essence: "technocracy"
+
+  karax_el_sin_amo:
+    name: "Karax the Masterless"
+    role: "idea propagator"
+    archetype: "propagator"
+    essence: "anarchism"
+
+  hermano_vacio:
+    name: "Brother Void"
+    role: "charismatic leader"
+    archetype: "cult_leader"
+    essence: "thelema"
+
+actions:
+  write_manifesto:
+    success: "Manifesto written with {n} tags"
+    no_tags: "Manifesto written with no recognized tags"
+    cooldown: "Manifesto on cooldown"
+
+  found_circle:
+    success: "Circle founded: {name}"
+    cooldown: "Circle on cooldown"
+
+  propagate_idea:
+    success: "Ideas propagated to {target}"
+    no_targets: "No valid targets found"
+    cooldown: "Propagation on cooldown"
+
+  talk:
+    success: "Talked"
+    cooldown: "On cooldown"
+
+  sabotage:
+    success: "Sabotage performed"
+    cooldown: "Sabotage on cooldown"
+
+  recruit:
+    success: "Recruited: {target}"
+    no_targets: "No valid targets"
+    cooldown: "Recruitment on cooldown"
+
+messages:
+  no_targets: "No valid targets found"
+  action_failed: "Action failed: {reason}"
+  npc_created: "NPC created: {name}"
+  circle_created: "Circle founded: {name}"
+  manifesto_created: "Manifesto created"
+  influence_gained: "Influence gained: {amount}"
+  pressure_increased: "Pressure increased: {amount}"
+  pressure_decreased: "Pressure decreased: {amount}"
+  essence_changed: "Essence changed to: {essence}"
+  invalid_target: "Invalid target"
+  insufficient_resources: "Insufficient resources"
+  action_on_cooldown: "Action on cooldown"
+
+essences:
+  anarchism: "Anarchism"
+  technocracy: "Technocracy"
+  absurdism: "Absurdism"
+  thelema: "Thelema"
+  ecology: "Ecology"
+
+archetypes:
+  scientist: "Scientist"
+  propagator: "Propagator"
+  cult_leader: "Charismatic Leader"
+  mediator: "Mediator"
+  radical: "Radical"
+
+game:
+  turn: "Turn {n}"
+  year: "Year {n}"
+  pressure: "Pressure: {value}"
+  influence: "Influence: {value}"
+  faction: "Faction: {name}"
+  circle: "Circle: {name}"

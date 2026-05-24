@@ -43,7 +43,9 @@ class OpenAIAdapter(AIAdapter):
         return response.choices[0].message.content or ""
 
     def generate_npc(self, context: dict) -> AIResponse:
-        system = "Eres un generador de NPCs para un juego de simulación memética."
+        from game_core.i18n import LANG_PROMPT
+
+        system = f"Eres un generador de NPCs para un juego de simulacion memetica. {LANG_PROMPT}."
         user = f"Genera un NPC basado en este contexto: {context}"
         try:
             result = self._call_llm(system, user)
@@ -52,7 +54,9 @@ class OpenAIAdapter(AIAdapter):
             return AIResponse(success=False, error=str(e))
 
     def generate_event(self, context: dict) -> AIResponse:
-        system = "Eres un generador de eventos narrativos."
+        from game_core.i18n import LANG_PROMPT
+
+        system = f"Eres un generador de eventos narrativos. {LANG_PROMPT}."
         user = f"Genera un evento basado en este contexto: {context}"
         try:
             result = self._call_llm(system, user)
@@ -61,7 +65,9 @@ class OpenAIAdapter(AIAdapter):
             return AIResponse(success=False, error=str(e))
 
     def summarize_history(self, events: list[dict]) -> AIResponse:
-        system = "Eres un cronista histórico."
+        from game_core.i18n import LANG_PROMPT
+
+        system = f"Eres un cronista historico. {LANG_PROMPT}."
         user = f"Resume estos eventos: {events}"
         try:
             result = self._call_llm(system, user)
@@ -70,10 +76,31 @@ class OpenAIAdapter(AIAdapter):
             return AIResponse(success=False, error=str(e))
 
     def interpret_consequences(self, situation: dict) -> AIResponse:
-        system = "Eres un intérprete de consecuencias históricas."
-        user = f"Interpreta esta situación: {situation}"
+        from game_core.i18n import LANG_PROMPT
+
+        system = f"Eres un interprete de consecuencias historicas. {LANG_PROMPT}."
+        user = f"Interpreta esta situacion: {situation}"
         try:
             result = self._call_llm(system, user)
             return AIResponse(success=True, data={"interpretation": result})
+        except Exception as e:
+            return AIResponse(success=False, error=str(e))
+
+    def generate_manifesto(self, essence: str, context: dict) -> AIResponse:
+        from game_core.i18n import LANG_PROMPT
+
+        system = f"Eres un generador de manifestos para un juego de simulacion memetica. {LANG_PROMPT}."
+        user = f"""Escribe un manifesto corto (2-3 parrafos) {LANG_PROMPT} para un movimiento que sigue {essence}.
+
+El manifiesto debe:
+- Reflejar los principios centrales de {essence}
+- Incluir referencias a etiquetas ideologicas que el eco lleva
+- Ser evocador y persuasivo
+- Terminar con un grito de guerra o eslogan
+
+Contexto: World tick {context.get('world_tick', 0)}, influencia {context.get('influence', 0)}"""
+        try:
+            result = self._call_llm(system, user)
+            return AIResponse(success=True, data={"content": result, "essence": essence})
         except Exception as e:
             return AIResponse(success=False, error=str(e))

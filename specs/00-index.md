@@ -27,6 +27,10 @@ Guía de lectura y dependencias entre especificaciones.
 | 18 | [game-definition](18-game-definition.md) | Definición corta, visión | - |
 || 19 | [mvp-implementation](19-mvp-implementation.md) | Tracking de implementaciones MVP | 16 |
 || 20 | [integration](20-integration.md) | Conectar sistemas desconectados | 04, 09, 13 |
+|| 21 | [testing-coverage](21-testing-coverage.md) | Tests para 10 sistemas | 01-12 |
+|| 22 | [ai-manifesto](22-ai-manifesto.md) | Manifesto genera tags + influencia | 07, 12 |
+|| 23 | [i18n](23-i18n.md) | Sistema de idiomas (es/en) | 01 |
+|| 24 | [configuration](24-configuration.md) | .env, config.yaml, API keys centralizadas | 01 |
 
 ## Gráfico de dependencias
 

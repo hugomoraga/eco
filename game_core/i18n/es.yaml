@@ -1,0 +1,101 @@
+events:
+  la_huelga_del_silencio:
+    event_title: "La Huelga del Silencio"
+    summary: "Los obreros dejaron de hablar durante siete dias."
+    choices:
+      - label: "Apoyar el silencio"
+        effect_tags: ["increase_absurdism"]
+      - label: "Convertirlo en ritual"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+
+  el_laboratorio_abierto:
+    event_title: "El Laboratorio Abierto"
+    summary: "Se descubrieron nuevos protocolos de coordinacion horizontal."
+    choices:
+      - label: "Adoptar los protocolos"
+        effect_tags: ["increase_technocracy"]
+      - label: "Documentar sin implementar"
+        effect_tags: ["increase_memory"]
+
+npcs:
+  dra_maela_ruun:
+    name: "Dra. Maela Ruun"
+    role: "investigadora disidente"
+    archetype: "scientist"
+    essence: "technocracy"
+
+  karax_el_sin_amo:
+    name: "Karax el Sin Amo"
+    role: "propagador de ideas"
+    archetype: "propagator"
+    essence: "anarchism"
+
+  hermano_vacio:
+    name: "Hermano Vacio"
+    role: "lider carismatico"
+    archetype: "cult_leader"
+    essence: "thelema"
+
+actions:
+  write_manifesto:
+    success: "Manifesto escrito con {n} tags"
+    no_tags: "Manifesto escrito sin tags reconocidos"
+    cooldown: "Manifesto en cooldown"
+
+  found_circle:
+    success: "Circulo fundado: {name}"
+    cooldown: "Circulo en cooldown"
+
+  propagate_idea:
+    success: "Ideas propagadas a {target}"
+    no_targets: "No se encontraron objetivos validos"
+    cooldown: "Propagacion en cooldown"
+
+  talk:
+    success: "Hablaste"
+    cooldown: "En cooldown"
+
+  sabotage:
+    success: "Sabotaje realizado"
+    cooldown: "Sabotaje en cooldown"
+
+  recruit:
+    success: "Reclutado: {target}"
+    no_targets: "No hay objetivos validos"
+    cooldown: "Reclutamiento en cooldown"
+
+messages:
+  no_targets: "No se encontraron objetivos validos"
+  action_failed: "Accion fallida: {reason}"
+  npc_created: "NPC creado: {name}"
+  circle_created: "Circulo fundado: {name}"
+  manifesto_created: "Manifesto creado"
+  influence_gained: "Influencia ganada: {amount}"
+  pressure_increased: "Presion aumentada: {amount}"
+  pressure_decreased: "Presion reducida: {amount}"
+  essence_changed: "Esencia cambiada a: {essence}"
+  invalid_target: "Objetivo invalido"
+  insufficient_resources: "Recursos insuficientes"
+  action_on_cooldown: "Accion en cooldown"
+
+essences:
+  anarchism: "Anarquismo"
+  technocracy: "Tecnocracia"
+  absurdism: "Absurdismo"
+  thelema: "Thelema"
+  ecology: "Ecologia"
+
+archetypes:
+  scientist: "Cientifico"
+  propagator: "Propagador"
+  cult_leader: "Lider carismatico"
+  mediator: "Mediador"
+  radical: "Radical"
+
+game:
+  turn: "Turno {n}"
+  year: "Ano {n}"
+  pressure: "Presion: {value}"
+  influence: "Influencia: {value}"
+  faction: "Faccion: {name}"
+  circle: "Circulo: {name}"
