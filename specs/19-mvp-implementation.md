@@ -1,11 +1,11 @@
 # 19. MVP Implementation Tracking
 
-## 19.1 Registro de Hitos
+## 19.1 Milestone Registry
 
-| Milestone | Commit | Specs Involucradas | Audit | Fecha |
-|-----------|--------|---------------------|-------|-------|
+| Milestone | Commit | Specs | Audit | Date |
+|-----------|--------|-------|-------|------|
 | MVP 0 | fa50cc2 | 01, 02, 03, 07, 08 | 8/8 | 2026-05-24 |
-| MVP 1 (parcial) | 2b777c8 | 05, 10 | 8/8 | 2026-05-24 |
+| MVP 1 | e799f15 | 04, 05, 06, 09, 10, 12 | 8/8 | 2026-05-24 |
 
 ## 19.2 Spec Status Definitions
 
@@ -24,16 +24,16 @@
 | 01 | Architecture | implemented | v0.2.0 | MVP 0 complete |
 | 02 | Domain | implemented | v0.2.0 | MVP 0 complete |
 | 03 | Player Echo | implemented | v0.2.0 | MVP 0 complete |
-| 04 | Essences | in_progress | v0.1.0 | genealogical_lineage pending |
+| 04 | Essences | implemented | v0.2.0 | EssenceRegistry + EssenceEffects |
 | 05 | Ideas y Doctrinas | implemented | v0.2.0 | TagGenerator implemented |
-| 06 | Ideological Drift | in_progress | v0.1.0 | Formulas pending |
+| 06 | Ideological Drift | implemented | v0.2.0 | DerivePressureCalculator |
 | 07 | Actions | implemented | v0.2.0 | MVP 0 - 2 functional + 3 stubs |
 | 08 | Temporal System | implemented | v0.2.0 | MVP 0 - 3 temporal layers |
-| 09 | Economy | in_progress | v0.1.0 | derive_pressure pending |
-| 10 | Factions | implemented | v0.2.0 | FactionTickSystem basic |
+| 09 | Economy | implemented | v0.2.0 | Derive_pressure integration |
+| 10 | Factions | implemented | v0.2.0 | FactionTickSystem |
 | 11 | Autoplayer | in_progress | v0.1.0 | Random autoplay only |
-| 12 | AI Integration | in_progress | v0.1.0 | Adapters pending |
-| 13 | Events | draft | v0.1.0 | Generator pending |
+| 12 | AI Integration | implemented | v0.2.0 | MockAdapter + OpenAIAdapter |
+| 13 | Events | in_progress | v0.1.0 | EventGenerator implemented |
 | 14 | Godot Contract | in_progress | v0.1.0 | Snapshot format defined |
 | 15 | Debugging | draft | v0.1.0 | Tools pending |
 | 16 | MVP | stable | v0.1.0 | Phases design |
@@ -49,6 +49,11 @@
 | fa50cc2 | fix: complete MVP 0 audit requirements | MVP 0 |
 | d4dfc8a | feat(specs): add spec-19 implementation tracking | - |
 | 2b777c8 | feat(mvp1): tag generator, propagate_idea, faction tick system | MVP 1 |
+| 921972a | feat(ai): add MockAdapter and OpenAIAdapter | MVP 1 |
+| 53f16ac | feat(mvp1): add NPCGenerator and update NPC model | MVP 1 |
+| 6a09da4 | feat(mvp1): add EventGenerator with EffectTagValidator | MVP 1 |
+| 408ed3a | feat(essences): add EssenceEffects and affinity matrix | MVP 1 |
+| e799f15 | feat(economy): add DerivePressureCalculator and EconomyPressure | MVP 1 |
 
 ## 19.5 MVP 0 - Detail
 
@@ -83,47 +88,50 @@ game_core/
 - Snapshots every 10 turns
 - Reproducibility with seed
 
-### Pending (for MVP 2)
-- MockAdapter / OpenAIAdapter
-- Event generator
-- Configurable goals in autoplayer
-
-## 19.6 MVP 1 - Detail (partial)
+## 19.6 MVP 1 - Detail
 
 **Date:** 2026-05-24
-**Commit:** 2b777c8
+**Commit:** e799f15
 **Audit:** 8/8 passing
 
 ### Implemented Files
 ```
 game_core/
+├── ai/
+│   ├── __init__.py
+│   ├── base.py              # AIAdapter ABC, AIResponse, MockAdapter
+│   └── adapters/
+│       ├── __init__.py
+│       └── openai_adapter.py  # OpenAIAdapter (GPT-4)
 ├── domain/
-│   └── tag_generator.py   # TagGenerator with templates for 5 essences
-└── engine/
-    └── faction_tick.py    # FactionTickSystem with heuristic scoring
+│   ├── essence_effects.py   # EssenceEffects class
+│   ├── npc_generator.py     # NPCGenerator
+│   └── npc.py               # Extended with role, archetype, essence
+├── engine/
+│   ├── event_generator.py   # EventGenerator, GameEvent, EffectTagValidator
+│   ├── faction_tick.py      # FactionTickSystem
+│   └── pressure.py          # DerivePressureCalculator, EconomyPressure
+└── data/
+    └── essences.yaml        # Extended with affinities matrix
 ```
 
 ### Functional
-- TagGenerator: templates for anarchism, technocracy, absurdism, thelema, ecology
-- PropagateIdea: functional with multiple targets (factions + circles)
-- FactionTickSystem: actions (recruit_npc, spread_doctrine, support_infrastructure, radicalize_members)
-- Faction ticks every 3 turns in simulation
+- **AI Adapters:** MockAdapter (sequential/loop), OpenAIAdapter (GPT-4)
+- **NPC Generator:** AI-powered or fallback procedural generation
+- **Event Generator:** AI-powered with EffectTagValidator (canonical/emergent)
+- **Essence Effects:** apply_to_echo, calculate_drift_risk, check_crystallization
+- **Affinity Matrix:** All 5 essences have bidirectional affinities
+- **Derive Pressure:** Weighted sum formula with compatibility modifier, mutation risk bonus
+- **Economy Pressure:** Material and social pressure calculation
 
-### Pending (for complete MVP 1)
-- MockAdapter / OpenAIAdapter optional
-- NPC generator
-- Event generator
-- Essence effects on genealogical_lineage (spec-04)
-- Derive_pressure integration (spec-09)
+### Pending (for MVP 2)
+- Configurable goals in autoplayer
+- Advanced scoring heuristics
+- Suggest / autoplay / take control modes
+- Event generator integration with simulation loop
+- Faction tick integration with DerivePressure
 
 ## 19.7 Next Milestones
-
-### Complete MVP 1
-- MockAdapter / OpenAIAdapter optional
-- NPC generator
-- Event generator
-- Essence effects on genealogical_lineage
-- Derive_pressure integration
 
 ### MVP 2 - Advanced Autoplayer
 - Configurable goals
@@ -138,7 +146,8 @@ game_core/
 
 ## Metadata
 
-- Version: 0.1.0
+- Version: 0.2.0
 - Created: 2026-05-24
+- Updated: 2026-05-24
 - Depends on: 00-index.md
-- Tracking: Este spec se actualiza con cada milestone completado
+- Tracking: Updated after MVP 1 completion
