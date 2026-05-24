@@ -114,3 +114,19 @@ class Sabotage(Action):
             state_delta={},
             social_cost=self.social_cost,
         )
+
+
+class Ritualize(Action):
+    name: str = "ritualize"
+    cooldown: int = 6
+    social_cost: float = 4.0
+    tags_required: list[str] = []
+
+    def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
+        self.last_used_tick = context.world_tick
+        return ActionResult(
+            success=True,
+            message="Ritualized (stub)",
+            state_delta={},
+            social_cost=self.social_cost,
+        )

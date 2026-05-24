@@ -27,6 +27,15 @@ class SeededRandom:
     def randint(self, a: int, b: int) -> int:
         return self.rng.randint(a, b)
 
+    def getstate(self) -> tuple:
+        return self.rng.getstate()
+
+    def setstate(self, state: tuple) -> None:
+        self.rng.setstate(state)
+
+    def getrandbits(self, k: int) -> int:
+        return self.rng.getrandbits(k)
+
 
 def seeded_random(seed: int = 42) -> SeededRandom:
     return SeededRandom.get_instance(seed)

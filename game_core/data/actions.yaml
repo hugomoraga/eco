@@ -1,0 +1,30 @@
+actions:
+  found_circle:
+    cooldown: 5
+    social_cost: 3.0
+    tags_required: []
+
+  propagate_idea:
+    cooldown: 3
+    social_cost: 2.0
+    tags_required: []
+
+  talk:
+    cooldown: 1
+    social_cost: 0.5
+    tags_required: []
+
+  write_manifesto:
+    cooldown: 10
+    social_cost: 5.0
+    tags_required: []
+
+  sabotage:
+    cooldown: 8
+    social_cost: 8.0
+    tags_required: []
+
+  ritualize:
+    cooldown: 6
+    social_cost: 4.0
+    tags_required: []

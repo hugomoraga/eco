@@ -9,3 +9,4 @@ game-core/
 *.egg-info/
 dist/
 build/
+game_core/runs/
