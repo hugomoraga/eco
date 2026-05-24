@@ -25,6 +25,7 @@ Guía de lectura y dependencias entre especificaciones.
 | 16 | [mvp](16-mvp.md) | MVP propsetos, criterios de éxito | 01, todos |
 | 17 | [risks](17-risks.md) | Riesgos, mitigaciones | 01, todos |
 | 18 | [game-definition](18-game-definition.md) | Definición corta, visión | - |
+| 19 | [mvp-implementation](19-mvp-implementation.md) | Tracking de implementaciones MVP | 16 |
 
 ## Gráfico de dependencias
 
@@ -90,27 +91,28 @@ Seguir el orden topológico: 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08
 
 ## Estado de specs
 
-| # | Spec | Status | Última revisión |
-|---|------|--------|-----------------|
-| 00 | [index](00-index.md) | ✅ | 2026-05-24 |
-| 01 | [architecture](01-architecture.md) | ✅ Corregido | 2026-05-24 |
-| 02 | [domain](02-domain.md) | ✅ Corregido | 2026-05-24 |
-| 03 | [player-echo](03-player-echo.md) | ✅ Corregido | 2026-05-24 |
-| 04 | [essences](04-essences.md) | ✅ Corregido | 2026-05-24 |
-| 05 | [ideas-doctrines](05-ideas-doctrines.md) | ✅ Corregido | 2026-05-24 |
-| 06 | [ideological-drift](06-ideological-drift.md) | ✅ Corregido | 2026-05-24 |
-| 07 | [actions](07-actions.md) | ✅ Corregido | 2026-05-24 |
-| 08 | [temporal-system](08-temporal-system.md) | ✅ Corregido | 2026-05-24 |
-| 09 | [economy](09-economy.md) | ✅ Corregido | 2026-05-24 |
-| 10 | [factions](10-factions.md) | ✅ Corregido | 2026-05-24 |
-| 11 | [autoplayer](11-autoplayer.md) | ✅ Corregido | 2026-05-24 |
-| 12 | [ai-integration](12-ai-integration.md) | ✅ Corregido | 2026-05-24 |
-| 13 | [events](13-events.md) | ✅ Corregido | 2026-05-24 |
-| 14 | [godot-contract](14-godot-contract.md) | ✅ Corregido | 2026-05-24 |
-| 15 | [debugging](15-debugging.md) | ✅ Corregido | 2026-05-24 |
-| 16 | [mvp](16-mvp.md) | ✅ Corregido | 2026-05-24 |
-| 17 | [risks](17-risks.md) | ✅ Corregido | 2026-05-24 |
-| 18 | [game-definition](18-game-definition.md) | ✅ Corregido | 2026-05-24 |
+| # | Spec | Status | Última revisión | Impl |
+|---|------|--------|-----------------|------|
+| 00 | [index](00-index.md) | stable | 2026-05-24 | - |
+| 01 | [architecture](01-architecture.md) | deprecated | 2026-05-24 | 100% |
+| 02 | [domain](02-domain.md) | deprecated | 2026-05-24 | 100% |
+| 03 | [player-echo](03-player-echo.md) | deprecated | 2026-05-24 | 100% |
+| 04 | [essences](04-essences.md) | in_progress | 2026-05-24 | 50% |
+| 05 | [ideas-doctrines](05-ideas-doctrines.md) | in_progress | 2026-05-24 | 0% |
+| 06 | [ideological-drift](06-ideological-drift.md) | in_progress | 2026-05-24 | 0% |
+| 07 | [actions](07-actions.md) | deprecated | 2026-05-24 | 100% |
+| 08 | [temporal-system](08-temporal-system.md) | deprecated | 2026-05-24 | 100% |
+| 09 | [economy](09-economy.md) | in_progress | 2026-05-24 | 0% |
+| 10 | [factions](10-factions.md) | in_progress | 2026-05-24 | 0% |
+| 11 | [autoplayer](11-autoplayer.md) | in_progress | 2026-05-24 | 20% |
+| 12 | [ai-integration](12-ai-integration.md) | in_progress | 2026-05-24 | 0% |
+| 13 | [events](13-events.md) | draft | 2026-05-24 | 0% |
+| 14 | [godot-contract](14-godot-contract.md) | in_progress | 2026-05-24 | 30% |
+| 15 | [debugging](15-debugging.md) | draft | 2026-05-24 | 0% |
+| 16 | [mvp](16-mvp.md) | stable | 2026-05-24 | - |
+| 17 | [risks](17-risks.md) | in_progress | 2026-05-24 | 0% |
+| 18 | [game-definition](18-game-definition.md) | draft | 2026-05-24 | 0% |
+| 19 | [mvp-implementation](19-mvp-implementation.md) | stable | 2026-05-24 | - |
 
 ## Convenciones
 
@@ -119,7 +121,14 @@ Seguir el orden topológico: 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08
 - Las referencias cruzadas: `[spec-nombre](spec-XX.md)`
 - Metadatos al final de cada spec: fecha creación, fuente, dependencias
 
-## Estado
+## Estados
 
-- En desarrollo: todas las specs derivan del spec.md original unificado
-- Objetivo: spec-driven development con specs independientes y versionables
+- **draft**: Sin implementar
+- **in_progress**: Parcialmente implementado
+- **deprecated**: Implementado pero puede cambiar
+- **stable**: Implementado y congelado
+
+## Implementacion
+
+- Specs 01, 02, 03, 07, 08: MVP 0 complete (audit 8/8)
+- Ver spec-19 para tracking detallado de implementaciones
