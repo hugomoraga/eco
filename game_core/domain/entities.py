@@ -71,6 +71,10 @@ class Echo(BaseModel):
     last_awakening: datetime | None = None
     reincarnation_count: int = 0
 
+    # Action tracking for diminishing returns
+    action_history: list[str] = Field(default_factory=list)  # Last N actions
+    last_action_turn: dict[str, int] = Field(default_factory=dict)  # action -> turn
+
     def get_attribute(self, label: str) -> EchoAttribute | None:
         for attr in self.attributes:
             if attr.label == label:

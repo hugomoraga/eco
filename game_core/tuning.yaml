@@ -1,0 +1,164 @@
+# ECO Tuning Configuration
+# Edit these values to change game balance and behavior
+# Changes take effect on next run
+
+# ============================================================================
+# AUTOPLAY SCORING
+# ============================================================================
+
+autoplay:
+  # Base scores for each action type (before style modifiers)
+  action_base_scores:
+    found_circle: 68.5
+    write_manifesto: 73.0
+    propagate_idea: 68.5
+    talk: 65.0
+    ritualize: 68.0
+    sabotage: 70.0
+
+  # Style modifiers (multiplied with base score)
+  style_modifiers:
+    preservationist:
+      write_manifesto: 1.10
+      found_circle: 0.90
+      ritualize: 1.05
+    revolutionary:
+      write_manifesto: 1.00
+      found_circle: 1.05
+      propagate_idea: 1.00
+      ritualize: 0.90
+      talk: 0.95
+    manipulator:
+      sabotage: 1.15
+      talk: 1.10
+      propagate_idea: 1.05
+    mystic:
+      ritualize: 1.20
+      talk: 1.05
+    technocrat:
+      propagate_idea: 1.15
+      talk: 1.05
+
+# ============================================================================
+# DIMINISHING RETURNS
+# ============================================================================
+
+diminishing_returns:
+  enabled: true
+
+  # Penalty per repeat (-0.15 = -15% per repeat)
+  penalty_per_repeat: 0.15
+
+  # Minimum score multiplier (can't go lower than this)
+  min_multiplier: 0.30
+
+  # Freshness bonus per turn since last use (+0.05 per turn)
+  freshness_bonus_per_turn: 0.05
+
+  # Maximum freshness bonus
+  max_freshness_bonus: 0.30
+
+# ============================================================================
+# ECHO SPAWNING
+# ============================================================================
+
+echo_spawning:
+  enabled: true
+
+  # Minimum faction influence to allow spawning
+  min_influence_threshold: 80
+
+  # Turns between possible spawns
+  cooldown_turns: 5
+
+  # Base chance to spawn (0.3 = 30%)
+  base_chance: 0.3
+
+  # Influence above threshold adds to chance
+  influence_bonus_per_point: 0.005
+
+  # Circle membership required to spawn echo
+  min_circle_members: 3
+
+# ============================================================================
+# CIRCLE MECHANICS
+# ============================================================================
+
+circles:
+  # Minimum members to found a circle
+  min_members_to_found: 1
+
+  # Members needed to spawn NPC
+  members_for_npc: 3
+
+  # Circle can attract Echos (chance per turn)
+  attraction_chance: 0.1
+
+  # Circle fragmentation threshold (members > this = split)
+  max_members_before_split: 7
+
+# ============================================================================
+# ESSENCE EFFECTS
+# ============================================================================
+
+essence_effects:
+  # Affinity multiplier per point (1.0 + affinity * 0.02)
+  affinity_multiplier: 0.02
+
+  # Minimum affinity for bonus (> 0.5)
+  min_affinity_for_bonus: 0.5
+
+# ============================================================================
+# EVENTS
+# ============================================================================
+
+events:
+  # Turns between event generation
+  interval_turns: 5
+
+  # Base event chance (0.8 = 80%)
+  base_chance: 0.8
+
+  # Pressure multiplier on event chance
+  pressure_chance_multiplier: 0.01
+
+# ============================================================================
+# WORLD TICK
+# ============================================================================
+
+world_tick:
+  # Turns before WT increments
+  turns_per_tick: 10
+
+# ============================================================================
+# INFLUENCE
+# ============================================================================
+
+influence:
+  # Starting influence for new Echo
+  starting_influence: 20
+
+  # Max influence (capped)
+  max_influence: 200
+
+  # Per-tag influence bonus
+  per_tag_influence: 3.0
+
+# ============================================================================
+# MANIFESTO
+# ============================================================================
+
+manifesto:
+  # Tags extracted per manifesto
+  tags_per_manifesto: 5
+
+  # Influence per tag
+  influence_per_tag: 3.0
+
+# ============================================================================
+# NPC GENERATION
+# ============================================================================
+
+npc:
+  # Base chance to spawn when circle has members_for_npc
+  base_spawn_chance: 0.7

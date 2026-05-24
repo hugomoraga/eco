@@ -31,6 +31,9 @@ Guía de lectura y dependencias entre especificaciones.
 || 22 | [ai-manifesto](22-ai-manifesto.md) | Manifesto genera tags + influencia | 07, 12 |
 || 23 | [i18n](23-i18n.md) | Sistema de idiomas (es/en) | 01 |
 || 24 | [configuration](24-configuration.md) | .env, config.yaml, API keys centralizadas | 01 |
+|| 25 | [console-logging](25-console-logging.md) | Output consola + logs detallados | 19 |
+|| 26 | [dynamism](26-dynamism.md) | Diminishing returns + world evolution | 19 |
+|| 27 | [tuning](27-tuning-diminishing-returns.md) | tuning.yaml + diminishing returns | 19 |
 
 ## Gráfico de dependencias
 

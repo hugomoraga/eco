@@ -48,50 +48,31 @@ PLAYER_STYLES: ClassVar[dict[str, PlayerStyle]] = {
         id="preservationist",
         name="Preservationist",
         prioritize_weights={"clarity": 30, "stability": 20, "continuity": 15},
-        action_bias={
-            "write_manifesto": 10,
-            "found_circle": 5,
-            "sabotage": -15,
-        },
+        action_bias={},
     ),
     "revolutionary": PlayerStyle(
         id="revolutionary",
         name="Revolutionary",
         prioritize_weights={"spread": 30, "destabilization": 20, "radicalization": 15},
-        action_bias={
-            "sabotage": 15,
-            "radicalize_members": 10,
-            "write_manifesto": 5,
-        },
+        action_bias={},
     ),
     "manipulator": PlayerStyle(
         id="manipulator",
         name="Manipulator",
         prioritize_weights={"shadow": 30, "infiltration": 25, "institutional_capture": 15},
-        action_bias={
-            "talk": 5,
-            "propagate_idea": 10,
-        },
+        action_bias={},
     ),
     "mystic": PlayerStyle(
         id="mystic",
         name="Mystic",
         prioritize_weights={"symbolism": 25, "rituals": 25, "cultural_influence": 20},
-        action_bias={
-            "ritualize": 20,
-            "write_manifesto": 10,
-            "sabotage": -15,
-        },
+        action_bias={},
     ),
     "technocrat": PlayerStyle(
         id="technocrat",
         name="Technocrat",
         prioritize_weights={"infrastructure": 25, "coordination": 25, "stability": 20},
-        action_bias={
-            "support_infrastructure": 15,
-            "found_circle": 10,
-            "radicalize_members": -10,
-        },
+        action_bias={},
     ),
 }
 

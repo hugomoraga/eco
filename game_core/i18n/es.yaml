@@ -65,6 +65,7 @@ actions:
     cooldown: "Reclutamiento en cooldown"
 
 messages:
+  event: "Evento"
   no_targets: "No se encontraron objetivos validos"
   action_failed: "Accion fallida: {reason}"
   npc_created: "NPC creado: {name}"

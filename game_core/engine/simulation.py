@@ -7,6 +7,7 @@ from pathlib import Path
 
 from game_core.domain.entities import Echo, EchoAttribute, EchoPhase, World, Circle, Faction
 from game_core.engine.random import SeededRandom
+from game_core.engine.console_output import ConsoleOutput
 
 
 class SimulationEngine:
@@ -20,6 +21,7 @@ class SimulationEngine:
         autoplay_mode: str = "autoplay",
         autoplay_style: str = "preservationist",
         ai_adapter_type: str = "mock",
+        verbose: bool = False,
     ):
         self.seed = seed
         self.max_turns = max_turns
@@ -28,6 +30,7 @@ class SimulationEngine:
         self.autoplay_mode = autoplay_mode
         self.autoplay_style = autoplay_style
         self.ai_adapter_type = ai_adapter_type
+        self.verbose = verbose
         self.rng = SeededRandom.get_instance(seed)
         self.run_dir = Path(run_dir) if run_dir else self._create_run_dir()
         if not self.run_dir.is_absolute():
@@ -39,6 +42,7 @@ class SimulationEngine:
         self.turn = 0
         self.world = self._create_initial_world()
         self.autoplayer_engine = None
+        self.console = ConsoleOutput(verbose=verbose)
 
     def _create_run_dir(self) -> Path:
         run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -193,6 +197,7 @@ class SimulationEngine:
                     "echo_essence": self.world.get_active_echo().essence if self.world.get_active_echo() else "anarchism",
                 }
                 event = event_gen.generate(context_for_event)
+                self.console.event_occurred(self.turn, event.title)
                 self._log_event("event", {
                     "title": event.title,
                     "summary": event.summary,
@@ -206,11 +211,25 @@ class SimulationEngine:
                         if not hasattr(circle, 'npcs'):
                             circle.npcs = []
                         circle.npcs.append(npc.id)
+                        self.console.npc_created(self.turn, npc.name, npc.role)
                         self._log_event("npc_created", {
                             "npc_id": npc.id,
                             "npc_name": npc.name,
                             "circle_id": circle.id,
                         })
+
+            if result and result.success:
+                action_name = getattr(result, 'action_name', 'action')
+                self.console.action_executed(self.turn, action_name, result.message)
+
+                # Track action for diminishing returns
+                if hasattr(echo, 'action_history'):
+                    echo.action_history.append(action_name)
+                    # Keep last 10 actions
+                    if len(echo.action_history) > 10:
+                        echo.action_history = echo.action_history[-10:]
+                if hasattr(echo, 'last_action_turn'):
+                    echo.last_action_turn[action_name] = self.turn
 
             self._log_event(
                 "tick",
@@ -224,10 +243,6 @@ class SimulationEngine:
             if self.turn % self.snapshot_interval == 0:
                 self._save_snapshot(self.world, self.turn)
 
-            print(
-                f"[Turn {self.turn:4d}] WT={self.world.clock.world_tick} "
-                f"Echoes={len(self.world.echoes)} Circles={len(self.world.circles)} "
-                f"Factions={len(self.world.factions)}"
-            )
+            self.console.status_line(self.turn, self.world)
 
         return {"turns": self.turn, "run_dir": str(self.run_dir)}

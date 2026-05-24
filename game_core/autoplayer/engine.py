@@ -14,6 +14,7 @@ from game_core.autoplayer.models import (
 )
 from game_core.domain.entities import Echo, World
 from game_core.engine.random import SeededRandom
+from game_core.tuning import tuning
 
 
 class AutoplayerEngine:
@@ -23,6 +24,7 @@ class AutoplayerEngine:
         "institutional_control": 0.13,
         "ideological_stability": 0.18,
         "survival_probability": 0.11,
+        "material_security": 0.15,
         "adaptability": 0.07,
         "narrative_risk": 0.04,
         "historical_impact": 0.04,
@@ -96,8 +98,11 @@ class AutoplayerEngine:
     ) -> float:
         base_score = 50.0
 
-        action_bias = self.style.action_bias.get(action_name, 0)
-        base_score += action_bias
+        # All style bias comes from tuning.yaml
+        style_id = self.style.id
+        style_mods = tuning.style_modifiers.get(style_id, {})
+        modifier = style_mods.get(action_name, 1.0)
+        base_score = base_score * modifier
 
         for goal in self.goals:
             if action_name in goal.strategy:
@@ -106,7 +111,23 @@ class AutoplayerEngine:
         base_score += metrics.get("memetic_spread", 0) * 0.1 if action_name in ["found_circle", "propagate_idea"] else 0
         base_score += metrics.get("doctrinal_clarity", 0) * 0.1 if action_name in ["write_manifesto", "ritualize"] else 0
 
-        return max(0, min(100, base_score))
+        # Diminishing returns from tuning
+        penalty = tuning.diminishing_penalty
+        min_mult = tuning.diminishing_min
+        repeats = echo.action_history.count(action_name)
+        diminishing_factor = max(min_mult, 1.0 - (repeats * penalty))
+
+        # Freshness bonus: reward actions NOT used recently
+        last_turn = echo.last_action_turn.get(action_name, 0)
+        if last_turn == 0:
+            # Never used = full freshness bonus
+            freshness_bonus = tuning.max_freshness_bonus
+        else:
+            turns_since = world.clock.action_tick - last_turn
+            freshness_bonus = min(tuning.max_freshness_bonus, turns_since * tuning.freshness_bonus_per_turn)
+
+        final_score = base_score * diminishing_factor * (1 + freshness_bonus)
+        return max(0, min(100, final_score))
 
     def select_action(
         self, echo: Echo, world: World, available_actions: list[str]

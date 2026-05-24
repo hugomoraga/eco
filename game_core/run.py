@@ -22,6 +22,7 @@ def main() -> None:
                         choices=["mock", "openai", "minimax"],
                         help="AI adapter to use")
     parser.add_argument("--lang", type=str, choices=["es", "en"], help="Language")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
 
     cfg = get_config()
@@ -47,6 +48,7 @@ def main() -> None:
         autoplay_style=autoplay_style,
         run_dir=run_dir,
         ai_adapter_type=ai_adapter_type,
+        verbose=args.verbose or cfg.verbose,
     )
     result = engine.run()
     print(f"Simulation complete. Results: {result}")
