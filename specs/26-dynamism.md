@@ -1,139 +1,251 @@
-# 26 - Action Diminishing Returns & Dynamism
+# 26 - Narrative Dynamism & Living World
 
 ## Metadata
 
 - Status: draft
 - Created: 2026-05-24
-- Priority: high
+- Updated: 2026-05-24
+- Priority: critical
 - Depends on: 19 (MVP)
 
 ## Context
 
-Current autoplay always picks write_manifesto (score 73) over found_circle (68.5) every turn. After 50 turns: Circles=0, Echoes=1, no world evolution.
+Current state: The simulation runs but reads like a spreadsheet, not a story.
 
-Problems:
-1. Repeated actions don't lose score → always pick same action
-2. World state barely changes (only influence increases)
-3. No variety, no tension, no interesting decisions
-
-## Proposal
-
-### 1. Diminishing Returns System
-
-When an action is repeated, its score decreases:
-
-```python
-def get_action_score(action_type: str, echo: Echo, world: World, turn: int) -> float:
-    base_score = calculate_base_score(action_type, echo, world)
-
-    # Diminishing returns for repeated actions
-    action_history = echo.action_history[-10:]  # last 10 actions
-    repeats = action_history.count(action_type)
-    diminishing_factor = max(0.3, 1.0 - (repeats * 0.15))  # -15% per repeat, min 30%
-
-    # Cooldown bonus for not doing action recently
-    turns_since = _turns_since_action(echo, action_type)
-    freshness_bonus = min(0.3, turns_since * 0.05)  # +5% per turn since last use
-
-    return base_score * diminishing_factor * (1 + freshness_bonus)
+```
+[Turn 5] ⚡ Evento: "Comunidad libre consume recursos energéticos"
+[Turn 6] • Founded circle: Circle of First Echo
+[Turn 7] • Founded circle: Circle of First Echo
+[Turn 8] • Founded circle: Circle of First Echo
 ```
 
-**Example:**
-- write_manifesto base score: 73
-- Turn 1: 73 * 1.0 = 73
-- Turn 2: 73 * 0.85 = 62 (repeated)
-- Turn 3: 73 * 0.70 = 51 (repeated twice)
-- Turn 4: 73 * 0.55 = 40 (repeated thrice)
-- found_circle (never used): 68.5 * 1.15 = 78 → now wins
+**Problems:**
+1. Nothing interesting happens between events (5-turn gaps)
+2. Actions are stubs - "Founded circle" doesn't mean anything
+3. No NPCs, no characters, no voices
+4. Tags exist but have no effect
+5. Circles are just counters
+6. Events don't change anything real
+7. No sense of a living world with agency
 
-### 2. World State Evolution
+**Goal:** Every turn should tell part of a story. The console should be readable as a narrative.
 
-World should change meaningfully each turn:
+## Vision: Turn-by-Turn Narrative
 
-**Before (static):**
-- Echoes=1 for 50 turns
-- Circles=0 for 50 turns
-- Only influence changes
+Each turn produces ONE of:
+- An **event** with named characters and consequences
+- An **action** with specific, named effect
+- An **NPC** speaking or acting
+- A **state change** explained narratively
+- A **discovery** or revelation
 
-**After (dynamic):**
-- Echos can spawn/join/leave
-- Circles can be founded, grow, dissolve
-- Faction influence can rise/fall
-- Tags accumulate and affect world
-- WorldTick triggers changes in pressure/events
+**Example desired output:**
 
-### 3. Action Effects that Change World
+```
+[Turn 3] 📜 Echoes write manifesto on anarchism in the public square
+[Turn 4] 👤 Brother汾 come forward: "I share this vision" (+3 followers)
+[Turn 5] ⚡ CRISIS: "Authorities ban public assembly" → Legitimacy -15
+[Turn 6] ⭕ Echo founds Circle of the First Garden (5 members join)
+[Turn 7] 👤 Dra. Maela Ruun warns: "This path leads to isolation"
+[Turn 8] 📣 Propagandists spread to the eastern districts
+[Turn 9] ⭕ Circle grows: The First Garden now has 12 members
+[Turn 10] ⚡ EVENT: "The Assembly of Thorns" - 3 factions dispute resources
+[Turn 11] 👤 Old Kael whispers: "Remember what happened in Barrias..."
+[Turn 12] 📉 Influence of Order: 45 → 38 (-7)
+```
+
+## Core Systems to Implement
+
+### 1. Actions with Teeth (Real Effects)
 
 **found_circle:**
-- Creates a Circle with 1 member (the echo)
-- If circle reaches 3 members → NPC spawned
-- Circle can attract other Echos
+- Creates circle with name (AI-generated or formula: "Circle of [Noun]")
+- Echo joins as first member
+- Other Echos/NPCs can join if nearby
+- Circle has essence that can attract/repel
 
 **propagate_idea:**
-- Can create new Echo (daughter echo) with similar essence
-- If essence differs enough → mutation/deriva
+- Generates tags (already working with AI)
+- Tags accumulate in world state
+- High tag concentration → events triggered
+- Can cause echo to "resonate" and spawn daughter
 
 **write_manifesto:**
-- Adds tags to world/echo
-- Tags affect future event generation
+- AI generates actual manifesto text (stored in logs)
+- Tags extracted → world.tags adds them
+- Echo clarity increases
 
 **ritualize:**
-- Can increase echo attributes (clarity, resonance)
-- Can reduce pressure (calming effect)
-
-**sabotage:**
-- Can reduce enemy faction influence
-- Can remove tags from enemies
+- Generates event in current location
+- Can increase/decrease local pressure
+- Echo resonance attribute changes
 
 **talk:**
-- Can influence other Echos to join your circle
-- Can spread tags
+- Can recruit NPC or Echo to circle
+- NPC may respond with dialogue
+- Recorded in narrative
 
-### 4. Echo Spawning System
+**sabotage:**
+- Reduces target faction influence
+- Generates counter-event (retaliation)
 
-New Echos should spawn over time:
+### 2. Echo Spawning (Daughter Echos)
 
-```python
-def maybe_spawn_echo(world: World, turn: int) -> Echo | None:
-    """Spawn new echo based on world conditions."""
-    # If faction influence > threshold and no recent spawn
-    if world.total_influence > 100 and turn - world.last_echo_spawn > 5:
-        if random.random() < 0.3:  # 30% chance
-            return _create_daughter_echo(world)
-    return None
+When conditions met, new Echo spawns:
+```
+if world.tags['revolutionary'] > 20 and world.circles > 2:
+    if random.random() < spawn_chance:
+        daughter = create_echo(
+            essence=mutate_essence(parent.essence),
+            name=generate_name(),
+            origin=f" daughter of {parent.name}"
+        )
 ```
 
-### 5. Circle Growth System
+**Daughter Echo behaviors:**
+- Starts in nearby circle
+- Has slight mutation of parent's essence
+- Can diverge over time (deriva)
+- Has own action preferences
 
-Circles grow when:
-- Echos nearby take "talk" action
-- Echos with matching essence join
-- NPC helps recruit
+### 3. NPCs (Named Characters)
 
-Circles shrink when:
-- Members leave (low resonance)
-- Circle reaches critical mass and fragments
+NPCs spawn from:
+- Circle reaching 3+ members
+- Talk action with high resonance
+- Random events ("wanderer arrives")
 
-### 6. Implementation Checklist
+**NPC structure:**
+```python
+class NPC:
+    id: str
+    name: str  # AI-generated: "Brother汾", "Dra. Maela Ruun"
+    essence: str
+    circle_id: str | None
+    traits: list[str]  # "skeptical", "zealous", "pragmatic"
+    dialogue_history: list[str]
+    influence: float  # can affect others
+```
 
-1. Add `action_history` list to Echo model
-2. Add `last_action_turn` dict to Echo
-3. Implement diminishing returns in autoplayer scoring
-4. Add `spawn_daughter_echo()` function
-5. Add `circle_grow()` trigger on talk action
-6. Add `world_tick_effects()` to evolve world state
-7. Balance scores so all actions are viable
+**NPC actions:**
+- Speak (generates dialogue)
+- Join/leave circle
+- Influence other NPCs
+- Trigger events
 
-### 7. Expected Behavior After Fix
+### 4. Events with Consequences
 
-**Turn 1-3:** write_manifesto wins (fresh action bonus)
-**Turn 4-6:** found_circle starts winning (diminishing returns on write_manifesto)
-**Turn 7:** Circle founded with 1 member
-**Turn 8-12:** Actions spread between found_circle, talk, propagate_idea
-**Turn 13:** Circle has 3 members → NPC spawned
-**Turn 15:** Second echo spawns
-**Turn 20:** Circles=2, Echoes=2, world evolving
+Events MUST change something:
+```
+Event("Authority bans assembly"):
+    world.legitimacy -= 10
+    world.pressure += 5
+    yield "The council's legitimacy crumbles"
+```
+
+**Event types:**
+- Crisis (negative world change)
+- Opportunity (positive world change)
+- Revelation (new information/tags)
+- Conflict (faction vs faction)
+- Convergence (circles merge)
+
+### 5. Tags Accumulation & Effect
+
+Tags in world state:
+```python
+world.tags: dict[str, float] = {
+    "anarchism": 15.0,
+    "collectivism": 8.0,
+    "mysticism": 3.0,
+    "resistance": 12.0,
+}
+```
+
+**Tag effects:**
+- High tag value → events related to tag trigger
+- Competing tags → tension events
+- Tag mutations → daughter echo essence changes
+
+### 6. World State (Pressure, Legitimacy, Resources)
+
+New world metrics:
+```python
+world.pressure: float      # civil unrest, 0-100
+world.legitimacy: float   # authority trust, 0-100  
+world.resources: float    # food/energy, 0-100
+```
+
+**Turn evolution:**
+- Each turn: pressure += random(-2, +3)
+- Events modify these values
+- Low legitimacy → more crisis events
+- High pressure → events of resistance
+
+## Console Output Specification
+
+**Format per turn:**
+```
+[Turn N] {emoji} {narrative text}
+```
+
+**Emoji meanings:**
+- 📜 Action (manifesto, propagate)
+- ⭕ Circle founded/grows
+- 👤 NPC speaks or acts
+- ⚡ Event (crisis, opportunity)
+- 📣 Propagation spreading
+- 🔮 Ritual performed
+- ⚔️ Sabotage/conflict
+- 📈/📉 Major state change
+- ❌ Failure/retreat
+- 🏷️ Tag acquired
+
+**Narrative rules:**
+1. Named characters when possible ("Dra. Maela", "Brother汾")
+2. Specific, not generic ("Circle of the Burning Garden" not "Circle #3")
+3. Consequence mentioned ("→ Legitimacy -10")
+4. Past tense for completed, present for ongoing
+
+## Implementation Phases
+
+### Phase 1: Actions with Teeth (THIS SPEC)
+- [ ] found_circle → creates named circle, echo joins
+- [ ] propagate_idea → adds tags to world
+- [ ] write_manifesto → text + tags + clarity boost
+- [ ] ritualize → generates localized event
+- [ ] talk → can recruit, generates dialogue
+- [ ] sabotage → reduces faction, triggers retaliation
+
+### Phase 2: Living Circles
+- [ ] Circles store member list
+- [ ] Circle name generation
+- [ ] Circle growth mechanism
+- [ ] Circle can attract Echos
+
+### Phase 3: NPC System
+- [ ] NPC model (name, essence, traits)
+- [ ] NPC spawning (circle 3+ members)
+- [ ] NPC dialogue generation
+- [ ] NPC actions
+
+### Phase 4: World State
+- [ ] pressure, legitimacy, resources
+- [ ] Turn evolution of metrics
+- [ ] Event consequences on metrics
+
+### Phase 5: Echo Spawning
+- [ ] Daughter echo creation
+- [ ] Essence mutation
+- [ ] Spawn conditions
+
+### Phase 6: Narrative Console
+- [ ] Per-turn narrative output
+- [ ] Named characters in output
+- [ ] Consequence reporting
+- [ ] Story coherence
 
 ## Status History
 
-- 2026-05-24: draft created
+- 2026-05-24: draft created (was about diminishing returns)
+- 2026-05-24: updated - complete rewrite for narrative dynamism
