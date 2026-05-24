@@ -4,6 +4,11 @@ anarchism:
   institutional_stability: -10
   innovation: 10
   drift_risk: 15
+  affinities:
+    technocracy: -10
+    absurdism: 20
+    thelema: -10
+    ecology: 25
 
 technocracy:
   efficiency: 25
@@ -11,21 +16,41 @@ technocracy:
   surveillance: 20
   institutional_stability: 15
   empathy: -8
+  affinities:
+    anarchism: -10
+    absurdism: -5
+    thelema: 10
+    ecology: -15
 
 absurdism:
   meaning_stability: -20
   creativity: 20
   obedience: -10
   drift_risk: 25
+  affinities:
+    anarchism: 20
+    technocracy: -5
+    thelema: 25
+    ecology: -10
 
 thelema:
   will: 25
   cult_risk: 20
   individualism: 15
   institutional_drift: 15
+  affinities:
+    anarchism: -10
+    technocracy: 10
+    absurdism: 25
+    ecology: -5
 
 ecology:
   extraction: -20
   resilience: 20
   growth: -10
   territorial_balance: 25
+  affinities:
+    anarchism: 25
+    technocracy: -15
+    absurdism: -10
+    thelema: -5

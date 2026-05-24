@@ -150,13 +150,18 @@ class World(BaseModel):
 
 class EssenceRegistry:
     _data: ClassVar[dict[str, dict] | None] = None
+    _affinity: ClassVar[dict[str, dict] | None] = None
 
     @classmethod
-    def load(cls, path: str = "game-core/data/essences.yaml") -> None:
+    def load(cls, path: str = "game_core/data/essences.yaml") -> None:
         import yaml
 
         with open(path) as f:
             cls._data = yaml.safe_load(f)
+
+        cls._affinity = {}
+        for essence, data in cls._data.items():
+            cls._affinity[essence] = data.get("affinities", {})
 
     @classmethod
     def get(cls, essence: str) -> dict:
@@ -171,3 +176,17 @@ class EssenceRegistry:
     @classmethod
     def get_modifier(cls, essence: str, key: str) -> float:
         return cls.get(essence).get(key, 0)
+
+    @classmethod
+    def get_modifiers(cls, essence: str) -> dict[str, float]:
+        data = cls.get(essence)
+        excluded = {"order", "affinities"}
+        return {k: v for k, v in data.items() if k not in excluded}
+
+    @classmethod
+    def get_affinity(cls, essence1: str, essence2: str) -> float:
+        if cls._affinity is None:
+            cls.load()
+
+        affinities = cls._affinity.get(essence1, {})
+        return affinities.get(essence2, 0.0)
