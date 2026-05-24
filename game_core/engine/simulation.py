@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 
-from game_core.domain.entities import Echo, EchoAttribute, EchoPhase, World
+from game_core.domain.entities import Echo, EchoAttribute, EchoPhase, World, Circle, Faction
 from game_core.engine.random import SeededRandom
 
 
@@ -41,6 +41,9 @@ class SimulationEngine:
         return run_dir
 
     def _create_initial_world(self) -> World:
+        from game_core.domain.tag_generator import TagGenerator
+
+        tag_gen = TagGenerator(seed=self.seed)
         echo = Echo(
             name="First Echo",
             essence="anarchism",
@@ -54,8 +57,21 @@ class SimulationEngine:
                 EchoAttribute(label="shadow", value=20.0),
             ],
         )
+        echo.known_tags = tag_gen.generate_for_essence("anarchism", count=3)
+        echo.genealogical_lineage = [echo.essence]
+
+        faction = Faction(
+            name="Circulo Libertario",
+            ideology_tags=[t.to_semantic_key() for t in echo.known_tags],
+            members=5,
+            influence=10.0,
+            resources={"food": 50, "infrastructure": 30, "energy": 20},
+            goals=["expand_influence", "spread_idea"],
+        )
+
         world = World(
             echoes=[echo],
+            factions=[faction],
             active_echo_id=echo.id,
         )
         return world
@@ -83,8 +99,11 @@ class SimulationEngine:
 
     def run(self) -> dict:
         from game_core.actions.echo_actions import FoundCircle, PropagateIdea
+        from game_core.engine.faction_tick import FactionTickSystem
 
         actions = [FoundCircle(), PropagateIdea()]
+        faction_system = FactionTickSystem(seed=self.seed)
+        faction_tick_interval = 3
 
         while self.turn < self.max_turns:
             self.turn += 1
@@ -104,6 +123,11 @@ class SimulationEngine:
                     )
                     if action.can_execute(echo, self.world, context):
                         result = action.execute(echo, self.world, context)
+
+            if self.turn % faction_tick_interval == 0 and self.world.factions:
+                faction_results = faction_system.tick(self.world)
+                for fr in faction_results:
+                    self._log_event("faction_tick", fr)
 
             self._log_event(
                 "tick",

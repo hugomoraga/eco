@@ -36,6 +36,9 @@ class SeededRandom:
     def getrandbits(self, k: int) -> int:
         return self.rng.getrandbits(k)
 
+    def sample(self, seq: list, k: int) -> list:
+        return self.rng.sample(seq, k)
+
 
 def seeded_random(seed: int = 42) -> SeededRandom:
     return SeededRandom.get_instance(seed)

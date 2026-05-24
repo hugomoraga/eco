@@ -42,26 +42,47 @@ class PropagateIdea(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from game_core.domain.entities import IdeologicalTag
-
         propagated = 0
         tags_created = []
 
-        if echo.known_tags:
-            target_circle = world.circles[0] if world.circles else None
-            if target_circle:
-                for tag in echo.known_tags[:2]:
-                    if tag.to_semantic_key() not in target_circle.ideology_tags:
-                        target_circle.ideology_tags.append(tag.to_semantic_key())
-                        tags_created.append(tag.to_semantic_key())
-                        propagated += 1
+        if not echo.known_tags:
+            return ActionResult(
+                success=False,
+                message="No ideas to propagate",
+                state_delta={"tags_propagated": 0},
+                tags_created=[],
+                social_cost=self.social_cost,
+            )
+
+        resonance_attr = echo.get_attribute("resonance")
+        resonance = resonance_attr.value if resonance_attr else 50.0
+
+        targets = list(world.factions) + list(world.circles)
+        if not targets:
+            return ActionResult(
+                success=False,
+                message="No targets to propagate to",
+                state_delta={"tags_propagated": 0},
+                tags_created=[],
+                social_cost=self.social_cost,
+            )
+
+        for tag in echo.known_tags[:3]:
+            target = targets[propagated % len(targets)]
+            tag_key = tag.to_semantic_key()
+
+            if hasattr(target, 'ideology_tags'):
+                if tag_key not in target.ideology_tags:
+                    target.ideology_tags.append(tag_key)
+                    tags_created.append(tag_key)
+                    propagated += 1
 
         self._apply_temporal_strain(echo, 1.5)
         self.last_used_tick = context.world_tick
 
         return ActionResult(
             success=propagated > 0,
-            message=f"Propagated {propagated} ideas",
+            message=f"Propagated {propagated} ideas to {len(targets)} targets",
             state_delta={"tags_propagated": propagated},
             tags_created=tags_created,
             social_cost=self.social_cost,
