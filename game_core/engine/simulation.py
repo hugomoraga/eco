@@ -17,11 +17,15 @@ class SimulationEngine:
         snapshot_interval: int = 10,
         run_dir: str | None = None,
         autoplay: bool = False,
+        autoplay_mode: str = "autoplay",
+        autoplay_style: str = "preservationist",
     ):
         self.seed = seed
         self.max_turns = max_turns
         self.snapshot_interval = snapshot_interval
         self.autoplay = autoplay
+        self.autoplay_mode = autoplay_mode
+        self.autoplay_style = autoplay_style
         self.rng = SeededRandom.get_instance(seed)
         self.run_dir = Path(run_dir) if run_dir else self._create_run_dir()
         if not self.run_dir.is_absolute():
@@ -32,6 +36,7 @@ class SimulationEngine:
         self.snapshots_dir.mkdir(parents=True, exist_ok=True)
         self.turn = 0
         self.world = self._create_initial_world()
+        self.autoplayer_engine = None
 
     def _create_run_dir(self) -> Path:
         run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -99,12 +104,21 @@ class SimulationEngine:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
     def run(self) -> dict:
-        from game_core.actions.echo_actions import FoundCircle, PropagateIdea
+        from game_core.actions.echo_actions import FoundCircle, PropagateIdea, Talk, WriteManifesto, Sabotage, Ritualize
         from game_core.engine.faction_tick import FactionTickSystem
         from game_core.engine.event_generator import EventGenerator
         from game_core.ai import MockAdapter
         from game_core.domain.npc_generator import NPCGenerator
+        from game_core.autoplayer import AutoplayMode, AutoplayerEngine
 
+        action_classes = {
+            "found_circle": FoundCircle,
+            "propagate_idea": PropagateIdea,
+            "talk": Talk,
+            "write_manifesto": WriteManifesto,
+            "sabotage": Sabotage,
+            "ritualize": Ritualize,
+        }
         actions = [FoundCircle(), PropagateIdea()]
         faction_system = FactionTickSystem(seed=self.seed)
         faction_tick_interval = 3
@@ -114,15 +128,29 @@ class SimulationEngine:
         npc_gen = NPCGenerator(ai_adapter, seed=self.seed)
         event_interval = 5
 
+        if self.autoplay:
+            mode = AutoplayMode(self.autoplay_mode) if self.autoplay_mode in [m.value for m in AutoplayMode] else AutoplayMode.AUTOPLAY
+            self.autoplayer_engine = AutoplayerEngine(
+                seed=self.seed,
+                mode=mode,
+                style_id=self.autoplay_style,
+            )
+
         while self.turn < self.max_turns:
             self.turn += 1
             self.world.clock.advance(1)
 
             result = None
-            if self.autoplay:
-                action = self.rng.choice(actions)
-                echo = self.world.get_active_echo()
-                if echo:
+            echo = self.world.get_active_echo()
+
+            if self.autoplay and echo and self.autoplayer_engine:
+                available_action_names = list(action_classes.keys())
+                decision = self.autoplayer_engine.select_action(echo, self.world, available_action_names)
+
+                self._log_event("autoplay_decision", decision.model_dump())
+
+                if decision.selected_action and decision.selected_action in action_classes:
+                    action = action_classes[decision.selected_action]()
                     from game_core.actions.base import ActionContext
 
                     context = ActionContext(
