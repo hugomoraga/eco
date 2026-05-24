@@ -150,11 +150,11 @@ def display_spec_tracking(specs: dict) -> None:
     section("Spec Status Tracking (spec-19)")
 
     status_colors = {
+        "implemented": GREEN,
         "deprecated": RED,
         "stable": GREEN,
         "in_progress": YELLOW,
         "draft": CYAN,
-        "complete": GREEN,
     }
 
     # Group by status

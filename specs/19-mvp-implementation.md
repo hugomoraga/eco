@@ -7,32 +7,42 @@
 | MVP 0 | fa50cc2 | 01, 02, 03, 07, 08 | 8/8 | 2026-05-24 |
 | MVP 1 (parcial) | 2b777c8 | 05, 10 | 8/8 | 2026-05-24 |
 
-## 19.2 Specs → Implementación
+## 19.2 Spec Status Definitions
 
-| Spec | Nombre | Estado | Version | Notas |
-|------|--------|--------|---------|-------|
-| 01 | Architecture | deprecated | v0.2.0 | MVP 0 complete - audit passing |
-| 02 | Domain | deprecated | v0.2.0 | MVP 0 complete - audit passing |
-| 03 | Player Echo | deprecated | v0.2.0 | MVP 0 complete - audit passing |
-| 04 | Essences | in_progress | v0.1.0 | Datos en essences.yaml, sin validacion de genealogical_lineage |
-| 05 | Ideas y Doctrinas | deprecated | v0.2.0 | TagGenerator implementado |
-| 06 | Ideological Drift | in_progress | v0.1.0 | Sin implementacion de formulas |
-| 07 | Actions | deprecated | v0.2.0 | MVP 0 complete - 5 actions (2 functional + 3 stubs) |
-| 08 | Temporal System | deprecated | v0.2.0 | MVP 0 complete - 3 capas temporales |
-| 09 | Economy | in_progress | v0.1.0 | Sin derive_pressure |
-| 10 | Factions | deprecated | v0.2.0 | FactionTickSystem basico implementado |
-| 11 | Autoplayer | in_progress | v0.1.0 | Solo autoplay flag basico (random) |
-| 12 | AI Integration | in_progress | v0.1.0 | Sin adapters |
-| 13 | Events | draft | v0.1.0 | Sin generador de eventos |
-| 14 | Godot Contract | in_progress | v0.1.0 | Snapshot format definido |
-| 15 | Debugging | draft | v0.1.0 | Sin tools de debugging |
-| 16 | MVP | stable | v0.1.0 | Diseño de fases MVP |
-| 17 | Risks | in_progress | v0.1.0 | Sin actualizacion post-implementacion |
-| 18 | Game Definition | draft | v0.1.0 | Sin implementacion |
+| Status | Meaning |
+|--------|---------|
+| `draft` | Initial draft, needs review |
+| `in_progress` | Being actively developed |
+| `implemented` | Fully implemented and passing audit |
+| `deprecated` | Badly written or replaced by another spec |
+| `stable` | Design approved, frozen |
 
-## 19.3 Commits Historicos
+## 19.3 Specs → Implementation
 
-| Commit | Descripcion | MVP |
+| Spec | Name | State | Version | Notes |
+|------|------|-------|---------|-------|
+| 01 | Architecture | implemented | v0.2.0 | MVP 0 complete |
+| 02 | Domain | implemented | v0.2.0 | MVP 0 complete |
+| 03 | Player Echo | implemented | v0.2.0 | MVP 0 complete |
+| 04 | Essences | in_progress | v0.1.0 | genealogical_lineage pending |
+| 05 | Ideas y Doctrinas | implemented | v0.2.0 | TagGenerator implemented |
+| 06 | Ideological Drift | in_progress | v0.1.0 | Formulas pending |
+| 07 | Actions | implemented | v0.2.0 | MVP 0 - 2 functional + 3 stubs |
+| 08 | Temporal System | implemented | v0.2.0 | MVP 0 - 3 temporal layers |
+| 09 | Economy | in_progress | v0.1.0 | derive_pressure pending |
+| 10 | Factions | implemented | v0.2.0 | FactionTickSystem basic |
+| 11 | Autoplayer | in_progress | v0.1.0 | Random autoplay only |
+| 12 | AI Integration | in_progress | v0.1.0 | Adapters pending |
+| 13 | Events | draft | v0.1.0 | Generator pending |
+| 14 | Godot Contract | in_progress | v0.1.0 | Snapshot format defined |
+| 15 | Debugging | draft | v0.1.0 | Tools pending |
+| 16 | MVP | stable | v0.1.0 | Phases design |
+| 17 | Risks | in_progress | v0.1.0 | Needs update |
+| 18 | Game Definition | draft | v0.1.0 | Implementation pending |
+
+## 19.4 Historical Commits
+
+| Commit | Description | MVP |
 |--------|-------------|-----|
 | 7890123 | feat: initial ECO MVP 0 implementation | MVP 0 |
 | 6129a1a | chore: remove test runs directory | MVP 0 |
@@ -40,13 +50,13 @@
 | d4dfc8a | feat(specs): add spec-19 implementation tracking | - |
 | 2b777c8 | feat(mvp1): tag generator, propagate_idea, faction tick system | MVP 1 |
 
-## 19.4 MVP 0 - Detalle
+## 19.5 MVP 0 - Detail
 
-**Fecha:** 2026-05-24
+**Date:** 2026-05-24
 **Commit:** fa50cc2
 **Audit:** 8/8 passing
 
-### Archivos Implementados
+### Implemented Files
 ```
 game_core/
 ├── domain/
@@ -60,69 +70,69 @@ game_core/
 │   ├── base.py          # Action, ActionContext, ActionResult
 │   └── echo_actions.py  # FoundCircle, PropagateIdea, Talk, WriteManifesto, Sabotage, Ritualize
 ├── data/
-│   ├── essences.yaml    # 5 essencias
-│   └── actions.yaml    # 6 acciones
+│   ├── essences.yaml    # 5 essences
+│   └── actions.yaml    # 6 actions
 └── run.py               # CLI entry point
 ```
 
-### Funcional
-- FoundCircle: Crea circulo con ideology_tags del echo
-- PropagateIdea: stub (necesita tags en echo para propagar)
-- 3 actions stubs: Talk, WriteManifesto, Sabotage, Ritualize
-- JSONL logging con state deltas
-- Snapshots cada 10 turns
-- Reproducibilidad con seed
+### Functional
+- FoundCircle: Creates circle with echo's ideology_tags
+- PropagateIdea: stub (needs echo tags to propagate)
+- 3 action stubs: Talk, WriteManifesto, Sabotage, Ritualize
+- JSONL logging with state deltas
+- Snapshots every 10 turns
+- Reproducibility with seed
 
-### Pendiente (para MVP 2)
+### Pending (for MVP 2)
 - MockAdapter / OpenAIAdapter
-- Generador de eventos
-- Goals configurables en autoplayer
+- Event generator
+- Configurable goals in autoplayer
 
-## 19.5 MVP 1 - Detalle (parcial)
+## 19.6 MVP 1 - Detail (partial)
 
-**Fecha:** 2026-05-24
+**Date:** 2026-05-24
 **Commit:** 2b777c8
 **Audit:** 8/8 passing
 
-### Archivos Implementados
+### Implemented Files
 ```
 game_core/
 ├── domain/
-│   └── tag_generator.py   # TagGenerator con templates para 5 esencias
+│   └── tag_generator.py   # TagGenerator with templates for 5 essences
 └── engine/
-    └── faction_tick.py    # FactionTickSystem con scoring heuristico
+    └── faction_tick.py    # FactionTickSystem with heuristic scoring
 ```
 
-### Funcional
-- TagGenerator: templates para anarchism, technocracy, absurdism, thelema, ecology
-- PropagateIdea: funcional con multiples targets (factions + circles)
+### Functional
+- TagGenerator: templates for anarchism, technocracy, absurdism, thelema, ecology
+- PropagateIdea: functional with multiple targets (factions + circles)
 - FactionTickSystem: actions (recruit_npc, spread_doctrine, support_infrastructure, radicalize_members)
-- Faction ticks cada 3 turns en simulacion
+- Faction ticks every 3 turns in simulation
 
-### Pendiente (para MVP 1 completo)
-- MockAdapter / OpenAIAdapter opcional
-- Generador de NPCs
-- Generador de eventos
-- Efectos de Essence en genealogical_lineage (spec-04)
+### Pending (for complete MVP 1)
+- MockAdapter / OpenAIAdapter optional
+- NPC generator
+- Event generator
+- Essence effects on genealogical_lineage (spec-04)
 - Derive_pressure integration (spec-09)
 
-## 19.6 Proximos Hitos
+## 19.7 Next Milestones
 
-### MVP 1 completo
-- MockAdapter / OpenAIAdapter opcional
-- Generador de NPCs
-- Generador de eventos
-- Efectos de Essence en genealogical_lineage
+### Complete MVP 1
+- MockAdapter / OpenAIAdapter optional
+- NPC generator
+- Event generator
+- Essence effects on genealogical_lineage
 - Derive_pressure integration
 
-### MVP 2 - Autoplayer avanzado
-- Goals configurables
-- Heuristicas de scoring
-- Modo suggest / autoplay / take control
+### MVP 2 - Advanced Autoplayer
+- Configurable goals
+- Scoring heuristics
+- Suggest / autoplay / take control modes
 
 ### MVP 3 - Godot read-only
-- Carga world_state.json
-- Renderiza ciudad y NPCs
+- Load world_state.json
+- Render city and NPCs
 
 ---
 

@@ -631,11 +631,19 @@ changelog:
 
 ### 6.4 Spec States
 
-```txt
-🔄 In progress  → Being actively edited
-✅ Completed    → Implementation complete and verified
-⚠️ Deprecated   → Obsolete, do not use
-📌 Blocked      → Waiting on dependencies
+Spec state definitions are tracked in `specs/19-mvp-implementation.md`.
+
+| Status | Meaning |
+|--------|---------|
+| `draft` | Initial draft, needs review |
+| `in_progress` | Being actively developed |
+| `implemented` | Fully implemented and passing audit |
+| `deprecated` | Badly written or replaced by another spec |
+| `stable` | Design approved, frozen |
+
+For the current spec status dashboard, run:
+```bash
+python scripts/audit_consolidated.py
 ```
 
 ---
@@ -1006,9 +1014,46 @@ grep -r '[^[:print:][:space:]]' game-core/data/ --include="*.yaml"
 
 ---
 
-## 15. Spec Evolution and Bifurcation
+## 15. Multi-Agent Coordination
 
-### 15.1 Branching Approaches (Same Spec)
+### 15.1 OpenCode as Primary Coder
+
+OpenCode works in parallel as the primary coder for ECO. Coordination uses git commits as sync mechanism.
+
+**Sync Protocol:**
+1. Work on feature branch (`spec-XX/description`)
+2. Commit changes with conventional commits
+3. OpenCode reads `AGENT.md` + `scripts/audit_consolidated.py` to know what's next
+4. Run audit to verify progress: `python scripts/audit_consolidated.py`
+5. Merge to `develop` when audit passes
+
+**Communication:**
+- Human reviews audit output and code
+- Human relays decisions to both agents
+- No direct agent-to-agent communication (yet)
+
+### 15.2 Spec-Driven with OpenCode
+
+When assigning work to OpenCode:
+1. Point to the spec number: "implement spec-06"
+2. OpenCode should check `specs/06-ideological-drift.md`
+3. Implementation must pass audit
+4. Document in commit: `Closes: #spec-06`
+
+### 15.3 Branch Strategy
+
+```bash
+# For OpenCode work
+git checkout -b spec-06/ideological-drift
+# ... implement ...
+git push -u origin spec-06/ideological-drift
+```
+
+---
+
+## 16. Spec Evolution and Bifurcation
+
+### 16.1 Branching Approaches (Same Spec)
 
 When two different approaches need to be validated for the same spec:
 
@@ -1030,7 +1075,7 @@ git push origin --delete spec-05/virality-alternative
 
 In the winning PR body, document why the other approach was discarded.
 
-### 15.2 Refactoring an Existing Spec
+### 16.2 Refactoring an Existing Spec
 
 Never modify a spec after it has been merged. Create a new one instead.
 
@@ -1050,11 +1095,11 @@ Mark the old spec as deprecated in its metadata:
 ```markdown
 ## Metadata
 
-- Status: 🔴 Deprecated
+- Status: deprecated
 - Superseded by: spec-16
 ```
 
-### 15.3 New Spec Extending Existing Ones
+### 16.3 New Spec Extending Existing Ones
 
 ```
 spec-17.md  →  "Essence system expansion (extends spec-03)"
@@ -1068,7 +1113,7 @@ Required by: spec-09, spec-12
 ---
 ```
 
-### 15.4 Rule Summary
+### 16.4 Rule Summary
 
 | Situation | Action |
 |-----------|--------|
@@ -1082,6 +1127,6 @@ Required by: spec-09, spec-12
 
 ## Metadata
 
-- Version: 1.1.0
+- Version: 1.2.0
 - Last update: 2026-05-24
 - Location: /eco/AGENT.md
