@@ -1,0 +1,31 @@
+anarchism:
+  order: -15
+  autonomy: 25
+  institutional_stability: -10
+  innovation: 10
+  drift_risk: 15
+
+technocracy:
+  efficiency: 25
+  autonomy: -10
+  surveillance: 20
+  institutional_stability: 15
+  empathy: -8
+
+absurdism:
+  meaning_stability: -20
+  creativity: 20
+  obedience: -10
+  drift_risk: 25
+
+thelema:
+  will: 25
+  cult_risk: 20
+  individualism: 15
+  institutional_drift: 15
+
+ecology:
+  extraction: -20
+  resilience: 20
+  growth: -10
+  territorial_balance: 25
