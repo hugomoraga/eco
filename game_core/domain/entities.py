@@ -94,6 +94,7 @@ class Circle(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str = ""
     echo_id: str | None = None
+    essence: str = "anarchism"
     founding_tick: int = 0
     ideology_tags: list[str] = Field(default_factory=list)
     members: int = 1
@@ -101,11 +102,13 @@ class Circle(BaseModel):
     institutionalization_level: float = 0.0
     health: float = 100.0
     is_dormant: bool = False
+    npcs: list[str] = Field(default_factory=list)
 
 
 class Faction(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str = ""
+    essence: str = "anarchism"
     ideology_tags: list[str] = Field(default_factory=list)
     members: int = 0
     influence: float = 0.0

@@ -55,6 +55,8 @@ class FactionTickSystem:
     def _calculate_score(
         self, faction: Faction, action: str, goal: str, world: World
     ) -> float:
+        from game_core.engine.pressure import DerivePressureCalculator, EconomyPressure
+
         goal_alignment = 50.0
         available_resources = self._resource_score(faction)
         local_influence = min(faction.influence, 100)
@@ -62,7 +64,7 @@ class FactionTickSystem:
         behavior_modifier = self._behavior_modifier(faction, action)
         risk = self._action_risk(action)
 
-        score = (
+        base_score = (
             (goal_alignment * 0.3)
             + (available_resources * 0.2)
             + (local_influence * 0.2)
@@ -71,7 +73,19 @@ class FactionTickSystem:
             - risk
         )
 
-        return max(0, score)
+        lineage = faction.ideology_tags if hasattr(faction, 'ideology_tags') else []
+        dominant_essence = getattr(faction, 'essence', None)
+
+        material = EconomyPressure.calculate_material_pressure(world.resources)
+        social = EconomyPressure.calculate_social_pressure(world)
+        total_pressure = DerivePressureCalculator.calculate(
+            material, social, 40.0, 40.0, lineage, dominant_essence
+        )
+
+        pressure_modifier = 1.0 + (total_pressure / 100.0)
+        adjusted_score = base_score * pressure_modifier
+
+        return max(0, adjusted_score)
 
     def _resource_score(self, faction: Faction) -> float:
         total = sum(faction.resources.values())

@@ -62,6 +62,7 @@ class SimulationEngine:
 
         faction = Faction(
             name="Circulo Libertario",
+            essence=echo.essence,
             ideology_tags=[t.to_semantic_key() for t in echo.known_tags],
             members=5,
             influence=10.0,
@@ -100,10 +101,18 @@ class SimulationEngine:
     def run(self) -> dict:
         from game_core.actions.echo_actions import FoundCircle, PropagateIdea
         from game_core.engine.faction_tick import FactionTickSystem
+        from game_core.engine.event_generator import EventGenerator
+        from game_core.ai import MockAdapter
+        from game_core.domain.npc_generator import NPCGenerator
 
         actions = [FoundCircle(), PropagateIdea()]
         faction_system = FactionTickSystem(seed=self.seed)
         faction_tick_interval = 3
+
+        ai_adapter = MockAdapter()
+        event_gen = EventGenerator(ai_adapter, seed=self.seed)
+        npc_gen = NPCGenerator(ai_adapter, seed=self.seed)
+        event_interval = 5
 
         while self.turn < self.max_turns:
             self.turn += 1
@@ -128,6 +137,33 @@ class SimulationEngine:
                 faction_results = faction_system.tick(self.world)
                 for fr in faction_results:
                     self._log_event("faction_tick", fr)
+
+            if self.turn % event_interval == 0:
+                context_for_event = {
+                    "turn": self.turn,
+                    "world_tick": self.world.clock.world_tick,
+                    "resources": self.world.resources,
+                    "echo_essence": self.world.get_active_echo().essence if self.world.get_active_echo() else "anarchism",
+                }
+                event = event_gen.generate(context_for_event)
+                self._log_event("event", {
+                    "title": event.title,
+                    "summary": event.summary,
+                    "canonical": event.canonical,
+                })
+
+            for circle in self.world.circles:
+                if circle.members >= 3:
+                    if len(getattr(circle, 'npcs', [])) < circle.members:
+                        npc = npc_gen.generate({"essence": circle.essence, "context": "circle_growth"})
+                        if not hasattr(circle, 'npcs'):
+                            circle.npcs = []
+                        circle.npcs.append(npc.id)
+                        self._log_event("npc_created", {
+                            "npc_id": npc.id,
+                            "npc_name": npc.name,
+                            "circle_id": circle.id,
+                        })
 
             self._log_event(
                 "tick",

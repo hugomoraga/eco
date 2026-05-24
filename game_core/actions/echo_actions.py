@@ -14,6 +14,7 @@ class FoundCircle(Action):
         circle = Circle(
             name=f"Circle of {echo.name or 'the unknown'}",
             echo_id=echo.id,
+            essence=echo.essence,
             founding_tick=context.world_tick,
             ideology_tags=[tag.to_semantic_key() for tag in echo.known_tags],
             members=1,
@@ -42,6 +43,9 @@ class PropagateIdea(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
+        from game_core.domain.essence_effects import EssenceEffects
+        from game_core.engine.random import SeededRandom
+
         propagated = 0
         tags_created = []
 
@@ -56,6 +60,7 @@ class PropagateIdea(Action):
 
         resonance_attr = echo.get_attribute("resonance")
         resonance = resonance_attr.value if resonance_attr else 50.0
+        rng = SeededRandom.get_instance()
 
         targets = list(world.factions) + list(world.circles)
         if not targets:
@@ -71,11 +76,17 @@ class PropagateIdea(Action):
             target = targets[propagated % len(targets)]
             tag_key = tag.to_semantic_key()
 
-            if hasattr(target, 'ideology_tags'):
-                if tag_key not in target.ideology_tags:
-                    target.ideology_tags.append(tag_key)
-                    tags_created.append(tag_key)
-                    propagated += 1
+            affinity_modifier = 1.0
+            if hasattr(target, 'essence'):
+                affinity = EssenceEffects.get_essence_affinity(echo.essence, target.essence)
+                affinity_modifier = 1.0 + (affinity * 0.02)
+
+            if rng.random() < affinity_modifier:
+                if hasattr(target, 'ideology_tags'):
+                    if tag_key not in target.ideology_tags:
+                        target.ideology_tags.append(tag_key)
+                        tags_created.append(tag_key)
+                        propagated += 1
 
         self._apply_temporal_strain(echo, 1.5)
         self.last_used_tick = context.world_tick
@@ -83,7 +94,7 @@ class PropagateIdea(Action):
         return ActionResult(
             success=propagated > 0,
             message=f"Propagated {propagated} ideas to {len(targets)} targets",
-            state_delta={"tags_propagated": propagated},
+            state_delta={"tags_propagated": propagated, "affinity_modifier": affinity_modifier},
             tags_created=tags_created,
             social_cost=self.social_cost,
         )

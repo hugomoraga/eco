@@ -38,7 +38,8 @@
 | 15 | Debugging | draft | v0.1.0 | Tools pending |
 | 16 | MVP | stable | v0.1.0 | Phases design |
 | 17 | Risks | in_progress | v0.1.0 | Needs update |
-| 18 | Game Definition | draft | v0.1.0 | Implementation pending |
+|| 18 | Game Definition | draft | v0.1.0 | Implementation pending |
+|| 20 | Integration | in_progress | v0.1.0 | Connect 4 disconnected systems |
 
 ## 19.4 Historical Commits
 

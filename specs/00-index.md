@@ -25,7 +25,8 @@ Guía de lectura y dependencias entre especificaciones.
 | 16 | [mvp](16-mvp.md) | MVP propsetos, criterios de éxito | 01, todos |
 | 17 | [risks](17-risks.md) | Riesgos, mitigaciones | 01, todos |
 | 18 | [game-definition](18-game-definition.md) | Definición corta, visión | - |
-| 19 | [mvp-implementation](19-mvp-implementation.md) | Tracking de implementaciones MVP | 16 |
+|| 19 | [mvp-implementation](19-mvp-implementation.md) | Tracking de implementaciones MVP | 16 |
+|| 20 | [integration](20-integration.md) | Conectar sistemas desconectados | 04, 09, 13 |
 
 ## Gráfico de dependencias
 
