@@ -43,7 +43,7 @@ Each turn produces ONE of:
 
 ```
 [Turn 3] 📜 Echoes write manifesto on anarchism in the public square
-[Turn 4] 👤 Brother汾 come forward: "I share this vision" (+3 followers)
+[Turn 4] 👤 Brother Simón comes forward: "I share this vision" (+3 followers)
 [Turn 5] ⚡ CRISIS: "Authorities ban public assembly" → Legitimacy -15
 [Turn 6] ⭕ Echo founds Circle of the First Garden (5 members join)
 [Turn 7] 👤 Dra. Maela Ruun warns: "This path leads to isolation"
@@ -119,7 +119,7 @@ NPCs spawn from:
 ```python
 class NPC:
     id: str
-    name: str  # AI-generated: "Brother汾", "Dra. Maela Ruun"
+    name: str  # AI-generated: "Brother Simón", "Dra. Maela Ruun"
     essence: str
     circle_id: str | None
     traits: list[str]  # "skeptical", "zealous", "pragmatic"
@@ -202,7 +202,7 @@ world.resources: float    # food/energy, 0-100
 - 🏷️ Tag acquired
 
 **Narrative rules:**
-1. Named characters when possible ("Dra. Maela", "Brother汾")
+1. Named characters when possible ("Dra. Maela", "Brother Simón")
 2. Specific, not generic ("Circle of the Burning Garden" not "Circle #3")
 3. Consequence mentioned ("→ Legitimacy -10")
 4. Past tense for completed, present for ongoing
