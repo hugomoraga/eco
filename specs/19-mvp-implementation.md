@@ -6,6 +6,7 @@
 |-----------|--------|-------|-------|------|
 | MVP 0 | fa50cc2 | 01, 02, 03, 07, 08 | 8/8 | 2026-05-24 |
 | MVP 1 | e799f15 | 04, 05, 06, 09, 10, 12 | 8/8 | 2026-05-24 |
+| MVP 2 | 6b038b3 | 11, 20 | 8/8 | 2026-05-24 |
 
 ## 19.2 Spec Status Definitions
 
@@ -31,7 +32,7 @@
 | 08 | Temporal System | implemented | v0.2.0 | MVP 0 - 3 temporal layers |
 | 09 | Economy | implemented | v0.2.0 | Derive_pressure integration |
 | 10 | Factions | implemented | v0.2.0 | FactionTickSystem |
-| 11 | Autoplayer | in_progress | v0.1.0 | Random autoplay only |
+| 11 | Autoplayer | implemented | v0.2.0 | AutoplayerEngine with modes and styles |
 | 12 | AI Integration | implemented | v0.2.0 | MockAdapter + OpenAIAdapter |
 | 13 | Events | in_progress | v0.1.0 | EventGenerator implemented |
 | 14 | Godot Contract | in_progress | v0.1.0 | Snapshot format defined |
@@ -39,7 +40,7 @@
 | 16 | MVP | stable | v0.1.0 | Phases design |
 | 17 | Risks | in_progress | v0.1.0 | Needs update |
 || 18 | Game Definition | draft | v0.1.0 | Implementation pending |
-|| 20 | Integration | in_progress | v0.1.0 | Connect 4 disconnected systems |
+|| 20 | Integration | implemented | v0.2.0 | Connect 4 systems to simulation |
 
 ## 19.4 Historical Commits
 
@@ -55,6 +56,8 @@
 | 6a09da4 | feat(mvp1): add EventGenerator with EffectTagValidator | MVP 1 |
 | 408ed3a | feat(essences): add EssenceEffects and affinity matrix | MVP 1 |
 | e799f15 | feat(economy): add DerivePressureCalculator and EconomyPressure | MVP 1 |
+| 8116c54 | feat(integration): connect pressure, events, NPCs to simulation | MVP 2 |
+| 6b038b3 | feat(autoplayer): add AutoplayerEngine with modes, styles, and goals | MVP 2 |
 
 ## 19.5 MVP 0 - Detail
 
@@ -125,19 +128,36 @@ game_core/
 - **Derive Pressure:** Weighted sum formula with compatibility modifier, mutation risk bonus
 - **Economy Pressure:** Material and social pressure calculation
 
-### Pending (for MVP 2)
-- Configurable goals in autoplayer
-- Advanced scoring heuristics
-- Suggest / autoplay / take control modes
-- Event generator integration with simulation loop
-- Faction tick integration with DerivePressure
+### Pending (for MVP 3)
+- Godot read-only visualization
 
-## 19.7 Next Milestones
+## 19.8 MVP 2 - Detail
 
-### MVP 2 - Advanced Autoplayer
-- Configurable goals
-- Scoring heuristics
-- Suggest / autoplay / take control modes
+**Date:** 2026-05-24
+**Commit:** 6b038b3
+**Audit:** 8/8 passing
+
+### Implemented Files
+```
+game_core/
+├── autoplayer/
+│   ├── __init__.py
+│   ├── models.py    # AutoplayMode, PlayerStyle, Goal, AdaptiveRule
+│   └── engine.py     # AutoplayerEngine with evaluation and scoring
+```
+
+### Functional
+- **AutoplayMode:** manual, suggest, autoplay, director, replay
+- **PlayerStyles:** preservationist, revolutionary, manipulator, mystic, technocrat
+- **Goals:** priorities and strategies for action selection
+- **AdaptiveRules:** contextual priority modification
+- **Evaluation:** multi-objective scoring (doctrinal_clarity, memetic_spread, institutional_control, etc.)
+- **Action Scoring:** based on style bias, goals, and current metrics
+
+### Pending (for MVP 3)
+- Godot read-only visualization
+
+## 19.9 Next Milestones
 
 ### MVP 3 - Godot read-only
 - Load world_state.json
@@ -147,8 +167,8 @@ game_core/
 
 ## Metadata
 
-- Version: 0.2.0
+- Version: 0.3.0
 - Created: 2026-05-24
 - Updated: 2026-05-24
 - Depends on: 00-index.md
-- Tracking: Updated after MVP 1 completion
+- Tracking: Updated after MVP 2 completion
