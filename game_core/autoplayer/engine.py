@@ -147,7 +147,7 @@ class AutoplayerEngine:
         for action in available_actions:
             action_scores[action] = self.score_action(action, echo, world, metrics)
 
-        best_action = max(action_scores, key=action_scores.get)
+        best_action = max(action_scores, key=lambda a: (action_scores[a], self.rng.random()))
         best_score = action_scores[best_action]
 
         alternatives = [

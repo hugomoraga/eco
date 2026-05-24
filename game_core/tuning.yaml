@@ -24,10 +24,10 @@ autoplay:
       ritualize: 1.05
     revolutionary:
       write_manifesto: 1.00
-      found_circle: 1.05
+      found_circle: 1.00
       propagate_idea: 1.00
-      ritualize: 0.90
-      talk: 0.95
+      ritualize: 1.00
+      talk: 1.00
     manipulator:
       sabotage: 1.15
       talk: 1.10
