@@ -1,0 +1,123 @@
+dataset: archetype
+count: 20
+persons:
+  - id: "arch_leader_001"
+    name: "Squad Leader Kira"
+    archetype_tags: [leader, warrior]
+    essence_pool: 8
+    loyalty: 40
+    tags: [decisive, protective, brave]
+  - id: "arch_leader_002"
+    name: "Tribe Elder Hassan"
+    archetype_tags: [leader, mystic]
+    essence_pool: 12
+    loyalty: 55
+    tags: [wise, spiritual, respected]
+  - id: "arch_leader_003"
+    name: "Guild Head Mei"
+    archetype_tags: [leader, merchant]
+    essence_pool: 7
+    loyalty: 48
+    tags: [shrewd, organized, fair]
+  - id: "arch_leader_004"
+    name: "Captain Bjorn"
+    archetype_tags: [leader, wanderer]
+    essence_pool: 10
+    loyalty: 45
+    tags: [adventurous, commanding, experienced]
+  - id: "arch_leader_005"
+    name: "Mayor Elena"
+    archetype_tags: [leader, scholar]
+    essence_pool: 15
+    loyalty: 60
+    tags: [intellectual, diplomatic, thoughtful]
+  - id: "arch_leader_006"
+    name: "Chief Ravi"
+    archetype_tags: [leader, artisan]
+    essence_pool: 20
+    loyalty: 65
+    tags: [skilled, traditional, authoritative]
+  - id: "arch_leader_007"
+    name: "Warlord Magnus"
+    archetype_tags: [leader, warrior]
+    essence_pool: 18
+    loyalty: 52
+    tags: [fierce, ambitious, fearsome]
+  - id: "arch_leader_008"
+    name: "Diplomat Amara"
+    archetype_tags: [leader, mystic]
+    essence_pool: 25
+    loyalty: 70
+    tags: [charismatic, perceptive, influential]
+  - id: "arch_leader_009"
+    name: "Governor Viktor"
+    archetype_tags: [leader, scholar]
+    essence_pool: 28
+    loyalty: 75
+    tags: [enlightened,Just, experienced]
+  - id: "arch_leader_010"
+    name: "Overlord Chen"
+    archetype_tags: [leader, warrior]
+    essence_pool: 30
+    loyalty: 78
+    tags: [commanding, legendary, fearsome]
+  - id: "arch_leader_011"
+    name: "Sovereign Isabella"
+    archetype_tags: [leader, artist]
+    essence_pool: 35
+    loyalty: 82
+    tags: [cultured, authoritative, visionary]
+  - id: "arch_leader_012"
+    name: "Emperor Liu"
+    archetype_tags: [leader, scholar]
+    essence_pool: 38
+    loyalty: 85
+    tags: [enlightened, supreme, legendary]
+  - id: "arch_leader_013"
+    name: "Archon Carlos"
+    archetype_tags: [leader, mystic]
+    essence_pool: 42
+    loyalty: 88
+    tags: [mysterious, powerful, revered]
+  - id: "arch_leader_014"
+    name: "High Lord Sven"
+    archetype_tags: [leader, artisan]
+    essence_pool: 40
+    loyalty: 90
+    tags: [masterful, dignified, commanding]
+  - id: "arch_leader_015"
+    name: "Supreme Ruler"
+    archetype_tags: [leader, warrior]
+    essence_pool: 48
+    loyalty: 80
+    tags: [imperial, unstoppable, destined]
+  - id: "arch_leader_016"
+    name: "Legendary Monarch"
+    archetype_tags: [leader, scholar]
+    essence_pool: 52
+    loyalty: 92
+    tags: [wise, immortal, all_powerful]
+  - id: "arch_leader_017"
+    name: "Sovereign Eternal"
+    archetype_tags: [leader, mystic]
+    essence_pool: 55
+    loyalty: 95
+    tags: [divine, transcendent, enlightened]
+  - id: "arch_leader_018"
+    name: "Imperial Supreme"
+    archetype_tags: [leader, artist]
+    essence_pool: 50
+    loyalty: 90
+    tags: [magnificent, all_conquering, legendary]
+  - id: "arch_leader_019"
+    name: "Titanic Commander"
+    archetype_tags: [leader, warrior]
+    essence_pool: 58
+    loyalty: 95
+    tags: [legendary, unstoppable, mythic]
+  - id: "arch_leader_020"
+    name: "God Emperor"
+    archetype_tags: [leader, leader]
+    essence_pool: 70
+    loyalty: 98
+    tags: [divine, omniscient, all_powerful]

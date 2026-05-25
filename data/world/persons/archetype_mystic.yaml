@@ -1,0 +1,123 @@
+dataset: archetype
+count: 20
+persons:
+  - id: "arch_mystic_001"
+    name: "Sister Agnes"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 10
+    loyalty: 40
+    tags: [devout, intuitive, curious]
+  - id: "arch_mystic_002"
+    name: "Lama Tenzin"
+    archetype_tags: [mystic, wanderer]
+    essence_pool: 14
+    loyalty: 32
+    tags: [serene, wise, wandering]
+  - id: "arch_mystic_003"
+    name: "Zara Moonweaver"
+    archetype_tags: [mystic, artist]
+    essence_pool: 8
+    loyalty: 45
+    tags: [artistic, dreamy, perceptive]
+  - id: "arch_mystic_004"
+    name: "Father Brennan"
+    archetype_tags: [mystic, leader]
+    essence_pool: 12
+    loyalty: 55
+    tags: [devout, charismatic, steadfast]
+  - id: "arch_mystic_005"
+    name: "Yemaya Priestess"
+    archetype_tags: [mystic, warrior]
+    essence_pool: 15
+    loyalty: 38
+    tags: [fierce, spiritual, protective]
+  - id: "arch_mystic_006"
+    name: "Oracle Keiko"
+    archetype_tags: [mystic, artisan]
+    essence_pool: 20
+    loyalty: 60
+    tags: [prophetic, skilled, cryptic]
+  - id: "arch_mystic_007"
+    name: "Druid Morven"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 25
+    loyalty: 65
+    tags: [natural, scholarly, ancient]
+  - id: "arch_mystic_008"
+    name: "Seeress Amira"
+    archetype_tags: [mystic, merchant]
+    essence_pool: 22
+    loyalty: 52
+    tags: [astute, visionary, pragmatic]
+  - id: "arch_mystic_009"
+    name: "Hermit Cedric"
+    archetype_tags: [mystic, wanderer]
+    essence_pool: 30
+    loyalty: 70
+    tags: [reclusive, profound, thoughtful]
+  - id: "arch_mystic_010"
+    name: "Shaman Ananya"
+    archetype_tags: [mystic, leader]
+    essence_pool: 28
+    loyalty: 75
+    tags: [tribal, wise, influential]
+  - id: "arch_mystic_011"
+    name: "Sage Liu Feng"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 35
+    loyalty: 78
+    tags: [enlightened, methodical, respected]
+  - id: "arch_mystic_012"
+    name: "Enchanter Lysander"
+    archetype_tags: [mystic, artist]
+    essence_pool: 38
+    loyalty: 72
+    tags: [creative, mesmerizing, enigmatic]
+  - id: "arch_mystic_013"
+    name: "Cardinal Vesper"
+    archetype_tags: [mystic, leader]
+    essence_pool: 42
+    loyalty: 82
+    tags: [authority, devout, commanding]
+  - id: "arch_mystic_014"
+    name: "Rune Master Igor"
+    archetype_tags: [mystic, artisan]
+    essence_pool: 40
+    loyalty: 85
+    tags: [mysterious, skilled, traditional]
+  - id: "arch_mystic_015"
+    name: "Prophetess Nour"
+    archetype_tags: [mystic, wanderer]
+    essence_pool: 45
+    loyalty: 80
+    tags: [visionary, nomadic, compelling]
+  - id: "arch_mystic_016"
+    name: "Archmage Celestine"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 52
+    loyalty: 88
+    tags: [masterful, intellectual, arcane]
+  - id: "arch_mystic_017"
+    name: "Oracle Supreme"
+    archetype_tags: [mystic, leader]
+    essence_pool: 58
+    loyalty: 92
+    tags: [prophetic, legendary, revered]
+  - id: "arch_mystic_018"
+    name: "Grandmaster Zephyr"
+    archetype_tags: [mystic, warrior]
+    essence_pool: 48
+    loyalty: 90
+    tags: [enigmatic, formidable, wise]
+  - id: "arch_mystic_019"
+    name: "Ascendant Mira"
+    archetype_tags: [mystic, artist]
+    essence_pool: 55
+    loyalty: 95
+    tags: [transcendent, creative, enlightened]
+  - id: "arch_mystic_020"
+    name: "Legendary One"
+    archetype_tags: [mystic, leader]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, all_powerful, destined]

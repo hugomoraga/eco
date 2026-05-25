@@ -1,0 +1,123 @@
+dataset: essence
+count: 20
+persons:
+  - id: "ess_light_001"
+    name: "Dawn Seeker"
+    archetype_tags: [wanderer, mystic]
+    essence_pool: 8
+    loyalty: 42
+    tags: [hopeful, restless, searching]
+  - id: "ess_light_002"
+    name: "Sunbeam Keeper"
+    archetype_tags: [artist, artisan]
+    essence_pool: 12
+    loyalty: 55
+    tags: [warm, creative, nurturing]
+  - id: "ess_light_003"
+    name: "Radiant Walker"
+    archetype_tags: [warrior, scholar]
+    essence_pool: 7
+    loyalty: 48
+    tags: [bright, determined, purposeful]
+  - id: "ess_light_004"
+    name: "Luminary Student"
+    archetype_tags: [scholar, merchant]
+    essence_pool: 10
+    loyalty: 60
+    tags: [enlightened, shrewd, articulate]
+  - id: "ess_light_005"
+    name: "Solar Dancer"
+    archetype_tags: [artist, wanderer]
+    essence_pool: 15
+    loyalty: 45
+    tags: [joyful, graceful, radiant]
+  - id: "ess_light_006"
+    name: "Beacon Keeper"
+    archetype_tags: [leader, mystic]
+    essence_pool: 20
+    loyalty: 68
+    tags: [guiding, influential, steadfast]
+  - id: "ess_light_007"
+    name: "Radiance Scholar"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 18
+    loyalty: 72
+    tags: [intellectual, luminous, wise]
+  - id: "ess_light_008"
+    name: "Dawn Commander"
+    archetype_tags: [leader, warrior]
+    essence_pool: 25
+    loyalty: 78
+    tags: [inspiring, decisive, heroic]
+  - id: "ess_light_009"
+    name: "Solar Force"
+    archetype_tags: [warrior, artisan]
+    essence_pool: 28
+    loyalty: 75
+    tags: [brilliant, powerful, enduring]
+  - id: "ess_light_010"
+    name: "Light Singer"
+    archetype_tags: [artist, mystic]
+    essence_pool: 30
+    loyalty: 80
+    tags: [moving, ethereal, divine]
+  - id: "ess_light_011"
+    name: "Solar Sovereign"
+    archetype_tags: [leader, scholar]
+    essence_pool: 35
+    loyalty: 82
+    tags: [enlightened, commanding, revered]
+  - id: "ess_light_012"
+    name: "Radiant Lord"
+    archetype_tags: [mystic, leader]
+    essence_pool: 38
+    loyalty: 85
+    tags: [transcendent, brilliant, supreme]
+  - id: "ess_light_013"
+    name: "Sun Incarnate"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 42
+    loyalty: 88
+    tags: [divine, powerful, legendary]
+  - id: "ess_light_014"
+    name: "Luminary Monarch"
+    archetype_tags: [leader, artist]
+    essence_pool: 40
+    loyalty: 90
+    tags: [imperial, radiant, all_enlightening]
+  - id: "ess_light_015"
+    name: "Solar Emperor"
+    archetype_tags: [leader, warrior]
+    essence_pool: 48
+    loyalty: 80
+    tags: [absolute, blazing, legendary]
+  - id: "ess_light_016"
+    name: "Aurora Keeper"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 52
+    loyalty: 92
+    tags: [celestial, wise, destined]
+  - id: "ess_light_017"
+    name: "Helios Incarnate"
+    archetype_tags: [warrior, leader]
+    essence_pool: 55
+    loyalty: 95
+    tags: [solar, divine, all_conquering]
+  - id: "ess_light_018"
+    name: "Eternal Light"
+    archetype_tags: [scholar, artist]
+    essence_pool: 50
+    loyalty: 90
+    tags: [infinite, pure, transcendent]
+  - id: "ess_light_019"
+    name: "Cosmic Radiance"
+    archetype_tags: [mystic, wanderer]
+    essence_pool: 58
+    loyalty: 95
+    tags: [cosmic, dazzling, mythic]
+  - id: "ess_light_020"
+    name: "Primordial Sun"
+    archetype_tags: [leader, mystic]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, all_illuminating, eternal]

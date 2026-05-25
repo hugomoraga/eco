@@ -1,0 +1,123 @@
+dataset: essence
+count: 20
+persons:
+  - id: "ess_earth_001"
+    name: "Stone Gatherer"
+    archetype_tags: [artisan, wanderer]
+    essence_pool: 8
+    loyalty: 38
+    tags: [grounded, patient, practical]
+  - id: "ess_earth_002"
+    name: "Mountain Walker"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 12
+    loyalty: 50
+    tags: [steadfast, wise, enduring]
+  - id: "ess_earth_003"
+    name: "Clay Shaper"
+    archetype_tags: [artisan, artist]
+    essence_pool: 7
+    loyalty: 55
+    tags: [creative, tactile, traditional]
+  - id: "ess_earth_004"
+    name: "Quarry Miner"
+    archetype_tags: [warrior, merchant]
+    essence_pool: 10
+    loyalty: 45
+    tags: [strong, pragmatic, reliable]
+  - id: "ess_earth_005"
+    name: "Fertile Tiller"
+    archetype_tags: [scholar, artisan]
+    essence_pool: 15
+    loyalty: 60
+    tags: [nurturing, knowledgeable, rooted]
+  - id: "ess_earth_006"
+    name: "Cavern Delver"
+    archetype_tags: [wanderer, warrior]
+    essence_pool: 20
+    loyalty: 65
+    tags: [bold, curious, secretive]
+  - id: "ess_earth_007"
+    name: "Terra Seer"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 18
+    loyalty: 70
+    tags: [prophetic, deep, contemplative]
+  - id: "ess_earth_008"
+    name: "Stone General"
+    archetype_tags: [leader, warrior]
+    essence_pool: 25
+    loyalty: 75
+    tags: [commanding, immovable, legendary]
+  - id: "ess_earth_009"
+    name: "Earth Singer"
+    archetype_tags: [artist, mystic]
+    essence_pool: 28
+    loyalty: 78
+    tags: [enchanting, natural, moving]
+  - id: "ess_earth_010"
+    name: "Gem Collector"
+    archetype_tags: [merchant, artisan]
+    essence_pool: 30
+    loyalty: 72
+    tags: [shrewd, meticulous, valuable]
+  - id: "ess_earth_011"
+    name: "Avalanche"
+    archetype_tags: [warrior, wanderer]
+    essence_pool: 35
+    loyalty: 82
+    tags: [overwhelming, unstoppable, fierce]
+  - id: "ess_earth_012"
+    name: "Iron Mountain"
+    archetype_tags: [leader, artisan]
+    essence_pool: 38
+    loyalty: 85
+    tags: [immovable, authoritative, supreme]
+  - id: "ess_earth_013"
+    name: "Terra Prime"
+    archetype_tags: [mystic, leader]
+    essence_pool: 42
+    loyalty: 88
+    tags: [ancient, powerful, revered]
+  - id: "ess_earth_014"
+    name: "Earth Lord"
+    archetype_tags: [leader, scholar]
+    essence_pool: 40
+    loyalty: 90
+    tags: [enlightened, commanding, imperial]
+  - id: "ess_earth_015"
+    name: "Geological Force"
+    archetype_tags: [artisan, warrior]
+    essence_pool: 48
+    loyalty: 80
+    tags: [titanic, enduring, masterful]
+  - id: "ess_earth_016"
+    name: "Stone Sovereign"
+    archetype_tags: [leader, mystic]
+    essence_pool: 52
+    loyalty: 92
+    tags: [legendary, commanding, destined]
+  - id: "ess_earth_017"
+    name: "Gaia Incarnate"
+    archetype_tags: [mystic, artist]
+    essence_pool: 55
+    loyalty: 95
+    tags: [divine, all_nurturing, primordial]
+  - id: "ess_earth_018"
+    name: "Core of Worlds"
+    archetype_tags: [scholar, wanderer]
+    essence_pool: 50
+    loyalty: 90
+    tags: [cosmic, fundamental, transcendent]
+  - id: "ess_earth_019"
+    name: "Continental Shift"
+    archetype_tags: [warrior, leader]
+    essence_pool: 58
+    loyalty: 95
+    tags: [world_altering, unstoppable, legendary]
+  - id: "ess_earth_020"
+    name: "Primordial Earth"
+    archetype_tags: [leader, mystic]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, all_grounding, eternal]

@@ -1,0 +1,123 @@
+dataset: mixed
+count: 20
+persons:
+  - id: "mixed_establishment_001"
+    name: "Bureaucrat Chen"
+    archetype_tags: [scholar, merchant]
+    essence_pool: 8
+    loyalty: 65
+    tags: [procedural, meticulous, orderly]
+  - id: "mixed_establishment_002"
+    name: "Courtier Lady"
+    archetype_tags: [artist, mystic]
+    essence_pool: 12
+    loyalty: 70
+    tags: [gracious, networked, influential]
+  - id: "mixed_establishment_003"
+    name: "Official Priest"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 7
+    loyalty: 75
+    tags: [devout, formal, traditional]
+  - id: "mixed_establishment_004"
+    name: "Treasury Keeper"
+    archetype_tags: [merchant, artisan]
+    essence_pool: 10
+    loyalty: 72
+    tags: [shrewd, careful, reliable]
+  - id: "mixed_establishment_005"
+    name: "Palace Guard"
+    archetype_tags: [warrior, leader]
+    essence_pool: 15
+    loyalty: 80
+    tags: [fierce, loyal, vigilant]
+  - id: "mixed_establishment_006"
+    name: "Minister Advisor"
+    archetype_tags: [scholar, leader]
+    essence_pool: 20
+    loyalty: 78
+    tags: [wise, strategic, authoritative]
+  - id: "mixed_establishment_007"
+    name: "High Courtier"
+    archetype_tags: [merchant, artisan]
+    essence_pool: 18
+    loyalty: 82
+    tags: [wealthy, connected, diplomatic]
+  - id: "mixed_establishment_008"
+    name: "Royal Chronicler"
+    archetype_tags: [scholar, artist]
+    essence_pool: 25
+    loyalty: 85
+    tags: [eloquent, historical, respected]
+  - id: "mixed_establishment_009"
+    name: "Crown General"
+    archetype_tags: [warrior, leader]
+    essence_pool: 28
+    loyalty: 88
+    tags: [commanding, victorious, legendary]
+  - id: "mixed_establishment_010"
+    name: "Aristocrat Lord"
+    archetype_tags: [leader, mystic]
+    essence_pool: 30
+    loyalty: 85
+    tags: [noble, commanding, privileged]
+  - id: "mixed_establishment_011"
+    name: "Chancellor Supreme"
+    archetype_tags: [scholar, leader]
+    essence_pool: 35
+    loyalty: 90
+    tags: [authoritative, intellectual, supreme]
+  - id: "mixed_establishment_012"
+    name: "Imperial Architect"
+    archetype_tags: [artisan, scholar]
+    essence_pool: 38
+    loyalty: 92
+    tags: [masterful, visionary, foundational]
+  - id: "mixed_establishment_013"
+    name: "Royal Mystic"
+    archetype_tags: [mystic, artist]
+    essence_pool: 42
+    loyalty: 88
+    tags: [enigmatic, revered, influential]
+  - id: "mixed_establishment_014"
+    name: "High Priestess"
+    archetype_tags: [mystic, leader]
+    essence_pool: 40
+    loyalty: 95
+    tags: [divine, commanding, sacred]
+  - id: "mixed_establishment_015"
+    name: "Grand Vizier"
+    archetype_tags: [scholar, merchant]
+    essence_pool: 48
+    loyalty: 90
+    tags: [powerful, calculating, legendary]
+  - id: "mixed_establishment_016"
+    name: "Crown Prince"
+    archetype_tags: [leader, warrior]
+    essence_pool: 52
+    loyalty: 95
+    tags: [destined, commanding, imperial]
+  - id: "mixed_establishment_017"
+    name: "Divine Monarch"
+    archetype_tags: [leader, mystic]
+    essence_pool: 55
+    loyalty: 98
+    tags: [divine, all_powerful, celestial]
+  - id: "mixed_establishment_018"
+    name: "Sovereign Eternal"
+    archetype_tags: [scholar, artist]
+    essence_pool: 50
+    loyalty: 95
+    tags: [enlightened, immortal, all_ruling]
+  - id: "mixed_establishment_019"
+    name: "Imperial Incarnate"
+    archetype_tags: [warrior, leader]
+    essence_pool: 58
+    loyalty: 98
+    tags: [mythic, all_conquering, legendary]
+  - id: "mixed_establishment_020"
+    name: "Establishment Eternal"
+    archetype_tags: [leader, mystic]
+    essence_pool: 70
+    loyalty: 99
+    tags: [mythic, all_establishing, divine]

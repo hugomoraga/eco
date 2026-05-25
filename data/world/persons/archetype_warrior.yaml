@@ -1,0 +1,123 @@
+dataset: archetype
+count: 20
+persons:
+  - id: "arch_warrior_001"
+    name: "Kira Volkov"
+    archetype_tags: [warrior, protector]
+    essence_pool: 8
+    loyalty: 35
+    tags: [brave, fierce, loyal]
+  - id: "arch_warrior_002"
+    name: "Ahmed Hassan"
+    archetype_tags: [warrior, leader]
+    essence_pool: 12
+    loyalty: 42
+    tags: [strategic, brave, disciplined]
+  - id: "arch_warrior_003"
+    name: "Bjorn Eriksson"
+    archetype_tags: [warrior, wanderer]
+    essence_pool: 15
+    loyalty: 28
+    tags: [fierce, restless, independent]
+  - id: "arch_warrior_004"
+    name: "Mei Lin"
+    archetype_tags: [warrior, scholar]
+    essence_pool: 10
+    loyalty: 55
+    tags: [disciplined, scholarly, cautious]
+  - id: "arch_warrior_005"
+    name: "Carlos Reyes"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 7
+    loyalty: 38
+    tags: [intuitive, brave, spiritual]
+  - id: "arch_warrior_006"
+    name: "Yuki Tanaka"
+    archetype_tags: [warrior, artisan]
+    essence_pool: 22
+    loyalty: 58
+    tags: [patient, skilled, methodical]
+  - id: "arch_warrior_007"
+    name: "Omar Diallo"
+    archetype_tags: [warrior, merchant]
+    essence_pool: 18
+    loyalty: 45
+    tags: [pragmatic, charismatic, shrewd]
+  - id: "arch_warrior_008"
+    name: "Elena Petrov"
+    archetype_tags: [warrior, leader]
+    essence_pool: 25
+    loyalty: 62
+    tags: [ambitious, decisive, commanding]
+  - id: "arch_warrior_009"
+    name: "Ravi Sharma"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 30
+    loyalty: 68
+    tags: [spiritual, wise, steadfast]
+  - id: "arch_warrior_010"
+    name: "Franz Weber"
+    archetype_tags: [warrior, scholar]
+    essence_pool: 28
+    loyalty: 72
+    tags: [intellectual, disciplined, rigorous]
+  - id: "arch_warrior_011"
+    name: "Amara Okonkwo"
+    archetype_tags: [warrior, artist]
+    essence_pool: 35
+    loyalty: 75
+    tags: [creative, passionate, resilient]
+  - id: "arch_warrior_012"
+    name: "Jin Wei"
+    archetype_tags: [warrior, artisan]
+    essence_pool: 32
+    loyalty: 78
+    tags: [meticulous, inventive, patient]
+  - id: "arch_warrior_013"
+    name: "Magnus Thorvald"
+    archetype_tags: [warrior, leader]
+    essence_pool: 42
+    loyalty: 82
+    tags: [commanding, honorable, legendary]
+  - id: "arch_warrior_014"
+    name: "Isabella Cortez"
+    archetype_tags: [warrior, wanderer]
+    essence_pool: 38
+    loyalty: 85
+    tags: [free_spirit, adventurous, visionary]
+  - id: "arch_warrior_015"
+    name: "Hassan Al-Rashid"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 45
+    loyalty: 80
+    tags: [enigmatic, profound, influential]
+  - id: "arch_warrior_016"
+    name: "Natasha Romanoff"
+    archetype_tags: [warrior, artisan]
+    essence_pool: 50
+    loyalty: 88
+    tags: [masterful, precise, legendary]
+  - id: "arch_warrior_017"
+    name: "Kwame Asante"
+    archetype_tags: [warrior, leader]
+    essence_pool: 55
+    loyalty: 92
+    tags: [wise, commanding, visionary]
+  - id: "arch_warrior_018"
+    name: "Viktor Sokolov"
+    archetype_tags: [warrior, scholar]
+    essence_pool: 48
+    loyalty: 90
+    tags: [brilliant, strategic, authoritative]
+  - id: "arch_warrior_019"
+    name: "Fatima Zahra"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 52
+    loyalty: 95
+    tags: [enlightened, formidable, revered]
+  - id: "arch_warrior_020"
+    name: "Conqueror Kane"
+    archetype_tags: [warrior, leader]
+    essence_pool: 65
+    loyalty: 98
+    tags: [legendary, unstoppable, destined]

@@ -1,0 +1,123 @@
+dataset: mixed
+count: 20
+persons:
+  - id: "mixed_revolutionary_001"
+    name: "Agitator Rosa"
+    archetype_tags: [warrior, artist]
+    essence_pool: 8
+    loyalty: 22
+    tags: [passionate, defiant, mobilizer]
+  - id: "mixed_revolutionary_002"
+    name: "Rebel Scholar"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 12
+    loyalty: 28
+    tags: [intellectual, subversive, idealistic]
+  - id: "mixed_revolutionary_003"
+    name: "Underground Keeper"
+    archetype_tags: [wanderer, merchant]
+    essence_pool: 7
+    loyalty: 35
+    tags: [secretive, networked, pragmatic]
+  - id: "mixed_revolutionary_004"
+    name: "Firebrand Orator"
+    archetype_tags: [artist, warrior]
+    essence_pool: 10
+    loyalty: 30
+    tags: [charismatic, fierce, persuasive]
+  - id: "mixed_revolutionary_005"
+    name: "Clandestine Agent"
+    archetype_tags: [mystic, artisan]
+    essence_pool: 15
+    loyalty: 40
+    tags: [enigmatic, skilled, dedicated]
+  - id: "mixed_revolutionary_006"
+    name: "Revolution Commander"
+    archetype_tags: [leader, warrior]
+    essence_pool: 20
+    loyalty: 55
+    tags: [commanding, visionary, decisive]
+  - id: "mixed_revolutionary_007"
+    name: "Insurgent Sage"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 18
+    loyalty: 48
+    tags: [wise, subversive, influential]
+  - id: "mixed_revolutionary_008"
+    name: "Radical Poet"
+    archetype_tags: [artist, wanderer]
+    essence_pool: 25
+    loyalty: 60
+    tags: [creative, provocative, popular]
+  - id: "mixed_revolutionary_009"
+    name: "Uprising Leader"
+    archetype_tags: [leader, merchant]
+    essence_pool: 28
+    loyalty: 68
+    tags: [strategic, wealthy, determined]
+  - id: "mixed_revolutionary_010"
+    name: "Guerrilla Force"
+    archetype_tags: [warrior, wanderer]
+    essence_pool: 30
+    loyalty: 72
+    tags: [fierce, mobile, legendary]
+  - id: "mixed_revolutionary_011"
+    name: "Insurrection Master"
+    archetype_tags: [mystic, artisan]
+    essence_pool: 35
+    loyalty: 75
+    tags: [enigmatic, decisive, revered]
+  - id: "mixed_revolutionary_012"
+    name: "Revolutionary General"
+    archetype_tags: [warrior, leader]
+    essence_pool: 38
+    loyalty: 78
+    tags: [commanding, legendary, victorious]
+  - id: "mixed_revolutionary_013"
+    name: "Anarchist Philosopher"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 42
+    loyalty: 82
+    tags: [enlightened, radical, intellectual]
+  - id: "mixed_revolutionary_014"
+    name: "People's Champion"
+    archetype_tags: [leader, warrior]
+    essence_pool: 40
+    loyalty: 85
+    tags: [beloved, fierce, historical]
+  - id: "mixed_revolutionary_015"
+    name: "Liberator"
+    archetype_tags: [wanderer, artist]
+    essence_pool: 48
+    loyalty: 80
+    tags: [heroic, inspiring, legendary]
+  - id: "mixed_revolutionary_016"
+    name: "Revolutionary Sovereign"
+    archetype_tags: [leader, mystic]
+    essence_pool: 52
+    loyalty: 90
+    tags: [imperial, transformative, destined]
+  - id: "mixed_revolutionary_017"
+    name: "Freiheit Incarnate"
+    archetype_tags: [warrior, scholar]
+    essence_pool: 55
+    loyalty: 92
+    tags: [divine, liberating, primordial]
+  - id: "mixed_revolutionary_018"
+    name: "World Shaker"
+    archetype_tags: [artist, warrior]
+    essence_pool: 50
+    loyalty: 88
+    tags: [world_altering, mythic, celebrated]
+  - id: "mixed_revolutionary_019"
+    name: "Chaos Bringer"
+    archetype_tags: [mystic, artisan]
+    essence_pool: 58
+    loyalty: 95
+    tags: [formidable, all_disrupting, legendary]
+  - id: "mixed_revolutionary_020"
+    name: "Revolution Eternal"
+    archetype_tags: [leader, mystic]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, all_revolutionizing, eternal]

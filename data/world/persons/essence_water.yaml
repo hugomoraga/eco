@@ -1,0 +1,123 @@
+dataset: essence
+count: 20
+persons:
+  - id: "ess_water_001"
+    name: "Rain Seeker"
+    archetype_tags: [wanderer, mystic]
+    essence_pool: 8
+    loyalty: 35
+    tags: [contemplative, adaptive, flowing]
+  - id: "ess_water_002"
+    name: "Spring Finder"
+    archetype_tags: [artisan, scholar]
+    essence_pool: 12
+    loyalty: 48
+    tags: [practical, intuitive, nurturing]
+  - id: "ess_water_003"
+    name: "Brook Dancer"
+    archetype_tags: [artist, wanderer]
+    essence_pool: 7
+    loyalty: 42
+    tags: [graceful, playful, free_spirit]
+  - id: "ess_water_004"
+    name: "Wave Rider"
+    archetype_tags: [warrior, merchant]
+    essence_pool: 10
+    loyalty: 55
+    tags: [adventurous, shrewd, resilient]
+  - id: "ess_water_005"
+    name: "Tide Reader"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 15
+    loyalty: 40
+    tags: [perceptive, wise, patient]
+  - id: "ess_water_006"
+    name: "Ocean Keeper"
+    archetype_tags: [leader, artisan]
+    essence_pool: 20
+    loyalty: 65
+    tags: [authoritative, deep, protective]
+  - id: "ess_water_007"
+    name: "River Sage"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 18
+    loyalty: 70
+    tags: [enlightened, reflective, influential]
+  - id: "ess_water_008"
+    name: "Mermaid Voice"
+    archetype_tags: [artist, warrior]
+    essence_pool: 25
+    loyalty: 72
+    tags: [enchanting, fierce, magnetic]
+  - id: "ess_water_009"
+    name: "Tidal Force"
+    archetype_tags: [warrior, leader]
+    essence_pool: 28
+    loyalty: 75
+    tags: [powerful, persistent, commanding]
+  - id: "ess_water_010"
+    name: "Abyssal One"
+    archetype_tags: [mystic, wanderer]
+    essence_pool: 30
+    loyalty: 78
+    tags: [mysterious, profound, wise]
+  - id: "ess_water_011"
+    name: "Sea Commander"
+    archetype_tags: [leader, merchant]
+    essence_pool: 35
+    loyalty: 82
+    tags: [strategic, wealthy, authoritative]
+  - id: "ess_water_012"
+    name: "Tsunami Spirit"
+    archetype_tags: [warrior, artisan]
+    essence_pool: 38
+    loyalty: 85
+    tags: [overwhelming, unstoppable, legendary]
+  - id: "ess_water_013"
+    name: "Leviathan"
+    archetype_tags: [mystic, leader]
+    essence_pool: 42
+    loyalty: 88
+    tags: [ancient, formidable, revered]
+  - id: "ess_water_014"
+    name: "Ocean Monarch"
+    archetype_tags: [leader, scholar]
+    essence_pool: 40
+    loyalty: 90
+    tags: [imperial, wise, supreme]
+  - id: "ess_water_015"
+    name: "Deep Sea Ruler"
+    archetype_tags: [wanderer, mystic]
+    essence_pool: 48
+    loyalty: 80
+    tags: [enigmatic, all_knowing, legendary]
+  - id: "ess_water_016"
+    name: "Tidal Sovereign"
+    archetype_tags: [leader, artist]
+    essence_pool: 52
+    loyalty: 92
+    tags: [commanding, artistic, destined]
+  - id: "ess_water_017"
+    name: "Poseidon Incarnate"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 55
+    loyalty: 95
+    tags: [divine, powerful, mythic]
+  - id: "ess_water_018"
+    name: "Eternal Tide"
+    archetype_tags: [scholar, artisan]
+    essence_pool: 50
+    loyalty: 90
+    tags: [infinite, patient, transcendent]
+  - id: "ess_water_019"
+    name: "Cosmic Ocean"
+    archetype_tags: [mystic, leader]
+    essence_pool: 58
+    loyalty: 95
+    tags: [cosmic, vast, primordial]
+  - id: "ess_water_020"
+    name: "Primordial Sea"
+    archetype_tags: [leader, warrior]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, all_encompassing, eternal]

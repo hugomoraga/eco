@@ -1,0 +1,123 @@
+dataset: essence
+count: 20
+persons:
+  - id: "ess_death_001"
+    name: "Grave Keeper"
+    archetype_tags: [mystic, artisan]
+    essence_pool: 8
+    loyalty: 35
+    tags: [solemn, patient, respectful]
+  - id: "ess_death_002"
+    name: "End Singer"
+    archetype_tags: [artist, mystic]
+    essence_pool: 12
+    loyalty: 48
+    tags: [haunting, profound, moving]
+  - id: "ess_death_003"
+    name: "Bone Collector"
+    archetype_tags: [warrior, scholar]
+    essence_pool: 7
+    loyalty: 55
+    tags: [fierce, scholarly, resolute]
+  - id: "ess_death_004"
+    name: "Twilight Walker"
+    archetype_tags: [wanderer, mystic]
+    essence_pool: 10
+    loyalty: 42
+    tags: [contemplative, restless, wise]
+  - id: "ess_death_005"
+    name: "Spirit Reader"
+    archetype_tags: [scholar, merchant]
+    essence_pool: 15
+    loyalty: 58
+    tags: [perceptive, shrewd, connected]
+  - id: "ess_death_006"
+    name: "Reaper Keeper"
+    archetype_tags: [leader, warrior]
+    essence_pool: 20
+    loyalty: 65
+    tags: [decisive, inevitable, commanding]
+  - id: "ess_death_007"
+    name: "Death Scholar"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 18
+    loyalty: 70
+    tags: [intellectual, philosophical, profound]
+  - id: "ess_death_008"
+    name: "Mortis Commander"
+    archetype_tags: [leader, artisan]
+    essence_pool: 25
+    loyalty: 75
+    tags: [authoritative, somber, legendary]
+  - id: "ess_death_009"
+    name: "Endless One"
+    archetype_tags: [mystic, wanderer]
+    essence_pool: 28
+    loyalty: 78
+    tags: [enigmatic, eternal, revered]
+  - id: "ess_death_010"
+    name: "Oblivion Singer"
+    archetype_tags: [artist, leader]
+    essence_pool: 30
+    loyalty: 72
+    tags: [hauntingly beautiful, compelling, dark]
+  - id: "ess_death_011"
+    name: "Death Lord"
+    archetype_tags: [leader, mystic]
+    essence_pool: 35
+    loyalty: 82
+    tags: [formidable, inevitable, supreme]
+  - id: "ess_death_012"
+    name: "Shadow Reaper"
+    archetype_tags: [warrior, artisan]
+    essence_pool: 38
+    loyalty: 85
+    tags: [fearsome, skilled, collector]
+  - id: "ess_death_013"
+    name: "Eternal Rest"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 42
+    loyalty: 88
+    tags: [peaceful, all_knowing, transcendent]
+  - id: "ess_death_014"
+    name: "Thanatos Monarch"
+    archetype_tags: [leader, warrior]
+    essence_pool: 40
+    loyalty: 90
+    tags: [imperial, final, all_conquering]
+  - id: "ess_death_015"
+    name: "Grave Sovereign"
+    archetype_tags: [mystic, artist]
+    essence_pool: 48
+    loyalty: 80
+    tags: [mysterious, artistic, legendary]
+  - id: "ess_death_016"
+    name: "Death Emperor"
+    archetype_tags: [leader, warrior]
+    essence_pool: 52
+    loyalty: 92
+    tags: [absolute, ultimate, destined]
+  - id: "ess_death_017"
+    name: "Hades Incarnate"
+    archetype_tags: [mystic, leader]
+    essence_pool: 55
+    loyalty: 95
+    tags: [divine, underworld, primordial]
+  - id: "ess_death_018"
+    name: "Void Keeper"
+    archetype_tags: [scholar, wanderer]
+    essence_pool: 50
+    loyalty: 90
+    tags: [profound, emptiness, transcendent]
+  - id: "ess_death_019"
+    name: "Cosmic End"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 58
+    loyalty: 95
+    tags: [cosmic, final, legendary]
+  - id: "ess_death_020"
+    name: "Primordial Death"
+    archetype_tags: [leader, mystic]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, all_ending, eternal]

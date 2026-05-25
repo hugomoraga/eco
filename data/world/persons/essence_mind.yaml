@@ -1,0 +1,123 @@
+dataset: essence
+count: 20
+persons:
+  - id: "ess_mind_001"
+    name: "Thought Seeker"
+    archetype_tags: [scholar, wanderer]
+    essence_pool: 8
+    loyalty: 45
+    tags: [curious, analytical, questioning]
+  - id: "ess_mind_002"
+    name: "Mind Keeper"
+    archetype_tags: [mystic, artisan]
+    essence_pool: 12
+    loyalty: 55
+    tags: [intuitive, protective, insightful]
+  - id: "ess_mind_003"
+    name: "Idea Dancer"
+    archetype_tags: [artist, scholar]
+    essence_pool: 7
+    loyalty: 50
+    tags: [creative, cerebral, expressive]
+  - id: "ess_mind_004"
+    name: "Memory Keeper"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 10
+    loyalty: 62
+    tags: [knowledgeable, wise, remembering]
+  - id: "ess_mind_005"
+    name: "Logic Walker"
+    archetype_tags: [scholar, merchant]
+    essence_pool: 15
+    loyalty: 48
+    tags: [rational, shrewd, precise]
+  - id: "ess_mind_006"
+    name: "Thought Commander"
+    archetype_tags: [leader, scholar]
+    essence_pool: 20
+    loyalty: 68
+    tags: [authoritative, intellectual, influential]
+  - id: "ess_mind_007"
+    name: "Mind Singer"
+    archetype_tags: [artist, mystic]
+    essence_pool: 18
+    loyalty: 72
+    tags: [enchanting, profound, cerebral]
+  - id: "ess_mind_008"
+    name: "Intellect Force"
+    archetype_tags: [warrior, scholar]
+    essence_pool: 25
+    loyalty: 75
+    tags: [fierce, brilliant, formidable]
+  - id: "ess_mind_009"
+    name: "Wisdom Keeper"
+    archetype_tags: [mystic, leader]
+    essence_pool: 28
+    loyalty: 78
+    tags: [enlightened, revered, commanding]
+  - id: "ess_mind_010"
+    name: "Idea Sovereign"
+    archetype_tags: [artist, leader]
+    essence_pool: 30
+    loyalty: 80
+    tags: [visionary, creative, legendary]
+  - id: "ess_mind_011"
+    name: "Mental Lord"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 35
+    loyalty: 82
+    tags: [powerful, all_knowing, supreme]
+  - id: "ess_mind_012"
+    name: "Noetic Force"
+    archetype_tags: [warrior, artisan]
+    essence_pool: 38
+    loyalty: 85
+    tags: [overwhelming, brilliant, unstoppable]
+  - id: "ess_mind_013"
+    name: "Cosmic Thinker"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 42
+    loyalty: 88
+    tags: [cosmic, enlightened, transcendent]
+  - id: "ess_mind_014"
+    name: "Mind Monarch"
+    archetype_tags: [leader, warrior]
+    essence_pool: 40
+    loyalty: 90
+    tags: [imperial, intellectual, commanding]
+  - id: "ess_mind_015"
+    name: "Genius Keeper"
+    archetype_tags: [artisan, scholar]
+    essence_pool: 48
+    loyalty: 80
+    tags: [genius, masterful, legendary]
+  - id: "ess_mind_016"
+    name: "Noosphere Ruler"
+    archetype_tags: [leader, mystic]
+    essence_pool: 52
+    loyalty: 92
+    tags: [absolute, all_thinking, destined]
+  - id: "ess_mind_017"
+    name: "Nous Incarnate"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 55
+    loyalty: 95
+    tags: [divine, all_knowing, primordial]
+  - id: "ess_mind_018"
+    name: "Infinite Intellect"
+    archetype_tags: [scholar, artist]
+    essence_pool: 50
+    loyalty: 90
+    tags: [infinite, brilliant, transcendent]
+  - id: "ess_mind_019"
+    name: "Cosmic Mind"
+    archetype_tags: [mystic, leader]
+    essence_pool: 58
+    loyalty: 95
+    tags: [cosmic, conscious, legendary]
+  - id: "ess_mind_020"
+    name: "Primordial Thought"
+    archetype_tags: [leader, mystic]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, all_knowing, eternal]

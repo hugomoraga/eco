@@ -1,0 +1,123 @@
+dataset: archetype
+count: 20
+persons:
+  - id: "arch_wanderer_001"
+    name: "Vagrant Kai"
+    archetype_tags: [wanderer, mystic]
+    essence_pool: 8
+    loyalty: 25
+    tags: [restless, free, uncommitted]
+  - id: "arch_wanderer_002"
+    name: "Traveler Fatima"
+    archetype_tags: [wanderer, scholar]
+    essence_pool: 12
+    loyalty: 35
+    tags: [curious, observant, wise]
+  - id: "arch_wanderer_003"
+    name: "Pilgrim Magnus"
+    archetype_tags: [wanderer, mystic]
+    essence_pool: 7
+    loyalty: 45
+    tags: [devout, resilient, purposeful]
+  - id: "arch_wanderer_004"
+    name: "Nomad Yuki"
+    archetype_tags: [wanderer, warrior]
+    essence_pool: 10
+    loyalty: 30
+    tags: [fierce, mobile, independent]
+  - id: "arch_wanderer_005"
+    name: "Drifter Amara"
+    archetype_tags: [wanderer, artist]
+    essence_pool: 15
+    loyalty: 40
+    tags: [artistic, restless, expressive]
+  - id: "arch_wanderer_006"
+    name: "Rover Ravi"
+    archetype_tags: [wanderer, merchant]
+    essence_pool: 20
+    loyalty: 55
+    tags: [shrewd, connected, pragmatic]
+  - id: "arch_wanderer_007"
+    name: "Scout Sven"
+    archetype_tags: [wanderer, artisan]
+    essence_pool: 18
+    loyalty: 48
+    tags: [skilled, vigilant, patient]
+  - id: "arch_wanderer_008"
+    name: "Wayfarer Elena"
+    archetype_tags: [wanderer, leader]
+    essence_pool: 25
+    loyalty: 65
+    tags: [natural_leader, charismatic, experienced]
+  - id: "arch_wanderer_009"
+    name: "Explorer Liu"
+    archetype_tags: [wanderer, scholar]
+    essence_pool: 28
+    loyalty: 70
+    tags: [knowledgeable, brave, visionary]
+  - id: "arch_wanderer_010"
+    name: "Roamer Carlos"
+    archetype_tags: [wanderer, mystic]
+    essence_pool: 30
+    loyalty: 72
+    tags: [spiritual, contemplative, free]
+  - id: "arch_wanderer_011"
+    name: "Pathfinder Viktor"
+    archetype_tags: [wanderer, warrior]
+    essence_pool: 35
+    loyalty: 75
+    tags: [fearless, strategic, seasoned]
+  - id: "arch_wanderer_012"
+    name: "Journeyer Mei"
+    archetype_tags: [wanderer, artist]
+    essence_pool: 38
+    loyalty: 78
+    tags: [creative, inspired, resilient]
+  - id: "arch_wanderer_013"
+    name: "Legendary Vagabond"
+    archetype_tags: [wanderer, artisan]
+    essence_pool: 42
+    loyalty: 82
+    tags: [master, storied, influential]
+  - id: "arch_wanderer_014"
+    name: "Wandering Sage"
+    archetype_tags: [wanderer, scholar]
+    essence_pool: 40
+    loyalty: 85
+    tags: [enlightened, revered, wise]
+  - id: "arch_wanderer_015"
+    name: "Supreme Wanderer"
+    archetype_tags: [wanderer, mystic]
+    essence_pool: 48
+    loyalty: 80
+    tags: [mythic, all_knowing, legendary]
+  - id: "arch_wanderer_016"
+    name: "Legendary Nomad"
+    archetype_tags: [wanderer, leader]
+    essence_pool: 52
+    loyalty: 90
+    tags: [commanding, legendary, visionary]
+  - id: "arch_wanderer_017"
+    name: "Eternal Traveler"
+    archetype_tags: [wanderer, warrior]
+    essence_pool: 55
+    loyalty: 92
+    tags: [immortal, unstoppable, destined]
+  - id: "arch_wanderer_018"
+    name: "Mythic Roamer"
+    archetype_tags: [wanderer, artist]
+    essence_pool: 50
+    loyalty: 90
+    tags: [inspired, mythic, celebrated]
+  - id: "arch_wanderer_019"
+    name: "Cosmic Wanderer"
+    archetype_tags: [wanderer, mystic]
+    essence_pool: 58
+    loyalty: 95
+    tags: [transcendent, cosmic, enlightened]
+  - id: "arch_wanderer_020"
+    name: "Infinite Voyager"
+    archetype_tags: [wanderer, leader]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, all_conquering, legendary]

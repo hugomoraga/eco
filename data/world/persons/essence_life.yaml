@@ -1,0 +1,123 @@
+dataset: essence
+count: 20
+persons:
+  - id: "ess_life_001"
+    name: "Seed Planter"
+    archetype_tags: [artisan, wanderer]
+    essence_pool: 8
+    loyalty: 45
+    tags: [nurturing, hopeful, practical]
+  - id: "ess_life_002"
+    name: "Garden Keeper"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 12
+    loyalty: 58
+    tags: [patient, wise, nurturing]
+  - id: "ess_life_003"
+    name: "Growth Singer"
+    archetype_tags: [artist, artisan]
+    essence_pool: 7
+    loyalty: 52
+    tags: [creative, vibrant, harmonious]
+  - id: "ess_life_004"
+    name: "Spring Bringer"
+    archetype_tags: [mystic, warrior]
+    essence_pool: 10
+    loyalty: 48
+    tags: [renewing, fierce, hopeful]
+  - id: "ess_life_005"
+    name: "Nature Walker"
+    archetype_tags: [wanderer, scholar]
+    essence_pool: 15
+    loyalty: 62
+    tags: [observant, grounded, knowledgeable]
+  - id: "ess_life_006"
+    name: "Vitality Keeper"
+    archetype_tags: [leader, artisan]
+    essence_pool: 20
+    loyalty: 68
+    tags: [authoritative, healing, influential]
+  - id: "ess_life_007"
+    name: "Life Scholar"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 18
+    loyalty: 72
+    tags: [intellectual, profound, living]
+  - id: "ess_life_008"
+    name: "Grove Guardian"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 25
+    loyalty: 75
+    tags: [protective, fierce, natural]
+  - id: "ess_life_009"
+    name: "Bloom Singer"
+    archetype_tags: [artist, leader]
+    essence_pool: 28
+    loyalty: 78
+    tags: [inspiring, creative, beloved]
+  - id: "ess_life_010"
+    name: "Forest Commander"
+    archetype_tags: [leader, wanderer]
+    essence_pool: 30
+    loyalty: 80
+    tags: [commanding, natural, legendary]
+  - id: "ess_life_011"
+    name: "Gaia Speaker"
+    archetype_tags: [mystic, scholar]
+    essence_pool: 35
+    loyalty: 82
+    tags: [earthly, profound, reverent]
+  - id: "ess_life_012"
+    name: "Life Sovereign"
+    archetype_tags: [leader, artisan]
+    essence_pool: 38
+    loyalty: 85
+    tags: [all_nurturing, supreme, commanding]
+  - id: "ess_life_013"
+    name: "Verdant Lord"
+    archetype_tags: [warrior, mystic]
+    essence_pool: 42
+    loyalty: 88
+    tags: [powerful, growing, ancient]
+  - id: "ess_life_014"
+    name: "Nature Monarch"
+    archetype_tags: [leader, scholar]
+    essence_pool: 40
+    loyalty: 90
+    tags: [enlightened, rooted, imperial]
+  - id: "ess_life_015"
+    name: "World Healer"
+    archetype_tags: [mystic, artisan]
+    essence_pool: 48
+    loyalty: 80
+    tags: [world_shaper, legendary, nurturing]
+  - id: "ess_life_016"
+    name: "Life Emperor"
+    archetype_tags: [leader, warrior]
+    essence_pool: 52
+    loyalty: 92
+    tags: [absolute, all_creating, destined]
+  - id: "ess_life_017"
+    name: "Gaia Incarnate"
+    archetype_tags: [mystic, artist]
+    essence_pool: 55
+    loyalty: 95
+    tags: [divine, all_life, primordial]
+  - id: "ess_life_018"
+    name: "Vitality Prime"
+    archetype_tags: [scholar, wanderer]
+    essence_pool: 50
+    loyalty: 90
+    tags: [eternal, wise, transcendent]
+  - id: "ess_life_019"
+    name: "Cosmic Bloom"
+    archetype_tags: [artist, mystic]
+    essence_pool: 58
+    loyalty: 95
+    tags: [cosmic, flourishing, mythic]
+  - id: "ess_life_020"
+    name: "Primordial Life"
+    archetype_tags: [leader, mystic]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, all_creating, eternal]

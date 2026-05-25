@@ -1,0 +1,123 @@
+dataset: archetype
+count: 20
+persons:
+  - id: "arch_artist_001"
+    name: "Painter Yuki"
+    archetype_tags: [artist, wanderer]
+    essence_pool: 8
+    loyalty: 32
+    tags: [creative, impulsive, free_spirit]
+  - id: "arch_artist_002"
+    name: "Musician Amara"
+    archetype_tags: [artist, mystic]
+    essence_pool: 12
+    loyalty: 45
+    tags: [soulful, intuitive, expressive]
+  - id: "arch_artist_003"
+    name: "Poet Luis"
+    archetype_tags: [artist, scholar]
+    essence_pool: 7
+    loyalty: 50
+    tags: [eloquent, sensitive, intellectual]
+  - id: "arch_artist_004"
+    name: "Sculptor Kenji"
+    archetype_tags: [artist, artisan]
+    essence_pool: 10
+    loyalty: 42
+    tags: [patient, dedicated, skillful]
+  - id: "arch_artist_005"
+    name: "Dancer Zara"
+    archetype_tags: [artist, warrior]
+    essence_pool: 15
+    loyalty: 38
+    tags: [graceful, passionate, fierce]
+  - id: "arch_artist_006"
+    name: "Writer Elena"
+    archetype_tags: [artist, merchant]
+    essence_pool: 20
+    loyalty: 58
+    tags: [perceptive, shrewd, articulate]
+  - id: "arch_artist_007"
+    name: "Singer Ravi"
+    archetype_tags: [artist, leader]
+    essence_pool: 18
+    loyalty: 65
+    tags: [charismatic, inspiring, popular]
+  - id: "arch_artist_008"
+    name: "Architect Sofia"
+    archetype_tags: [artist, scholar]
+    essence_pool: 25
+    loyalty: 68
+    tags: [visionary, analytical, creative]
+  - id: "arch_artist_009"
+    name: "Bard Magnus"
+    archetype_tags: [artist, wanderer]
+    essence_pool: 28
+    loyalty: 72
+    tags: [storytelling, adventurous, magnetic]
+  - id: "arch_artist_010"
+    name: "Composer Mei"
+    archetype_tags: [artist, mystic]
+    essence_pool: 30
+    loyalty: 75
+    tags: [profound, spiritual, moving]
+  - id: "arch_artist_011"
+    name: "Master Painter"
+    archetype_tags: [artist, artisan]
+    essence_pool: 35
+    loyalty: 78
+    tags: [legendary, meticulous, influential]
+  - id: "arch_artist_012"
+    name: "Virtuoso Carlos"
+    archetype_tags: [artist, warrior]
+    essence_pool: 38
+    loyalty: 82
+    tags: [brilliant, passionate, commanding]
+  - id: "arch_artist_013"
+    name: "Genius Luna"
+    archetype_tags: [artist, scholar]
+    essence_pool: 42
+    loyalty: 85
+    tags: [extraordinary, intellectual, groundbreaking]
+  - id: "arch_artist_014"
+    name: "Maestro Viktor"
+    archetype_tags: [artist, leader]
+    essence_pool: 40
+    loyalty: 88
+    tags: [authoritative, inspiring, master]
+  - id: "arch_artist_015"
+    name: "Cultural Icon"
+    archetype_tags: [artist, mystic]
+    essence_pool: 48
+    loyalty: 80
+    tags: [iconic, revered, transformative]
+  - id: "arch_artist_016"
+    name: "Artistic Sovereign"
+    archetype_tags: [artist, artisan]
+    essence_pool: 52
+    loyalty: 90
+    tags: [masterful, commanding, imperial]
+  - id: "arch_artist_017"
+    name: "Supreme Creator"
+    archetype_tags: [artist, leader]
+    essence_pool: 55
+    loyalty: 92
+    tags: [transcendent, visionary, legendary]
+  - id: "arch_artist_018"
+    name: "Legendary Bard"
+    archetype_tags: [artist, wanderer]
+    essence_pool: 50
+    loyalty: 90
+    tags: [mythic, immortal, celebrated]
+  - id: "arch_artist_019"
+    name: "Muse Incarnate"
+    archetype_tags: [artist, mystic]
+    essence_pool: 58
+    loyalty: 95
+    tags: [enlightening, divine, destined]
+  - id: "arch_artist_020"
+    name: "Immortal Artisan"
+    archetype_tags: [artist, leader]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, divine, all_inspiring]

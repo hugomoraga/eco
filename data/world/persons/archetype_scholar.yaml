@@ -1,0 +1,123 @@
+dataset: archetype
+count: 20
+persons:
+  - id: "arch_scholar_001"
+    name: "Student Ana"
+    archetype_tags: [scholar, wanderer]
+    essence_pool: 8
+    loyalty: 35
+    tags: [curious, restless, eager]
+  - id: "arch_scholar_002"
+    name: "Librarian Mei"
+    archetype_tags: [scholar, artisan]
+    essence_pool: 12
+    loyalty: 48
+    tags: [methodical, quiet, thorough]
+  - id: "arch_scholar_003"
+    name: "Tutor Paolo"
+    archetype_tags: [scholar, leader]
+    essence_pool: 7
+    loyalty: 55
+    tags: [patient, didactic, devoted]
+  - id: "arch_scholar_004"
+    name: "Researcher Ravi"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 10
+    loyalty: 42
+    tags: [intuitive, investigative, thoughtful]
+  - id: "arch_scholar_005"
+    name: "Clerk Wilhelm"
+    archetype_tags: [scholar, merchant]
+    essence_pool: 15
+    loyalty: 60
+    tags: [practical, organized, shrewd]
+  - id: "arch_scholar_006"
+    name: "Professor Li"
+    archetype_tags: [scholar, artist]
+    essence_pool: 20
+    loyalty: 65
+    tags: [creative, eloquent, academic]
+  - id: "arch_scholar_007"
+    name: "Archivist Helena"
+    archetype_tags: [scholar, warrior]
+    essence_pool: 18
+    loyalty: 52
+    tags: [disciplined, fierce, scholarly]
+  - id: "arch_scholar_008"
+    name: "Scribe Kwame"
+    archetype_tags: [scholar, artisan]
+    essence_pool: 25
+    loyalty: 70
+    tags: [skilled, dedicated, precise]
+  - id: "arch_scholar_009"
+    name: "Philosopher Nestor"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 28
+    loyalty: 75
+    tags: [profound, questioning, wise]
+  - id: "arch_scholar_010"
+    name: "Dean Chen"
+    archetype_tags: [scholar, leader]
+    essence_pool: 30
+    loyalty: 78
+    tags: [authoritative, academic, visionary]
+  - id: "arch_scholar_011"
+    name: "Sage Marcus"
+    archetype_tags: [scholar, wanderer]
+    essence_pool: 35
+    loyalty: 72
+    tags: [enlightened, traveling, influential]
+  - id: "arch_scholar_012"
+    name: "Polymath Isabella"
+    archetype_tags: [scholar, artist]
+    essence_pool: 38
+    loyalty: 82
+    tags: [brilliant, diverse, creative]
+  - id: "arch_scholar_013"
+    name: "Academician Viktor"
+    archetype_tags: [scholar, artisan]
+    essence_pool: 42
+    loyalty: 85
+    tags: [masterful, rigorous, respected]
+  - id: "arch_scholar_014"
+    name: "Grand Scholar"
+    archetype_tags: [scholar, leader]
+    essence_pool: 40
+    loyalty: 88
+    tags: [legendary, commanding, scholarly]
+  - id: "arch_scholar_015"
+    name: "Intellectus Prime"
+    archetype_tags: [scholar, mystic]
+    essence_pool: 48
+    loyalty: 80
+    tags: [genius, profound, legendary]
+  - id: "arch_scholar_016"
+    name: "Doctor Supreme"
+    archetype_tags: [scholar, artisan]
+    essence_pool: 52
+    loyalty: 90
+    tags: [master_healer, authoritative, wise]
+  - id: "arch_scholar_017"
+    name: " Chancellor Olu"
+    archetype_tags: [scholar, leader]
+    essence_pool: 55
+    loyalty: 92
+    tags: [statesman, brilliant, imperial]
+  - id: "arch_scholar_018"
+    name: "Erudite Master"
+    archetype_tags: [scholar, wanderer]
+    essence_pool: 50
+    loyalty: 90
+    tags: [traveled, wise, legendary]
+  - id: "arch_scholar_019"
+    name: "Luminary Nova"
+    archetype_tags: [scholar, artist]
+    essence_pool: 58
+    loyalty: 95
+    tags: [enlightened, creative, destined]
+  - id: "arch_scholar_020"
+    name: "Sage Eternal"
+    archetype_tags: [scholar, leader]
+    essence_pool: 70
+    loyalty: 98
+    tags: [mythic, omniscient, legendary]
