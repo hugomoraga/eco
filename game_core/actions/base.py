@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from datetime import datetime
 from typing import ClassVar
 
 from pydantic import BaseModel, Field
@@ -38,9 +37,7 @@ class Action(ABC):
         pass
 
     def can_execute(self, echo, world, context: ActionContext) -> bool:
-        if context.world_tick - self.last_used_tick < self.cooldown:
-            return False
-        return True
+        return not context.world_tick - self.last_used_tick < self.cooldown
 
     def _apply_temporal_strain(self, echo, cost: float) -> None:
         echo.temporal_strain += cost

@@ -9,11 +9,11 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from game_core.domain.entities import Echo, EchoAttribute, EchoPhase, World, Circle, Faction
+from game_core.domain.entities import World
+from game_core.factory import process_circle_tick
+from game_core.systems.observer import NullObserver, SimulationObserver
 from game_core.systems.random import SeededRandom
-from game_core.systems.observer import SimulationObserver, NullObserver
-from game_core.circle.circle_manager import process_circle_tick
-from game_core.utils.debug_log import DebugLog, dbg
+from game_core.utils.debug_log import DebugLog
 
 
 class _NoOpDebugLog:
@@ -61,7 +61,7 @@ class SimulationEngine:
         autoplay_style: str = "preservationist",
         ai_adapter_type: str = "mock",
         verbose: bool = False,
-        input_source: "InputSource | None" = None,
+        input_source: InputSource | None = None,
     ):
         self.seed = seed
         self.max_turns = max_turns
@@ -121,29 +121,22 @@ class SimulationEngine:
         return run_dir
 
     def _create_initial_world(self) -> World:
-        from game_core.domain.tag_generator import TagGenerator
+        from game_core.factory import create_echo, create_faction, create_ideas_for_essence
+        from game_core.systems.random import SeededRandom
 
-        tag_gen = TagGenerator(seed=self.seed)
-        echo = Echo(
+        rng = SeededRandom.get_instance(self.seed)
+        echo = create_echo(
             name="First Echo",
             essence="anarchism",
-            phase=EchoPhase.ACTIVE,
-            attributes=[
-                EchoAttribute(label="clarity", value=60.0),
-                EchoAttribute(label="resonance", value=50.0),
-                EchoAttribute(label="presence", value=40.0),
-                EchoAttribute(label="memory", value=30.0),
-                EchoAttribute(label="will", value=70.0),
-                EchoAttribute(label="shadow", value=20.0),
-            ],
+            seed=self.seed,
         )
-        echo.known_tags = tag_gen.generate_for_essence("anarchism", count=3)
+        echo.known_tags = create_ideas_for_essence(rng, "anarchism", count=3)
         echo.genealogical_lineage = [echo.essence]
 
-        faction = Faction(
+        faction = create_faction(
             name="Circulo Libertario",
             essence=echo.essence,
-            ideology_tags=[t.to_semantic_key() for t in echo.known_tags],
+            ideas=echo.ideas,
             members=5,
             influence=10.0,
             resources={"food": 50, "infrastructure": 30, "energy": 20},
@@ -155,8 +148,20 @@ class SimulationEngine:
             factions=[faction],
             active_echo_id=echo.id,
         )
-        return world
 
+        # Create initial player Person and wire into simulation
+        from game_core.domain.entities import Person
+        from game_core.factory import create_host_for_echo
+
+        player_person = Person(
+            name="First Echo",
+            essence=echo.essence,
+            type="npc",  # create_host_for_echo will convert to "player"
+        )
+        world.persons.append(player_person)
+        create_host_for_echo(world, echo)  # finds npc, converts to player, creates Host
+
+        return world
     def _load_snapshot(self, path: str) -> World:
         with open(path) as f:
             data = json.load(f)
@@ -183,14 +188,14 @@ class SimulationEngine:
     def run(self) -> dict:
         from game_core.actions.circle_actions import FoundCircle, JoinCircle, LeaveCircle
         from game_core.actions.manifesto_actions import WriteManifesto
-        from game_core.actions.social_actions import PropagateIdea, Talk, Sabotage, Ritualize
-        from game_core.systems.faction_tick import FactionTickSystem
-        from game_core.systems.event_generator import EventGenerator
-        from game_core.domain.npc_generator import NPCGenerator
-        from game_core.autoplayer import AutoplayMode, AutoplayerEngine
+        from game_core.actions.social_actions import PropagateIdea, Ritualize, Sabotage, Talk
 
         # AI adapter
-        from game_core.ai import MockAdapter, MiniMaxAdapter, OpenAIAdapter
+        from game_core.ai import MiniMaxAdapter, MockAdapter, OpenAIAdapter
+        from game_core.autoplayer import AutoplayerEngine, AutoplayMode
+        from game_core.factory import create_npc
+        from game_core.systems.event_generator import EventGenerator
+        from game_core.systems.faction_tick import FactionTickSystem
         if self.ai_adapter_type == "openai":
             try:
                 ai_adapter = OpenAIAdapter()
@@ -218,7 +223,6 @@ class SimulationEngine:
         faction_system = FactionTickSystem(seed=self.seed)
         faction_tick_interval = 3
         event_gen = EventGenerator(ai_adapter, seed=self.seed)
-        npc_gen = NPCGenerator(ai_adapter, seed=self.seed)
         event_interval = 5
 
         if self.autoplay:
@@ -319,10 +323,15 @@ class SimulationEngine:
                 # NPC generation for mature circles
                 if circle.member_count >= 3:
                     if len(getattr(circle, 'npcs', [])) < circle.member_count:
-                        npc = npc_gen.generate({"essence": circle.essence, "context": "circle_growth"})
+                        npc = create_npc(ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=self.seed)
                         if not hasattr(circle, 'npcs'):
                             circle.npcs = []
                         circle.npcs.append(npc.id)
+                        # Also register in world.persons (new path)
+                        if not hasattr(self.world, 'persons'):
+                            self.world.persons = []
+                        if npc not in self.world.persons:
+                            self.world.persons.append(npc)
                         self._notify("on_npc_created", self.turn, npc.name, npc.role)
                         self._log_event("npc_created", {
                             "npc_id": npc.id,
@@ -331,7 +340,7 @@ class SimulationEngine:
                         })
 
             # World metric evolution
-            drift = self.world.evolve_metrics(self.rng)
+            self.world.evolve_metrics(self.rng)
             new_metrics = self._snapshot_metrics()
 
             # Notify metric changes

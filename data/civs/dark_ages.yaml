@@ -1,0 +1,144 @@
+meta:
+  id: "dark_ages"
+  name: "Dark Ages"
+  description: "A grim civilization clinging to feudal structures amid nihilistic despair. Survival is the only law."
+  difficulty: "extreme"
+  tags: ["feudal", "nihilistic", "survival", "extreme"]
+
+civ:
+  population: 5000
+  stability: 25.0
+  pressure: 80.0
+  legitimacy: 20.0
+  resources_global: 30.0
+  crisis_threshold: 60.0
+  collapse_threshold: 30.0
+  resources:
+    food: 40
+    infrastructure: 25
+    energy: 30
+    knowledge: 20
+    legitimacy: 20
+
+essence:
+  dominant:
+    - essence: "feudalism"
+      value: 45
+    - essence: "nihilism"
+      value: 30
+    - essence: "stoicism"
+      value: 25
+  underlying:
+    - essence: "thelema"
+      value: 0
+    - essence: "monoteism"
+      value: 0
+    - essence: "polytheism"
+      value: 0
+    - essence: "animism"
+      value: 0
+    - essence: "atheism"
+      value: 0
+    - essence: "absurdism"
+      value: 0
+    - essence: "nihilism"
+      value: 0
+    - essence: "existentialism"
+      value: 0
+    - essence: "humanism"
+      value: 0
+    - essence: "pragmatism"
+      value: 0
+    - essence: "ecology"
+      value: 0
+    - essence: "technocracy"
+      value: 0
+    - essence: "anarchism"
+      value: 0
+    - essence: "feudalism"
+      value: 0
+    - essence: "socialism"
+      value: 0
+    - essence: "capitalism"
+      value: 0
+    - essence: "mysticism"
+      value: 0
+    - essence: "rationalism"
+      value: 0
+    - essence: "romanticism"
+      value: 0
+    - essence: "stoicism"
+      value: 0
+
+host:
+  person:
+    id: "player_003"
+    name: "The Survivor"
+    archetype_tags: ["survivor", "wanderer"]
+    essence:
+      dominant:
+        - essence: "absurdism"
+          value: 55
+        - essence: "existentialism"
+          value: 35
+        - essence: "stoicism"
+          value: 10
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
+    vitality: 60.0
+    coherence: 55.0
+    influence: 15.0
+    loyalty: 40.0
+  echo:
+    name: "Ghost of Reason"
+    phase: "dormant"
+    genealogical_lineage: []
+    attributes:
+      - label: "clarity"
+        value: 30
+      - label: "influence_range"
+        value: 20
+
+persons: []
+circles: []
+factions: []
+special_rules: []

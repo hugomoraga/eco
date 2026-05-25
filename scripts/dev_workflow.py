@@ -18,13 +18,10 @@ Usage:
 
 from __future__ import annotations
 
-import os
 import re
-import sys
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 # Project paths
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -46,7 +43,7 @@ def run_cmd(cmd: str) -> tuple[int, str, str]:
     return result.returncode, result.stdout, result.stderr
 
 
-def get_current_branch() -> Optional[str]:
+def get_current_branch() -> str | None:
     """Get current git branch."""
     code, out, _ = run_cmd("git branch --show-current")
     return out.strip() if code == 0 else None
@@ -162,7 +159,7 @@ def cmd_start(spec_num: str):
     # Create branch
     branch = f"spec-{spec_num}/{spec_name}"
     print(f"\nCreating branch: {branch}")
-    code, out, err = run_cmd(f"git checkout -b {branch} origin/{main}")
+    code, _out, _err = run_cmd(f"git checkout -b {branch} origin/{main}")
 
     if code != 0:
         # Branch might already exist
@@ -182,7 +179,7 @@ def cmd_start(spec_num: str):
 
     print(f"\n{BOLD}Next steps:{RESET}")
     print(f"  1. Read the spec: cat {spec_file}")
-    print(f"  2. Implement the changes")
+    print("  2. Implement the changes")
     print(f"  3. Run: python scripts/dev_workflow.py --spec {spec_num} --action commit")
     print(f"  4. When done: python scripts/dev_workflow.py --spec {spec_num} --action done")
 
@@ -230,7 +227,7 @@ Enter commit message (or 'q' to cancel):""")
         message = f"feat(spec-{spec_num}): implement {spec_name}"
 
     # Stage and commit
-    print(f"\nStaging files...")
+    print("\nStaging files...")
     run_cmd("git add -A")
 
     print(f"Committing: {message}")
@@ -261,7 +258,7 @@ def cmd_done(spec_num: str):
 
     # Get current branch and commits
     branch = get_current_branch()
-    code, out, _ = run_cmd(f"git log --oneline origin/main..HEAD")
+    _code, out, _ = run_cmd("git log --oneline origin/main..HEAD")
     commits = out.strip().split("\n") if out.strip() else []
 
     print(f"Branch: {branch}")
@@ -306,7 +303,6 @@ git log origin/main..HEAD --oneline
 """)
 
     # Suggest git tag
-    version = "v1.0.0"  # Could be configurable
     print(f"\n{BOLD}Suggested Git Tag:{RESET}")
     print(f"  git tag -a spec-{spec_num}/v1.0.0 -m 'spec-{spec_num} ({spec_name}) complete'")
     print(f"  git push origin spec-{spec_num}/v1.0.0")
@@ -333,7 +329,7 @@ def cmd_status():
         print(out)
 
     # Show commits since main
-    code, out, _ = run_cmd(f"git log --oneline origin/{main}..HEAD")
+    _code, out, _ = run_cmd(f"git log --oneline origin/{main}..HEAD")
     if out.strip():
         print(f"\n{YELLOW}Commits ahead of {main}:{RESET}")
         print(out)
@@ -385,7 +381,7 @@ def cmd_tag(spec_num: str, version: str = "v1.0.0"):
         return
 
     # Create tag
-    print(f"\nCreating tag...")
+    print("\nCreating tag...")
     code, out, err = run_cmd(f'git tag -a "{tag_name}" -m "{message}"')
 
     if code == 0:
@@ -413,8 +409,8 @@ def cmd_pr(spec_num: str):
     content = spec_file.read_text()
 
     # Count commits
-    branch = get_current_branch()
-    code, out, _ = run_cmd(f"git log --oneline origin/main..HEAD")
+    get_current_branch()
+    _code, out, _ = run_cmd("git log --oneline origin/main..HEAD")
     commits = out.strip().split("\n") if out.strip() else []
 
     # Extract key sections from spec
@@ -458,7 +454,7 @@ def cmd_diff(spec_num: str):
     """Show diff for spec changes."""
     print(f"\n{BOLD}{BLUE}=== Diff for spec-{spec_num} ==={RESET}\n")
 
-    code, out, _ = run_cmd(f"git diff origin/main -- '*.py' '*.md' | head -100")
+    _code, out, _ = run_cmd("git diff origin/main -- '*.py' '*.md' | head -100")
     if out:
         print(out[:3000])  # Limit output
     else:

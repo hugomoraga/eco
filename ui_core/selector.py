@@ -1,13 +1,11 @@
-from typing import Callable
+from collections.abc import Callable
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.layout import Layout
-from prompt_toolkit.layout.containers import VSplit, Window, HSplit
+from prompt_toolkit.layout.containers import Window
 from prompt_toolkit.layout.controls import FormattedTextControl
-from prompt_toolkit.mouse_events import MouseEventType
-from prompt_toolkit.selection import SelectionType
 
 
 class Selector:
@@ -82,7 +80,6 @@ class Selector:
             """
 
         from prompt_toolkit.styles import Style
-        from prompt_toolkit.layout.containers import WindowAlign
 
         text_control = FormattedTextControl(
             text=self._build_text,

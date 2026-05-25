@@ -1,10 +1,10 @@
+from typing import Any
+
 from rich.console import Console as RichConsole
+from rich.live import Live
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
-from rich.live import Live
-from rich.console import Group
-from typing import Any
 
 
 class Console:

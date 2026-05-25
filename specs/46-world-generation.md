@@ -48,47 +48,49 @@ class EssenceProfile:
 
 ---
 
-## 1. Arquitectura de Template
+## 1. Arquitectura de Datos
 
 ### Ubicación
 
 ```
 eco/
-├── game_core/
-│   └── data/
-│       ├── templates/           # Civilization templates
-│       │   ├── default.yaml
-│       │   ├── anarchist_utopia.yaml
-│       │   ├── dark_ages.yaml
-│       │   ├── theocracy.yaml
-│       │   ├── technocracy.yaml
-│       │   └── ...             # más según se añadigan
-│       │
-│       └── persons/            # Person dataset
-│           ├── archetypes/      # NPCs por arquetipo
-│           │   ├── prophets.yaml
-│           │   ├── merchants.yaml
-│           │   ├── warriors.yaml
-│           │   └── ...
-│           ├── essences/        # NPCs por esencia
-│           │   ├── anarchists.yaml
-│           │   ├── socialists.yaml
-│           │   ├── nationalists.yaml
-│           │   └── ...
-│           └── mixed/           # datasets combinados (generados con IA)
-│               ├── balanced.yaml
-│               └── radical.yaml
+├── data/
+│   ├── essences.yaml           # 20 esencias + matriz compat (spec-47)
+│   ├── tuning.yaml             # tuning del juego
+│   ├── actions.yaml            # acciones disponibles
+│   ├── events.yaml             # eventos sistémicos
+│   ├── civs/                   # Civilization templates
+│   │   ├── default.yaml
+│   │   ├── anarchist_utopia.yaml
+│   │   ├── dark_ages.yaml
+│   │   ├── theocracy.yaml
+│   │   └── technocracy.yaml
+│   └── world/
+│       └── persons/            # Person datasets
+│           ├── archetypes/
+│           │   ├── warrior.yaml
+│           │   ├── mystic.yaml
+│           │   ├── merchant.yaml
+│           │   ├── scholar.yaml
+│           │   ├── artist.yaml
+│           │   ├── artisan.yaml
+│           │   ├── wanderer.yaml
+│           │   └── leader.yaml
+│           └── mixed/
+│               ├── revolutionary.yaml
+│               └── establishment.yaml
+└── game_core/
+    └── ...                     # código, sin datos hardcodeados
 ```
 
 ### Jerarquía de Carga
 
 ```
 load_template(name):
-  1. Busca en game_core/data/templates/{name}.yaml
-  2. Si no existe, busca en game_core/data/templates/default.yaml
-  3. Combina con defaults hardcoded del sistema
-  4. Genera Persons según dataset referenced
-  5. Crea World + Host + Persons
+  1. Busca en data/civs/{name}.yaml
+  2. Si no existe, busca en data/civs/default.yaml
+  3. Carga persons del dataset (data/world/persons/)
+  4. Crea World + Host + Persons
 ```
 
 ---

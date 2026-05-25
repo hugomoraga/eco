@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 
-class TemporalLayer(str, Enum):
+class TemporalLayer(StrEnum):
     ACTION = "action"
     WORLD = "world"
     HISTORICAL = "historical"
 
 
-class EchoPhase(str, Enum):
+class EchoPhase(StrEnum):
     DORMANT = "dormant"
     AWAKENING = "awakening"
     ACTIVE = "active"
@@ -17,13 +17,13 @@ class EchoPhase(str, Enum):
     FADING = "fading"
 
 
-class CircleStatus(str, Enum):
+class CircleStatus(StrEnum):
     ACTIVE = "active"
     DORMANT = "dormant"
     DISSOLVED = "dissolved"
 
 
-class CircleEventType(str, Enum):
+class CircleEventType(StrEnum):
     FOUNDED = "founded"
     JOIN = "join"
     LEAVE = "leave"
@@ -34,7 +34,7 @@ class CircleEventType(str, Enum):
     DISSOLVED = "dissolved"
 
 
-class EventCategory(str, Enum):
+class EventCategory(StrEnum):
     CRISIS = "crisis"
     RITUAL = "ritual"
     POLITICAL = "political"

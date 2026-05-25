@@ -1,7 +1,8 @@
-from rich.text import Text
-from rich.table import Table
 from rich.panel import Panel
-from .styles import s, CYAN, YELLOW, GREEN, RED
+from rich.table import Table
+from rich.text import Text
+
+from .styles import CYAN, s
 
 
 class Components:
@@ -19,12 +20,6 @@ class Components:
         table.add_column("D", style="")
 
         for key, value in metrics.items():
-            if "pressure" in key.lower() or "unrest" in key.lower():
-                style = "metric_positive" if value > 0.7 else "metric_negative" if value < 0.3 else ""
-            elif "legitimacy" in key.lower() or "resources" in key.lower():
-                style = "metric_positive" if value > 0.5 else "metric_negative"
-            else:
-                style = ""
             table.add_row(key, f"{value:.2f}", "")
 
         return table
@@ -108,6 +103,7 @@ class Components:
         circles: int,
         factions: int,
         influence: int,
+        persons: int = 0,
     ) -> Text:
         return Text.assemble(
             (f"[Turn {turn:2d}]", s("turn")),
@@ -119,6 +115,8 @@ class Components:
             (f"{circles}", s("circle")),
             (" | Factions=", "dim"),
             (f"{factions}", s("faction")),
+            (" | Persons=", "dim"),
+            (f"{persons}", s("info")),
             (" | Influence=", "dim"),
             (f"{influence}", s("info")),
         )

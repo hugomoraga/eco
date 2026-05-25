@@ -7,11 +7,11 @@ from __future__ import annotations
 import logging
 import re
 import sys
-from datetime import datetime
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from game_core.domain.entities import World
 
 
@@ -29,7 +29,7 @@ class DebugLog:
     Logs to run_dir/debug.log with timestamps + levels.
     Console shows INFO+, file shows DEBUG.
     """
-    _instance: "DebugLog | None" = None
+    _instance: DebugLog | None = None
 
     def __init__(self, run_dir: Path):
         self.run_dir = run_dir
@@ -88,7 +88,7 @@ class DebugLog:
 
     # ─── Convenience helpers ────────────────────────────────────────────────
 
-    def turn_start(self, turn: int, world: "World") -> None:
+    def turn_start(self, turn: int, world: World) -> None:
         p = world.pressure
         l = world.legitimacy
         r = world.resources_global
@@ -110,7 +110,7 @@ class DebugLog:
         self.debug("InteractiveMenu: terminal restored")
 
     def key_captured(self, key_desc: str, raw: str) -> None:
-        self.debug(f"Key captured: {key_desc} (raw={repr(raw)})")
+        self.debug(f"Key captured: {key_desc} (raw={raw!r})")
 
     def menu_selection(self, action: str, index: int) -> None:
         self.info(f"Menu: selected action={action} (index={index})")
@@ -127,12 +127,12 @@ class DebugLog:
     # ─── Singleton ─────────────────────────────────────────────────────────
 
     @classmethod
-    def init(cls, run_dir: Path) -> "DebugLog":
+    def init(cls, run_dir: Path) -> DebugLog:
         cls._instance = cls(run_dir)
         return cls._instance
 
     @classmethod
-    def get(cls) -> "DebugLog | None":
+    def get(cls) -> DebugLog | None:
         return cls._instance
 
 

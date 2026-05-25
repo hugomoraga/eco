@@ -94,7 +94,12 @@ class MockAdapter(AIAdapter):
     def generate_event(self, context: dict) -> AIResponse:
         from game_core.i18n import t
 
-        event_keys = ["la_huelga_del_silencio", "el_laboratorio_abierto"]
+        # Use real keys from events section of the YAML
+        event_keys = [
+            "crisis_protest_001",
+            "crisis_shortage_001",
+            "crisis_breakdown_001",
+        ]
         idx = self._event_index
         if self.sequential:
             self._event_index = (self._event_index + 1) % len(event_keys)

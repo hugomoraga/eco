@@ -1,0 +1,16 @@
+2026-05-24 22:39:01.684 [INFO] Turn 1 started — pressure=30.0 legitimacy=60.0 resources=70.0
+2026-05-24 22:39:01.690 [INFO] Turn 1 ended — action=write_manifesto
+2026-05-24 22:39:01.690 [INFO] Turn 2 started — pressure=33.7 legitimacy=58.5 resources=69.8
+2026-05-24 22:39:01.693 [INFO] Turn 2 ended — action=ritualize
+2026-05-24 22:39:01.693 [INFO] Turn 3 started — pressure=30.0 legitimacy=58.1 resources=70.3
+2026-05-24 22:39:01.697 [INFO] Turn 3 ended — action=found_circle
+2026-05-24 22:39:01.697 [INFO] Turn 4 started — pressure=32.6 legitimacy=55.8 resources=70.3
+2026-05-24 22:39:01.700 [INFO] Turn 4 ended — action=propagate_idea
+2026-05-24 22:39:01.700 [INFO] Turn 5 started — pressure=37.2 legitimacy=54.6 resources=70.6
+2026-05-24 22:39:06.176 [INFO] Turn 5 ended — action=write_manifesto
+2026-05-24 22:39:06.177 [INFO] Turn 6 started — pressure=38.8 legitimacy=53.4 resources=71.1
+2026-05-24 22:39:06.184 [INFO] Turn 6 ended — action=ritualize
+2026-05-24 22:39:06.184 [INFO] Turn 7 started — pressure=36.2 legitimacy=52.2 resources=71.4
+2026-05-24 22:39:06.191 [INFO] Turn 7 ended — action=found_circle
+2026-05-24 22:39:06.192 [INFO] Turn 8 started — pressure=38.6 legitimacy=49.7 resources=72.2
+2026-05-24 22:39:06.197 [INFO] Turn 8 ended — action=propagate_idea

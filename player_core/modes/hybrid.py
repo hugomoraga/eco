@@ -29,7 +29,7 @@ class HybridInputSource(InputSource):
     def supports_realtime_override(self) -> bool:
         return True
 
-    def get_action(self, turn: int, world: "World") -> str | None:
+    def get_action(self, turn: int, world: World) -> str | None:
         if self._pending_action is not None:
             action = self._pending_action
             self._pending_action = None
@@ -51,7 +51,7 @@ class HybridInputSource(InputSource):
     def player_take_control(self) -> None:
         self._player_override = True
 
-    def _request_player_input(self, turn: int, world: "World") -> str | None:
+    def _request_player_input(self, turn: int, world: World) -> str | None:
         try:
             choice = input().strip()
         except (EOFError, KeyboardInterrupt):

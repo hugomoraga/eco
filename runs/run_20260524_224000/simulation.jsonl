@@ -1,0 +1,12 @@
+{"timestamp": "2026-05-24T22:40:00.678821", "turn": 1, "event_type": "tick", "data": {"turn": 1, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-24T22:40:00.681646", "turn": 2, "event_type": "tick", "data": {"turn": 2, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-24T22:40:00.685861", "turn": 3, "event_type": "tick", "data": {"turn": 3, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-24T22:40:00.688191", "turn": 4, "event_type": "tick", "data": {"turn": 4, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-24T22:40:09.867784", "turn": 5, "event_type": "event", "data": {"title": "Crisis de legitimidad en la asamblea", "summary": "Un grupo de colonos exige mayor participación en las decisiones del consejo horizontal, reclamando que las decisiones se toman sin consenso real.", "canonical": true}}
+{"timestamp": "2026-05-24T22:40:09.872252", "turn": 5, "event_type": "tick", "data": {"turn": 5, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-24T22:40:09.878961", "turn": 6, "event_type": "tick", "data": {"turn": 6, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-24T22:40:09.884948", "turn": 7, "event_type": "tick", "data": {"turn": 7, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-24T22:40:09.890198", "turn": 8, "event_type": "tick", "data": {"turn": 8, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-24T22:40:09.895003", "turn": 9, "event_type": "tick", "data": {"turn": 9, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-24T22:40:30.952577", "turn": 10, "event_type": "event", "data": {"title": "El Concilio Rechaza la Jerarquía", "summary": "Un antiguo consejo municipal intenta recuperar autoridad sobre el asentamiento, exigiendo que se establezca un liderazgo formal para 'negociar' con la red regional.", "canonical": true}}
+{"timestamp": "2026-05-24T22:40:30.957266", "turn": 10, "event_type": "tick", "data": {"turn": 10, "world_tick": 1, "action_result": null}}

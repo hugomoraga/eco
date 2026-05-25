@@ -13,13 +13,10 @@ Usage:
 
 from __future__ import annotations
 
-import os
-import re
 import json
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
-
 
 SPECS_DIR = Path("specs")
 STATUS_TYPES = ["draft", "in_progress", "stable", "deprecated"]
@@ -40,7 +37,7 @@ class SpecInfo:
     dependencies: list[str] = field(default_factory=list)
 
 
-def parse_spec_number(filename: str) -> Optional[str]:
+def parse_spec_number(filename: str) -> str | None:
     """Extract spec number from filename like '01-architecture.md'."""
     match = re.match(r"^(\d+)-", filename)
     return match.group(1) if match else None
@@ -279,7 +276,7 @@ def print_dashboard(specs: list[SpecInfo], verbose: bool = False):
     print("\n" + "-" * 70)
     print("Dependencies Check:")
     for spec in specs:
-        if spec.number in deps and deps[spec.number]:
+        if deps.get(spec.number):
             dep_nums = [d.split()[-1] for d in deps[spec.number] if d.strip()]
             dep_statuses = []
             for d in dep_nums:

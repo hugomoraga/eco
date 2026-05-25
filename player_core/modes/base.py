@@ -16,13 +16,11 @@ class InputSource(ABC):
         Returns action name (e.g., "found_circle", "write_manifesto")
         or None for autoplay fallback.
         """
-        pass
 
     @property
     @abstractmethod
     def mode(self) -> str:
         """Returns: 'autoplay' | 'hybrid' | 'player'"""
-        pass
 
     def supports_realtime_override(self) -> bool:
         """Whether input can be injected mid-simulation (for TUI)."""

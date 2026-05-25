@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 
 from game_core.actions.base import Action, ActionContext, ActionResult
-from game_core.domain.entities import Echo, World
+from game_core.domain.entities import Echo, Ideas, World
 
 
 class WriteManifesto(Action):
@@ -22,8 +22,8 @@ class WriteManifesto(Action):
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
         from game_core.ai import MockAdapter
-        from game_core.i18n import t
         from game_core.domain.entities import Manifesto
+        from game_core.i18n import t
 
         ai_adapter = MockAdapter()
         ai_response = ai_adapter.generate_manifesto(echo.essence, {
@@ -59,8 +59,14 @@ class WriteManifesto(Action):
 
         for faction in world.factions:
             for tag in tags:
-                if tag not in faction.ideology_tags:
-                    faction.ideology_tags.append(tag)
+                idea = Ideas(
+                    id=str(uuid.uuid4()),
+                    category="concept",
+                    name=tag,
+                    essence_weights={echo.essence: 1.0},
+                )
+                if not any(i.to_semantic_key() == idea.to_semantic_key() for i in faction.ideas):
+                    faction.ideas.append(idea)
 
         world.pressure += 3
         world.legitimacy -= 1

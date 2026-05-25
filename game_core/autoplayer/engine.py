@@ -1,20 +1,19 @@
 from __future__ import annotations
 
-import uuid
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 from game_core.autoplayer.models import (
-    AutoplayMode,
-    AutoplayDecision,
-    Goal,
-    PlayerStyle,
-    AdaptiveRule,
-    PLAYER_STYLES,
     ADAPTIVE_RULES,
+    PLAYER_STYLES,
+    AutoplayDecision,
+    AutoplayMode,
+    Goal,
 )
-from game_core.domain.entities import Echo, World
 from game_core.systems.random import SeededRandom
 from game_core.utils.tuning import tuning
+
+if TYPE_CHECKING:
+    from game_core.domain.entities import Echo, World
 
 
 class AutoplayerEngine:

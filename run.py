@@ -1,15 +1,21 @@
+"""
+run.py — ECO entry point.
+
+Single entry point that:
+1. Reads config + args
+2. Creates SimulationEngine
+3. Registers observers (ui_core.display.ConsoleDisplay)
+4. Runs the simulation loop
+"""
+
 from __future__ import annotations
 
 import argparse
-from typing import TYPE_CHECKING
 
-from game_core.utils.config import get_config
 from game_core.systems.simulation import SimulationEngine
-from game_core.systems.observer import SimulationObserver
-
-if TYPE_CHECKING:
-    from game_core.domain.entities import World
-    from game_core.actions.base import ActionResult
+from game_core.utils.config import get_config
+from ui_core.console import Console
+from ui_core.display import ConsoleDisplay
 
 
 def main() -> None:
@@ -49,13 +55,14 @@ def main() -> None:
         import os
         os.environ["ECO_LANG"] = lang
 
+    # ─── Input source (player_core) ──────────────────────────────────
     if headless:
-        from game_core.systems.observer import NullObserver
         input_source = None
     else:
         from player_core.modes.autoplay import AutoplayInputSource
         input_source = AutoplayInputSource()
 
+    # ─── Simulation engine ────────────────────────────────────────────
     engine = SimulationEngine(
         seed=seed,
         max_turns=max_turns,
@@ -68,57 +75,14 @@ def main() -> None:
         input_source=input_source,
     )
 
+    # ─── Observer (ui_core) ──────────────────────────────────────────
     if not headless:
-        from ui_core.interface import Interface
-        from ui_core.components import Components
-        interface = Interface(engine.world, {})
-        engine.register_observer(_ConsoleDisplay(interface, Components))
+        console = Console.get()
+        engine.register_observer(ConsoleDisplay(console))
 
+    # ─── Run ──────────────────────────────────────────────────────────
     result = engine.run()
     print(f"Simulation complete. Results: {result}")
-
-
-class _ConsoleDisplay(SimulationObserver):
-    def __init__(self, interface, components):
-        self.interface = interface
-        self.Components = components
-
-    def on_turn_start(self, turn: int, world: "World") -> None:
-        self.interface.console.print()
-        self.interface.console.print(self.Components.turn_header(turn), justify="center")
-
-    def on_turn_end(self, turn: int, world: "World", action_taken: str | None) -> None:
-        self.interface.print_status_line(turn, world)
-
-    def on_action_selected(self, turn: int, action_name: str | None) -> None:
-        if action_name:
-            self.interface.console.print(f"[cyan]>>>[/cyan] [bold]{action_name}[/bold] selected")
-
-    def on_action_result(self, turn: int, action_name: str, result: "ActionResult") -> None:
-        if result.success:
-            self.interface.print_action_result(turn, action_name, result.message, getattr(result, 'state_delta', None))
-        elif result.message:
-            self.interface.print_action_result(turn, action_name, f"FAIL: {result.message}", None)
-
-    def on_event(self, turn: int, event_type: str, title: str, summary: str) -> None:
-        self.interface.show_event(event_type, title, summary)
-
-    def on_crisis(self, turn: int, metric: str, value: float) -> None:
-        self.interface.console.print(f"[red]CRISIS:[/red] {metric} = {value:.2f}")
-
-    def on_metric_changed(self, turn: int, metric: str, old_val: float, new_val: float) -> None:
-        delta = new_val - old_val
-        if abs(delta) < 0.5:
-            return
-        sign = "+" if delta >= 0 else ""
-        color = "green" if delta >= 0 else "red"
-        self.interface.console.print(f"  [cyan]{metric}:[/cyan] {old_val:.1f} -> {new_val:.1f} ([{color}]{sign}{delta:.1f}[/{color}])")
-
-    def on_circle_founded(self, turn: int, circle_name: str, members: int) -> None:
-        self.interface.console.print(f"[yellow]O[/yellow] Circle founded: {circle_name} ({members} members)")
-
-    def on_npc_created(self, turn: int, npc_name: str, npc_role: str) -> None:
-        self.interface.console.print(f"[magenta]@[/magenta] NPC created: {npc_name} ({npc_role})")
 
 
 if __name__ == "__main__":

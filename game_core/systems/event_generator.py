@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import uuid
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
-from game_core.ai.base import AIAdapter, AIResponse
-from game_core.systems.random import SeededRandom
 from game_core.i18n import t
+from game_core.systems.random import SeededRandom
+
+if TYPE_CHECKING:
+    from game_core.ai.base import AIAdapter
 
 
 class EffectTagValidator:
@@ -211,7 +213,7 @@ class EventGenerator:
             }
             valid_choices.append(validated_choices)
 
-        event = GameEvent(
+        return GameEvent(
             event_id=str(uuid.uuid4()),
             title=title,
             summary=summary,
@@ -220,7 +222,6 @@ class EventGenerator:
             canonical=all(c.get("canonical", True) for c in valid_choices),
         )
 
-        return event
 
     def _generate_fallback(self, context: dict) -> GameEvent:
         events = [

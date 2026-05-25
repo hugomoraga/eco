@@ -81,7 +81,7 @@ def audit_essences():
     print(f"\n{BOLD}3. Essences Data (spec-04){RESET}")
     print("=" * 50)
 
-    essences_file = Path("game_core/data/essences.yaml")
+    essences_file = Path("data/essences.yaml")
     if not essences_file.exists():
         print(f"  {RED}❌ essences.yaml not found{RESET}")
         return False
@@ -108,7 +108,7 @@ def audit_essences():
     all_found = all(check(f"essence: {e}", e in found_essences) for e in required_essences)
 
     if isinstance(essences, dict):
-        sample = list(essences.values())[0] if found_essences else {}
+        sample = next(iter(essences.values())) if found_essences else {}
         has_order = "order" in sample if sample else False
         check("order field in essence data", has_order, "for genealogical tracking")
 

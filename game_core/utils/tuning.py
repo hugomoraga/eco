@@ -4,9 +4,10 @@ Reads game_core/tuning.yaml and provides access to tuning values.
 """
 from __future__ import annotations
 
-import yaml
 from pathlib import Path
 from typing import Any
+
+import yaml
 
 
 class Tuning:
@@ -22,8 +23,8 @@ class Tuning:
         return cls._instance
 
     def _load(self) -> None:
-        """Load tuning.yaml from game_core directory."""
-        tuning_path = Path(__file__).parent / "tuning.yaml"
+        """Load tuning.yaml from data directory."""
+        tuning_path = Path(__file__).parent.parent.parent / "data" / "tuning.yaml"
         if tuning_path.exists():
             with open(tuning_path) as f:
                 self._config = yaml.safe_load(f) or {}

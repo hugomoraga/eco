@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 from typing import ClassVar
 
 from pydantic import BaseModel, Field
 
 
-class AutoplayMode(str, Enum):
+class AutoplayMode(StrEnum):
     MANUAL = "manual"
     SUGGEST = "suggest"
     AUTOPLAY = "autoplay"

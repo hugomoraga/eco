@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from game_core.actions.base import Action, ActionContext, ActionResult
-from game_core.domain.entities import Echo, World
+
+if TYPE_CHECKING:
+    from game_core.domain.entities import Echo, World
 
 
 class PropagateIdea(Action):
@@ -26,8 +30,7 @@ class PropagateIdea(Action):
                 social_cost=self.social_cost,
             )
 
-        resonance_attr = echo.get_attribute("resonance")
-        resonance = resonance_attr.value if resonance_attr else 50.0
+        echo.get_attribute("resonance")
         rng = SeededRandom.get_instance()
 
         targets = list(world.factions) + list(world.circles)
@@ -49,12 +52,11 @@ class PropagateIdea(Action):
                 affinity = EssenceEffects.get_essence_affinity(echo.essence, target.essence)
                 affinity_modifier = 1.0 + (affinity * 0.02)
 
-            if rng.random() < affinity_modifier:
-                if hasattr(target, 'ideology_tags'):
-                    if tag_key not in target.ideology_tags:
-                        target.ideology_tags.append(tag_key)
-                        tags_created.append(tag_key)
-                        propagated += 1
+            if rng.random() < affinity_modifier and hasattr(target, 'ideology_tags'):
+                if tag_key not in target.ideology_tags:
+                    target.ideology_tags.append(tag_key)
+                    tags_created.append(tag_key)
+                    propagated += 1
 
         if propagated > 0:
             world.pressure += 2 * propagated

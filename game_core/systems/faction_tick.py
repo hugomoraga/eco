@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
-from game_core.domain.entities import Faction, World
 from game_core.systems.random import SeededRandom
+
+if TYPE_CHECKING:
+    from game_core.domain.entities import Faction, World
 
 
 class FactionTickSystem:
@@ -73,7 +75,7 @@ class FactionTickSystem:
             - risk
         )
 
-        lineage = faction.ideology_tags if hasattr(faction, 'ideology_tags') else []
+        lineage = [i.to_semantic_key() for i in faction.ideas] if hasattr(faction, 'ideas') else []
         dominant_essence = getattr(faction, 'essence', None)
 
         material = EconomyPressure.calculate_material_pressure(world.resources)
@@ -92,15 +94,16 @@ class FactionTickSystem:
         return min(total / 3, 100)
 
     def _ideological_pressure(self, faction: Faction, world: World) -> float:
-        if not faction.ideology_tags:
+        if not faction.ideas:
             return 30.0
+        # TODO: migrate to world.get_player_echo() once all callers support it
         echo = world.get_active_echo()
         if not echo:
             return 30.0
 
-        overlap = len(
-            set(faction.ideology_tags) & set(t.to_semantic_key() for t in echo.known_tags)
-        )
+        faction_keys = {i.to_semantic_key() for i in faction.ideas}
+        echo_keys = {t.to_semantic_key() for t in echo.known_tags}
+        overlap = len(faction_keys & echo_keys)
         return 30.0 + (overlap * 20.0)
 
     def _behavior_modifier(self, faction: Faction, action: str) -> float:
@@ -140,7 +143,7 @@ class FactionTickSystem:
         if action == "recruit_npc":
             faction.members += 1
             faction.influence += 2
-            effect["changes"].append(f"members: +1, influence: +2")
+            effect["changes"].append("members: +1, influence: +2")
 
         elif action == "spread_doctrine":
             faction.influence += 5

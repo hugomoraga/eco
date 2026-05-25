@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from game_core.actions.base import Action, ActionContext, ActionResult
-from game_core.domain.entities import Circle, Echo, World, Manifesto
+
+if TYPE_CHECKING:
+    from game_core.domain.entities import Echo, World
 
 
 class FoundCircle(Action):
@@ -11,30 +15,15 @@ class FoundCircle(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from game_core.circle.name_generator import generate_circle_name_with_fallback
-        from game_core.domain.entities import CircleEvent, CircleEventType
+        from game_core.factory import create_circle
 
-        circle_name = generate_circle_name_with_fallback(echo.essence, world.circles)
-
-        circle = Circle(
-            name=circle_name,
-            echo_id=echo.id,
+        circle = create_circle(
+            world=world,
+            echo=echo,
             essence=echo.essence,
+            ideas=None,
             founding_tick=context.world_tick,
-            ideology_tags=[tag.to_semantic_key() for tag in echo.known_tags],
-            member_ids=[echo.id],
-            influence=15.0,
         )
-        circle.history.append(CircleEvent(
-            type=CircleEventType.FOUNDED,
-            turn=context.world_tick,
-            echo_id=echo.id,
-            details=f"Founded by {echo.name or 'First Echo'}",
-        ))
-
-        world.circles.append(circle)
-        echo.phase = echo.phase.ACTIVE
-        echo.circles.append(circle.id)
 
         world.pressure += 1
         world.legitimacy -= 2
@@ -45,7 +34,7 @@ class FoundCircle(Action):
 
         return ActionResult(
             success=True,
-            message=f"Founded {circle_name}",
+            message=f"Founded {circle.name}",
             state_delta={"circles_added": 1},
             new_entities=[circle.id],
             tags_created=[],

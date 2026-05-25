@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 from pydantic import BaseModel, Field
 
@@ -41,7 +41,7 @@ class WorldClock(BaseModel):
         }
 
 
-class IdeologicalTag(BaseModel):
+class Ideas(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     category: str
     name: str
@@ -49,6 +49,96 @@ class IdeologicalTag(BaseModel):
 
     def to_semantic_key(self) -> str:
         return f"{self.category}:{self.name}"
+
+    @property
+    def dominant_essence(self) -> str | None:
+        if not self.essence_weights:
+            return None
+        return max(self.essence_weights, key=lambda k: self.essence_weights.get(k, 0.0))
+
+
+class Person(BaseModel):
+    """
+    Individuo base en el mundo.
+    - type="npc"    → NPC normal, controlado por el juego
+    - type="player" → Person actualmente habitada por el Echo del jugador
+    """
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str = ""
+    essence: str | None = None
+    role: str = ""
+    archetype: str = "neutral"
+
+    # Tipo — quién controla esta person
+    type: str = "npc"  # Literal["npc", "player"]
+
+    # Historial de Echo — permite saber si fue host anteriormente
+    echo_id: str | None = None
+
+    # Faction membership
+    faction_id: str | None = None
+    loyalty: float = 50.0
+
+    # Influence
+    influence: float = 0.0
+
+    # Métricas de salud
+    vitality: float = 100.0
+    coherence: float = 50.0
+
+    @property
+    def is_player(self) -> bool:
+        return self.type == "player"
+
+    @property
+    def is_npc(self) -> bool:
+        return self.type == "npc"
+
+    def take_damage(self, amount: float) -> None:
+        self.vitality = max(0.0, self.vitality - amount)
+
+    def heal(self, amount: float) -> None:
+        self.vitality = min(100.0, self.vitality + amount)
+
+
+class Host(BaseModel):
+    """
+    Contexto de encarnación.
+    Se "pega" a una Person que tiene type="player".
+    NO duplica campos de Person — solo añade contexto de Echo.
+    """
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+
+    # Link a la Person que habita
+    person_id: str
+
+    # Link al Echo que encarna en esta Person
+    echo_id: str
+
+    # Métricas del Host
+    will: float = 50.0
+    presence: float = 50.0
+
+    # Historial
+    action_history: list[str] = Field(default_factory=list)
+    last_action_turn: dict[str, int] = Field(default_factory=dict)
+
+    # Círculo activo actual
+    active_circle_id: str | None = None
+
+    # Contador de acciones este turno (para fatiga)
+    actions_this_turn: int = 0
+
+    # Is active (False cuando el host murió y está esperando reincarnación)
+    is_active: bool = True
+
+    def record_action(self, action: str, turn: int) -> None:
+        self.action_history.append(action)
+        self.last_action_turn[action] = turn
+        self.actions_this_turn += 1
+
+    def reset_turn_actions(self) -> None:
+        self.actions_this_turn = 0
 
 
 class EchoAttribute(BaseModel):
@@ -83,7 +173,8 @@ class Echo(BaseModel):
     def has_tag(self, tag_key: str) -> bool:
         return any(t.to_semantic_key() == tag_key for t in self.known_tags)
 
-    known_tags: list[IdeologicalTag] = Field(default_factory=list)
+    known_tags: list[Ideas] = Field(default_factory=list)
+    ideas: list[Ideas] = Field(default_factory=list)
     manifestos: list[str] = Field(default_factory=list)
     circles: list[str] = Field(default_factory=list)
 
@@ -94,6 +185,19 @@ class Echo(BaseModel):
             result[attr.label] = attr.value
         return result
 
+    @property
+    def dominant_essence(self) -> str | None:
+        """La esencia actual del Echo = última del lineage."""
+        if self.genealogical_lineage:
+            return self.genealogical_lineage[-1]
+        return None
+
+    @property
+    def clarity(self) -> float:
+        """Claridad ideológica = atributo clarity o 50."""
+        attr = self.get_attribute("clarity")
+        return attr.value if attr else 50.0
+
 
 class Circle(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -101,7 +205,8 @@ class Circle(BaseModel):
     echo_id: str | None = None
     essence: str = "anarchism"
     founding_tick: int = 0
-    ideology_tags: list[str] = Field(default_factory=list)
+    ideology_tags: list[str] = Field(default_factory=list)   # DEPRECATED — use ideas
+    ideas: list[Ideas] = Field(default_factory=list)
     member_ids: list[str] = Field(default_factory=list)
     influence: float = 0.0
     institutionalization_level: float = 0.0
@@ -110,6 +215,8 @@ class Circle(BaseModel):
     dormant_turns: int = 0
     history: list[CircleEvent] = Field(default_factory=list)
     npcs: list[str] = Field(default_factory=list)
+
+    echo_ids: list[str] = Field(default_factory=list)          # Echo ids members
 
     @property
     def member_count(self) -> int:
@@ -148,8 +255,11 @@ class Faction(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str = ""
     essence: str = "anarchism"
-    ideology_tags: list[str] = Field(default_factory=list)
+    ideology_tags: list[str] = Field(default_factory=list)   # DEPRECATED — use ideas
+    ideas: list[Ideas] = Field(default_factory=list)
     members: int = 0
+    member_ids: list[str] = Field(default_factory=list)       # Person ids
+    circle_ids: list[str] = Field(default_factory=list)       # Circle ids
     influence: float = 0.0
     resources: dict[str, float] = Field(default_factory=lambda: {"food": 50, "infrastructure": 30, "energy": 20})
     goals: list[str] = Field(default_factory=list)
@@ -162,6 +272,13 @@ class World(BaseModel):
     circles: list[Circle] = Field(default_factory=list)
     factions: list[Faction] = Field(default_factory=list)
     manifestos: list[Manifesto] = Field(default_factory=list)
+
+    # Persons — todas las personas del mundo (npc + player)
+    persons: list[Person] = Field(default_factory=list)
+
+    # Hosts activos — uno por Person.type="player"
+    hosts: list[Host] = Field(default_factory=list)
+
     population: int = 10000
     stability: float = 50.0
     resources: dict[str, float] = Field(default_factory=lambda: {
@@ -178,6 +295,10 @@ class World(BaseModel):
     crisis_threshold: float = 75.0
     collapse_threshold: float = 15.0
 
+    # ──────────────────────────────────────────────────────────
+    # Getters
+    # ──────────────────────────────────────────────────────────
+
     def get_echo(self, echo_id: str) -> Echo | None:
         for e in self.echoes:
             if e.id == echo_id:
@@ -190,10 +311,56 @@ class World(BaseModel):
                 return c
         return None
 
+    def get_person(self, person_id: str) -> Person | None:
+        for p in self.persons:
+            if p.id == person_id:
+                return p
+        return None
+
+    def get_host(self, host_id: str) -> Host | None:
+        for h in self.hosts:
+            if h.id == host_id:
+                return h
+        return None
+
+    def get_host_for_echo(self, echo_id: str) -> Host | None:
+        for h in self.hosts:
+            if h.echo_id == echo_id and h.is_active:
+                return h
+        return None
+
+    def get_host_for_person(self, person_id: str) -> Host | None:
+        for h in self.hosts:
+            if h.person_id == person_id and h.is_active:
+                return h
+        return None
+
     def get_active_echo(self) -> Echo | None:
         if self.active_echo_id:
             return self.get_echo(self.active_echo_id)
         return None
+
+    def get_player_person(self) -> Person | None:
+        for p in self.persons:
+            if p.type == "player":
+                return p
+        return None
+
+    def get_player_host(self) -> Host | None:
+        pp = self.get_player_person()
+        if not pp:
+            return None
+        return self.get_host_for_person(pp.id)
+
+    def get_player_echo(self) -> Echo | None:
+        ph = self.get_player_host()
+        if not ph:
+            return None
+        return self.get_echo(ph.echo_id)
+
+    # ──────────────────────────────────────────────────────────
+    # Metrics
+    # ──────────────────────────────────────────────────────────
 
     def clamp_metrics(self) -> None:
         self.pressure = max(0.0, min(100.0, self.pressure))
@@ -231,17 +398,31 @@ class World(BaseModel):
 class EssenceRegistry:
     _data: ClassVar[dict[str, dict] | None] = None
     _affinity: ClassVar[dict[str, dict] | None] = None
+    _affinity_values: ClassVar[dict[str, int] | None] = None
 
     @classmethod
-    def load(cls, path: str = "game_core/data/essences.yaml") -> None:
+    def load(cls, path: str = "data/essences.yaml") -> None:
         import yaml
 
         with open(path) as f:
-            cls._data = yaml.safe_load(f)
+            data = yaml.safe_load(f)
 
-        cls._affinity = {}
-        for essence, data in cls._data.items():
-            cls._affinity[essence] = data.get("affinities", {})
+        # New format: {essences: {...}, affinity_matrix: {...}, affinity_values: {...}}
+        cls._data = data.get("essences", data)  # backwards compat: old format still works
+
+        # Load affinity matrix
+        cls._affinity = data.get("affinity_matrix", {})
+
+        # Load numeric affinity values for calculations
+        cls._affinity_values = data.get("affinity_values", {
+            "CONFIRMED": 100,
+            "HIGH_AFFINITY": 75,
+            "MEDIUM_AFFINITY": 50,
+            "NEUTRAL": 25,
+            "MEDIUM_TENSION": 10,
+            "HIGH_TENSION": -25,
+            "INCOMPATIBLE": -75,
+        })
 
     @classmethod
     def get(cls, essence: str) -> dict:
@@ -268,5 +449,14 @@ class EssenceRegistry:
         if cls._affinity is None:
             cls.load()
 
-        affinities = cls._affinity.get(essence1, {})
-        return affinities.get(essence2, 0.0)
+        # New format: affinity_matrix[essence1][essence2] = "CONFIRMED", "HIGH_AFFINITY", etc.
+        level = cls._affinity.get(essence1, {}).get(essence2, "NEUTRAL")
+        return cls._affinity_values.get(level, 25)
+
+
+# Rebuild models that reference each other to avoid forward-ref issues at runtime
+Person.model_rebuild()
+Host.model_rebuild()
+Circle.model_rebuild()
+Faction.model_rebuild()
+World.model_rebuild()

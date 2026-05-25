@@ -1,9 +1,5 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from ui_core.interface import Interface
 
 
 @dataclass

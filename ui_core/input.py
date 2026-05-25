@@ -1,4 +1,5 @@
-from typing import Callable
+from collections.abc import Callable
+
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import InMemoryHistory
 

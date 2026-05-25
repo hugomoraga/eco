@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
 import uuid
+
+from pydantic import BaseModel, Field
 
 
 class District(BaseModel):

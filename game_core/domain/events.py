@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class CircleEvent(BaseModel):
-    type: "CircleEventType"
+    type: CircleEventType
     turn: int
     echo_id: str | None = None
     npc_id: str | None = None

@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import ClassVar
 
 from game_core.domain.entities import EssenceRegistry
-from game_core.domain.essence_effects import EssenceEffects
 
 
 class DerivePressureCalculator:
@@ -109,7 +108,7 @@ class EconomyPressure:
         return min(pressure, 100)
 
     @classmethod
-    def calculate_social_pressure(cls, world: "World") -> float:
+    def calculate_social_pressure(cls, world: World) -> float:
         inequality = getattr(world, "inequality", 50)
         stability = getattr(world, "stability", 50)
 

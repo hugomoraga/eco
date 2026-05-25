@@ -1,19 +1,20 @@
 """
 Integration test for disconnected systems.
-Tests: DerivePressureCalculator, EventGenerator, EssenceEffects, NPCGenerator
+Tests: DerivePressureCalculator, EventGenerator, EssenceEffects, create_npc
 """
 from __future__ import annotations
 
 import sys
+
 sys.path.insert(0, '.')
 
-from game_core.systems.pressure import DerivePressureCalculator, EconomyPressure
+from game_core.ai import MockAdapter
+from game_core.domain.entities import Circle, Faction, World, WorldClock
+from game_core.domain.essence_effects import EssenceEffects
+from game_core.factory import create_npc
 from game_core.systems.event_generator import EventGenerator
 from game_core.systems.event_pool import EventPool
-from game_core.domain.essence_effects import EssenceEffects
-from game_core.domain.npc_generator import NPCGenerator
-from game_core.domain.entities import Faction, Circle, Echo, World, WorldClock
-from game_core.ai import MockAdapter
+from game_core.systems.pressure import DerivePressureCalculator, EconomyPressure
 
 
 def test_derive_pressure_calculator():
@@ -123,10 +124,9 @@ def test_event_generator():
 
 def test_npc_generator():
     """Test 4: NPCGenerator creates NPCs when circles grow."""
-    print("\n=== Test 4: NPCGenerator ===")
+    print("\n=== Test 4: create_npc ===")
 
     ai_adapter = MockAdapter()
-    npc_gen = NPCGenerator(ai_adapter, seed=42)
 
     # Simulate a circle with 3+ members
     circle = Circle(
@@ -144,14 +144,14 @@ def test_npc_generator():
     # Check threshold
     threshold = 3
     if circle.member_count >= threshold:
-        npc = npc_gen.generate({"essence": circle.essence, "context": "circle_growth"})
+        npc = create_npc(ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=42)
         circle.npcs.append(npc.id)
         print(f"  Generated NPC: {npc.name} (ID: {npc.id})")
         print(f"  NPCs after: {len(circle.npcs)}")
         print("  PASS: NPC generator working")
     else:
         print(f"  FAIL: Circle has {circle.member_count} members, need {threshold}")
-        assert False, "Circle should have 3+ members"
+        raise AssertionError("Circle should have 3+ members")
 
 
 def test_full_integration():
@@ -206,10 +206,9 @@ def test_full_integration():
     print(f"  Event generated: {events.title}")
 
     # 3. Check NPC
-    npc_gen = NPCGenerator(ai_adapter, seed=42)
     threshold = 3
     if circle.member_count >= threshold:
-        npc = npc_gen.generate({"essence": circle.essence, "context": "circle_growth"})
+        npc = create_npc(ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=42)
         circle.npcs.append(npc.id)
         print(f"  NPC created: {npc.name}")
 

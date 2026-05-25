@@ -1,16 +1,14 @@
 from datetime import datetime
 from typing import Any
 
-from rich.console import Console
-from rich.spinner import Spinner
 from rich.live import Live
+from rich.spinner import Spinner
 
-from ui_core.console import Console as UConsole
-from ui_core.styles import s
 from ui_core.components import Components
-from ui_core.history import History, Action
+from ui_core.console import Console as UConsole
+from ui_core.history import Action, History
+from ui_core.input import COMMANDS, CommandInput
 from ui_core.session import Session
-from ui_core.input import CommandInput, COMMANDS
 
 
 class Interface:

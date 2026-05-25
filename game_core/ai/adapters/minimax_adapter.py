@@ -4,7 +4,6 @@ MiniMax Adapter - Anthropic-compatible API
 from __future__ import annotations
 
 import os
-from typing import Any
 
 from game_core.ai.base import AIAdapter, AIResponse
 
@@ -26,8 +25,8 @@ class MiniMaxAdapter(AIAdapter):
 
     def _call_llm(self, system_prompt: str, user_prompt: str) -> str:
         """Make request to MiniMax API."""
-        import urllib.request
         import json
+        import urllib.request
 
         url = f"{self.BASE_URL}/messages"
 
@@ -76,7 +75,8 @@ Contexto: {context}
 Responde solo con JSON."""
         try:
             result = self._call_llm(system, user)
-            import re, json
+            import json
+            import re
             json_match = re.search(r'\{.*\}', result, re.DOTALL)
             if json_match:
                 data = json.loads(json_match.group())
@@ -100,7 +100,8 @@ Tags válidos: anarchism, socialism, communism, fascism, progressivism, traditio
 Responde solo con JSON."""
         try:
             result = self._call_llm(system, user)
-            import re, json
+            import json
+            import re
             json_match = re.search(r'\{.*\}', result, re.DOTALL)
             if json_match:
                 data = json.loads(json_match.group())

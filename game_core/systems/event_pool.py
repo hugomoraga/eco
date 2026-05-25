@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-import yaml
 from pathlib import Path
+
+import yaml
 
 from game_core.systems.random import SeededRandom
 
@@ -9,7 +10,7 @@ from game_core.systems.random import SeededRandom
 class EventPool:
     """Event pool that loads events from YAML and selects events by category based on world state."""
 
-    def __init__(self, events_path: str = "game_core/data/events.yaml"):
+    def __init__(self, events_path: str = "data/events.yaml"):
         self.events_path = events_path
         self.events_data: dict = {}
         self.category_index: dict[str, list[str]] = {}
@@ -39,13 +40,13 @@ class EventPool:
 
     def get_dominant_essence(self, world_state: dict) -> str:
         """Calculate dominant essence from world_state essence_distribution.
-        
+
         Handles both dict and Pydantic model objects.
         """
         # Handle Pydantic model (World object)
         if hasattr(world_state, 'model_dump'):
             world_state = world_state.model_dump()
-        
+
         essence_dist = world_state.get("essence_distribution", {})
         if not essence_dist:
             # Fallback: compute from echoes if available
@@ -69,7 +70,7 @@ class EventPool:
         # Handle Pydantic model (World object)
         if hasattr(world_state, 'model_dump'):
             world_state = world_state.model_dump()
-        
+
         base_weights = {
             "crisis": 1.2,
             "ritual": 1.0,
@@ -110,7 +111,7 @@ class EventPool:
         # Handle Pydantic model (World object)
         if hasattr(world_state, 'model_dump'):
             world_state = world_state.model_dump()
-        
+
         weights = self.calculate_category_weights(world_state)
         rng = SeededRandom.get_instance()
 
@@ -118,17 +119,17 @@ class EventPool:
         weight_values = list(weights.values())
 
         # Filter categories that have events
-        available = [(c, w) for c, w in zip(categories, weight_values) if c in self.category_index and self.category_index[c]]
+        available = [(c, w) for c, w in zip(categories, weight_values, strict=False) if self.category_index.get(c)]
         if not available:
             return "crisis"
 
-        cats, wts = zip(*available)
+        cats, wts = zip(*available, strict=False)
         total = sum(wts)
         probs = [w / total for w in wts]
 
         roll = rng.random()
         cumulative = 0.0
-        for cat, prob in zip(cats, probs):
+        for cat, prob in zip(cats, probs, strict=False):
             cumulative += prob
             if roll <= cumulative:
                 return cat
