@@ -1,0 +1,1137 @@
+# ECO Game Events - 100 eventos en 6 categorías
+# Cada evento tiene category, essence_weights, y choices con labels en español
+
+events:
+
+  # ============================================================
+  # CRISIS (18 eventos) - protests, shortages, breakdowns, panic
+  # Esencias: anarchism, absurdism
+  # ============================================================
+
+  crisis_protest_001:
+    category: CRISIS
+    essence_weights:
+      anarchism: 1.6
+      absurdism: 1.3
+      thelema: 0.6
+    choices:
+      - label: "Unirse a la manifestación"
+        effect_tags: ["increase_unrest", "increase_anarchism"]
+      - label: "Reprimir con fuerzas de seguridad"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+      - label: "Observar sin intervenir"
+        effect_tags: ["increase_ideological_drift"]
+
+  crisis_protest_002:
+    category: CRISIS
+    essence_weights:
+      anarchism: 1.5
+      absurdism: 1.4
+    choices:
+      - label: "Escalar el conflicto"
+        effect_tags: ["increase_unrest", "spawn_faction"]
+      - label: "Negociar un alto el fuego"
+        effect_tags: ["increase_technocracy"]
+
+  crisis_protest_003:
+    category: CRISIS
+    essence_weights:
+      anarchism: 1.7
+      absurdism: 1.1
+    choices:
+      - label: "Permitir que escale"
+        effect_tags: ["increase_anarchism", "increase_unrest"]
+      - label: "Establecer control militar"
+        effect_tags: ["increase_surveillance", "increase_technocracy"]
+
+  crisis_shortage_001:
+    category: CRISIS
+    essence_weights:
+      absurdism: 1.5
+      anarchism: 1.2
+    choices:
+      - label: "Racionar recursos"
+        effect_tags: ["lower_productivity", "increase_surveillance"]
+      - label: "Dejar que el mercado se ajuste"
+        effect_tags: ["increase_unrest", "increase_anarchism"]
+
+  crisis_shortage_002:
+    category: CRISIS
+    essence_weights:
+      absurdism: 1.6
+      technocracy: 1.1
+    choices:
+      - label: "Implementar distribución centralizada"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Permitir trueque libre"
+        effect_tags: ["increase_anarchism", "lower_productivity"]
+
+  crisis_shortage_003:
+    category: CRISIS
+    essence_weights:
+      absurdism: 1.4
+      ecology: 1.0
+    choices:
+      - label: "Crear reservas de emergencia"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+      - label: "Abandonar los mercados"
+        effect_tags: ["increase_absurdism", "increase_unrest"]
+
+  crisis_breakdown_001:
+    category: CRISIS
+    essence_weights:
+      anarchism: 1.3
+      absurdism: 1.5
+    choices:
+      - label: "Reiniciar el sistema manualmente"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Dejar que colapse naturalmente"
+        effect_tags: ["increase_absurdism", "increase_anarchism"]
+
+  crisis_breakdown_002:
+    category: CRISIS
+    essence_weights:
+      absurdism: 1.6
+      technocracy: 1.2
+    choices:
+      - label: "Reparar con recursos internos"
+        effect_tags: ["lower_productivity", "increase_technocracy"]
+      - label: "Buscar soluciones externas"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+
+  crisis_breakdown_003:
+    category: CRISIS
+    essence_weights:
+      absurdism: 1.7
+      thelema: 1.0
+    choices:
+      - label: "Aceptar la falla como destino"
+        effect_tags: ["increase_absurdism", "increase_ideological_drift"]
+      - label: "Forzar un reinicio completo"
+        effect_tags: ["increase_cult_risk", "increase_memory_decay"]
+
+  crisis_panic_001:
+    category: CRISIS
+    essence_weights:
+      absurdism: 1.6
+      anarchism: 1.3
+    choices:
+      - label: "Establecer comités de emergencia"
+        effect_tags: ["increase_surveillance", "increase_technocracy"]
+      - label: "Promover la desobediencia civil"
+        effect_tags: ["increase_anarchism", "increase_unrest"]
+
+  crisis_panic_002:
+    category: CRISIS
+    essence_weights:
+      anarchism: 1.4
+      absurdism: 1.5
+    choices:
+      - label: "Crear grupos de autodefensa"
+        effect_tags: ["spawn_faction", "increase_anarchism"]
+      - label: "Refugiarse en instituciones"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  crisis_panic_003:
+    category: CRISIS
+    essence_weights:
+      absurdism: 1.5
+      thelema: 1.1
+    choices:
+      - label: "Buscar sentido en el caos"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+      - label: "Ignorar las advertencias"
+        effect_tags: ["increase_absurdism", "increase_unrest"]
+
+  crisis_food_001:
+    category: CRISIS
+    essence_weights:
+      ecology: 1.4
+      absurdism: 1.2
+    choices:
+      - label: "Crear huertos comunales"
+        effect_tags: ["increase_ecology", "lower_productivity"]
+      - label: "Acumular suministros"
+        effect_tags: ["increase_surveillance", "increase_technocracy"]
+
+  crisis_food_002:
+    category: CRISIS
+    essence_weights:
+      anarchism: 1.3
+      ecology: 1.2
+    choices:
+      - label: "Distribuir sin control"
+        effect_tags: ["increase_anarchism", "increase_unrest"]
+      - label: "Establecer racionamiento"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  crisis_energy_001:
+    category: CRISIS
+    essence_weights:
+      technocracy: 1.5
+      ecology: 1.1
+    choices:
+      - label: "Reconectar la red manualmente"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Abandonar la red energética"
+        effect_tags: ["increase_ecology", "lower_productivity"]
+
+  crisis_energy_002:
+    category: CRISIS
+    essence_weights:
+      absurdism: 1.4
+      technocracy: 1.2
+    choices:
+      - label: "Priorizar servicios críticos"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Dejar que todo falle"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+
+  crisis_infrastructure_001:
+    category: CRISIS
+    essence_weights:
+      technocracy: 1.5
+      anarchism: 1.0
+    choices:
+      - label: "Reparar inmediatamente"
+        effect_tags: ["lower_productivity", "increase_technocracy"]
+      - label: "Reestructurar desde cero"
+        effect_tags: ["increase_anarchism", "increase_ideological_drift"]
+
+  crisis_infrastructure_002:
+    category: CRISIS
+    essence_weights:
+      absurdism: 1.6
+      ecology: 0.9
+    choices:
+      - label: "Aceptar el deterioro"
+        effect_tags: ["increase_absurdism", "increase_memory_decay"]
+      - label: "Restaurar con métodos antiguos"
+        effect_tags: ["increase_ecology", "lower_productivity"]
+
+  # ============================================================
+  # RITUAL (17 eventos) - gatherings, initiations, transgressions, sacrifices
+  # Esencias: thelema, absurdism
+  # ============================================================
+
+  ritual_gathering_001:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.6
+      absurdism: 1.3
+    choices:
+      - label: "Organizar una reunión masiva"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+      - label: "Disolver la congregación"
+        effect_tags: ["increase_anarchism", "lower_productivity"]
+
+  ritual_gathering_002:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.5
+      absurdism: 1.4
+    choices:
+      - label: "Invitar a forasteros"
+        effect_tags: ["spawn_faction", "increase_ideological_drift"]
+      - label: "Mantener la exclusividad"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+
+  ritual_gathering_003:
+    category: RITUAL
+    essence_weights:
+      absurdism: 1.5
+      thelema: 1.3
+    choices:
+      - label: "Permitir caos ritual"
+        effect_tags: ["increase_absurdism", "increase_cult_risk"]
+      - label: "Establecer protocolo estricto"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  ritual_initiation_001:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.7
+      anarchism: 1.0
+    choices:
+      - label: "Iniciar nuevos miembros"
+        effect_tags: ["increase_thelema", "spawn_faction"]
+      - label: "Rechazar candidatos"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  ritual_initiation_002:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.5
+      absurdism: 1.2
+    choices:
+      - label: "Practicar en secreto"
+        effect_tags: ["increase_cult_risk", "increase_memory_decay"]
+      - label: "Abierto a todos"
+        effect_tags: ["increase_absurdism", "increase_anarchism"]
+
+  ritual_initiation_003:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.6
+      ecology: 0.9
+    choices:
+      - label: "Legar conocimiento oral"
+        effect_tags: ["increase_thelema", "increase_memory_decay"]
+      - label: "Escribir secretos"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  ritual_transgression_001:
+    category: RITUAL
+    essence_weights:
+      absurdism: 1.6
+      thelema: 1.4
+    choices:
+      - label: "Romper tabúes establecidos"
+        effect_tags: ["increase_absurdism", "increase_cult_risk"]
+      - label: "Restaurar el orden"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  ritual_transgression_002:
+    category: RITUAL
+    essence_weights:
+      absurdism: 1.5
+      anarchism: 1.2
+    choices:
+      - label: "Celebrar la transgresión"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+      - label: "Castigar a los responsables"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  ritual_transgression_003:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.5
+      absurdism: 1.3
+    choices:
+      - label: "Reinterpretar las reglas"
+        effect_tags: ["increase_ideological_drift", "increase_thelema"]
+      - label: "Eliminar las reglas"
+        effect_tags: ["increase_absurdism", "increase_anarchism"]
+
+  ritual_sacrifice_001:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.7
+      absurdism: 1.2
+    choices:
+      - label: "Ofrecer recursos valiosos"
+        effect_tags: ["increase_thelema", "lower_productivity"]
+      - label: "Rechazar el sacrificio"
+        effect_tags: ["increase_anarchism", "increase_unrest"]
+
+  ritual_sacrifice_002:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.6
+      ecology: 1.0
+    choices:
+      - label: "Sacrificar objetos simbólicos"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+      - label: "Sacrificar tiempo de trabajo"
+        effect_tags: ["lower_productivity", "increase_ideological_drift"]
+
+  ritual_sacrifice_003:
+    category: RITUAL
+    essence_weights:
+      absurdism: 1.4
+      thelema: 1.3
+    choices:
+      - label: "Celebrar con símbolos"
+        effect_tags: ["increase_thelema", "increase_memory_decay"]
+      - label: "Destruir los símbolos"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+
+  ritual_cult_001:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.5
+      absurdism: 1.4
+    choices:
+      - label: "Fortalecer la jerarquía"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+      - label: "Dispersar el poder"
+        effect_tags: ["increase_anarchism", "increase_ideological_drift"]
+
+  ritual_cult_002:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.6
+      technocracy: 0.8
+    choices:
+      - label: "Crear nuevos rituales"
+        effect_tags: ["increase_thelema", "spawn_faction"]
+      - label: "Codificar rituales existentes"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  ritual_gathering_004:
+    category: RITUAL
+    essence_weights:
+      absurdism: 1.4
+      thelema: 1.3
+    choices:
+      - label: "Mezclar tradiciones"
+        effect_tags: ["increase_absurdism", "increase_ideological_drift"]
+      - label: "Purificar tradiciones"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+
+  ritual_gathering_005:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.5
+      ecology: 1.1
+    choices:
+      - label: "Integrar naturismo en rituales"
+        effect_tags: ["increase_ecology", "increase_thelema"]
+      - label: "Separar espíritu y naturaleza"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  ritual_mystery_001:
+    category: RITUAL
+    essence_weights:
+      thelema: 1.6
+      absurdism: 1.2
+    choices:
+      - label: "Revelar los misterios"
+        effect_tags: ["spawn_faction", "increase_memory_decay"]
+      - label: "Mantener el secreto"
+        effect_tags: ["increase_cult_risk", "increase_thelema"]
+
+  # ============================================================
+  # POLITICAL (17 eventos) - alliances, betrayals, reforms, collapses
+  # Esencias: technocracy, anarchism
+  # ============================================================
+
+  political_alliance_001:
+    category: POLITICAL
+    essence_weights:
+      technocracy: 1.5
+      anarchism: 1.3
+    choices:
+      - label: "Forjar una alianza formal"
+        effect_tags: ["increase_technocracy", "spawn_faction"]
+      - label: "Mantener independencia"
+        effect_tags: ["increase_anarchism", "lower_productivity"]
+
+  political_alliance_002:
+    category: POLITICAL
+    essence_weights:
+      technocracy: 1.4
+      ecology: 1.1
+    choices:
+      - label: "Aliarse con ecologistas"
+        effect_tags: ["increase_ecology", "increase_technocracy"]
+      - label: "Aliarse con tecnócratas"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  political_alliance_003:
+    category: POLITICAL
+    essence_weights:
+      anarchism: 1.5
+      thelema: 1.0
+    choices:
+      - label: "Coalición de autónomos"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+      - label: "Subordinarse a jerarquía"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  political_betrayal_001:
+    category: POLITICAL
+    essence_weights:
+      anarchism: 1.6
+      absurdism: 1.1
+    choices:
+      - label: "Traicionar por ideals"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+      - label: "Permanecer leal"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  political_betrayal_002:
+    category: POLITICAL
+    essence_weights:
+      technocracy: 1.5
+      absurdism: 0.9
+    choices:
+      - label: "Expulsar a los traidores"
+        effect_tags: ["increase_technocracy", "increase_unrest"]
+      - label: "Perdonar a todos"
+        effect_tags: ["increase_anarchism", "increase_ideological_drift"]
+
+  political_betrayal_003:
+    category: POLITICAL
+    essence_weights:
+      absurdism: 1.4
+      thelema: 1.1
+    choices:
+      - label: "Revelar secretos"
+        effect_tags: ["spawn_faction", "increase_memory_decay"]
+      - label: "Silenciar a los informados"
+        effect_tags: ["increase_surveillance", "increase_technocracy"]
+
+  political_reform_001:
+    category: POLITICAL
+    essence_weights:
+      technocracy: 1.6
+      ecology: 1.0
+    choices:
+      - label: "Implementar reforma gradual"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+      - label: "Radicalizar la reforma"
+        effect_tags: ["increase_unrest", "spawn_faction"]
+
+  political_reform_002:
+    category: POLITICAL
+    essence_weights:
+      anarchism: 1.4
+      technocracy: 1.2
+    choices:
+      - label: "Descentralizar el poder"
+        effect_tags: ["increase_anarchism", "increase_ideological_drift"]
+      - label: "Centralizar decisiones"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  political_reform_003:
+    category: POLITICAL
+    essence_weights:
+      technocracy: 1.5
+      thelema: 0.9
+    choices:
+      - label: "Reescribir las leyes"
+        effect_tags: ["increase_technocracy", "increase_memory_decay"]
+      - label: "Abrogar todas las leyes"
+        effect_tags: ["increase_absurdism", "increase_anarchism"]
+
+  political_collapse_001:
+    category: POLITICAL
+    essence_weights:
+      anarchism: 1.6
+      absurdism: 1.2
+    choices:
+      - label: "Dejar que colapse"
+        effect_tags: ["increase_anarchism", "increase_unrest"]
+      - label: "Rescatar las instituciones"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  political_collapse_002:
+    category: POLITICAL
+    essence_weights:
+      absurdism: 1.5
+      technocracy: 1.1
+    choices:
+      - label: "Reconstruir desde cero"
+        effect_tags: ["spawn_faction", "increase_ideological_drift"]
+      - label: "Restaurar el orden anterior"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  political_collapse_003:
+    category: POLITICAL
+    essence_weights:
+      anarchism: 1.5
+      thelema: 1.0
+    choices:
+      - label: "Crear un vacío de poder"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+      - label: "Llenar el vacío rápidamente"
+        effect_tags: ["increase_technocracy", "increase_cult_risk"]
+
+  political_faction_001:
+    category: POLITICAL
+    essence_weights:
+      technocracy: 1.4
+      anarchism: 1.3
+    choices:
+      - label: "Consolidar facciones"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Fomentar facciones múltiples"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+
+  political_faction_002:
+    category: POLITICAL
+    essence_weights:
+      anarchism: 1.5
+      ecology: 1.1
+    choices:
+      - label: "Unificar bajo una causa"
+        effect_tags: ["increase_anarchism", "increase_ecology"]
+      - label: "Permitir fragmentación"
+        effect_tags: ["spawn_faction", "increase_ideological_drift"]
+
+  political_faction_003:
+    category: POLITICAL
+    essence_weights:
+      technocracy: 1.5
+      thelema: 0.9
+    choices:
+      - label: "Neutralizar facciones"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+      - label: "Ignorar las facciones"
+        effect_tags: ["increase_absurdism", "increase_unrest"]
+
+  political_coup_001:
+    category: POLITICAL
+    essence_weights:
+      technocracy: 1.5
+      anarchism: 1.2
+    choices:
+      - label: "Apoyar al golpe"
+        effect_tags: ["increase_technocracy", "spawn_faction"]
+      - label: "Oponerse al golpe"
+        effect_tags: ["increase_anarchism", "increase_unrest"]
+
+  political_coup_002:
+    category: POLITICAL
+    essence_weights:
+      thelema: 1.4
+      absurdism: 1.1
+    choices:
+      - label: "Declarar lealtad al líder"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+      - label: "Rechazar toda autoridad"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+
+  # ============================================================
+  # DISCOVERY (16 eventos) - tech, memory, network, nature
+  # Esencias: technocracy, ecology
+  # ============================================================
+
+  discovery_tech_001:
+    category: DISCOVERY
+    essence_weights:
+      technocracy: 1.6
+      ecology: 1.1
+    choices:
+      - label: "Adoptar la nueva tecnología"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+      - label: "Rechazar la automatización"
+        effect_tags: ["increase_ecology", "increase_anarchism"]
+
+  discovery_tech_002:
+    category: DISCOVERY
+    essence_weights:
+      technocracy: 1.5
+      absurdism: 1.0
+    choices:
+      - label: "Integrar la tecnología"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Dejar que evolucione sola"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+
+  discovery_tech_003:
+    category: DISCOVERY
+    essence_weights:
+      technocracy: 1.6
+      thelema: 0.9
+    choices:
+      - label: "Patentear el descubrimiento"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Compartir libremente"
+        effect_tags: ["increase_anarchism", "increase_ecology"]
+
+  discovery_tech_004:
+    category: DISCOVERY
+    essence_weights:
+      ecology: 1.4
+      technocracy: 1.2
+    choices:
+      - label: "Aplicar a problemas ecológicos"
+        effect_tags: ["increase_ecology", "lower_productivity"]
+      - label: "Monopolizar para guerra"
+        effect_tags: ["increase_technocracy", "increase_unrest"]
+
+  discovery_memory_001:
+    category: DISCOVERY
+    essence_weights:
+      absurdism: 1.4
+      thelema: 1.2
+    choices:
+      - label: "Recuperar memorias perdidas"
+        effect_tags: ["increase_memory_decay", "increase_thelema"]
+      - label: "Dejar que la memoria se olvide"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+
+  discovery_memory_002:
+    category: DISCOVERY
+    essence_weights:
+      thelema: 1.5
+      anarchism: 1.0
+    choices:
+      - label: "Registrar en archivos"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Transmitir oralmente"
+        effect_tags: ["increase_thelema", "increase_memory_decay"]
+
+  discovery_memory_003:
+    category: DISCOVERY
+    essence_weights:
+      absurdism: 1.5
+      ecology: 1.0
+    choices:
+      - label: "Construir biblioteca"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+      - label: "Quemar los archivos"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+
+  discovery_network_001:
+    category: DISCOVERY
+    essence_weights:
+      technocracy: 1.6
+      anarchism: 1.1
+    choices:
+      - label: "Expandir la red"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Cerrar los nodos"
+        effect_tags: ["increase_anarchism", "lower_productivity"]
+
+  discovery_network_002:
+    category: DISCOVERY
+    essence_weights:
+      technocracy: 1.5
+      ecology: 1.0
+    choices:
+      - label: "Conectar todas las comunidades"
+        effect_tags: ["increase_technocracy", "increase_ecology"]
+      - label: "Dejar comunidades aisladas"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+
+  discovery_network_003:
+    category: DISCOVERY
+    essence_weights:
+      absurdism: 1.4
+      technocracy: 1.2
+    choices:
+      - label: "Crear red paralela"
+        effect_tags: ["spawn_faction", "increase_anarchism"]
+      - label: "Infiltrar redes existentes"
+        effect_tags: ["increase_surveillance", "increase_technocracy"]
+
+  discovery_nature_001:
+    category: DISCOVERY
+    essence_weights:
+      ecology: 1.6
+      absurdism: 1.1
+    choices:
+      - label: "Explorar el ecosistema"
+        effect_tags: ["increase_ecology", "lower_productivity"]
+      - label: "Proteger sin explorar"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  discovery_nature_002:
+    category: DISCOVERY
+    essence_weights:
+      ecology: 1.5
+      thelema: 1.0
+    choices:
+      - label: "Catalogar especies"
+        effect_tags: ["increase_technocracy", "increase_ecology"]
+      - label: "Respetar el misterio"
+        effect_tags: ["increase_absurdism", "increase_thelema"]
+
+  discovery_nature_003:
+    category: DISCOVERY
+    essence_weights:
+      ecology: 1.6
+      technocracy: 1.1
+    choices:
+      - label: "Dominar la naturaleza"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+      - label: "Convivir con naturaleza"
+        effect_tags: ["increase_ecology", "increase_anarchism"]
+
+  discovery_nature_004:
+    category: DISCOVERY
+    essence_weights:
+      absurdism: 1.4
+      ecology: 1.3
+    choices:
+      - label: "Aceptar lo incomprensible"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+      - label: "Documentar todo"
+        effect_tags: ["increase_technocracy", "increase_memory_decay"]
+
+  discovery_archive_001:
+    category: DISCOVERY
+    essence_weights:
+      technocracy: 1.5
+      thelema: 1.1
+    choices:
+      - label: "Digitalizar archivos"
+        effect_tags: ["increase_technocracy", "increase_memory_decay"]
+      - label: "Preservar en papel"
+        effect_tags: ["increase_ecology", "lower_productivity"]
+
+  discovery_archive_002:
+    category: DISCOVERY
+    essence_weights:
+      absurdism: 1.4
+      anarchism: 1.0
+    choices:
+      - label: "Abrir los archivos al público"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+      - label: "Clasificar como secretos"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  # ============================================================
+  # SOCIAL (16 eventos) - formations, fission, conflict, harmony, exclusion
+  # Esencias: anarchism, ecology
+  # ============================================================
+
+  social_formation_001:
+    category: SOCIAL
+    essence_weights:
+      anarchism: 1.6
+      ecology: 1.2
+    choices:
+      - label: "Formar nueva comunidad"
+        effect_tags: ["spawn_faction", "increase_anarchism"]
+      - label: "Unirse a comunidad existente"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  social_formation_002:
+    category: SOCIAL
+    essence_weights:
+      anarchism: 1.5
+      thelema: 1.0
+    choices:
+      - label: "Crear grupo autónomo"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+      - label: "Integrar en estructura"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  social_formation_003:
+    category: SOCIAL
+    essence_weights:
+      ecology: 1.4
+      anarchism: 1.3
+    choices:
+      - label: "Fundar eco-comunidad"
+        effect_tags: ["increase_ecology", "spawn_faction"]
+      - label: "Expandir comunidad urbana"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  social_fission_001:
+    category: SOCIAL
+    essence_weights:
+      anarchism: 1.5
+      absurdism: 1.2
+    choices:
+      - label: "Permitir escisión"
+        effect_tags: ["spawn_faction", "increase_anarchism"]
+      - label: "Impedir la división"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  social_fission_002:
+    category: SOCIAL
+    essence_weights:
+      absurdism: 1.4
+      thelema: 1.1
+    choices:
+      - label: "Celebrar la escisión"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+      - label: "Llorar la separación"
+        effect_tags: ["increase_thelema", "lower_productivity"]
+
+  social_fission_003:
+    category: SOCIAL
+    essence_weights:
+      anarchism: 1.5
+      technocracy: 1.0
+    choices:
+      - label: "Fragmentar voluntariamente"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+      - label: "Forzar la reunificación"
+        effect_tags: ["increase_technocracy", "increase_unrest"]
+
+  social_conflict_001:
+    category: SOCIAL
+    essence_weights:
+      anarchism: 1.5
+      ecology: 1.2
+    choices:
+      - label: "Mediar el conflicto"
+        effect_tags: ["increase_ecology", "lower_productivity"]
+      - label: "Escalar el conflicto"
+        effect_tags: ["increase_unrest", "spawn_faction"]
+
+  social_conflict_002:
+    category: SOCIAL
+    essence_weights:
+      absurdism: 1.4
+      technocracy: 1.1
+    choices:
+      - label: "Abrazar el caos"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+      - label: "Restaurar el orden"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  social_conflict_003:
+    category: SOCIAL
+    essence_weights:
+      anarchism: 1.6
+      absurdism: 0.9
+    choices:
+      - label: "Desafiar a la autoridad"
+        effect_tags: ["increase_anarchism", "increase_unrest"]
+      - label: "Someterse a la autoridad"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  social_conflict_004:
+    category: SOCIAL
+    essence_weights:
+      ecology: 1.4
+      thelema: 1.0
+    choices:
+      - label: "Conflicto por recursos"
+        effect_tags: ["increase_unrest", "lower_productivity"]
+      - label: "Compartir recursos"
+        effect_tags: ["increase_ecology", "increase_anarchism"]
+
+  social_harmony_001:
+    category: SOCIAL
+    essence_weights:
+      ecology: 1.6
+      anarchism: 1.1
+    choices:
+      - label: "Celebrar la armonía"
+        effect_tags: ["increase_ecology", "spawn_faction"]
+      - label: "Perturbar la armonía"
+        effect_tags: ["increase_absurdism", "increase_ideological_drift"]
+
+  social_harmony_002:
+    category: SOCIAL
+    essence_weights:
+      thelema: 1.4
+      ecology: 1.2
+    choices:
+      - label: "Fortalecer lazos sociales"
+        effect_tags: ["increase_thelema", "lower_productivity"]
+      - label: "Romper los lazos"
+        effect_tags: ["increase_anarchism", "spawn_faction"]
+
+  social_harmony_003:
+    category: SOCIAL
+    essence_weights:
+      technocracy: 1.3
+      ecology: 1.2
+    choices:
+      - label: "Institucionalizar la armonía"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+      - label: "Mantener armonía natural"
+        effect_tags: ["increase_ecology", "increase_anarchism"]
+
+  social_exclusion_001:
+    category: SOCIAL
+    essence_weights:
+      anarchism: 1.4
+      absurdism: 1.2
+    choices:
+      - label: "Expulsar a los diferentes"
+        effect_tags: ["spawn_faction", "increase_unrest"]
+      - label: "Incluir a todos"
+        effect_tags: ["increase_anarchism", "increase_ecology"]
+
+  social_exclusion_002:
+    category: SOCIAL
+    essence_weights:
+      technocracy: 1.5
+      thelema: 1.0
+    choices:
+      - label: "Crear grupos exclusivos"
+        effect_tags: ["increase_cult_risk", "increase_thelema"]
+      - label: "Abrir la membership"
+        effect_tags: ["increase_anarchism", "increase_ideological_drift"]
+
+  social_exclusion_003:
+    category: SOCIAL
+    essence_weights:
+      absurdism: 1.4
+      ecology: 1.1
+    choices:
+      - label: "Segregar por capacidades"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+      - label: "Mezclar todas las habilidades"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+
+  # ============================================================
+  # ENTROPY (16 eventos) - decay, forgetting, corruption, phantom
+  # Esencias: absurdism, thelema
+  # ============================================================
+
+  entropy_decay_001:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.6
+      thelema: 1.2
+    choices:
+      - label: "Dejar que decaiga"
+        effect_tags: ["increase_absurdism", "increase_memory_decay"]
+      - label: "Restaurar lo perdido"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  entropy_decay_002:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.5
+      anarchism: 1.0
+    choices:
+      - label: "Documentar el deterioro"
+        effect_tags: ["increase_memory_decay", "spawn_faction"]
+      - label: "Ignorar el deterioro"
+        effect_tags: ["increase_absurdism", "increase_unrest"]
+
+  entropy_decay_003:
+    category: ENTROPY
+    essence_weights:
+      thelema: 1.4
+      absurdism: 1.3
+    choices:
+      - label: "Aceptar la decadencia"
+        effect_tags: ["increase_absurdism", "increase_ideological_drift"]
+      - label: "Combatir la decadencia"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  entropy_forgetting_001:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.6
+      thelema: 1.1
+    choices:
+      - label: "Borrar los recuerdos"
+        effect_tags: ["increase_memory_decay", "spawn_faction"]
+      - label: "Preservar los recuerdos"
+        effect_tags: ["increase_thelema", "increase_technocracy"]
+
+  entropy_forgetting_002:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.5
+      ecology: 0.9
+    choices:
+      - label: "Olvidar tradiciones"
+        effect_tags: ["increase_memory_decay", "increase_ideological_drift"]
+      - label: "Revivir tradiciones"
+        effect_tags: ["increase_thelema", "increase_ecology"]
+
+  entropy_forgetting_003:
+    category: ENTROPY
+    essence_weights:
+      thelema: 1.4
+      absurdism: 1.2
+    choices:
+      - label: "Reescribir la historia"
+        effect_tags: ["increase_thelema", "increase_memory_decay"]
+      - label: "Dejar que el pasado muera"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+
+  entropy_corruption_001:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.5
+      technocracy: 1.2
+    choices:
+      - label: "Aceptar la corrupción"
+        effect_tags: ["spawn_faction", "increase_ideological_drift"]
+      - label: "Purgar la corrupción"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  entropy_corruption_002:
+    category: ENTROPY
+    essence_weights:
+      thelema: 1.4
+      absurdism: 1.3
+    choices:
+      - label: "Usar la corrupción a favor"
+        effect_tags: ["increase_cult_risk", "spawn_faction"]
+      - label: "Denunciar la corrupción"
+        effect_tags: ["increase_anarchism", "increase_unrest"]
+
+  entropy_corruption_003:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.6
+      anarchism: 1.0
+    choices:
+      - label: "Normalizar lo corrupto"
+        effect_tags: ["increase_absurdism", "increase_ideological_drift"]
+      - label: "Luchar contra lo corrupto"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  entropy_corruption_004:
+    category: ENTROPY
+    essence_weights:
+      ecology: 1.3
+      absurdism: 1.2
+    choices:
+      - label: "Degradar el medio ambiente"
+        effect_tags: ["lower_productivity", "increase_memory_decay"]
+      - label: "Restaurar ecosistemas"
+        effect_tags: ["increase_ecology", "spawn_faction"]
+
+  entropy_phantom_001:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.6
+      thelema: 1.3
+    choices:
+      - label: "Perseguir fantasmas"
+        effect_tags: ["increase_thelema", "spawn_faction"]
+      - label: "Ignorar las sombras"
+        effect_tags: ["increase_absurdism", "lower_productivity"]
+
+  entropy_phantom_002:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.5
+      anarchism: 1.1
+    choices:
+      - label: "Crear myths de lo perdido"
+        effect_tags: ["increase_thelema", "increase_memory_decay"]
+      - label: "Destruir myths"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+
+  entropy_phantom_003:
+    category: ENTROPY
+    essence_weights:
+      thelema: 1.5
+      ecology: 0.9
+    choices:
+      - label: "Venerar los restos"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+      - label: "Abandonar los restos"
+        effect_tags: ["increase_ecology", "increase_anarchism"]
+
+  entropy_phantom_004:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.5
+      thelema: 1.3
+    choices:
+      - label: "Habitar espacios vacíos"
+        effect_tags: ["spawn_faction", "increase_ideological_drift"]
+      - label: "Evitar los vacíos"
+        effect_tags: ["increase_technocracy", "increase_surveillance"]
+
+  entropy_void_001:
+    category: ENTROPY
+    essence_weights:
+      absurdism: 1.6
+      thelema: 1.2
+    choices:
+      - label: "Abrazar el vacío"
+        effect_tags: ["increase_absurdism", "spawn_faction"]
+      - label: "Llenar el vacío"
+        effect_tags: ["increase_technocracy", "lower_productivity"]
+
+  entropy_void_002:
+    category: ENTROPY
+    essence_weights:
+      thelema: 1.5
+      absurdism: 1.3
+    choices:
+      - label: "Crear rituales del vacío"
+        effect_tags: ["increase_thelema", "increase_cult_risk"]
+      - label: "Rechazar el vacío"
+        effect_tags: ["increase_anarchism", "increase_unrest"]

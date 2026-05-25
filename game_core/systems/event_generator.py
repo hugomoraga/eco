@@ -4,7 +4,8 @@ import uuid
 from typing import ClassVar
 
 from game_core.ai.base import AIAdapter, AIResponse
-from game_core.engine.random import SeededRandom
+from game_core.systems.random import SeededRandom
+from game_core.i18n import t
 
 
 class EffectTagValidator:
@@ -65,12 +66,117 @@ class GameEvent:
 
 
 class EventGenerator:
-    def __init__(self, adapter: AIAdapter, seed: int = 42):
+    def __init__(self, adapter: AIAdapter | None = None, seed: int = 42, pool=None):
         self.adapter = adapter
         self.rng = SeededRandom.get_instance(seed)
+        self.pool = pool
         self.unknown_tags_log: list[dict] = []
 
     def generate(self, context: dict) -> GameEvent:
+        """Generate an event using pool or fallback to AI adapter."""
+        # If we have a pool, use pool-based selection
+        if self.pool is not None:
+            return self._generate_from_pool(context)
+
+        # Otherwise use adapter if available, else fallback
+        if self.adapter is not None:
+            return self._generate_from_adapter(context)
+        else:
+            return self._generate_fallback(context)
+
+    def _generate_from_pool(self, context: dict) -> GameEvent:
+        """Generate event using the event pool (YAML)."""
+        world_state = context.get("world_state", {})
+        category = self.pool.select_category(world_state)
+        event_id = self.pool.select_event(category)
+
+        if not event_id:
+            return self._generate_fallback(context)
+
+        event_data = self.pool.get_event_data(event_id)
+        if not event_data:
+            return self._generate_fallback(context)
+
+        # Store event_id in event_data for i18n fallback in _enrich_text
+        event_data["id"] = event_id
+
+        # Use AI enrichment for title/summary if available, else i18n
+        if self.adapter is not None:
+            title, summary = self._enrich_text(event_data, context)
+        else:
+            # No AI adapter - use i18n directly
+            title = t(f"events:{event_id}:title")
+            summary = t(f"events:{event_id}:summary")
+
+        # Build causes from essence_weights keys
+        essence_weights = event_data.get("essence_weights", {})
+        causes = list(essence_weights.keys())
+
+        # Validate choices with EffectTagValidator
+        choices = self._validate_choices(event_data.get("choices", []))
+
+        return GameEvent(
+            event_id=event_id,
+            title=title,
+            summary=summary,
+            causes=causes,
+            choices=choices,
+            canonical=all(c.get("canonical", True) for c in choices),
+        )
+
+    def _enrich_text(self, event_data: dict, context: dict) -> tuple[str, str]:
+        """Use AI adapter to enrich title/summary while keeping structure from pool."""
+        enrichment_context = {
+            "event_data": event_data,
+            "language": context.get("language", "es"),
+            "purpose": "enrich_title_and_summary",
+        }
+
+        try:
+            response = self.adapter.generate_event(enrichment_context)
+            if response.success and isinstance(response.data, dict):
+                title = response.data.get("title", event_data.get("title", ""))
+                summary = response.data.get("summary", event_data.get("summary", ""))
+                return title, summary
+        except Exception:
+            pass
+
+        # Fallback: use i18n for title/summary if available in event_data
+        event_id = event_data.get("id", "")
+        if event_id:
+            title = t(f"events:{event_id}:title")
+            summary = t(f"events:{event_id}:summary")
+            if title != f"events:{event_id}:title":
+                return title, summary
+
+        return event_data.get("title", ""), event_data.get("summary", "")
+
+    def _validate_choices(self, choices: list[dict]) -> list[dict]:
+        """Validate effect_tags in choices with EffectTagValidator."""
+        validated_choices = []
+        for choice in choices:
+            effect_tags = choice.get("effect_tags", [])
+            validated_tags = []
+            is_canonical = True
+
+            for tag in effect_tags:
+                is_canon, exists = EffectTagValidator.validate(tag)
+                if not exists:
+                    self._log_unknown_tag(tag, {})
+                elif not is_canon:
+                    is_canonical = False
+                validated_tags.append(tag)
+
+            validated_choices.append({
+                "label": choice.get("label", "Unknown"),
+                "effect_tags": validated_tags,
+                "canonical": is_canonical,
+            })
+
+        return validated_choices
+
+    def _generate_from_adapter(self, context: dict) -> GameEvent:
+        """Generate event using AI adapter (original behavior)."""
         response = self.adapter.generate_event(context)
 
         if response.success and response.data:

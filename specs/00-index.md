@@ -34,6 +34,22 @@ Guía de lectura y dependencias entre especificaciones.
 || 25 | [console-logging](25-console-logging.md) | Output consola + logs detallados | 19 |
 || 26 | [dynamism](26-dynamism.md) | Diminishing returns + world evolution | 19 |
 || 27 | [tuning](27-tuning-diminishing-returns.md) | tuning.yaml + diminishing returns | 19 |
+| 28 | [turn-system-npc-templates](28-turn-system-npc-templates.md) | Turno jugador + NPC templates con diálogos i18n | 01, 02, 07, 08 |
+| 29 | [world-state-metrics](29-world-state-metrics.md) | World metrics: pressure, legitimacy, resources | 01, 02, 07, 08, 26 |
+| 30 | [living-circles](30-living-circles.md) | Circle members, growth, NPC spawning | 01, 02, 07, 08, 26, 28 |
+| 31 | [actions-with-consequences](31-actions-with-consequences.md) | Actions modify world state, real effects | 01, 02, 07, 08, 26, 29 |
+| 32 | [echo-spawning](32-echo-spawning.md) | Daughter echoes, essence mutation | 01, 02, 07, 08, 26, 27, 29 |
+|| 33 | [console-display](33-console-display.md) | Observer pattern, DebugLog, colors | 01, 02 | **deprecated** → superseded by 37 |
+| 34 | [events-system](34-events-system.md) | Event types, triggers, consequences on world | 01, 02, 13, 26, 29 |
+| 35 | [circle-system](35-circle-system.md) | Circle identity, members, names, history, growth | 01, 02, 07, 08, 26, 28, 29, 30 |
+| 36 | [player-input-system](36-player-input-system.md) | Input modes: autoplay, hybrid, player via .env | 01, 02, 07, 24 |
+| 37 | [tui](37-tui.md) | Terminal UI con rich + prompt_toolkit | 01, 19 | **deprecated** → reemplazada por 43 |
+| 38 | ~~[eco-agent](38-eco-agent.md)~~ | ~~CLI agent~~ → merged into 37 | - | **deprecated** |
+| 39 | [circle-names](39-circle-names.md) | Name generator + i18n | 01, 07, 23 |
+| 40 | [event-categorization](40-event-categorization.md) | 4 categorías eventos con consecuencias | 01, 02, 13, 26, 29 |
+| 41 | [tui](41-tui.md) | TUI legacy → refactor notes | - | **deprecated** → reemplazada por 43 |
+| 42 | [refactor-jerarquia](42-refactor-jerarquia.md) | Reorganizar: game_core/ motor, ui_core/ output, player_core/ input | 37, 11 |
+| 43 | [ui](43-ui.md) | Sistema UI unificado — fuente de verdad (reemplaza 37, 41) | 01, 19, 24, 42 | active |
 
 ## Gráfico de dependencias
 

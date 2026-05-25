@@ -1,0 +1,22 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from game_core.domain.entities import World
+
+from player_core.modes.base import InputSource
+
+
+class AutoplayInputSource(InputSource):
+    """Full autoplay — never asks for player input."""
+
+    @property
+    def mode(self) -> str:
+        return "autoplay"
+
+    def get_action(self, turn: int, world: World) -> str | None:
+        return None
+
+    def supports_realtime_override(self) -> bool:
+        return False

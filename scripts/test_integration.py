@@ -7,8 +7,9 @@ from __future__ import annotations
 import sys
 sys.path.insert(0, '.')
 
-from game_core.engine.pressure import DerivePressureCalculator, EconomyPressure
-from game_core.engine.event_generator import EventGenerator
+from game_core.systems.pressure import DerivePressureCalculator, EconomyPressure
+from game_core.systems.event_generator import EventGenerator
+from game_core.systems.event_pool import EventPool
 from game_core.domain.essence_effects import EssenceEffects
 from game_core.domain.npc_generator import NPCGenerator
 from game_core.domain.entities import Faction, Circle, Echo, World, WorldClock
@@ -98,7 +99,8 @@ def test_event_generator():
     )
 
     ai_adapter = MockAdapter()
-    event_gen = EventGenerator(ai_adapter, seed=42)
+    pool = EventPool()
+    event_gen = EventGenerator(ai_adapter, seed=42, pool=pool)
 
     print("  Generating events for 5 turns...")
 
@@ -131,24 +133,24 @@ def test_npc_generator():
         id="test_circle",
         name="Test Circle",
         essence="anarchism",
-        members=3,
+        member_ids=["echo1", "echo2", "echo3"],
         npcs=[]
     )
 
     print(f"  Circle: {circle.name}")
-    print(f"  Members: {circle.members}")
+    print(f"  Members: {circle.member_count}")
     print(f"  NPCs before: {len(circle.npcs)}")
 
     # Check threshold
     threshold = 3
-    if circle.members >= threshold:
+    if circle.member_count >= threshold:
         npc = npc_gen.generate({"essence": circle.essence, "context": "circle_growth"})
         circle.npcs.append(npc.id)
         print(f"  Generated NPC: {npc.name} (ID: {npc.id})")
         print(f"  NPCs after: {len(circle.npcs)}")
         print("  PASS: NPC generator working")
     else:
-        print(f"  FAIL: Circle has {circle.members} members, need {threshold}")
+        print(f"  FAIL: Circle has {circle.member_count} members, need {threshold}")
         assert False, "Circle should have 3+ members"
 
 
@@ -197,7 +199,8 @@ def test_full_integration():
 
     # 2. Generate event
     ai_adapter = MockAdapter()
-    event_gen = EventGenerator(ai_adapter, seed=42)
+    pool = EventPool()
+    event_gen = EventGenerator(ai_adapter, seed=42, pool=pool)
     context = {"turn": 1, "world_state": world, "faction": None, "event_type": "tick"}
     events = event_gen.generate(context)
     print(f"  Event generated: {events.title}")
@@ -205,7 +208,7 @@ def test_full_integration():
     # 3. Check NPC
     npc_gen = NPCGenerator(ai_adapter, seed=42)
     threshold = 3
-    if circle.members >= threshold:
+    if circle.member_count >= threshold:
         npc = npc_gen.generate({"essence": circle.essence, "context": "circle_growth"})
         circle.npcs.append(npc.id)
         print(f"  NPC created: {npc.name}")

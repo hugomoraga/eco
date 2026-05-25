@@ -18,6 +18,9 @@ class SeededRandom:
     def random(self) -> float:
         return self.rng.random()
 
+    def uniform(self, a: float, b: float) -> float:
+        return self.rng.uniform(a, b)
+
     def choice(self, seq: list) -> any:
         return self.rng.choice(seq)
 

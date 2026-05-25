@@ -4,7 +4,7 @@ import uuid
 from typing import ClassVar
 
 from game_core.domain.entities import IdeologicalTag, EssenceRegistry
-from game_core.engine.random import SeededRandom
+from game_core.systems.random import SeededRandom
 
 
 class TagGenerator:

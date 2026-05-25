@@ -4,7 +4,7 @@ import uuid
 
 from game_core.ai.base import AIAdapter
 from game_core.domain.npc import NPC
-from game_core.engine.random import SeededRandom
+from game_core.systems.random import SeededRandom
 
 
 class NPCGenerator:

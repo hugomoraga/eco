@@ -13,8 +13,8 @@ from game_core.autoplayer.models import (
     ADAPTIVE_RULES,
 )
 from game_core.domain.entities import Echo, World
-from game_core.engine.random import SeededRandom
-from game_core.tuning import tuning
+from game_core.systems.random import SeededRandom
+from game_core.utils.tuning import tuning
 
 
 class AutoplayerEngine:

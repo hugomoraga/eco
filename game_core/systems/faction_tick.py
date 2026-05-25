@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import ClassVar
 
 from game_core.domain.entities import Faction, World
-from game_core.engine.random import SeededRandom
+from game_core.systems.random import SeededRandom
 
 
 class FactionTickSystem:
@@ -55,7 +55,7 @@ class FactionTickSystem:
     def _calculate_score(
         self, faction: Faction, action: str, goal: str, world: World
     ) -> float:
-        from game_core.engine.pressure import DerivePressureCalculator, EconomyPressure
+        from game_core.systems.pressure import DerivePressureCalculator, EconomyPressure
 
         goal_alignment = 50.0
         available_resources = self._resource_score(faction)

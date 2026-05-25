@@ -8,6 +8,8 @@ dependencies = [
     "pyyaml>=6.0",
     "pytest>=8.0",
     "python-dotenv>=1.2.2",
+    "rich>=14.3.3",
+    "prompt_toolkit>=3.0.52",
 ]
 
 [project.scripts]

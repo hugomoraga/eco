@@ -37,10 +37,17 @@ class AutoplayConfig:
 
 
 @dataclass
+class InputConfig:
+    mode: Literal["autoplay", "hybrid", "player"] = "autoplay"
+    interactive_turns: int = 5
+
+
+@dataclass
 class Config:
     simulation: SimulationConfig = field(default_factory=SimulationConfig)
     ai: AIConfig = field(default_factory=AIConfig)
     autoplay: AutoplayConfig = field(default_factory=AutoplayConfig)
+    input_config: InputConfig = field(default_factory=InputConfig)
     i18n_language: Literal["es", "en"] = "es"
     verbose: bool = False
     run_dir: Path | None = None
@@ -63,6 +70,10 @@ class Config:
             autoplay=AutoplayConfig(
                 default_mode=os.getenv("ECO_AUTOPLAY_MODE", "autoplay"),
                 default_style=os.getenv("ECO_AUTOPLAY_STYLE", "preservationist"),
+            ),
+            input_config=InputConfig(
+                mode=os.getenv("ECO_INPUT_MODE", "autoplay"),
+                interactive_turns=int(os.getenv("ECO_INTERACTIVE_TURNS", "5")),
             ),
             i18n_language=os.getenv("ECO_LANG", "es"),
             verbose=_str_to_bool(os.getenv("ECO_VERBOSE", "false")),
