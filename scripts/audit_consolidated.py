@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-MVP Consolidated Audit
+MVP Consolidated Audit (actualizado a estructura real)
 
 Reads:
-  - Implementation files (audit_mvp logic)
+  - Implementation files
   - spec-19.md (status tracking table)
 
 Outputs:
@@ -44,8 +44,6 @@ def parse_spec19_status() -> dict:
 
     content = spec19.read_text()
 
-    # Extract spec status from the table
-    # Format: | 01 | Architecture | deprecated | v0.2.0 | ...
     specs = {}
     for line in content.split("\n"):
         if line.startswith("| ") and " | " in line:
@@ -60,30 +58,36 @@ def parse_spec19_status() -> dict:
 
 
 def audit_implementation() -> dict:
-    """Run implementation audit (same as original audit_mvp.py)."""
+    """Run implementation audit against current structure."""
     results = {}
 
-    section("Implementation Audit (spec-16)")
+    section("Implementation Audit")
 
-    # File structure
     base = Path("game_core")
+
+    # ─── File Structure (actual) ───────────────────────────────────────────
+    print(f"\n  {BOLD}File Structure (current){RESET}")
     files = [
         ("domain/entities.py", base / "domain" / "entities.py"),
         ("domain/city.py", base / "domain" / "city.py"),
         ("domain/npc.py", base / "domain" / "npc.py"),
-        ("engine/simulation.py", base / "engine" / "simulation.py"),
-        ("engine/random.py", base / "engine" / "random.py"),
+        ("domain/enums.py", base / "domain" / "enums.py"),
+        ("systems/simulation.py", base / "systems" / "simulation.py"),
+        ("systems/random.py", base / "systems" / "random.py"),
+        ("systems/pressure.py", base / "systems" / "pressure.py"),
+        ("systems/event_generator.py", base / "systems" / "event_generator.py"),
         ("actions/base.py", base / "actions" / "base.py"),
-        ("actions/echo_actions.py", base / "actions" / "echo_actions.py"),
-        ("data/essences.yaml", base / "data" / "essences.yaml"),
-        ("data/actions.yaml", base / "data" / "actions.yaml"),
+        ("actions/circle_actions.py", base / "actions" / "circle_actions.py"),
+        ("actions/social_actions.py", base / "actions" / "social_actions.py"),
+        ("autoplayer/engine.py", base / "autoplayer" / "engine.py"),
+        ("ai/base.py", base / "ai" / "base.py"),
+        ("essences.yaml", base.parent / "data" / "essences.yaml"),
     ]
 
-    print(f"\n  {BOLD}File Structure{RESET}")
     file_pass = all(check_row(name, f.exists()) for name, f in files)
     results["files"] = file_pass
 
-    # Domain entities
+    # ─── Domain Entities ────────────────────────────────────────────────────
     entities = base / "domain" / "entities.py"
     print(f"\n  {BOLD}Domain Entities{RESET}")
     if entities.exists():
@@ -94,6 +98,8 @@ def audit_implementation() -> dict:
             ("Faction class", "class Faction" in content),
             ("World class", "class World" in content),
             ("WorldClock class", "class WorldClock" in content),
+            ("Person class", "class Person" in content),
+            ("Host class", "class Host" in content),
             ("Pydantic BaseModel", "BaseModel" in content),
         ]
         entity_pass = all(check_row(name, cond) for name, cond in entity_checks)
@@ -101,46 +107,152 @@ def audit_implementation() -> dict:
         entity_pass = False
     results["entities"] = entity_pass
 
-    # Actions
+    # ─── Actions ────────────────────────────────────────────────────────────
+    print(f"\n  {BOLD}Actions (8 total){RESET}")
     actions_dir = base / "actions"
-    print(f"\n  {BOLD}Actions (spec-07){RESET}")
+    required_actions = [
+        "found_circle", "join_circle", "leave_circle",
+        "propagate_idea", "talk", "write_manifesto",
+        "sabotage", "ritualize"
+    ]
     if actions_dir.exists():
-        base_file = actions_dir / "base.py"
-        echo_file = actions_dir / "echo_actions.py"
-        required = ["found_circle", "propagate_idea", "talk", "write_manifesto", "sabotage", "ritualize"]
-        if base_file.exists():
-            content = base_file.read_text() + echo_file.read_text() if echo_file.exists() else ""
-            action_pass = all(check_row(f"action: {a}", a in content) for a in required)
-        else:
-            action_pass = False
+        all_content = ""
+        for f in ["base.py", "circle_actions.py", "social_actions.py", "manifesto_actions.py"]:
+            fp = actions_dir / f
+            if fp.exists():
+                all_content += fp.read_text()
+        action_pass = all(check_row(f"action: {a}", a in all_content) for a in required_actions)
     else:
         action_pass = False
     results["actions"] = action_pass
 
-    # Simulation
-    sim = base / "engine" / "simulation.py"
+    # ─── Systems ────────────────────────────────────────────────────────────
+    sim = base / "systems" / "simulation.py"
     print(f"\n  {BOLD}Simulation Engine{RESET}")
     if sim.exists():
         content = sim.read_text()
         sim_checks = [
-            ("Simulation class", "class Simulation" in content),
+            ("SimulationEngine class", "class SimulationEngine" in content),
             ("seed parameter", "seed" in content),
             ("JSONL logging", "jsonl" in content.lower() or ".jsonl" in content),
+            ("snapshots", "snapshot" in content.lower()),
+            ("autoplay support", "autoplay" in content.lower()),
         ]
         sim_pass = all(check_row(name, cond) for name, cond in sim_checks)
     else:
         sim_pass = False
     results["simulation"] = sim_pass
 
-    # Autoplay
-    run = base / "run.py"
-    print(f"\n  {BOLD}Autoplay Flag{RESET}")
-    if run.exists():
-        content = run.read_text()
-        autoplay_pass = check_row("--autoplay flag", "autoplay" in content)
+    # ─── Autoplayer ────────────────────────────────────────────────────────
+    auto = base / "autoplayer" / "engine.py"
+    print(f"\n  {BOLD}Autoplayer{RESET}")
+    if auto.exists():
+        content = auto.read_text()
+        auto_checks = [
+            ("AutoplayerEngine class", "class AutoplayerEngine" in content),
+            ("AutoplayMode enum", "AutoplayMode" in content),
+            ("PlayerStyles", "PLAYER_STYLES" in content),
+            ("select_action method", "def select_action" in content),
+            ("score_action method", "def score_action" in content),
+        ]
+        auto_pass = all(check_row(name, cond) for name, cond in auto_checks)
     else:
-        autoplay_pass = False
-    results["autoplay"] = autoplay_pass
+        auto_pass = False
+    results["autoplay"] = auto_pass
+
+    # ─── Pressure System ────────────────────────────────────────────────────
+    pressure = base / "systems" / "pressure.py"
+    print(f"\n  {BOLD}Pressure System{RESET}")
+    if pressure.exists():
+        content = pressure.read_text()
+        pressure_checks = [
+            ("DerivePressureCalculator", "class DerivePressureCalculator" in content),
+            ("EconomyPressure", "class EconomyPressure" in content),
+            ("calculate method", "def calculate" in content),
+        ]
+        pressure_pass = all(check_row(name, cond) for name, cond in pressure_checks)
+    else:
+        pressure_pass = False
+    results["pressure"] = pressure_pass
+
+    # ─── Event Generator ────────────────────────────────────────────────────
+    event_gen = base / "systems" / "event_generator.py"
+    print(f"\n  {BOLD}Event Generator{RESET}")
+    if event_gen.exists():
+        content = event_gen.read_text()
+        event_checks = [
+            ("EventGenerator class", "class EventGenerator" in content),
+            ("EffectTagValidator", "class EffectTagValidator" in content),
+            ("GameEvent class", "class GameEvent" in content),
+        ]
+        event_pass = all(check_row(name, cond) for name, cond in event_checks)
+    else:
+        event_pass = False
+    results["events"] = event_pass
+
+    # ─── AI Adapters ───────────────────────────────────────────────────────
+    ai_dir = base / "ai"
+    print(f"\n  {BOLD}AI Adapters{RESET}")
+    # MockAdapter is inline in ai/base.py
+    mock_inline = (ai_dir / "base.py").exists() and "MockAdapter" in (ai_dir / "base.py").read_text()
+    check_row("MockAdapter (inline in base.py)", mock_inline)
+    # Real adapters in adapters/
+    adapter_dir = ai_dir / "adapters"
+    for adapter in ["openai", "minimax"]:
+        adapter_file = adapter_dir / f"{adapter}_adapter.py"
+        exists = adapter_file.exists()
+        check_row(f"{adapter}_adapter.py", exists)
+    results["ai_adapters"] = mock_inline
+
+    # ─── Essences (20 esencias, spec-47) ───────────────────────────────────
+    essences_file = base.parent / "data" / "essences.yaml"
+    print(f"\n  {BOLD}Essences (spec-47: 20 esencias){RESET}")
+    if essences_file.exists():
+        content = essences_file.read_text()
+        # Count essences in YAML (top-level keys under 'essences:')
+        # Match lines like "  thelema:" at 2 spaces, all-lowercase
+        import re
+        essence_matches = re.findall(r'^  [a-z_]+:$', content, re.MULTILINE)
+        # Filter: only known essences (no 'name', 'description', 'attributes', etc.)
+        fake_keys = {'name', 'description', 'attributes', 'affinity_matrix', 'affinity_values',
+                     'affinity', 'alignment', 'essences'}
+        essence_names = [m.rstrip(':').strip() for m in essence_matches if m.rstrip(':').strip() not in fake_keys]
+        # Deduplicate (essences appear in both 'essences:' and 'affinity_matrix:' sections)
+        unique_essences = list(dict.fromkeys(essence_names))
+        essence_count = len(unique_essences)
+        check_row(f"essence count ({essence_count}/20)", essence_count >= 20)
+        checks_pass = essence_count >= 20
+        # Check key essences from spec-47
+        key_essences = ["anarchism", "technocracy", "absurdism", "thelema", "ecology", "capitalism", "socialism"]
+        for e in key_essences:
+            check_row(f"  - {e}", e in content)
+        results["essences"] = checks_pass
+    else:
+        results["essences"] = False
+
+    # ─── i18n ──────────────────────────────────────────────────────────────
+    i18n_dir = base / "i18n"
+    print(f"\n  {BOLD}i18n (es/en){RESET}")
+    if i18n_dir.exists():
+        es = (i18n_dir / "es.yaml").exists()
+        en = (i18n_dir / "en.yaml").exists()
+        check_row("es.yaml", es)
+        check_row("en.yaml", en)
+        results["i18n"] = es and en
+    else:
+        results["i18n"] = False
+
+    # ─── Tuning ────────────────────────────────────────────────────────────
+    tuning = base / "utils" / "tuning.py"
+    print(f"\n  {BOLD}Tuning System{RESET}")
+    if tuning.exists():
+        content = tuning.read_text()
+        tuning_pass = "diminishing" in content.lower() and "tuning" in content.lower()
+        check_row("tuning.py", True)
+        check_row("diminishing returns", "diminishing" in content.lower())
+        results["tuning"] = tuning_pass
+    else:
+        results["tuning"] = False
 
     return results
 
@@ -157,7 +269,6 @@ def display_spec_tracking(specs: dict) -> None:
         "draft": CYAN,
     }
 
-    # Group by status
     by_status = {}
     for num, info in sorted(specs.items()):
         status = info["status"]
@@ -176,17 +287,13 @@ def main():
     os.chdir(Path(__file__).parent.parent)
 
     print(f"\n{BOLD}{'=' * 60}")
-    print(" MVP CONSOLIDATED AUDIT")
+    print(" MVP CONSOLIDATED AUDIT (current)")
     print(f"{'=' * 60}{RESET}")
 
-    # Implementation audit
     impl_results = audit_implementation()
-
-    # Spec tracking from spec-19
     specs = parse_spec19_status()
     display_spec_tracking(specs)
 
-    # Summary
     section("SUMMARY")
 
     impl_pass = sum(1 for v in impl_results.values() if v)
@@ -208,13 +315,12 @@ def main():
         for status, count in sorted(status_counts.items()):
             print(f"    {status}: {count}")
 
-    # Overall status
     print(f"\n{BOLD}{'=' * 60}")
     if impl_pass == impl_total:
-        print(f"  {GREEN}✅ MVP 0 IMPLEMENTATION COMPLETE{RESET}")
+        print(f"  {GREEN}✅ MVP IMPLEMENTATION COMPLETE{RESET}")
         print(f"  Specs in spec-19: {len(specs)} tracked")
     else:
-        print(f"  {YELLOW}⚠️  MVP 0 implementation incomplete ({impl_pass}/{impl_total}){RESET}")
+        print(f"  {YELLOW}⚠️  Implementation incomplete ({impl_pass}/{impl_total}){RESET}")
     print(f"{'=' * 60}{RESET}")
 
     return 0 if impl_pass == impl_total else 1

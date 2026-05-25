@@ -1,0 +1,12 @@
+{"timestamp": "2026-05-25T00:13:24.460736", "turn": 1, "event_type": "tick", "data": {"turn": 1, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-25T00:13:24.464847", "turn": 2, "event_type": "tick", "data": {"turn": 2, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-25T00:13:24.478029", "turn": 3, "event_type": "tick", "data": {"turn": 3, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-25T00:13:24.481667", "turn": 4, "event_type": "tick", "data": {"turn": 4, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-25T00:13:32.157212", "turn": 5, "event_type": "event", "data": {"title": "El Consejo de Barriada Rechaza la Autoridad", "summary": "Los habitantes de un barrio periférico han formado un Consejo Autonomousco sin autorización del gobierno central, organizarón distribución de recursos y rechazaron la intervención estatal.", "canonical": true}}
+{"timestamp": "2026-05-25T00:13:32.159835", "turn": 5, "event_type": "tick", "data": {"turn": 5, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-25T00:13:32.164941", "turn": 6, "event_type": "tick", "data": {"turn": 6, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-25T00:13:32.170242", "turn": 7, "event_type": "tick", "data": {"turn": 7, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-25T00:13:32.174757", "turn": 8, "event_type": "tick", "data": {"turn": 8, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-25T00:13:32.179591", "turn": 9, "event_type": "tick", "data": {"turn": 9, "world_tick": 0, "action_result": null}}
+{"timestamp": "2026-05-25T00:13:41.265528", "turn": 10, "event_type": "event", "data": {"title": "Asamblea de vecinos toma gestión energética", "summary": "Los vecinos del distrito Norte han decidido organizarse para gestionar directamente la red eléctrica de su zona, rechazando la autoridad central.", "canonical": true}}
+{"timestamp": "2026-05-25T00:13:41.270777", "turn": 10, "event_type": "tick", "data": {"turn": 10, "world_tick": 1, "action_result": null}}

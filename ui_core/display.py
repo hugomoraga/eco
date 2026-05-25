@@ -27,8 +27,103 @@ class ConsoleDisplay:
     def __init__(self, console: Console | None = None):
         self.console = console or Console.get()
         self._last_metrics: dict[str, float] = {}
+        self._selected_civ_id: str = "default"
 
     # ─── SimulationObserver implementation ─────────────────────────────────
+
+    def on_world_start(self, world: World) -> None:
+        """Called once at simulation start, before turn 1."""
+        from game_core.domain.entities import CivAlignment
+
+        console = self.console
+        console.print()
+        console.rule("[bold cyan]WORLD INITIAL STATE[/bold cyan]", style="cyan")
+        console.print()
+
+        # ── 1. Civ ───────────────────────────────────────────────────────────
+        selected_civ = None
+        if hasattr(world, "civs") and world.civs:
+            for c in world.civs:
+                if c.meta_id == self._selected_civ_id:
+                    selected_civ = c
+                    break
+            if selected_civ is None:
+                selected_civ = world.civs[0]
+
+        if selected_civ:
+            console.print(f"[bold yellow]Civ:[/bold yellow] [cyan]{selected_civ.name}[/cyan]")
+            console.print(f"  [dim]{selected_civ.description}[/dim]")
+            console.print(f"  [dim]Dificultad: {selected_civ.difficulty} | "
+                          f"Poblacion: {selected_civ.population:,}[/dim]")
+            dom_essences = selected_civ.essence_profile.dominant_essences()
+            console.print(f"  [dim]Esencias dominantes: {', '.join(dom_essences) if dom_essences else '-'}[/dim]")
+            console.print()
+
+        # ── 2. Host ──────────────────────────────────────────────────────────
+        player_person = None
+        player_host = None
+        player_echo = None
+
+        for p in world.persons:
+            if p.type == "player":
+                player_person = p
+                break
+        if player_person:
+            player_host = world.get_host_for_person(player_person.id)
+        if player_host:
+            player_echo = world.get_echo(player_host.echo_id)
+
+        console.print("[bold yellow]Host:[/bold yellow]")
+        if player_person:
+            console.print(f"  [green]Persona:[/green] {player_person.name}")
+            if player_person.essence_profile:
+                dom = player_person.essence_profile.dominant_essences()
+                console.print(f"  [dim]  Esencias: {', '.join(dom) if dom else 'ninguna'}[/dim]")
+            console.print(f"  [dim]  Lealtad: {player_person.loyalty:.0f} | "
+                          f"Influencia: {player_person.influence:.0f}[/dim]")
+        if player_echo:
+            console.print(f"  [green]Echo:[/green] {player_echo.name}")
+            console.print(f"  [dim]  Fase: {player_echo.phase.value} | "
+                          f"Claridad: {player_echo.clarity:.0f}[/dim]")
+            dom_e = player_echo.dominant_essences
+            console.print(f"  [dim]  Esencias: {', '.join(dom_e) if dom_e else '-'}[/dim]")
+        console.print()
+
+        # ── 3. Persons destacadas (top 10 por influence) ───────────────────
+        console.print("[bold yellow]Persons Destacadas:[/bold yellow]")
+        npc_persons = [p for p in world.persons if p.type == "npc"]
+        sorted_persons = sorted(npc_persons, key=lambda x: x.influence, reverse=True)[:10]
+
+        if sorted_persons:
+            console.print(f"  [dim]{'Nombre':<18} {'Tipo':<12} {'Lealtad':<8} {'Influ.':<7} Esencias[/dim]")
+            console.print(f"  [dim]{'-'*65}[/dim]")
+            for p in sorted_persons:
+                dom = p.essence_profile.dominant_essences() if p.essence_profile else []
+                essences_str = ",".join(dom[:2]) if dom else "-"
+                alignment = ""
+                if selected_civ and selected_civ.id == p.civ_id:
+                    status = selected_civ.alignment_status(p.essence_profile)
+                    color = {"aligned": "green", "neutral": "yellow", "disident": "red"}.get(status.value, "dim")
+                    alignment = f"[{color}]{status.value[:4]}[/{color}]"
+                console.print(
+                    f"  [cyan]{p.name:<18}[/cyan] "
+                    f"[magenta]{p.archetype:<12}[/magenta] "
+                    f"[yellow]{p.loyalty:<8.0f}[/yellow] "
+                    f"[green]{p.influence:<7.0f}[/green] "
+                    f"[dim]{essences_str}[/dim] {alignment}"
+                )
+        else:
+            console.print("  [dim]Ninguna persona NPC en el mundo aun.[/dim]")
+        console.print()
+
+        # ── 4. Turn System ─────────────────────────────────────────────────
+        console.print("[bold yellow]Sistema de Turns:[/bold yellow]")
+        console.print("  [dim]- Cada turn = 1 accion del Echo (o del autoplayer)[/dim]")
+        console.print("  [dim]- 10 turns = 1 World Tick (cambio historico menor)[/dim]")
+        console.print("  [dim]- 100 World Ticks = 1 Historical Tick (era)[/dim]")
+        console.print()
+
+        console.rule(style="cyan")
 
     def on_turn_start(self, turn: int, world: World) -> None:
         """Called at the start of each turn, before any action is taken."""

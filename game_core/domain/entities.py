@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
+from enum import StrEnum
 from typing import TYPE_CHECKING, ClassVar
 
 from pydantic import BaseModel, Field
@@ -10,6 +11,7 @@ from game_core.domain.enums import (
     CircleEventType,
     CircleStatus,
     EchoPhase,
+    CivAlignment,
 )
 from game_core.domain.manifesto import Manifesto
 
@@ -20,6 +22,43 @@ class CircleEvent(BaseModel):
     echo_id: str | None = None
     npc_id: str | None = None
     details: str = ""
+
+
+# ─── Essence Profile (spec-47) ─────────────────────────────────────────
+
+class EssenceScore(BaseModel):
+    essence: str
+    value: float = Field(ge=0, le=100)
+
+    def to_key(self) -> str:
+        return self.essence
+
+
+class EssenceProfile(BaseModel):
+    dominant: list[EssenceScore] = Field(default_factory=list)
+    underlying: list[EssenceScore] = Field(default_factory=list)
+
+    def get(self, essence: str) -> float:
+        for s in self.dominant:
+            if s.essence == essence:
+                return s.value
+        for s in self.underlying:
+            if s.essence == essence:
+                return s.value
+        return 0.0
+
+    def dominant_essences(self, min_value: float = 15.0) -> list[str]:
+        return [s.essence for s in self.dominant if s.value >= min_value]
+
+    def to_weights(self) -> dict[str, float]:
+        """Return all essences as weights dict."""
+        result = {}
+        for s in self.dominant:
+            result[s.essence] = s.value
+        for s in self.underlying:
+            if s.essence not in result:
+                result[s.essence] = s.value
+        return result
 
 
 class WorldClock(BaseModel):
@@ -65,7 +104,6 @@ class Person(BaseModel):
     """
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str = ""
-    essence: str | None = None
     role: str = ""
     archetype: str = "neutral"
 
@@ -74,6 +112,12 @@ class Person(BaseModel):
 
     # Historial de Echo — permite saber si fue host anteriormente
     echo_id: str | None = None
+
+    # Civ a la que pertenece (spec-47)
+    civ_id: str | None = None
+
+    # Essence profile (spec-47) — reemplazó el campo único essence
+    essence_profile: EssenceProfile = Field(default_factory=EssenceProfile)
 
     # Faction membership
     faction_id: str | None = None
@@ -99,6 +143,10 @@ class Person(BaseModel):
 
     def heal(self, amount: float) -> None:
         self.vitality = min(100.0, self.vitality + amount)
+
+    @property
+    def dominant_essences(self) -> list[str]:
+        return self.essence_profile.dominant_essences()
 
 
 class Host(BaseModel):
@@ -151,7 +199,8 @@ class EchoAttribute(BaseModel):
 class Echo(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str = ""
-    essence: str = "anarchism"
+    essence: str = "anarchism"  # DEPRECATED — use essence_profile.dominant[0]
+    essence_profile: EssenceProfile = Field(default_factory=EssenceProfile)
     phase: EchoPhase = EchoPhase.DORMANT
     attributes: list[EchoAttribute] = Field(default_factory=list)
     genealogical_lineage: list[str] = Field(default_factory=list)
@@ -190,7 +239,11 @@ class Echo(BaseModel):
         """La esencia actual del Echo = última del lineage."""
         if self.genealogical_lineage:
             return self.genealogical_lineage[-1]
-        return None
+        return self.essence
+
+    @property
+    def dominant_essences(self) -> list[str]:
+        return self.essence_profile.dominant_essences()
 
     @property
     def clarity(self) -> float:
@@ -266,6 +319,70 @@ class Faction(BaseModel):
     radicalization: float = 0.0
 
 
+# ─── Civ (spec-47) ─────────────────────────────────────────────────────
+
+
+class Civ(BaseModel):
+    """Civilization — la Civ del mundo, con perfil de esencia dominante."""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    meta_id: str = ""                      # id del YAML (e.g. "default", "technocracy")
+    name: str = ""
+    description: str = ""
+    difficulty: str = "normal"
+
+    # Essence profile de la Civ (spec-47)
+    essence_profile: EssenceProfile = Field(default_factory=EssenceProfile)
+
+    # Metricas de mundo (copiadas del YAML, no del World)
+    population: int = 10000
+    stability: float = 50.0
+    pressure: float = 30.0
+    legitimacy: float = 60.0
+    resources_global: float = 70.0
+    crisis_threshold: float = 75.0
+    collapse_threshold: float = 15.0
+    resources: dict[str, float] = Field(default_factory=lambda: {
+        "food": 80, "infrastructure": 60, "energy": 50, "knowledge": 50, "legitimacy": 60,
+    })
+
+    # Balance target (spec-47: 70% aligned, 30% disident)
+    target_aligned_ratio: float = 0.70
+
+    @property
+    def dominant_essences(self) -> list[str]:
+        return self.essence_profile.dominant_essences()
+
+    def alignment_score(self, person_profile: EssenceProfile) -> float:
+        """
+        Calculate alignment 0-100 between person and Civ.
+        spec-47: weighted average of dominant vs dominant compatibilities.
+        """
+        score = 0.0
+        total_weight = 0.0
+
+        for pd in person_profile.dominant:
+            for cd in self.essence_profile.dominant:
+                affinity = EssenceRegistry.get_affinity(pd.essence, cd.essence)
+                # Ponderado por valores de ambos
+                weight = pd.value * cd.value / 100.0
+                score += affinity * weight / 100.0
+                total_weight += weight
+
+        if total_weight == 0:
+            return 50.0  # neutral por defecto
+
+        return min(100.0, max(0.0, score))
+
+    def alignment_status(self, person_profile: EssenceProfile) -> CivAlignment:
+        score = self.alignment_score(person_profile)
+        if score >= 60:
+            return CivAlignment.ALIGNED
+        elif score <= 40:
+            return CivAlignment.DISIDENT
+        else:
+            return CivAlignment.NEUTRAL
+
+
 class World(BaseModel):
     clock: WorldClock = Field(default_factory=WorldClock)
     echoes: list[Echo] = Field(default_factory=list)
@@ -278,6 +395,9 @@ class World(BaseModel):
 
     # Hosts activos — uno por Person.type="player"
     hosts: list[Host] = Field(default_factory=list)
+
+    # Civs disponibles en el mundo (spec-47)
+    civs: list[Civ] = Field(default_factory=list)
 
     population: int = 10000
     stability: float = 50.0
@@ -357,6 +477,30 @@ class World(BaseModel):
         if not ph:
             return None
         return self.get_echo(ph.echo_id)
+
+    def get_civ(self, civ_id: str) -> Civ | None:
+        for c in self.civs:
+            if c.id == civ_id:
+                return c
+        return None
+
+    def get_civ_by_meta_id(self, meta_id: str) -> Civ | None:
+        for c in self.civs:
+            if c.meta_id == meta_id:
+                return c
+        return None
+
+    def get_aligned_persons(self, civ_id: str) -> list[Person]:
+        civ = self.get_civ(civ_id)
+        if not civ:
+            return []
+        return [p for p in self.persons if civ.alignment_status(p.essence_profile) == CivAlignment.ALIGNED]
+
+    def get_disident_persons(self, civ_id: str) -> list[Person]:
+        civ = self.get_civ(civ_id)
+        if not civ:
+            return []
+        return [p for p in self.persons if civ.alignment_status(p.essence_profile) == CivAlignment.DISIDENT]
 
     # ──────────────────────────────────────────────────────────
     # Metrics
@@ -454,9 +598,11 @@ class EssenceRegistry:
         return cls._affinity_values.get(level, 25)
 
 
-# Rebuild models that reference each other to avoid forward-ref issues at runtime
+# Rebuild models (spec-47: ensure forward refs resolved after new fields added)
 Person.model_rebuild()
+Echo.model_rebuild()
 Host.model_rebuild()
 Circle.model_rebuild()
 Faction.model_rebuild()
 World.model_rebuild()
+Civ.model_rebuild()

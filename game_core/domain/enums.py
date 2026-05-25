@@ -41,3 +41,9 @@ class EventCategory(StrEnum):
     DISCOVERY = "discovery"
     SOCIAL = "social"
     ENTROPY = "entropy"
+
+
+class CivAlignment(StrEnum):
+    ALIGNED = "aligned"     # ≥60
+    NEUTRAL = "neutral"     # 40-60
+    DISIDENT = "disident"   # ≤40

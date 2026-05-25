@@ -34,6 +34,9 @@ def main() -> None:
                         choices=["mock", "openai", "minimax"],
                         help="AI adapter to use")
     parser.add_argument("--lang", type=str, choices=["es", "en"], help="Language")
+    parser.add_argument("--civ", type=str,
+                        choices=["default", "technocracy", "theocracy", "anarchist_utopia", "dark_ages"],
+                        default="default", help="Civilization template to use")
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     parser.add_argument("--headless", action="store_true", help="No console output")
     args = parser.parse_args()
@@ -73,6 +76,7 @@ def main() -> None:
         ai_adapter_type=ai_adapter_type,
         verbose=verbose,
         input_source=input_source,
+        civ_id=args.civ,
     )
 
     # ─── Observer (ui_core) ──────────────────────────────────────────

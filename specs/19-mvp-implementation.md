@@ -43,7 +43,7 @@
 || 20 | Integration | implemented | v0.2.0 | Connect 4 systems to simulation |
 | 21 | Testing Coverage | draft | v0.1.0 | Tests for 10 core systems |
 | 22 | AI Manifesto | draft | v0.1.0 | Generate manifesto text + extract tags |
-| 23 | i18n | draft | v0.1.0 | Spanish/English language system |
+| 23 | i18n | implemented | v0.2.0 | es.yaml + en.yaml functional |
 | 24 | Configuration | implemented | v0.2.0 | .env, config.yaml, API keys |
 | 25 | Console Logging | draft | v0.1.0 | Emoji console output + detailed logs |
 | 26 | Narrative Dynamism | draft | v0.1.0 | Living world, actions with teeth, NPCs, events |

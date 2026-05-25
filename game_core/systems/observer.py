@@ -25,6 +25,9 @@ class SimulationObserver(ABC):
     the simulation by returning values (read-only pattern).
     """
 
+    def on_world_start(self, world: World) -> None:
+        """Called once at simulation start, before turn 1."""
+
     def on_turn_start(self, turn: int, world: World) -> None:
         """Called at the start of each turn, before any action is taken."""
 

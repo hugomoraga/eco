@@ -30,6 +30,9 @@ from game_core.factory.echo import create_echo
 # Faction
 from game_core.factory.faction import create_faction
 
+# Civ
+from game_core.factory.civ import create_civ, create_all_civs, create_default_civ
+
 # Host
 from game_core.factory.host import create_host, create_host_for_echo, on_host_death
 
@@ -49,6 +52,10 @@ __all__ = [
     "create_echo",
     # Faction
     "create_faction",
+    # Civ
+    "create_civ",
+    "create_all_civs",
+    "create_default_civ",
     # Host
     "create_host",
     "create_host_for_echo",

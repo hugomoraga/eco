@@ -3,7 +3,7 @@ Echo factory — creates Echo entities.
 """
 from __future__ import annotations
 
-from game_core.domain.entities import Echo, EchoAttribute, EchoPhase
+from game_core.domain.entities import Echo, EchoAttribute, EchoPhase, EssenceProfile, EssenceScore
 from game_core.systems.random import SeededRandom
 
 
@@ -27,9 +27,14 @@ def create_echo(
             EchoAttribute(label="shadow", value=rng.randint(10, 40)),
         ]
 
+    # Build EssenceProfile (spec-47)
+    dominant = [EssenceScore(essence=essence, value=50.0)]
+    essence_profile = EssenceProfile(dominant=dominant, underlying=[])
+
     echo = Echo(
         name=name,
         essence=essence,
+        essence_profile=essence_profile,
         phase=phase,
         attributes=attributes,
     )

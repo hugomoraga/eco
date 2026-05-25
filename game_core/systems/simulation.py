@@ -62,8 +62,10 @@ class SimulationEngine:
         ai_adapter_type: str = "mock",
         verbose: bool = False,
         input_source: InputSource | None = None,
+        civ_id: str = "default",
     ):
         self.seed = seed
+        self.civ_id = civ_id
         self.max_turns = max_turns
         self.snapshot_interval = snapshot_interval
         self.autoplay = autoplay
@@ -121,18 +123,49 @@ class SimulationEngine:
         return run_dir
 
     def _create_initial_world(self) -> World:
-        from game_core.factory import create_echo, create_faction, create_ideas_for_essence
+        from game_core.factory import (
+            create_echo, create_faction, create_ideas_for_essence,
+            create_all_civs, create_civ,
+        )
         from game_core.systems.random import SeededRandom
+        from game_core.data.person_dataset import load_person_dataset
 
         rng = SeededRandom.get_instance(self.seed)
+
+        # ─── 1. Load Civ (spec-47) via factory
+        all_civs = create_all_civs(civs_dir="data/civs")
+        selected_civ = create_civ(self.civ_id, civs_dir="data/civs")
+        if selected_civ is None:
+            selected_civ = all_civs[0] if all_civs else None
+
+        # ─── 2. Load Persons from archetype dataset
+        all_persons = load_person_dataset(persons_dir="data/world/persons")
+        if selected_civ:
+            for p in all_persons:
+                p.civ_id = selected_civ.id
+
+        # ─── 3. Create Echo for the player (using host data from civ if available)
+        echo_essence = "anarchism"
+        echo_name = "First Echo"
+        if selected_civ and selected_civ.meta_id == "technocracy":
+            echo_essence = "technocracy"
+            echo_name = "Data Walker"
+        elif selected_civ and selected_civ.meta_id == "theocracy":
+            echo_essence = "monoteism"
+            echo_name = "The Anointed"
+        elif selected_civ and selected_civ.meta_id == "anarchist_utopia":
+            echo_essence = "anarchism"
+            echo_name = "Free Spirit"
+
         echo = create_echo(
-            name="First Echo",
-            essence="anarchism",
+            name=echo_name,
+            essence=echo_essence,
             seed=self.seed,
         )
-        echo.known_tags = create_ideas_for_essence(rng, "anarchism", count=3)
+        echo.known_tags = create_ideas_for_essence(rng, echo_essence, count=3)
         echo.genealogical_lineage = [echo.essence]
 
+        # ─── 4. Create faction
         faction = create_faction(
             name="Circulo Libertario",
             essence=echo.essence,
@@ -143,23 +176,41 @@ class SimulationEngine:
             goals=["expand_influence", "spread_idea"],
         )
 
+        # ─── 5. Build world with Civ metrics
         world = World(
             echoes=[echo],
             factions=[faction],
             active_echo_id=echo.id,
+            civs=all_civs,
+            population=selected_civ.population if selected_civ else 10000,
+            stability=selected_civ.stability if selected_civ else 50.0,
+            pressure=selected_civ.pressure if selected_civ else 30.0,
+            legitimacy=selected_civ.legitimacy if selected_civ else 60.0,
+            resources_global=selected_civ.resources_global if selected_civ else 70.0,
+            crisis_threshold=selected_civ.crisis_threshold if selected_civ else 75.0,
+            collapse_threshold=selected_civ.collapse_threshold if selected_civ else 15.0,
+            resources=selected_civ.resources if selected_civ else {
+                "food": 80, "infrastructure": 60, "energy": 50, "knowledge": 50, "legitimacy": 60,
+            },
         )
 
-        # Create initial player Person and wire into simulation
+        # ─── 6. Create player Person
         from game_core.domain.entities import Person
         from game_core.factory import create_host_for_echo
 
         player_person = Person(
-            name="First Echo",
-            essence=echo.essence,
-            type="npc",  # create_host_for_echo will convert to "player"
+            name=echo_name,
+            type="npc",
+            essence_profile=echo.essence_profile,
         )
+        if selected_civ:
+            player_person.civ_id = selected_civ.id
         world.persons.append(player_person)
-        create_host_for_echo(world, echo)  # finds npc, converts to player, creates Host
+        create_host_for_echo(world, echo)
+
+        # ─── 7. Add archetype persons to world
+        for p in all_persons[:20]:
+            world.persons.append(p)
 
         return world
     def _load_snapshot(self, path: str) -> World:
@@ -235,6 +286,9 @@ class SimulationEngine:
 
         # Initial world state snapshot
         self._notify("on_world_state", 0, self.world)
+
+        # World start screen — show Civ, Host, Persons, Turn System
+        self._notify("on_world_start", self.world)
 
         while self.turn < self.max_turns:
             self.turn += 1
