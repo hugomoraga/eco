@@ -1,24 +1,28 @@
 from datetime import datetime
 from typing import Any
 
-from rich.text import Text
+from rich.console import Console
+from rich.spinner import Spinner
+from rich.live import Live
 
-from ui_core.console import Console
+from ui_core.console import Console as UConsole
 from ui_core.styles import s
 from ui_core.components import Components
 from ui_core.history import History, Action
 from ui_core.session import Session
+from ui_core.input import CommandInput, COMMANDS
 
 
 class Interface:
     def __init__(self, world: Any, config: dict):
         self.world = world
         self.config = config
-        self.console = Console.get()
+        self.console = UConsole.get()
         self.history = History()
         self.session = Session(world, self.history, config)
         self.running = True
         self._turn = 0
+        self._live: Live | None = None
 
     def main_menu(self) -> str:
         self.console.print()
@@ -31,8 +35,6 @@ class Interface:
             title="ECO",
             border_style="cyan",
         )
-
-        from ui_core.input import CommandInput, COMMANDS
 
         choice = CommandInput.get_choice(
             ["Nueva Partida", "Continuar", "Cargar", "Salir"]
@@ -53,20 +55,31 @@ class Interface:
         self.console.print()
         self._show_action_menu(actions)
 
-        from ui_core.input import CommandInput, COMMANDS
+        while True:
+            cmd = CommandInput.get_command()
 
-        cmd = CommandInput.get_command()
+            if not cmd:
+                return {"action": None, "result": "No input"}
 
-        if cmd.startswith("/"):
-            return self._handle_command(cmd)
-        elif cmd.isdigit():
-            idx = int(cmd) - 1
-            if 0 <= idx < len(actions):
-                return self._do_action(actions[idx])
-        elif cmd == "q":
-            self.running = False
+            if cmd.startswith("/"):
+                return self._handle_command(cmd)
 
-        return {"action": None, "result": ""}
+            if cmd.isdigit():
+                idx = int(cmd) - 1
+                if 0 <= idx < len(actions):
+                    return self._do_action(actions[idx])
+                else:
+                    self.prompt_invalid_input(f"Numero fuera de rango (1-{len(actions)})")
+                    continue
+
+            if cmd == "q":
+                self.running = False
+                return {"action": None, "result": "Quit"}
+
+            self.prompt_invalid_input()
+
+    def prompt_invalid_input(self, message: str = "Entrada invalida") -> None:
+        self.console.print(f"[red]✗ {message}[/red]")
 
     def _get_world_metrics(self) -> dict[str, float]:
         return {
@@ -98,8 +111,6 @@ class Interface:
         self.console.print("[dim]Numero para actuar · /comando · q para menu[/dim]")
 
     def _handle_command(self, cmd: str) -> dict[str, Any]:
-        from game_core.interface.input import COMMANDS
-
         parts = cmd[1:].split()
         name = parts[0] if parts else ""
         args = parts[1:]
@@ -147,6 +158,28 @@ class Interface:
         table = Components.metrics_delta_table(old_metrics, new_metrics)
         self.console.print(table)
 
+    def show_loading(self, message: str = "Procesando...") -> None:
+        spinner = Spinner("dots", text=message)
+        self._live = Live(spinner, console=self.console._console, refresh_per_second=4)
+        self._live.start()
+
+    def stop_loading(self) -> None:
+        if self._live:
+            self._live.stop()
+            self._live = None
+
+    def show_transition(self, from_state: str, to_state: str) -> None:
+        self.console.print(f"[dim]{from_state} → {to_state}[/dim]")
+
+    def handle_action_error(self, action_name: str, error: Exception) -> None:
+        self.console.print(f"[red]✗ Error en {action_name}: {error}[/red]")
+        self.console.print("[dim]La simulacion continua...[/dim]")
+
+    def handle_critical_error(self, error: Exception) -> bool:
+        self.console.print(f"[red]█ ERROR CRITICO: {error}[/red]")
+        choice = CommandInput.get_choice(["Continuar", "Salir"])
+        return choice == 0
+
     def print_action_result(
         self,
         turn: int,
@@ -154,8 +187,6 @@ class Interface:
         message: str,
         details: dict | None = None,
     ) -> None:
-        from ui_core.styles import CYAN, YELLOW, RED, GREEN
-
         emoji_map = {
             "found_circle": "⭕",
             "join_circle": "⭕",
