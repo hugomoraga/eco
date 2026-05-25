@@ -10,7 +10,7 @@ Guía de lectura y dependencias entre especificaciones.
 | 01 | [architecture](01-architecture.md) | Stack, estructura carpetas, principios | - |
 | 02 | [domain](02-domain.md) | Modelo de entidades World, Civilizations | 01 |
 | 03 | [player-echo](03-player-echo.md) | Atributos, encarnación, reencarnación | 01, 02 |
-| 04 | [essences](04-essences.md) | Esencias, matriz de afinidades | 01 |
+| 04 | ~~[essences](04-essences.md)~~ | Sistema v1 → reemplazado por 47 | 01 | **deprecated** |
 | 05 | [ideas-doctrines](05-ideas-doctrines.md) | Ideas, doctrinas, genealogía memética | 04 |
 | 06 | [ideological-drift](06-ideological-drift.md) | Sistema de deriva (4 capas) | 04, 05 |
 | 07 | [actions](07-actions.md) | Acciones humanas, efectos, duración | 01, 02 |
@@ -25,31 +25,35 @@ Guía de lectura y dependencias entre especificaciones.
 | 16 | [mvp](16-mvp.md) | MVP propsetos, criterios de éxito | 01, todos |
 | 17 | [risks](17-risks.md) | Riesgos, mitigaciones | 01, todos |
 | 18 | [game-definition](18-game-definition.md) | Definición corta, visión | - |
-|| 19 | [mvp-implementation](19-mvp-implementation.md) | Tracking de implementaciones MVP | 16 |
-|| 20 | [integration](20-integration.md) | Conectar sistemas desconectados | 04, 09, 13 |
-|| 21 | [testing-coverage](21-testing-coverage.md) | Tests para 10 sistemas | 01-12 |
-|| 22 | [ai-manifesto](22-ai-manifesto.md) | Manifesto genera tags + influencia | 07, 12 |
-|| 23 | [i18n](23-i18n.md) | Sistema de idiomas (es/en) | 01 |
-|| 24 | [configuration](24-configuration.md) | .env, config.yaml, API keys centralizadas | 01 |
-|| 25 | [console-logging](25-console-logging.md) | Output consola + logs detallados | 19 |
-|| 26 | [dynamism](26-dynamism.md) | Diminishing returns + world evolution | 19 |
-|| 27 | [tuning](27-tuning-diminishing-returns.md) | tuning.yaml + diminishing returns | 19 |
+| 19 | [mvp-implementation](19-mvp-implementation.md) | Tracking de implementaciones MVP | 16 |
+| 20 | [integration](20-integration.md) | Conectar sistemas desconectados | 04, 09, 13 |
+| 21 | [testing-coverage](21-testing-coverage.md) | Tests para 10 sistemas | 01-12 |
+| 22 | [ai-manifesto](22-ai-manifesto.md) | Manifesto genera tags + influencia | 07, 12 |
+| 23 | [i18n](23-i18n.md) | Sistema de idiomas (es/en) | 01 |
+| 24 | [configuration](24-configuration.md) | .env, config.yaml, API keys centralizadas | 01 |
+| 25 | [console-logging](25-console-logging.md) | Output consola + logs detallados | 19 |
+| 26 | [dynamism](26-dynamism.md) | Diminishing returns + world evolution | 19 |
+| 27 | [tuning](27-tuning-diminishing-returns.md) | tuning.yaml + diminishing returns | 19 |
 | 28 | [turn-system-npc-templates](28-turn-system-npc-templates.md) | Turno jugador + NPC templates con diálogos i18n | 01, 02, 07, 08 |
 | 29 | [world-state-metrics](29-world-state-metrics.md) | World metrics: pressure, legitimacy, resources | 01, 02, 07, 08, 26 |
-| 30 | [living-circles](30-living-circles.md) | Circle members, growth, NPC spawning | 01, 02, 07, 08, 26, 28 |
+| 30 | [living-circles](30-living-circles.md) | Circle members, growth, NPC spawning | 01, 02, 07, 08, 26, 28, 29 |
 | 31 | [actions-with-consequences](31-actions-with-consequences.md) | Actions modify world state, real effects | 01, 02, 07, 08, 26, 29 |
 | 32 | [echo-spawning](32-echo-spawning.md) | Daughter echoes, essence mutation | 01, 02, 07, 08, 26, 27, 29 |
-|| 33 | [console-display](33-console-display.md) | Observer pattern, DebugLog, colors | 01, 02 | **deprecated** → superseded by 37 |
+| 33 | ~~[console-display](33-console-display.md)~~ | Observer pattern, DebugLog, colors | 01, 02 | **deprecated** → superseded by 43 |
 | 34 | [events-system](34-events-system.md) | Event types, triggers, consequences on world | 01, 02, 13, 26, 29 |
 | 35 | [circle-system](35-circle-system.md) | Circle identity, members, names, history, growth | 01, 02, 07, 08, 26, 28, 29, 30 |
 | 36 | [player-input-system](36-player-input-system.md) | Input modes: autoplay, hybrid, player via .env | 01, 02, 07, 24 |
-| 37 | [tui](37-tui.md) | Terminal UI con rich + prompt_toolkit | 01, 19 | **deprecated** → reemplazada por 43 |
+| 37 | ~~[tui](37-tui.md)~~ | Terminal UI con rich + prompt_toolkit | 01, 19 | **deprecated** → reemplazada por 43 |
 | 38 | ~~[eco-agent](38-eco-agent.md)~~ | ~~CLI agent~~ → merged into 37 | - | **deprecated** |
 | 39 | [circle-names](39-circle-names.md) | Name generator + i18n | 01, 07, 23 |
 | 40 | [event-categorization](40-event-categorization.md) | 4 categorías eventos con consecuencias | 01, 02, 13, 26, 29 |
-| 41 | [tui](41-tui.md) | TUI legacy → refactor notes | - | **deprecated** → reemplazada por 43 |
-| 42 | [refactor-jerarquia](42-refactor-jerarquia.md) | Reorganizar: game_core/ motor, ui_core/ output, player_core/ input | 37, 11 |
-| 43 | [ui](43-ui.md) | Sistema UI unificado — fuente de verdad (reemplaza 37, 41) | 01, 19, 24, 42 | active |
+| 41 | ~~[tui](41-tui.md)~~ | TUI legacy → refactor notes | - | **deprecated** → reemplazada por 43 |
+| 42 | ~~[refactor-jerarquia](42-refactor-jerarquia.md)~~ | Reorganizar: game_core/ motor, ui_core/ output, player_core/ input | 37, 11 | **deprecated** → reemplazada por 43 |
+| 43 | [ui](43-ui.md) | Sistema UI unificado — fuente de verdad (reemplaza 33, 37, 41, 42) | 01, 19, 24, 42 | **active** |
+| 44 | ~~[domain-entities](44-domain-entities.md)~~ | Duplicado de 02-domain → deprecated | 01 | **deprecated** |
+| 45 | ~~[domain-refactor](45-domain-refactor.md)~~ | Refactor incompleto → merge en 43 | 01, 02 | **deprecated** |
+| 46 | [world-generation](46-world-generation.md) | Civilization templates + Person dataset + IA generation | 01, 02, 03, 19, 28, 30, 43 | draft |
+| 47 | [essence-system-v2](47-essence-system-v2.md) | EssenceProfile, 20 essencias, matriz compatibilidades, mutación | 01 | **active** |
 
 ## Gráfico de dependencias
 

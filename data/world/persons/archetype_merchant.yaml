@@ -4,120 +4,1040 @@ persons:
   - id: "arch_merchant_001"
     name: "Trader Hassan"
     archetype_tags: [merchant, wanderer]
-    essence_pool: 8
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 10
+        - essence: "pragmatism"
+          value: 5
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 30
     tags: [shrewd, mobile, pragmatic]
   - id: "arch_merchant_002"
     name: "Lakshmi Devi"
     archetype_tags: [merchant, artisan]
-    essence_pool: 12
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 15
+        - essence: "pragmatism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 45
     tags: [industrious, fair, calculating]
   - id: "arch_merchant_003"
     name: "Marco Bellini"
     archetype_tags: [merchant, artist]
-    essence_pool: 7
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 10
+        - essence: "romanticism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 38
     tags: [charismatic, creative, persuasive]
   - id: "arch_merchant_004"
     name: "Sven Johansson"
     archetype_tags: [merchant, scholar]
-    essence_pool: 10
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 12
+        - essence: "capitalism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 50
     tags: [knowledgeable, honest, thorough]
   - id: "arch_merchant_005"
     name: "Priya Sharma"
     archetype_tags: [merchant, mystic]
-    essence_pool: 14
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 12
+        - essence: "mysticism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 42
     tags: [intuitive, perceptive, networked]
   - id: "arch_merchant_006"
     name: "Franz Klein"
     archetype_tags: [merchant, leader]
-    essence_pool: 20
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 20
+        - essence: "feudalism"
+          value: 12
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 58
     tags: [authoritative, wealthy, influential]
   - id: "arch_merchant_007"
     name: "Amira Faisal"
     archetype_tags: [merchant, warrior]
-    essence_pool: 18
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 18
+        - essence: "pragmatism"
+          value: 10
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 52
     tags: [protective, shrewd, fearless]
   - id: "arch_merchant_008"
     name: "Giovanni Costa"
     archetype_tags: [merchant, artisan]
-    essence_pool: 25
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 20
+        - essence: "rationalism"
+          value: 15
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 65
     tags: [skilled, patient, reputable]
   - id: "arch_merchant_009"
     name: "Mei Xiang"
     archetype_tags: [merchant, scholar]
-    essence_pool: 28
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 22
+        - essence: "capitalism"
+          value: 18
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 68
     tags: [analytical, wise, connected]
   - id: "arch_merchant_010"
     name: "Trader Vasco"
     archetype_tags: [merchant, wanderer]
-    essence_pool: 30
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 25
+        - essence: "pragmatism"
+          value: 18
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 72
     tags: [adventurous, persuasive, worldly]
   - id: "arch_merchant_011"
     name: "Goldman Samuel"
     archetype_tags: [merchant, leader]
-    essence_pool: 35
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 30
+        - essence: "feudalism"
+          value: 20
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 75
     tags: [commanding, ambitious, empire_builder]
   - id: "arch_merchant_012"
     name: "Rashida Begum"
     archetype_tags: [merchant, mystic]
-    essence_pool: 38
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 28
+        - essence: "capitalism"
+          value: 22
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 78
     tags: [intuitive, respected, strategic]
   - id: "arch_merchant_013"
     name: "Chandra Gupta"
     archetype_tags: [merchant, artisan]
-    essence_pool: 42
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 32
+        - essence: "capitalism"
+          value: 28
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 82
     tags: [masterful, innovative, legendary]
   - id: "arch_merchant_014"
     name: "Magnate Elena"
     archetype_tags: [merchant, leader]
-    essence_pool: 40
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 35
+        - essence: "pragmatism"
+          value: 25
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 85
     tags: [tycoon, visionary, relentless]
   - id: "arch_merchant_015"
     name: "Banker Wei"
     archetype_tags: [merchant, scholar]
-    essence_pool: 48
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 35
+        - essence: "capitalism"
+          value: 30
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 80
     tags: [cunning, intellectual, powerful]
   - id: "arch_merchant_016"
     name: "Commercial Prince"
     archetype_tags: [merchant, artisan]
-    essence_pool: 52
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 42
+        - essence: "pragmatism"
+          value: 30
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 88
     tags: [master_trader, legendary, wealthy]
   - id: "arch_merchant_017"
     name: "Tycoon Josef"
     archetype_tags: [merchant, leader]
-    essence_pool: 55
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 45
+        - essence: "feudalism"
+          value: 35
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 92
     tags: [magnificent, dominating, imperial]
   - id: "arch_merchant_018"
     name: "Fortune Builder"
     archetype_tags: [merchant, wanderer]
-    essence_pool: 50
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 40
+        - essence: "thelema"
+          value: 30
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 90
     tags: [savvy, legendary, unstoppable]
   - id: "arch_merchant_019"
     name: "Commerce Queen"
     archetype_tags: [merchant, artist]
-    essence_pool: 58
+    essence:
+      dominant:
+        - essence: "romanticism"
+          value: 45
+        - essence: "capitalism"
+          value: 38
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 95
     tags: [artistic, imperial, destined]
   - id: "arch_merchant_020"
     name: "Legendary Tycoon"
     archetype_tags: [merchant, leader]
-    essence_pool: 70
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 55
+        - essence: "thelema"
+          value: 40
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 98
     tags: [mythic, all_conquering, legendary]

@@ -4,120 +4,1038 @@ persons:
   - id: "mixed_establishment_001"
     name: "Bureaucrat Chen"
     archetype_tags: [scholar, merchant]
-    essence_pool: 8
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 10
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 65
     tags: [procedural, meticulous, orderly]
   - id: "mixed_establishment_002"
     name: "Courtier Lady"
     archetype_tags: [artist, mystic]
-    essence_pool: 12
+    essence:
+      dominant:
+        - essence: "romanticism"
+          value: 12
+        - essence: "mysticism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 70
     tags: [gracious, networked, influential]
   - id: "mixed_establishment_003"
     name: "Official Priest"
     archetype_tags: [mystic, scholar]
-    essence_pool: 7
+    essence:
+      dominant:
+        - essence: "monoteism"
+          value: 12
+        - essence: "rationalism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 75
     tags: [devout, formal, traditional]
   - id: "mixed_establishment_004"
     name: "Treasury Keeper"
     archetype_tags: [merchant, artisan]
-    essence_pool: 10
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 12
+        - essence: "pragmatism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 72
     tags: [shrewd, careful, reliable]
   - id: "mixed_establishment_005"
     name: "Palace Guard"
     archetype_tags: [warrior, leader]
-    essence_pool: 15
+    essence:
+      dominant:
+        - essence: "feudalism"
+          value: 15
+        - essence: "stoicism"
+          value: 10
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 80
     tags: [fierce, loyal, vigilant]
   - id: "mixed_establishment_006"
     name: "Minister Advisor"
     archetype_tags: [scholar, leader]
-    essence_pool: 20
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 20
+        - essence: "feudalism"
+          value: 15
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 78
     tags: [wise, strategic, authoritative]
   - id: "mixed_establishment_007"
     name: "High Courtier"
     archetype_tags: [merchant, artisan]
-    essence_pool: 18
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 20
+        - essence: "pragmatism"
+          value: 15
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 82
     tags: [wealthy, connected, diplomatic]
   - id: "mixed_establishment_008"
     name: "Royal Chronicler"
     archetype_tags: [scholar, artist]
-    essence_pool: 25
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 22
+        - essence: "romanticism"
+          value: 18
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 85
     tags: [eloquent, historical, respected]
   - id: "mixed_establishment_009"
     name: "Crown General"
     archetype_tags: [warrior, leader]
-    essence_pool: 28
+    essence:
+      dominant:
+        - essence: "feudalism"
+          value: 28
+        - essence: "stoicism"
+          value: 20
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 88
     tags: [commanding, victorious, legendary]
   - id: "mixed_establishment_010"
     name: "Aristocrat Lord"
     archetype_tags: [leader, mystic]
-    essence_pool: 30
+    essence:
+      dominant:
+        - essence: "feudalism"
+          value: 28
+        - essence: "monoteism"
+          value: 20
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 85
     tags: [noble, commanding, privileged]
   - id: "mixed_establishment_011"
     name: "Chancellor Supreme"
     archetype_tags: [scholar, leader]
-    essence_pool: 35
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 30
+        - essence: "feudalism"
+          value: 25
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 90
     tags: [authoritative, intellectual, supreme]
   - id: "mixed_establishment_012"
     name: "Imperial Architect"
     archetype_tags: [artisan, scholar]
-    essence_pool: 38
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 32
+        - essence: "pragmatism"
+          value: 25
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 92
     tags: [masterful, visionary, foundational]
   - id: "mixed_establishment_013"
     name: "Royal Mystic"
     archetype_tags: [mystic, artist]
-    essence_pool: 42
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 35
+        - essence: "romanticism"
+          value: 28
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 88
     tags: [enigmatic, revered, influential]
   - id: "mixed_establishment_014"
     name: "High Priestess"
     archetype_tags: [mystic, leader]
-    essence_pool: 40
+    essence:
+      dominant:
+        - essence: "monoteism"
+          value: 35
+        - essence: "mysticism"
+          value: 28
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 95
     tags: [divine, commanding, sacred]
   - id: "mixed_establishment_015"
     name: "Grand Vizier"
     archetype_tags: [scholar, merchant]
-    essence_pool: 48
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 40
+        - essence: "capitalism"
+          value: 32
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 90
     tags: [powerful, calculating, legendary]
   - id: "mixed_establishment_016"
     name: "Crown Prince"
     archetype_tags: [leader, warrior]
-    essence_pool: 52
+    essence:
+      dominant:
+        - essence: "feudalism"
+          value: 42
+        - essence: "stoicism"
+          value: 35
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 95
     tags: [destined, commanding, imperial]
   - id: "mixed_establishment_017"
     name: "Divine Monarch"
     archetype_tags: [leader, mystic]
-    essence_pool: 55
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 45
+        - essence: "monoteism"
+          value: 38
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 98
     tags: [divine, all_powerful, celestial]
   - id: "mixed_establishment_018"
     name: "Sovereign Eternal"
     archetype_tags: [scholar, artist]
-    essence_pool: 50
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 42
+        - essence: "romanticism"
+          value: 38
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 95
     tags: [enlightened, immortal, all_ruling]
   - id: "mixed_establishment_019"
     name: "Imperial Incarnate"
     archetype_tags: [warrior, leader]
-    essence_pool: 58
+    essence:
+      dominant:
+        - essence: "feudalism"
+          value: 48
+        - essence: "thelema"
+          value: 38
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 98
     tags: [mythic, all_conquering, legendary]
   - id: "mixed_establishment_020"
     name: "Establishment Eternal"
     archetype_tags: [leader, mystic]
-    essence_pool: 70
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 55
+        - essence: "thelema"
+          value: 45
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 99
     tags: [mythic, all_establishing, divine]

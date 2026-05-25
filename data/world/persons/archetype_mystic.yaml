@@ -4,120 +4,1038 @@ persons:
   - id: "arch_mystic_001"
     name: "Sister Agnes"
     archetype_tags: [mystic, scholar]
-    essence_pool: 10
+    essence:
+      dominant:
+        - essence: "monoteism"
+          value: 12
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 3
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 5
     loyalty: 40
     tags: [devout, intuitive, curious]
   - id: "arch_mystic_002"
     name: "Lama Tenzin"
     archetype_tags: [mystic, wanderer]
-    essence_pool: 14
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 10
+        - essence: "animism"
+          value: 5
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 32
     tags: [serene, wise, wandering]
   - id: "arch_mystic_003"
     name: "Zara Moonweaver"
     archetype_tags: [mystic, artist]
-    essence_pool: 8
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 8
+        - essence: "romanticism"
+          value: 5
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 45
     tags: [artistic, dreamy, perceptive]
   - id: "arch_mystic_004"
     name: "Father Brennan"
     archetype_tags: [mystic, leader]
-    essence_pool: 12
+    essence:
+      dominant:
+        - essence: "monoteism"
+          value: 15
+        - essence: "stoicism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 55
     tags: [devout, charismatic, steadfast]
   - id: "arch_mystic_005"
     name: "Yemaya Priestess"
     archetype_tags: [mystic, warrior]
-    essence_pool: 15
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 15
+        - essence: "polytheism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 38
     tags: [fierce, spiritual, protective]
   - id: "arch_mystic_006"
     name: "Oracle Keiko"
     archetype_tags: [mystic, artisan]
-    essence_pool: 20
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 18
+        - essence: "animism"
+          value: 10
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 60
     tags: [prophetic, skilled, cryptic]
   - id: "arch_mystic_007"
     name: "Druid Morven"
     archetype_tags: [mystic, scholar]
-    essence_pool: 25
+    essence:
+      dominant:
+        - essence: "animism"
+          value: 20
+        - essence: "mysticism"
+          value: 15
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 65
     tags: [natural, scholarly, ancient]
   - id: "arch_mystic_008"
     name: "Seeress Amira"
     archetype_tags: [mystic, merchant]
-    essence_pool: 22
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 18
+        - essence: "pragmatism"
+          value: 12
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 52
     tags: [astute, visionary, pragmatic]
   - id: "arch_mystic_009"
     name: "Hermit Cedric"
     archetype_tags: [mystic, wanderer]
-    essence_pool: 30
+    essence:
+      dominant:
+        - essence: "stoicism"
+          value: 25
+        - essence: "mysticism"
+          value: 15
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 70
     tags: [reclusive, profound, thoughtful]
   - id: "arch_mystic_010"
     name: "Shaman Ananya"
     archetype_tags: [mystic, leader]
-    essence_pool: 28
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 22
+        - essence: "polytheism"
+          value: 18
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 75
     tags: [tribal, wise, influential]
   - id: "arch_mystic_011"
     name: "Sage Liu Feng"
     archetype_tags: [mystic, scholar]
-    essence_pool: 35
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 25
+        - essence: "mysticism"
+          value: 20
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 78
     tags: [enlightened, methodical, respected]
   - id: "arch_mystic_012"
     name: "Enchanter Lysander"
     archetype_tags: [mystic, artist]
-    essence_pool: 38
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 30
+        - essence: "romanticism"
+          value: 18
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 72
     tags: [creative, mesmerizing, enigmatic]
   - id: "arch_mystic_013"
     name: "Cardinal Vesper"
     archetype_tags: [mystic, leader]
-    essence_pool: 42
+    essence:
+      dominant:
+        - essence: "monoteism"
+          value: 35
+        - essence: "feudalism"
+          value: 25
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 82
     tags: [authority, devout, commanding]
   - id: "arch_mystic_014"
     name: "Rune Master Igor"
     archetype_tags: [mystic, artisan]
-    essence_pool: 40
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 32
+        - essence: "rationalism"
+          value: 20
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 85
     tags: [mysterious, skilled, traditional]
   - id: "arch_mystic_015"
     name: "Prophetess Nour"
     archetype_tags: [mystic, wanderer]
-    essence_pool: 45
+    essence:
+      dominant:
+        - essence: "monoteism"
+          value: 38
+        - essence: "mysticism"
+          value: 25
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 80
     tags: [visionary, nomadic, compelling]
   - id: "arch_mystic_016"
     name: "Archmage Celestine"
     archetype_tags: [mystic, scholar]
-    essence_pool: 52
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 40
+        - essence: "rationalism"
+          value: 30
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 88
     tags: [masterful, intellectual, arcane]
   - id: "arch_mystic_017"
     name: "Oracle Supreme"
     archetype_tags: [mystic, leader]
-    essence_pool: 58
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 48
+        - essence: "thelema"
+          value: 30
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 92
     tags: [prophetic, legendary, revered]
   - id: "arch_mystic_018"
     name: "Grandmaster Zephyr"
     archetype_tags: [mystic, warrior]
-    essence_pool: 48
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 40
+        - essence: "stoicism"
+          value: 35
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 90
     tags: [enigmatic, formidable, wise]
   - id: "arch_mystic_019"
     name: "Ascendant Mira"
     archetype_tags: [mystic, artist]
-    essence_pool: 55
+    essence:
+      dominant:
+        - essence: "romanticism"
+          value: 45
+        - essence: "mysticism"
+          value: 35
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 95
     tags: [transcendent, creative, enlightened]
   - id: "arch_mystic_020"
     name: "Legendary One"
     archetype_tags: [mystic, leader]
-    essence_pool: 70
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 55
+        - essence: "thelema"
+          value: 40
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 98
     tags: [mythic, all_powerful, destined]

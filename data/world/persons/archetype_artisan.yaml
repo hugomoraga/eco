@@ -4,120 +4,1038 @@ persons:
   - id: "arch_artisan_001"
     name: "Apprentice Kai"
     archetype_tags: [artisan, wanderer]
-    essence_pool: 8
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 10
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 32
     tags: [eager, restless, learning]
   - id: "arch_artisan_002"
     name: "Weaver Fatima"
     archetype_tags: [artisan, mystic]
-    essence_pool: 12
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 12
+        - essence: "pragmatism"
+          value: 5
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 45
     tags: [patient, intuitive, traditional]
   - id: "arch_artisan_003"
     name: "Smith Henrik"
     archetype_tags: [artisan, warrior]
-    essence_pool: 7
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 12
+        - essence: "feudalism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 55
     tags: [strong, stubborn, skilled]
   - id: "arch_artisan_004"
     name: "Potter Mei"
     archetype_tags: [artisan, scholar]
-    essence_pool: 10
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 12
+        - essence: "pragmatism"
+          value: 8
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 48
     tags: [mindful, analytical, grounded]
   - id: "arch_artisan_005"
     name: "Carpenter Sven"
     archetype_tags: [artisan, merchant]
-    essence_pool: 15
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 15
+        - essence: "capitalism"
+          value: 10
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 42
     tags: [practical, shrewd, reliable]
   - id: "arch_artisan_006"
     name: "Tailor Amira"
     archetype_tags: [artisan, artist]
-    essence_pool: 20
+    essence:
+      dominant:
+        - essence: "romanticism"
+          value: 18
+        - essence: "pragmatism"
+          value: 12
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 62
     tags: [creative, detail_oriented, graceful]
   - id: "arch_artisan_007"
     name: "Jeweler Ravi"
     archetype_tags: [artisan, leader]
-    essence_pool: 18
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 18
+        - essence: "feudalism"
+          value: 12
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 58
     tags: [precise, ambitious, artistic]
   - id: "arch_artisan_008"
     name: "Glassblower Lukas"
     archetype_tags: [artisan, mystic]
-    essence_pool: 25
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 20
+        - essence: "pragmatism"
+          value: 15
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 68
     tags: [delicate, passionate, mystical]
   - id: "arch_artisan_009"
     name: "Metalworker Yuki"
     archetype_tags: [artisan, warrior]
-    essence_pool: 28
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 22
+        - essence: "feudalism"
+          value: 18
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 72
     tags: [fierce, durable, masterful]
   - id: "arch_artisan_010"
     name: "Leatherworker Isabel"
     archetype_tags: [artisan, scholar]
-    essence_pool: 30
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 25
+        - essence: "pragmatism"
+          value: 18
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 75
     tags: [studious, practical, wise]
   - id: "arch_artisan_011"
     name: "Master Craftsman"
     archetype_tags: [artisan, leader]
-    essence_pool: 35
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 30
+        - essence: "feudalism"
+          value: 22
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 78
     tags: [authoritative, legendary, skilled]
   - id: "arch_artisan_012"
     name: "Artisan Grandmaster"
     archetype_tags: [artisan, mystic]
-    essence_pool: 38
+    essence:
+      dominant:
+        - essence: "mysticism"
+          value: 32
+        - essence: "pragmatism"
+          value: 25
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 82
     tags: [enigmatic, supreme, respected]
   - id: "arch_artisan_013"
     name: "Guild Master Chen"
     archetype_tags: [artisan, merchant]
-    essence_pool: 42
+    essence:
+      dominant:
+        - essence: "capitalism"
+          value: 35
+        - essence: "pragmatism"
+          value: 25
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 85
     tags: [powerful, connected, influential]
   - id: "arch_artisan_014"
     name: "Supreme Architect"
     archetype_tags: [artisan, artist]
-    essence_pool: 40
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 35
+        - essence: "romanticism"
+          value: 28
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 88
     tags: [visionary, creative, commanding]
   - id: "arch_artisan_015"
     name: "Legendary Builder"
     archetype_tags: [artisan, wanderer]
-    essence_pool: 48
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 40
+        - essence: "thelema"
+          value: 30
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 80
     tags: [innovative, traveled, masterful]
   - id: "arch_artisan_016"
     name: "Grand Forger"
     archetype_tags: [artisan, warrior]
-    essence_pool: 52
+    essence:
+      dominant:
+        - essence: "feudalism"
+          value: 42
+        - essence: "pragmatism"
+          value: 32
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 90
     tags: [master_smith, legendary, unstoppable]
   - id: "arch_artisan_017"
     name: "Guild Sovereign"
     archetype_tags: [artisan, leader]
-    essence_pool: 55
+    essence:
+      dominant:
+        - essence: "feudalism"
+          value: 45
+        - essence: "capitalism"
+          value: 35
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 92
     tags: [imperial, commanding, destined]
   - id: "arch_artisan_018"
     name: "Artisan Supreme"
     archetype_tags: [artisan, scholar]
-    essence_pool: 50
+    essence:
+      dominant:
+        - essence: "rationalism"
+          value: 42
+        - essence: "pragmatism"
+          value: 35
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 90
     tags: [brilliant, wise, legendary]
   - id: "arch_artisan_019"
     name: "Creator Divine"
     archetype_tags: [artisan, artist]
-    essence_pool: 58
+    essence:
+      dominant:
+        - essence: "romanticism"
+          value: 48
+        - essence: "pragmatism"
+          value: 38
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 95
     tags: [transcendent, divine, masterful]
   - id: "arch_artisan_020"
     name: "Immortal Maker"
     archetype_tags: [artisan, leader]
-    essence_pool: 70
+    essence:
+      dominant:
+        - essence: "pragmatism"
+          value: 55
+        - essence: "thelema"
+          value: 40
+      underlying:
+        - essence: "thelema"
+          value: 0
+        - essence: "monoteism"
+          value: 0
+        - essence: "polytheism"
+          value: 0
+        - essence: "animism"
+          value: 0
+        - essence: "atheism"
+          value: 0
+        - essence: "absurdism"
+          value: 0
+        - essence: "nihilism"
+          value: 0
+        - essence: "existentialism"
+          value: 0
+        - essence: "humanism"
+          value: 0
+        - essence: "pragmatism"
+          value: 0
+        - essence: "ecology"
+          value: 0
+        - essence: "technocracy"
+          value: 0
+        - essence: "anarchism"
+          value: 0
+        - essence: "feudalism"
+          value: 0
+        - essence: "socialism"
+          value: 0
+        - essence: "capitalism"
+          value: 0
+        - essence: "mysticism"
+          value: 0
+        - essence: "rationalism"
+          value: 0
+        - essence: "romanticism"
+          value: 0
+        - essence: "stoicism"
+          value: 0
     loyalty: 98
     tags: [mythic, all_powerful, legendary]
