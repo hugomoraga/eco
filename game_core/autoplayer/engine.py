@@ -10,10 +10,13 @@ from game_core.autoplayer.models import (
     Goal,
 )
 from game_core.systems.random import SeededRandom
+from game_core.utils.logger import get_logger
 from game_core.utils.tuning import tuning
 
 if TYPE_CHECKING:
     from game_core.domain.entities import Echo, World
+
+log = get_logger(__name__)
 
 
 class AutoplayerEngine:
@@ -133,6 +136,7 @@ class AutoplayerEngine:
     ) -> AutoplayDecision:
         if self.take_control_requested:
             self.take_control_requested = False
+            log.info("autoplay_decision", turn=world.clock.action_tick, selected_action="", reason="take_control_requested")
             return AutoplayDecision(
                 turn=world.clock.action_tick,
                 selected_action="",
@@ -152,6 +156,10 @@ class AutoplayerEngine:
         alternatives = [
             {"action": a, "score": s} for a, s in sorted(action_scores.items(), key=lambda x: x[1], reverse=True) if a != best_action
         ]
+
+        log.info("autoplay_decision", turn=world.clock.action_tick, echo_name=echo.name,
+                 selected_action=best_action, score=best_score, style=self.style.name,
+                 metrics=metrics, action_scores=action_scores)
 
         return AutoplayDecision(
             turn=world.clock.action_tick,

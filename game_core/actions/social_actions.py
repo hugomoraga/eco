@@ -6,9 +6,12 @@ from typing import TYPE_CHECKING
 
 from game_core.actions.base import Action, ActionContext, ActionResult
 from game_core.i18n import t
+from game_core.utils.logger import get_logger
 
 if TYPE_CHECKING:
     from game_core.domain.entities import Echo, World
+
+log = get_logger(__name__)
 
 
 # ─── Action Metadata ──────────────────────────────────────────────────────────
@@ -41,7 +44,7 @@ class PropagateIdea(Action):
         if not echo.known_tags:
             return ActionResult(
                 success=False,
-                message=t("actions:no_ideas_to_propagate", default="No hay ideas para propagar"),
+                message=t("actions:no_ideas_to_propagate"),
                 state_delta={"tags_propagated": 0},
                 tags_created=[],
                 social_cost=self.social_cost,
@@ -54,7 +57,7 @@ class PropagateIdea(Action):
         if not targets:
             return ActionResult(
                 success=False,
-                message=t("actions:no_targets", default="No hay objetivos para propagar"),
+                message=t("actions:no_targets"),
                 state_delta={"tags_propagated": 0},
                 tags_created=[],
                 social_cost=self.social_cost,
@@ -84,7 +87,7 @@ class PropagateIdea(Action):
         self.last_used_tick = context.world_tick
         return ActionResult(
             success=propagated > 0,
-            message=t("actions:propagated_ideas", default=f"Propagó {propagated} ideas a {len(targets)} objetivos"),
+            message=t("actions:propagated_ideas", count=propagated, target_count=len(targets)),
             state_delta={"tags_propagated": propagated, "affinity_modifier": affinity_modifier},
             tags_created=tags_created,
             social_cost=self.social_cost,
@@ -100,15 +103,25 @@ class Sabotage(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
+        old_pressure = world.pressure
+        old_legitimacy = world.legitimacy
+        old_resources = world.resources_global
+
         world.legitimacy -= 5
         world.resources_global -= 5
         world.pressure += 8
         world.clamp_metrics()
 
         self.last_used_tick = context.world_tick
+
+        log.info("action_sabotage", action=self.name, echo_name=echo.name, world_tick=context.world_tick,
+                 pressure_change={"before": old_pressure, "after": world.pressure},
+                 legitimacy_change={"before": old_legitimacy, "after": world.legitimacy},
+                 resources_change={"before": old_resources, "after": world.resources_global})
+
         return ActionResult(
             success=True,
-            message=t("actions:sabotaged", default="Infraestructura saboteada"),
+            message=t("actions:sabotage"),
             state_delta={},
             social_cost=self.social_cost,
         )
@@ -143,7 +156,7 @@ class Ritualize(Action):
         self.last_used_tick = context.world_tick
         return ActionResult(
             success=True,
-            message=t("actions:ritual_completed", default="Ritual completado"),
+            message=t("actions:ritual_completed"),
             state_delta={},
             social_cost=self.social_cost,
         )
@@ -161,7 +174,7 @@ class Talk(Action):
         self.last_used_tick = context.world_tick
         return ActionResult(
             success=True,
-            message=t("actions:talked", default="Conversó"),
+            message=t("actions:talked"),
             state_delta={},
             social_cost=self.social_cost,
         )
@@ -182,14 +195,23 @@ class SpreadRumor(Action):
         success_chance = 0.5 + (echo.influence / 200)
 
         if rng.random() < success_chance:
+            old_pressure = world.pressure
+            old_legitimacy = world.legitimacy
+
             world.pressure += 5
             world.legitimacy -= 2
             world.clamp_metrics()
             self._apply_temporal_strain(echo, 2.0)
             self.last_used_tick = context.world_tick
+
+            log.info("action_spread_rumor", action=self.name, echo_name=echo.name, world_tick=context.world_tick,
+                     success=True, success_chance=success_chance,
+                     pressure_change={"before": old_pressure, "after": world.pressure},
+                     legitimacy_change={"before": old_legitimacy, "after": world.legitimacy})
+
             return ActionResult(
                 success=True,
-                message=t("actions:rumors_spread", default="Los rumores se difundieron por la civ"),
+                message=t("actions:rumors_spread"),
                 state_delta={"pressure_delta": 5, "legitimacy_delta": -2},
                 social_cost=self.social_cost,
             )
@@ -199,7 +221,7 @@ class SpreadRumor(Action):
             self.last_used_tick = context.world_tick
             return ActionResult(
                 success=False,
-                message=t("actions:rumors_fizzled", default="Los rumores se extinguieron antes de propagarse"),
+                message=t("actions:rumors_fizzled"),
                 state_delta={"legitimacy_delta": -1},
                 social_cost=self.social_cost,
             )
@@ -219,7 +241,7 @@ class RecruitFollower(Action):
         if not echo.circles:
             return ActionResult(
                 success=False,
-                message=t("actions:need_circle_to_recruit", default="Necesitas estar en un círculo para reclutar"),
+                message=t("actions:need_circle_to_recruit"),
                 state_delta={},
                 social_cost=self.social_cost,
             )
@@ -229,7 +251,7 @@ class RecruitFollower(Action):
         if not circle:
             return ActionResult(
                 success=False,
-                message=t("actions:circle_not_found", default="Círculo no encontrado"),
+                message=t("actions:circle_not_found"),
                 state_delta={},
                 social_cost=self.social_cost,
             )
@@ -245,7 +267,7 @@ class RecruitFollower(Action):
             self.last_used_tick = context.world_tick
             return ActionResult(
                 success=True,
-                message=t("actions:recruited", default=f"Reclutó un nuevo seguidor para {circle.name}"),
+                message=t("actions:recruited"),
                 state_delta={"new_members": 1, "influence_delta": 2},
                 social_cost=self.social_cost,
             )
@@ -255,7 +277,7 @@ class RecruitFollower(Action):
             self.last_used_tick = context.world_tick
             return ActionResult(
                 success=False,
-                message=t("actions:no_one_interested", default="Nadie estaba interesado"),
+                message=t("actions:no_one_interested"),
                 state_delta={"legitimacy_delta": -1},
                 social_cost=self.social_cost,
             )
@@ -284,7 +306,7 @@ class Negotiate(Action):
             self.last_used_tick = context.world_tick
             return ActionResult(
                 success=True,
-                message=t("actions:negotiated", default=f"Negoció {resource_gain} recursos"),
+                message=t("actions:negotiated"),
                 state_delta={"resources_delta": resource_gain, "legitimacy_delta": 2},
                 social_cost=self.social_cost,
             )
@@ -294,7 +316,7 @@ class Negotiate(Action):
             self.last_used_tick = context.world_tick
             return ActionResult(
                 success=False,
-                message=t("actions:negotiations_failed", default="Las negociaciones fallaron"),
+                message=t("actions:negotiations_failed"),
                 state_delta={"pressure_delta": 2},
                 social_cost=self.social_cost,
             )
@@ -337,7 +359,7 @@ class Ritual(Action):
             self.last_used_tick = context.world_tick
             return ActionResult(
                 success=True,
-                message=t("actions:powerful_ritual", default="Ritual poderoso completado"),
+                message=t("actions:powerful_ritual"),
                 state_delta={
                     "pressure_delta": -8,
                     "legitimacy_delta": 3,
@@ -353,7 +375,7 @@ class Ritual(Action):
             self.last_used_tick = context.world_tick
             return ActionResult(
                 success=False,
-                message=t("actions:ritual_backfired", default="El ritual salió mal"),
+                message=t("actions:ritual_backfired"),
                 state_delta={
                     "pressure_delta": 4,
                     "legitimacy_delta": -3,

@@ -10,6 +10,7 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "rich>=14.3.3",
     "prompt_toolkit>=3.0.52",
+    "structlog>=25.0",
 ]
 
 [project.scripts]

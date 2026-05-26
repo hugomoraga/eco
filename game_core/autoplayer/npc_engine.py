@@ -5,9 +5,12 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, ClassVar
 
 from game_core.systems.random import SeededRandom
+from game_core.utils.logger import get_logger
 
 if TYPE_CHECKING:
     from game_core.domain.entities import Person, World
+
+log = get_logger(__name__)
 
 
 ARCHETYPE_WEIGHTS: ClassVar[dict[str, dict[str, float]]] = {
@@ -253,6 +256,9 @@ class NPCEngine:
 
         best_action = max(action_scores, key=lambda a: (action_scores[a], self.rng.random()))
         best_score = action_scores[best_action]
+
+        log.debug("npc_decision", npc_id=npc.id, npc_name=npc.name or f"NPC-{npc.id[:8]}", archetype=archetype,
+                   action_scores=action_scores, selected_action=best_action, selected_score=best_score)
 
         return NPCDecision(
             npc_id=npc.id,

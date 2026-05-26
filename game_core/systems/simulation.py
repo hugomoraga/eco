@@ -9,33 +9,14 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from game_core.domain.entities import World, Host
-from game_core.factory import process_circle_tick, on_host_death
+from game_core.domain.entities import World, PlayerPerson
+from game_core.factory import process_circle_tick
 from game_core.i18n import get_lang
 from game_core.systems.damage import calculate_damage, can_deal_damage, should_deal_damage_to_player, apply_damage_to_npc
-from game_core.systems.reincarnation import is_in_transition, start_transition_turn, end_transition_turn, find_reincarnation_host, preserve_echo_legacy, transform_legacy, reincarnate_echo
+from game_core.systems.reincarnation import is_in_transition, start_transition_turn, end_transition_turn, preserve_echo_legacy, transform_legacy, reincarnate_echo
 from game_core.systems.observer import NullObserver, SimulationObserver
 from game_core.systems.random import SeededRandom
-from game_core.utils.debug_log import DebugLog
-
-
-class _NoOpDebugLog:
-    """Null object for debug logging when DebugLog is unavailable."""
-    def turn_start(self, turn, world): pass
-    def turn_end(self, turn, action): pass
-    def input_mode(self, mode, input_class): pass
-    def menu_interactive(self, interactive, reason): pass
-    def menu_raw_enable(self, fd): pass
-    def menu_raw_restore(self): pass
-    def key_captured(self, key_desc, raw): pass
-    def menu_selection(self, action, index): pass
-    def menu_autoplay_trigger(self, reason): pass
-    def fallback_to_text(self, reason): pass
-    def fallback_to_autoplay(self, reason): pass
-    def debug(self, msg): pass
-    def info(self, msg): pass
-    def warn(self, msg): pass
-    def error(self, msg, exc=None): pass
+from game_core.utils.logger import get_logger, init_logger
 
 
 class SimulationEngine:
@@ -88,9 +69,8 @@ class SimulationEngine:
         self.world = self._create_initial_world()
         self.autoplayer_engine = None
 
-        DebugLog.init(self.run_dir)
-        _dbg = DebugLog.get()
-        self._dbg = _dbg if _dbg else _NoOpDebugLog()
+        init_logger(self.run_dir)
+        self._log = get_logger(__name__)
 
         self._observers: list[SimulationObserver] = [NullObserver()]
 
@@ -114,7 +94,7 @@ class SimulationEngine:
                 try:
                     method(*args, **kwargs)
                 except Exception as e:
-                    self._dbg.error(f"Observer {type(obs).__name__}.{method_name} failed", e)
+                    self._log.exception("observer_notification_failed", observer=type(obs).__name__, method=method_name, error=str(e))
 
     # ─── World setup ─────────────────────────────────────────────────────
 
@@ -198,18 +178,11 @@ class SimulationEngine:
         )
 
         # ─── 6. Create player Person
-        from game_core.domain.entities import Person
-        from game_core.factory import create_host_for_echo
+        from game_core.factory import create_player_person_for_echo
 
-        player_person = Person(
-            name=echo_name,
-            type="npc",
-            essence_profile=echo.essence_profile,
-        )
-        if selected_civ:
+        player_person = create_player_person_for_echo(world, echo)
+        if player_person and selected_civ:
             player_person.civ_id = selected_civ.id
-        world.persons.append(player_person)
-        create_host_for_echo(world, echo)
 
         # ─── 7. Add archetype persons to world
         for p in all_persons[:20]:
@@ -258,6 +231,7 @@ class SimulationEngine:
         from game_core.autoplayer import AutoplayerEngine, AutoplayMode
         from game_core.factory import create_npc
         from game_core.systems.event_generator import EventGenerator
+        from game_core.systems.event_pool import EventPool
         from game_core.systems.faction_tick import FactionTickSystem
         if self.ai_adapter_type == "openai":
             try:
@@ -289,7 +263,8 @@ class SimulationEngine:
 
         faction_system = FactionTickSystem(seed=self.seed)
         faction_tick_interval = 3
-        event_gen = EventGenerator(ai_adapter, seed=self.seed)
+        event_pool = EventPool()
+        event_gen = EventGenerator(ai_adapter, pool=event_pool, seed=self.seed)
         event_interval = 5
 
         if self.autoplay:
@@ -308,7 +283,7 @@ class SimulationEngine:
 
         while self.turn < self.max_turns:
             self.turn += 1
-            self._dbg.turn_start(self.turn, self.world)
+            self._log.info("turn_start", turn=self.turn, pressure=self.world.pressure, legitimacy=self.world.legitimacy, resources=self.world.resources_global)
 
             # Advance world clock
             self.world.clock.advance(1)
@@ -343,12 +318,16 @@ class SimulationEngine:
                 self._notify("on_crisis", self.turn, "pressure", self.world.pressure)
 
             # Get action from input source (returns action name string only)
+            self._log.debug("get_action", turn=self.turn, stage="input_source")
             action_name = self.input_source.get_action(self.turn, self.world)
+            self._log.debug("get_action", turn=self.turn, action_name=action_name)
 
             # Autoplay if needed
             if action_name is None and self.autoplay and echo and self.autoplayer_engine:
+                self._log.debug("autoplay", turn=self.turn, stage="selecting")
                 available_action_names = list(action_classes.keys())
                 decision = self.autoplayer_engine.select_action(echo, self.world, available_action_names)
+                self._log.debug("autoplay", turn=self.turn, decision=decision.selected_action, scores=decision.scores if hasattr(decision, 'scores') else {})
                 self._log_event("autoplay_decision", decision.model_dump())
                 action_name = decision.selected_action
                 self._notify("on_action_selected", self.turn, None)  # autoplay
@@ -368,7 +347,7 @@ class SimulationEngine:
                 )
                 if action.can_execute(echo, self.world, context):
                     result = action.execute(echo, self.world, context)
-                    self._notify("on_action_result", self.turn, action_name, result)
+                    self._log.info("action_executed", turn=self.turn, action=action_name, success=result.success, message=result.message)
 
                     # Track action history (guard against no echo)
                     if echo:
@@ -381,7 +360,9 @@ class SimulationEngine:
 
                     # Handle damage to player from NPC actions
                     if should_deal_damage_to_player(action_name) and result and result.success:
+                        self._log.debug("npc_damage", turn=self.turn, action=action_name, stage="handling")
                         _handle_npc_damage_to_player(action_name, self.world, self._notify, self.turn)
+                        self._log.debug("npc_damage", turn=self.turn, stage="completed")
 
             # Check transition turn - player cannot act during transition
             if is_in_transition(self.world):
@@ -404,7 +385,9 @@ class SimulationEngine:
                 # NPC generation for mature circles
                 if circle.member_count >= 3:
                     if len(getattr(circle, 'npcs', [])) < circle.member_count:
+                        self._log.debug("npc_creation", turn=self.turn, circle=circle.name, essence=circle.essence)
                         npc = create_npc(ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=self.seed)
+                        self._log.info("npc_created", turn=self.turn, circle=circle.name, npc_name=npc.name, npc_id=npc.id)
                         if not hasattr(circle, 'npcs'):
                             circle.npcs = []
                         circle.npcs.append(npc.id)
@@ -432,7 +415,7 @@ class SimulationEngine:
 
             # Notify turn end
             self._notify("on_turn_end", self.turn, self.world, action_name)
-            self._dbg.turn_end(self.turn, action_name)
+            self._log.info("turn_end", turn=self.turn, action=action_name, pressure=self.world.pressure, legitimacy=self.world.legitimacy, resources=self.world.resources_global)
 
             # JSONL log
             self._log_event("tick", {
@@ -451,20 +434,10 @@ class SimulationEngine:
 
     def _handle_npc_damage_to_player(action_name: str, world: World, notify, turn: int) -> None:
         """Handle NPC actions that can damage the player (sabotage, spread_rumor)."""
-        if not hasattr(world, 'hosts') or not world.hosts:
-            return
-
-        active_host = None
-        for h in world.hosts:
-            if h.is_active and world.get_person(h.person_id) and world.get_person(h.person_id).type == "player":
-                active_host = h
-                break
-
-        if not active_host:
-            return
-
-        person = world.get_person(active_host.person_id)
+        log = get_logger(__name__)
+        person = world.get_active_player_person()
         if not person:
+            log.warning("npc_damage", turn=turn, action=action_name, stage="no_active_player")
             return
 
         defender_influence = person.influence
@@ -478,48 +451,52 @@ class SimulationEngine:
         )
 
         if damage > 0:
+            old_vitality = person.vitality
             person.take_damage(damage)
-            notify("on_metric_changed", turn, "player_vitality", person.vitality + damage, person.vitality)
+            new_vitality = person.vitality
+            log.info("npc_damage", turn=turn, action=action_name, damage=damage, old_vitality=old_vitality, new_vitality=new_vitality)
+            notify("on_metric_changed", turn, "player_vitality", old_vitality, new_vitality)
 
             if person.vitality <= 0:
-                _trigger_host_death(world, active_host, notify, turn)
+                log.error("player_death", turn=turn, player=person.name, vitality=0, trigger="npc_damage")
+                _trigger_player_death(world, person, notify, turn)
 
 
-    def _trigger_host_death(world: World, host: Host, notify, turn: int) -> None:
-        """Trigger host death and start reincarnation process."""
-        echo = world.get_echo(host.echo_id)
+    def _trigger_player_death(world: World, player_person: PlayerPerson, notify, turn: int) -> None:
+        """Trigger player death and start reincarnation process."""
+        log = get_logger(__name__)
+        log.debug("reincarnation", stage="preserving_legacy", player_person_id=player_person.id, echo_id=player_person.echo_id)
+
+        echo = world.get_echo(player_person.echo_id) if player_person.echo_id else None
         if not echo:
+            log.error("reincarnation", stage="trigger_death", error="no_echo_found", player_person_echo_id=player_person.echo_id)
             return
 
         legacy = preserve_echo_legacy(echo)
         transformed = transform_legacy(legacy, echo)
 
-        new_person, new_host = reincarnate_echo(echo, world, legacy, transformed)
-        if new_person and new_host:
+        log.debug("reincarnation", stage="finding_candidate", echo_id=echo.id)
+        new_person = reincarnate_echo(echo, world, legacy, transformed)
+        if new_person:
             start_transition_turn(world)
+            log.info("reincarnation", stage="success", echo_name=echo.name, old_person=player_person.name, new_person=new_person.name, transition_turn=world.transition_turn)
             notify("on_echo_spawned", turn, echo.name, new_person.name)
         else:
+            log.error("reincarnation", stage="failed", error="no_candidate_found", echo_id=echo.id)
             notify("on_crisis", turn, "echo_death", echo.name)
 
 
     def _handle_reincarnation(world: World, notify, turn: int) -> None:
         """Handle the end of transition turn and complete reincarnation."""
-        if not hasattr(world, 'hosts') or not world.hosts:
-            return
+        log = get_logger(__name__)
+        log.debug("reincarnation", stage="handling_end_of_transition", turn=turn)
 
-        active_host = None
-        for h in world.hosts:
-            if h.is_active:
-                active_host = h
-                break
-
-        if not active_host:
-            return
-
-        person = world.get_person(active_host.person_id)
+        person = world.get_active_player_person()
         if not person:
+            log.warning("reincarnation", stage="end_transition", error="no_active_player_person", turn=turn)
             return
 
+        log.info("reincarnation_complete", person=person.name, turn=turn)
         notify("on_reincarnation_complete", turn, person.name)
 
 

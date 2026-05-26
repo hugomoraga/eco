@@ -5,9 +5,12 @@ from typing import TYPE_CHECKING, ClassVar
 
 from game_core.i18n import t
 from game_core.systems.random import SeededRandom
+from game_core.utils.logger import get_logger
 
 if TYPE_CHECKING:
     from game_core.ai.base import AIAdapter
+
+log = get_logger(__name__)
 
 
 class EffectTagValidator:
@@ -93,10 +96,12 @@ class EventGenerator:
         event_id = self.pool.select_event(category)
 
         if not event_id:
+            log.warning("event_generation", stage="no_event_from_pool", category=category)
             return self._generate_fallback(context)
 
         event_data = self.pool.get_event_data(event_id)
         if not event_data:
+            log.warning("event_generation", stage="no_event_data", event_id=event_id)
             return self._generate_fallback(context)
 
         # Store event_id in event_data for i18n fallback in _enrich_text
@@ -117,6 +122,7 @@ class EventGenerator:
         # Validate choices with EffectTagValidator
         choices = self._validate_choices(event_data.get("choices", []))
 
+        log.info("event_generated", event_id=event_id, category=category, title=title[:50] if title else "unknown")
         return GameEvent(
             event_id=event_id,
             title=title,
@@ -128,6 +134,7 @@ class EventGenerator:
 
     def _enrich_text(self, event_data: dict, context: dict) -> tuple[str, str]:
         """Use AI adapter to enrich title/summary while keeping structure from pool."""
+        log.debug("event_enrich", stage="start", event_id=event_data.get("id", "unknown"), adapter=type(self.adapter).__name__)
         enrichment_context = {
             "event_data": event_data,
             "language": context.get("language", "es"),
@@ -137,11 +144,13 @@ class EventGenerator:
         try:
             response = self.adapter.generate_event(enrichment_context)
             if response.success and isinstance(response.data, dict):
-                title = response.data.get("title", event_data.get("title", ""))
-                summary = response.data.get("summary", event_data.get("summary", ""))
-                return title, summary
-        except Exception:
-            pass
+                title = response.data.get("title") or response.data.get("event_title")
+                summary = response.data.get("summary")
+                if title and summary:
+                    log.debug("event_enrich", stage="success", event_id=event_data.get("id", "unknown"))
+                    return title, summary
+        except Exception as e:
+            log.exception("event_enrich", stage="exception", event_id=event_data.get("id", "unknown"), error=str(e))
 
         # Fallback: use i18n for title/summary if available in event_data
         event_id = event_data.get("id", "")
@@ -149,8 +158,10 @@ class EventGenerator:
             title = t(f"events:{event_id}:title")
             summary = t(f"events:{event_id}:summary")
             if title != f"events:{event_id}:title":
+                log.debug("event_enrich", stage="i18n_fallback", event_id=event_id)
                 return title, summary
 
+        log.warning("event_enrich", stage="no_fallback", event_id=event_id)
         return event_data.get("title", ""), event_data.get("summary", "")
 
     def _validate_choices(self, choices: list[dict]) -> list[dict]:

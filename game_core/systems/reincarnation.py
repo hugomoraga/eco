@@ -4,21 +4,24 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from game_core.domain.entities import Echo, Host, Person, World
+from game_core.domain.entities import Echo, NPCPerson, PlayerPerson, World
+from game_core.utils.logger import get_logger
+
+log = get_logger(__name__)
 
 
 @dataclass
 class ReincarnationResult:
     old_echo_name: str
     new_echo_name: str
-    new_host_name: str
+    new_person_name: str
     preserved: list[str]
     narrative: str
 
 
-def find_reincarnation_host(echo: Echo, world: World) -> Person | None:
+def find_reincarnation_candidate(echo: Echo, world: World) -> NPCPerson | None:
     """
-    Find the best compatible person for an echo to reincarnate into.
+    Find the best compatible NPCPerson for an echo to reincarnate into.
 
     Algorithm:
     1. Filter candidates from same circles as echo
@@ -29,6 +32,7 @@ def find_reincarnation_host(echo: Echo, world: World) -> Person | None:
     """
     candidates = _get_candidates(echo, world)
     if not candidates:
+        log.warning("reincarnation_candidate", stage="no_candidates", echo_id=echo.id, echo_name=echo.name)
         return None
 
     scored = []
@@ -37,23 +41,24 @@ def find_reincarnation_host(echo: Echo, world: World) -> Person | None:
         scored.append((score, person))
 
     scored.sort(key=lambda x: x[0], reverse=True)
-    return scored[0][1] if scored else None
+    best = scored[0][1] if scored else None
+    if best:
+        log.debug("reincarnation_candidate", stage="found", echo_id=echo.id, candidate_name=best.name, score=scored[0][0], total_candidates=len(scored))
+    return best
 
 
-def _get_candidates(echo: Echo, world: World) -> list[Person]:
-    """Get candidate persons for reincarnation, filtered by circle membership."""
+def _get_candidates(echo: Echo, world: World) -> list[NPCPerson]:
+    """Get candidate NPCPersons for reincarnation, filtered by circle membership."""
+    npc_persons = [p for p in world.persons if isinstance(p, NPCPerson) and p.vitality > 0]
     if not echo.circles:
-        return [p for p in world.persons if p.type == "npc" and p.vitality > 0]
+        return npc_persons
 
     echo_circle_ids = set(echo.circles)
 
     same_circle = []
     any_person = []
 
-    for p in world.persons:
-        if p.type != "npc" or p.vitality <= 0:
-            continue
-
+    for p in npc_persons:
         if hasattr(p, 'circles') and p.circles:
             person_circles = set(p.circles)
             if echo_circle_ids & person_circles:
@@ -65,7 +70,7 @@ def _get_candidates(echo: Echo, world: World) -> list[Person]:
     return same_circle if same_circle else any_person
 
 
-def _calculate_affinity(echo: Echo, person: Person) -> float:
+def _calculate_affinity(echo: Echo, person: NPCPerson) -> float:
     """Calculate affinity score between echo and person."""
     score = 0.0
 
@@ -120,43 +125,40 @@ def reincarnate_echo(
     world: World,
     preserved_legacy: dict,
     transformed_legacy: dict,
-) -> tuple[Person, Host] | tuple[None, None]:
+) -> PlayerPerson | None:
     """
-    Reincarnate an echo into a new person.
+    Reincarnate an echo into a new NPCPerson (becomes PlayerPerson).
 
-    Returns: (new_person, new_host) or (None, None) if no compatible person found.
+    Returns: new PlayerPerson or None if no compatible person found.
     """
-    new_person = find_reincarnation_host(echo, world)
-    if not new_person:
-        return None, None
+    log.debug("reincarnate_echo", stage="start", echo_id=echo.id, echo_name=echo.name)
 
-    old_person_id = None
+    new_candidate = find_reincarnation_candidate(echo, world)
+    if not new_candidate:
+        log.warning("reincarnate_echo", stage="no_candidate", echo_id=echo.id)
+        return None
+
+    # Demote existing PlayerPerson for this echo to NPC
     for p in world.persons:
-        if hasattr(p, 'echo_id') and p.echo_id == echo.id and p.type == "player":
-            old_person_id = p.id
+        if isinstance(p, PlayerPerson) and p.echo_id == echo.id:
+            log.debug("reincarnate_echo", stage="demoting_old_host", person_name=p.name)
+            p.type = "npc"
+            p.vitality = 100.0
+            p.echo_id = None
+            p.is_active = False
             break
 
-    if old_person_id:
-        old_person = world.get_person(old_person_id)
-        if old_person:
-            old_person.type = "npc"
-            old_person.vitality = 100.0
-
-    new_person.type = "player"
-    new_person.echo_id = echo.id
+    # Promote new candidate to PlayerPerson
+    new_candidate.type = "player"
+    new_candidate.link_echo(echo.id)
+    new_candidate.reincarnate(echo.id)
 
     for attr in ["essence_profile", "known_tags", "genealogical_lineage"]:
         if hasattr(echo, attr):
             setattr(echo, attr, transformed_legacy.get(attr, getattr(echo, attr)))
 
-    echo.reincarnation_count += 1
-
-    host = Host(person_id=new_person.id, echo_id=echo.id)
-    if not hasattr(world, 'hosts'):
-        world.hosts = []
-    world.hosts.append(host)
-
-    return new_person, host
+    log.info("reincarnate_echo", stage="success", echo_id=echo.id, echo_name=echo.name, new_host=new_candidate.name, new_host_id=new_candidate.id)
+    return new_candidate
 
 
 def is_in_transition(world: World) -> bool:
