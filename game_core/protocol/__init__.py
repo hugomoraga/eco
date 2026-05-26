@@ -17,6 +17,7 @@ from game_core.protocol.messages import (
     ErrorEvent,
     EchoSpawnedEvent,
     ReincarnationCompleteEvent,
+    CircleActivityEvent,
     UnionMessage,
 )
 
@@ -41,6 +42,7 @@ __all__ = [
     "ErrorEvent",
     "EchoSpawnedEvent",
     "ReincarnationCompleteEvent",
+    "CircleActivityEvent",
     "UnionMessage",
     "encode",
     "decode",

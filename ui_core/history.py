@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from game_core.i18n import t
+
 
 @dataclass
 class Action:
@@ -31,11 +33,12 @@ class History:
             return "[dim]Sin acciones registradas[/dim]"
 
         lines = ["[cyan]═══ Historial de Acciones ═══[/cyan]", ""]
+        turn_label = t("ui:turn", default="Turn")
         for a in self.get_recent(10):
             icon = "[green]✓[/green]" if a.success else "[red]✗[/red]"
             lines.append(
                 f"{icon} "
-                f"[dim]Turn {a.turn:03d}[/dim] "
+                f"[dim]{turn_label} {a.turn:03d}[/dim] "
                 f"[yellow]{a.action_type}[/yellow] "
                 f"por {a.actor}"
             )

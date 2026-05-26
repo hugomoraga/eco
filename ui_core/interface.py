@@ -4,6 +4,7 @@ from typing import Any
 from rich.live import Live
 from rich.spinner import Spinner
 
+from game_core.i18n import t
 from ui_core.components import Components
 from ui_core.console import Console as UConsole
 from ui_core.history import Action, History
@@ -197,7 +198,8 @@ class Interface:
             "event": "⚡",
         }
         emoji = emoji_map.get(action_type, "•")
-        self.console.print(f"  {emoji} [dim][Turn {turn}][/dim] [bold]{message}[/bold]")
+        turn_label = t("ui:turn", default="Turn")
+        self.console.print(f"  {emoji} [dim][{turn_label} {turn}][/dim] [bold]{message}[/bold]")
 
         if details:
             for key, value in details.items():

@@ -2,14 +2,16 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
+from game_core.i18n import t
 from .styles import CYAN, s
 
 
 class Components:
     @staticmethod
     def turn_header(turn: int) -> Text:
+        turn_label = t("ui:turn", default="TURN")
         return Text.assemble(
-            (f"═══ TURN {turn:03d} ═══", s("header"))
+            (f"═══ {turn_label} {turn:03d} ═══", s("header"))
         )
 
     @staticmethod

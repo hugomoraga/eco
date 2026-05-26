@@ -22,6 +22,7 @@ class MessageType(str, Enum):
     QUIT = "quit"
     ECHO_SPAWNED = "echo_spawned"
     REINCARNATION_COMPLETE = "reincarnation_complete"
+    CIRCLE_ACTIVITY = "circle_activity"
 
 
 class QueryType(str, Enum):
@@ -210,6 +211,21 @@ class TickEvent:
 
 
 @dataclass
+class CircleActivityEvent:
+    turn: int
+    circle_name: str
+    activity: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "type": MessageType.CIRCLE_ACTIVITY.value,
+            "turn": self.turn,
+            "circle_name": self.circle_name,
+            "activity": self.activity,
+        }
+
+
+@dataclass
 class TerminatedEvent:
     reason: str
 
@@ -276,4 +292,5 @@ UnionMessage = (
     | ErrorEvent
     | EchoSpawnedEvent
     | ReincarnationCompleteEvent
+    | CircleActivityEvent
 )

@@ -3,16 +3,17 @@ factory/ — centralized creation of all domain entities.
 
 All entities are created via factory functions — no direct instantiation outside factory/.
 API:
-    create_circle()         — circle.py
-    create_echo()           — echo.py
-    create_faction()        — faction.py
-    create_host()           — host.py (Person ↔ Echo linking)
-    create_host_for_echo()  — host.py
-    create_npc()            — npc.py (Person + Host, returns Person)
-    create_ideas_for_essence() — tags.py
-    create_random_idea()    — tags.py
-    on_host_death()         — host.py (reincarnation)
-    process_circle_tick()  — circle.py
+    create_circle()              — circle.py
+    create_echo()               — echo.py
+    create_faction()            — faction.py
+    create_player_person()      — host.py (PlayerPerson ↔ Echo linking)
+    create_player_person_for_echo() — host.py
+    create_npc_person()         — host.py (NPCPerson creation)
+    on_player_death()           — host.py (reincarnation)
+    create_npc()                — npc.py (Person + Host, deprecated)
+    create_ideas_for_essence()  — tags.py
+    create_random_idea()        — tags.py
+    process_circle_tick()       — circle.py
 """
 from __future__ import annotations
 
@@ -33,10 +34,16 @@ from game_core.factory.faction import create_faction
 # Civ
 from game_core.factory.civ import create_civ, create_all_civs, create_default_civ
 
-# Host
-from game_core.factory.host import create_host, create_host_for_echo, on_host_death
+# Person (PlayerPerson and NPCPerson)
+from game_core.factory.host import (
+    create_player_person,
+    create_player_person_for_echo,
+    create_npc_person,
+    on_player_death,
+    find_available_npc_person,
+)
 
-# Person (includes NPC creation)
+# Person (deprecated - use host.py instead)
 from game_core.factory.npc import create_npc, create_npcs
 
 # Ideas
@@ -56,11 +63,13 @@ __all__ = [
     "create_civ",
     "create_all_civs",
     "create_default_civ",
-    # Host
-    "create_host",
-    "create_host_for_echo",
-    "on_host_death",
-    # Person
+    # Person (new pattern)
+    "create_player_person",
+    "create_player_person_for_echo",
+    "create_npc_person",
+    "on_player_death",
+    "find_available_npc_person",
+    # Person (deprecated - use host.py)
     "create_npc",
     "create_npcs",
     # Ideas

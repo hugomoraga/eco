@@ -20,6 +20,7 @@ from game_core.protocol.messages import (
     CrisisEvent,
     TickEvent,
     UnionMessage,
+    CircleActivityEvent,
 )
 
 
@@ -136,6 +137,13 @@ def decode(raw: str) -> UnionMessage | dict | None:
 
     elif mt == MessageType.ERROR:
         return ErrorEvent(message=data.get("message", ""))
+
+    elif mt == MessageType.CIRCLE_ACTIVITY:
+        return CircleActivityEvent(
+            turn=data.get("turn", 0),
+            circle_name=data.get("circle_name", ""),
+            activity=data.get("activity", ""),
+        )
 
     return ErrorEvent(message=f"Unhandled message type: {msg_type}")
 

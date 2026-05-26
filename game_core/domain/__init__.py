@@ -13,9 +13,11 @@ from game_core.domain.entities import (
     EchoAttribute,
     EssenceRegistry,
     Faction,
-    Host,
+    Host,  # DEPRECATED - use PlayerPerson instead
     Ideas,
+    NPCPerson,
     Person,
+    PlayerPerson,
     World,
     WorldClock,
 )
@@ -34,10 +36,11 @@ __all__ = [
     "EchoAttribute",
     "EssenceRegistry",
     "Faction",
-    "Host",
+    "Host",  # DEPRECATED
     "Ideas",
-    "Manifesto",
+    "NPCPerson",
     "Person",
+    "PlayerPerson",
     "World",
     "WorldClock",
 ]

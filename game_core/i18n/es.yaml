@@ -929,6 +929,8 @@ events:
     title: "Evento desconocido"
     summary: "Un evento sin categoría ni descripción."
 
+  unnamed: "Evento sin nombre"
+
 npcs:
   dra_maela_ruun:
     name: "Dra. Maela Ruun"
@@ -954,27 +956,33 @@ actions:
     no_tags: "Manifesto escrito sin tags reconocidos"
     cooldown: "Manifesto en cooldown"
 
-  found_circle:
-    success: "Circulo fundado: {name}"
-    cooldown: "Circulo en cooldown"
+  founded_circle: "Fundó {name}"
+  no_circles_to_join: "No hay círculos para unirse"
+  no_circles_available: "No hay círculos disponibles para unirse"
+  no_compatible_circles: "No se encontraron círculos compatibles"
+  essence_mismatch: "Incompatibilidad de esencia"
+  joined_circle: "Se unió a {circle_name}"
+  not_member: "No eres miembro de ningún círculo"
+  circle_not_found: "Círculo no encontrado"
+  left_circle: "Abandonó {circle_name}"
 
-  propagate_idea:
-    success: "Ideas propagadas a {target}"
-    no_targets: "No se encontraron objetivos validos"
-    cooldown: "Propagacion en cooldown"
+  propagated_ideas: "Propagó {count} ideas a {target_count} objetivos"
+  no_targets: "No hay objetivos para propagar"
 
-  talk:
-    success: "Hablaste"
-    cooldown: "En cooldown"
+  sabotage: "Infraestructura saboteada"
 
-  sabotage:
-    success: "Sabotaje realizado"
-    cooldown: "Sabotaje en cooldown"
-
-  recruit:
-    success: "Reclutado: {target}"
-    no_targets: "No hay objetivos validos"
-    cooldown: "Reclutamiento en cooldown"
+  ritual_completed: "Ritual completado"
+  talked: "Conversó"
+  rumors_spread: "Los rumores se difundieron por la ciudad"
+  rumors_fizzled: "Los rumores se extinguieron antes de propagarse"
+  need_circle_to_recruit: "Necesitas estar en un círculo para reclutar"
+  recruited: "Reclutó un nuevo seguidor"
+  no_one_interested: "Nadie estaba interesado"
+  negotiated: "Negoció recursos"
+  negotiations_failed: "Las negociaciones fallaron"
+  powerful_ritual: "Ritual poderoso completado"
+  ritual_backfired: "El ritual salió mal"
+  no_ideas_to_propagate: "No hay ideas para propagar"
 
 messages:
   event: "Evento"
@@ -1015,8 +1023,12 @@ cli:
   join_circle_desc: "Unirse a un circulo existente"
   leave_circle_desc: "Salir del circulo actual"
 
+ui:
+  turn: "Turno"
+  awakening: "El mundo despierta"
+  story_ends: "La historia termina"
+
 essences:
-  anarchism: "Anarquismo"
   technocracy: "Tecnocracia"
   absurdism: "Absurdismo"
   thelema: "Thelema"

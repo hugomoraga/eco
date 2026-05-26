@@ -53,6 +53,8 @@ class EcoTextualApp(App):
         self._echo_phase = "---"
         self._echo_clarity = 0.0
         self._echo_essences: list[str] = []
+        self._echo_influence = 0.0
+        self._player_vitality = 100.0
         self._action_history: list[str] = []
         self._civ_name = "---"
         self._echoes = 0
@@ -83,7 +85,7 @@ class EcoTextualApp(App):
             self._turn, self._world_tick, self._stability, self._pressure, self._population
         )
         self.query_one(EchoPanel).update_state(
-            self._echo_name, self._echo_phase, self._echo_clarity, self._echo_essences, self._action_history
+            self._echo_name, self._echo_phase, self._echo_clarity, self._echo_essences, self._action_history, self._echo_influence, self._player_vitality
         )
         self.query_one(CivPanel).update_state(
             self._civ_name, self._echoes, self._circles, self._factions, self._population
@@ -204,6 +206,12 @@ class EcoTextualApp(App):
             self._log_text += f"◇ New host emerges: {name}\n"
             log.write(f"[green]◇ New host emerges: {name}[/green]\n")
 
+        elif msg_type == MessageType.CIRCLE_ACTIVITY.value:
+            circle_name = d.get("circle_name", "")
+            activity = d.get("activity", "")
+            self._log_text += f"▸ {circle_name}: {activity}\n"
+            log_panel.write(f"[yellow]▸[/yellow] {circle_name}: {activity}\n")
+
     def _apply_ws(self, ws: dict) -> None:
         self._civ_name = ws.get("civ_name", self._civ_name)
         self._pressure = ws.get("pressure", self._pressure)
@@ -218,6 +226,7 @@ class EcoTextualApp(App):
         self._echo_phase = ws.get("echo_phase", self._echo_phase)
         self._echo_clarity = ws.get("echo_clarity", self._echo_clarity)
         self._echo_essences = ws.get("echo_essences", self._echo_essences)
+        self._player_vitality = ws.get("player_vitality", self._player_vitality)
 
     def _send(self, cmd) -> None:
         try:

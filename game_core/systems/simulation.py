@@ -348,6 +348,7 @@ class SimulationEngine:
                 if action.can_execute(echo, self.world, context):
                     result = action.execute(echo, self.world, context)
                     self._log.info("action_executed", turn=self.turn, action=action_name, success=result.success, message=result.message)
+                    self._notify("on_action_result", self.turn, action_name, result)
 
                     # Track action history (guard against no echo)
                     if echo:
@@ -361,13 +362,16 @@ class SimulationEngine:
                     # Handle damage to player from NPC actions
                     if should_deal_damage_to_player(action_name) and result and result.success:
                         self._log.debug("npc_damage", turn=self.turn, action=action_name, stage="handling")
-                        _handle_npc_damage_to_player(action_name, self.world, self._notify, self.turn)
-                        self._log.debug("npc_damage", turn=self.turn, stage="completed")
+                        try:
+                            self._handle_npc_damage_to_player(action_name, self.world, self._notify, self.turn)
+                            self._log.debug("npc_damage", turn=self.turn, stage="completed")
+                        except Exception as e:
+                            self._log.error("npc_damage", turn=self.turn, action=action_name, stage="error", error=str(e), error_type=type(e).__name__)
 
             # Check transition turn - player cannot act during transition
             if is_in_transition(self.world):
                 if self.world.transition_turn <= self.world.clock.action_tick:
-                    _handle_reincarnation(self.world, self._notify, self.turn)
+                    self._handle_reincarnation(self.world, self._notify, self.turn)
                     end_transition_turn(self.world)
 
             # Faction tick
@@ -431,7 +435,7 @@ class SimulationEngine:
 
         return {"turns": self.turn, "run_dir": str(self.run_dir)}
 
-
+    @staticmethod
     def _handle_npc_damage_to_player(action_name: str, world: World, notify, turn: int) -> None:
         """Handle NPC actions that can damage the player (sabotage, spread_rumor)."""
         log = get_logger(__name__)
@@ -459,9 +463,10 @@ class SimulationEngine:
 
             if person.vitality <= 0:
                 log.error("player_death", turn=turn, player=person.name, vitality=0, trigger="npc_damage")
-                _trigger_player_death(world, person, notify, turn)
+                SimulationEngine._trigger_player_death(world, person, notify, turn)
 
 
+    @staticmethod
     def _trigger_player_death(world: World, player_person: PlayerPerson, notify, turn: int) -> None:
         """Trigger player death and start reincarnation process."""
         log = get_logger(__name__)
@@ -486,6 +491,7 @@ class SimulationEngine:
             notify("on_crisis", turn, "echo_death", echo.name)
 
 
+    @staticmethod
     def _handle_reincarnation(world: World, notify, turn: int) -> None:
         """Handle the end of transition turn and complete reincarnation."""
         log = get_logger(__name__)

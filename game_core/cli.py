@@ -35,6 +35,7 @@ from game_core.protocol import (
     ErrorEvent,
     EchoSpawnedEvent,
     ReincarnationCompleteEvent,
+    CircleActivityEvent,
     encode,
     decode_command,
     MessageType,
@@ -58,6 +59,9 @@ def _serialize_world(turn: int, world) -> dict:
     echo_clarity = echo.get_attribute("clarity").value if echo and echo.get_attribute("clarity") else 50.0
     echo_essences = [e.essence for e in echo.essence_profile.dominant] if echo and echo.essence_profile else []
 
+    person = world.get_active_player_person()
+    player_vitality = person.vitality if person else 100.0
+
     return {
         "turn": turn,
         "civ_name": civ_name,
@@ -74,6 +78,7 @@ def _serialize_world(turn: int, world) -> dict:
         "echo_phase": echo_phase,
         "echo_clarity": echo_clarity,
         "echo_essences": echo_essences,
+        "player_vitality": player_vitality,
     }
 
 
@@ -124,7 +129,11 @@ class ProtocolObserver(SimulationObserver):
         ))
 
     def on_circle_activity(self, turn: int, circle_name: str, activity: str):
-        pass
+        self._emit(CircleActivityEvent(
+            turn=turn,
+            circle_name=circle_name,
+            activity=activity,
+        ))
 
     def on_npc_created(self, turn: int, npc_name: str, npc_role: str):
         pass
@@ -173,7 +182,7 @@ class StdinInputSource:
 
     def get_action(self, turn: int, world: World) -> str | None:
         try:
-            item = self._queue.get(timeout=300)
+            item = self._queue.get(block=True, timeout=None)
             if isinstance(item, ActionCommand):
                 return item.action
             return None

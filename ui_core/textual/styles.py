@@ -86,5 +86,5 @@ COLORS = {
     "dim": "dim",
 }
 
-ACTIONS = ["found_circle", "join_circle", "leave_circle", "propagate_idea",
-           "write_manifesto", "sabotage", "ritualize", "talk"]
+ACTIONS = ["found_circle", "write_manifesto", "propagate_idea", "talk",
+           "sabotage", "ritualize", "join_circle", "leave_circle"]

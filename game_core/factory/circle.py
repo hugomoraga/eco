@@ -31,7 +31,7 @@ NOUNS_POOL = [
     "Signal", "Tide", "Vision", "Command", "Synergy",
 ]
 
-ESSENCE_TEMPLATES = {
+ESSENCE_TEMPLATES_EN = {
     "anarchism": [
         "Circle of the Free", "Circle of Autonomy", "Circle of the Syndicate",
         "Circle of No Masters", "Circle of the Liberated", "Circle of the Horizontal",
@@ -58,31 +58,100 @@ ESSENCE_TEMPLATES = {
     ],
 }
 
+ESSENCE_TEMPLATES_ES = {
+    "anarchism": [
+        "Círculo de los Libres", "Círculo de la Autonomía", "Círculo del Sindicalismo",
+        "Círculo Sin Amos", "Círculo de los Liberados", "Círculo de lo Horizontal",
+    ],
+    "collectivism": [
+        "Círculo de los Comunes", "Círculo de la Colectividad", "Círculo de la Solidaridad",
+        "Círculo de Voces Unidas", "Círculo de los Muchos", "Círculo de la Unión",
+    ],
+    "technocracy": [
+        "Círculo del Protocolo", "Círculo de la Red", "Círculo de los Sistemas",
+        "Círculo de los Ingenieros", "Círculo de lo Eficiente", "Círculo de lo Optimizado",
+    ],
+    "absurdism": [
+        "Círculo de la Nada Riente", "Círculo de la Paradoja", "Círculo de lo Irrazonable",
+        "Círculo de lo Absurdo", "Círculo de lo Inconsistente", "Círculo de lo Ridículo",
+    ],
+    "thelema": [
+        "Círculo de la Voluntad", "Círculo de la Estrella", "Círculo del Destino",
+        "Círculo de los Iniciados", "Círculo de la Magia", "Círculo de la Voluntad Verdadera",
+    ],
+    "ecology": [
+        "Círculo de la Tierra Viva", "Círculo del Equilibrio", "Círculo de los Ciclos",
+        "Círculo de la Red de Raíces", "Círculo de la Sostenibilidad", "Círculo de lo Verde",
+    ],
+}
+
+ADJECTIVES_POOL_ES = [
+    "Primero", "Ardiente", "Silencioso", "Errante", "Resonante",
+    "Oculto", "Carmesí", "Plateado", "Antiguo", "Nuevo",
+    "Radiante", "Sombrío", "Vigilante", "Libre", "Atado",
+]
+
+NOUNS_POOL_ES = [
+    "Eco", "Jardín", "Llama", "Voz", "Raíz",
+    "Umbral", "Memoria", "Camino", "Espejo", "Piedra",
+    "Señal", "Marea", "Visión", "Mando", "Sinergia",
+]
+
+ESSENCE_TEMPLATES = ESSENCE_TEMPLATES_EN
+
+
+def _get_templates_for_lang(lang: str):
+    if lang == "es":
+        return ESSENCE_TEMPLATES_ES
+    return ESSENCE_TEMPLATES_EN
+
+
+def _get_pools_for_lang(lang: str):
+    if lang == "es":
+        return ADJECTIVES_POOL_ES, NOUNS_POOL_ES
+    return ADJECTIVES_POOL, NOUNS_POOL
+
+
+def _get_fallback_prefix(lang: str) -> str:
+    if lang == "es":
+        return "Círculo de "
+    return "Circle of the "
+
 
 def generate_unique_circle_name(essence: str, existing_circles: list[Circle]) -> str:
     """Generate a name unique among existing circles."""
-    templates = ESSENCE_TEMPLATES.get(essence, [])
+    from game_core.i18n import get_lang
+    lang = get_lang()
+    templates = _get_templates_for_lang(lang).get(essence, [])
     used_names = {c.name for c in existing_circles if c.name}
 
     for name in templates:
         if name not in used_names:
             return name
 
+    adj_pool, noun_pool = _get_pools_for_lang(lang)
+    prefix = _get_fallback_prefix(lang)
+
     for _ in range(100):
-        adj = random.choice(ADJECTIVES_POOL)
-        noun = random.choice(NOUNS_POOL)
-        name = f"Circle of the {adj} {noun}"
+        adj = random.choice(adj_pool)
+        noun = random.choice(noun_pool)
+        if lang == "es":
+            name = f"{prefix}{adj} {noun}"
+        else:
+            name = f"{prefix}{adj} {noun}"
         if name not in used_names:
             return name
 
-    return f"Circle of the {essence.title()}"
+    return f"{prefix}{essence.title()}"
 
 
 def generate_circle_name_with_fallback(
     essence: str, existing_circles: list[Circle], use_template_chance: float = 0.7
 ) -> str:
     """Generate circle name with template or fallback."""
-    templates = ESSENCE_TEMPLATES.get(essence, [])
+    from game_core.i18n import get_lang
+    lang = get_lang()
+    templates = _get_templates_for_lang(lang).get(essence, [])
 
     if templates and random.random() < use_template_chance:
         used_names = {c.name for c in existing_circles if c.name}

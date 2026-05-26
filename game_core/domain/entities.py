@@ -149,8 +149,89 @@ class Person(BaseModel):
         return self.essence_profile.dominant_essences()
 
 
+class NPCPerson(Person):
+    """
+    Marker class for NPC-controlled persons.
+    NPCs are controlled by the game/AI, not by a player Echo.
+    """
+    pass
+
+
+class PlayerPerson(Person):
+    """
+    Person inhabited by an Echo (player's soul).
+
+    Replaces the old Host pattern. Instead of a separate Host entity
+    linked to a Person with type="player", we now have a PlayerPerson
+    that IS the person with all the incarnation context built-in.
+
+    Attributes:
+        echo_id: Link to the Echo currently incarnated
+        previous_echo_ids: History of Echo IDs that inhabited this person
+        will: Willpower metric
+        presence: Presence metric
+        reincarnation_count: Number of times this person has been reincarnated
+        action_history: List of action names taken
+        last_action_turn: Dict mapping action name to turn number
+        active_circle_id: Currently active circle membership
+        actions_this_turn: Counter for fatigue system
+        is_active: False when dead, waiting for reincarnation
+    """
+
+    echo_id: str | None = None
+    previous_echo_ids: list[str] = Field(default_factory=list)
+
+    will: float = 50.0
+    presence: float = 50.0
+
+    reincarnation_count: int = 0
+
+    action_history: list[str] = Field(default_factory=list)
+    last_action_turn: dict[str, int] = Field(default_factory=dict)
+
+    active_circle_id: str | None = None
+    actions_this_turn: int = 0
+    is_active: bool = True
+
+    def link_echo(self, echo_id: str) -> None:
+        """Vincular un Echo a este recipiente."""
+        if self.echo_id and self.echo_id != echo_id:
+            self.previous_echo_ids.append(self.echo_id)
+        self.echo_id = echo_id
+
+    def unlink_echo(self) -> None:
+        """Desvincular Echo (por muerte)."""
+        self.echo_id = None
+        self.is_active = False
+
+    def reincarnate(self, new_echo_id: str) -> None:
+        """Reiniciar para nuevo Echo."""
+        self.reincarnation_count += 1
+        self.link_echo(new_echo_id)
+        self.is_active = True
+        self.vitality = 100.0
+        self.action_history.clear()
+        self.last_action_turn.clear()
+
+    def is_available_for_reincarnation(self) -> bool:
+        """Verificar si puede recibir un Echo."""
+        return not self.is_active and self.vitality > 0
+
+    def record_action(self, action: str, turn: int) -> None:
+        """Registrar una acción tomada."""
+        self.action_history.append(action)
+        self.last_action_turn[action] = turn
+        self.actions_this_turn += 1
+
+    def reset_turn_actions(self) -> None:
+        """Reset counter for new turn."""
+        self.actions_this_turn = 0
+
+
 class Host(BaseModel):
     """
+    [DEPRECATED] Usa PlayerPerson en su lugar.
+
     Contexto de encarnación.
     Se "pega" a una Person que tiene type="player".
     NO duplica campos de Person — solo añade contexto de Echo.
@@ -464,6 +545,13 @@ class World(BaseModel):
     def get_player_person(self) -> Person | None:
         for p in self.persons:
             if p.type == "player":
+                return p
+        return None
+
+    def get_active_player_person(self) -> PlayerPerson | None:
+        """Get the active PlayerPerson (player-controlled person)."""
+        for p in self.persons:
+            if isinstance(p, PlayerPerson) and p.is_active:
                 return p
         return None
 

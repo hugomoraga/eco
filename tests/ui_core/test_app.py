@@ -36,8 +36,8 @@ class TestActionsMapping:
         assert len(ACTIONS) == 8
 
     def test_actions_content(self):
-        expected = ["found_circle", "join_circle", "leave_circle", "propagate_idea",
-                   "write_manifesto", "sabotage", "ritualize", "talk"]
+        expected = ["found_circle", "write_manifesto", "propagate_idea", "talk",
+                   "sabotage", "ritualize", "join_circle", "leave_circle"]
         assert ACTIONS == expected
 
 

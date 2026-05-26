@@ -241,9 +241,11 @@ class TerminalLayout:
             "player": "Your Turn",
         }.get(self._game_mode, "ECO")
 
+        from game_core.i18n import t
+        turn_label = t("ui:turn", default="Turn ")
         footer_text = Text.assemble(
             ("ECO │ ", "dim"),
-            ("Turn ", "dim"),
+            (turn_label, "dim"),
             (f"{self._turn}", s("turn")),
             (" │ World Tick ", "dim"),
             (f"{self._world_tick}", ""),
