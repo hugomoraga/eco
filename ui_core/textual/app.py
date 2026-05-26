@@ -14,9 +14,13 @@ from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
 
+from game_core.i18n import t
 from game_core.protocol import ActionCommand, QuitCommand, encode, decode, MessageType
+from game_core.utils.logger import get_logger
 from ui_core.textual.styles import CSS, ACTIONS
 from ui_core.textual.widgets.header import HeaderBar
+
+log = get_logger(__name__)
 from ui_core.textual.widgets.echo import EchoPanel
 from ui_core.textual.widgets.civ import CivPanel
 from ui_core.textual.widgets.metrics import MetricsPanel
@@ -90,19 +94,25 @@ class EcoTextualApp(App):
         self.query_one(ActionsBar).update(make_actions_text())
 
     def _start_cli(self) -> None:
-        log = self.query_one(LogPanel)
+        log.info("tui_start", cli_args=self._cli_args)
         self._proc = subprocess.Popen(
             self._cli_args,
             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
             stderr=subprocess.PIPE, text=True, bufsize=1,
         )
         threading.Thread(target=self._reader, daemon=True).start()
+        threading.Thread(target=self._stderr_reader, daemon=True).start()
         self.set_interval(0.1, self._poll)
 
     def _reader(self) -> None:
         for line in self._proc.stdout:
             if line.strip():
                 self._recv_queue.put(line.strip())
+
+    def _stderr_reader(self) -> None:
+        for line in self._proc.stderr:
+            if line.strip():
+                log.debug("cli_stderr", line=line.strip())
 
     def _poll(self) -> None:
         try:
@@ -118,68 +128,78 @@ class EcoTextualApp(App):
     def _handle(self, d: dict) -> None:
         from ui_core.textual.colors import GREEN, RED, CYAN, YELLOW, WHITE
 
-        t = d.get("type")
-        log = self.query_one(LogPanel)
+        msg_type = d.get("type")
+        log_panel = self.query_one(LogPanel)
 
-        if t == MessageType.READY.value:
-            self._log_text += "The world awakens...\n"
-            log.write("[cyan]The world awakens...[/cyan]\n")
+        if msg_type == MessageType.READY.value:
+            log.info("tui_ready", state=d.get("initial_state", {}).get("civ_name"))
+            awakening = t("ui:awakening", default="The world awakens...")
+            self._log_text += awakening + "\n"
+            log_panel.write(f"[cyan]{awakening}[/cyan]\n")
             self._apply_ws(d.get("initial_state", {}))
             self._refresh_all()
 
-        elif t == MessageType.TURN_START.value:
+        elif msg_type == MessageType.TURN_START.value:
             self._turn = d.get("turn", 0)
             ws = d.get("world_state", {})
             self._apply_ws(ws)
-            self._log_text += f"\n— Turn {self._turn} —\n"
-            log.write(f"\n[yellow]— Turn {self._turn} —[/yellow]\n")
+            log.info("tui_turn_start", turn=self._turn)
+            turn_label = t("ui:turn", default="Turn")
+            self._log_text += f"\n— {turn_label} {self._turn} —\n"
+            log_panel.write(f"\n[yellow]— {turn_label} {self._turn} —[/yellow]\n")
             self._refresh_all()
 
-        elif t == MessageType.ACTION_RESULT.value:
+        elif msg_type == MessageType.ACTION_RESULT.value:
             ok = d.get("success", False)
             action = d.get("action", "")
             message = d.get("message", "")
+            log.info("tui_action_result", action=action, success=ok, message=message)
             if ok:
                 self._log_text += f"+ {message}\n"
-                log.write(f"[green]+[/green] {message}\n")
+                log_panel.write(f"[green]+[/green] {message}\n")
             else:
                 self._log_text += f"! {message}\n"
-                log.write(f"[red]![/red] {message}\n")
+                log_panel.write(f"[red]![/red] {message}\n")
             if ok:
                 self._action_history.append(action)
                 if len(self._action_history) > 10:
                     self._action_history = self._action_history[-10:]
                 self._refresh_all()
 
-        elif t == MessageType.EVENT.value:
+        elif msg_type == MessageType.EVENT.value:
             title = d.get("title", "")
             summary = d.get("summary", "")
+            log.info("tui_event", title=title, summary=summary[:100] if summary else "")
             if summary:
                 self._log_text += f"◆ {title}\n  {summary}\n"
-                log.write(f"[magenta]◆ {title}[/magenta]\n")
-                log.write(f"  {summary}\n")
+                log_panel.write(f"[magenta]◆ {title}[/magenta]\n")
+                log_panel.write(f"  {summary}\n")
             else:
                 self._log_text += f"◆ {title}\n"
-                log.write(f"[magenta]◆ {title}[/magenta]\n")
+                log_panel.write(f"[magenta]◆ {title}[/magenta]\n")
 
-        elif t == MessageType.CRISIS.value:
+        elif msg_type == MessageType.CRISIS.value:
             metric = d.get("metric", "")
             value = d.get("value", 0.0)
+            log.warning("tui_crisis", metric=metric, value=value)
             self._log_text += f"⚠ Crisis: {metric} = {value:.1f}\n"
-            log.write(f"[red]⚠ Crisis: {metric} = {value:.1f}[/red]\n")
+            log_panel.write(f"[red]⚠ Crisis: {metric} = {value:.1f}[/red]\n")
 
-        elif t == MessageType.TERMINATED.value:
+        elif msg_type == MessageType.TERMINATED.value:
             reason = d.get("reason", "")
-            self._log_text += f"\nThe story ends: {reason}\n"
-            log.write(f"\n[cyan]The story ends: {reason}[/cyan]\n")
+            log.info("tui_terminated", reason=reason)
+            story_ends = t("ui:story_ends", default="The story ends")
+            self._log_text += f"\n{story_ends}: {reason}\n"
+            log_panel.write(f"\n[cyan]{story_ends}: {reason}[/cyan]\n")
 
-        elif t == MessageType.ECHO_SPAWNED.value:
+        elif msg_type == MessageType.ECHO_SPAWNED.value:
             parent = d.get("parent_name", "")
             daughter = d.get("daughter_name", "")
+            log.info("tui_echo_spawned", parent=parent, daughter=daughter)
             self._log_text += f"↻ {parent} reincarnates as {daughter}\n"
-            log.write(f"[magenta]↻ {parent} reincarnates as {daughter}[/magenta]\n")
+            log_panel.write(f"[magenta]↻ {parent} reincarnates as {daughter}[/magenta]\n")
 
-        elif t == MessageType.REINCARNATION_COMPLETE.value:
+        elif msg_type == MessageType.REINCARNATION_COMPLETE.value:
             name = d.get("new_host_name", "")
             self._log_text += f"◇ New host emerges: {name}\n"
             log.write(f"[green]◇ New host emerges: {name}[/green]\n")
@@ -209,23 +229,19 @@ class EcoTextualApp(App):
             pass
 
     def _do(self, idx: int) -> None:
-        import sys
-        print(f"DEBUG: _do({idx}) called", flush=True)
         if 0 <= idx < len(ACTIONS):
             action = ACTIONS[idx]
-            print(f"DEBUG: action={action}, proc={self._proc}", flush=True)
-            print(f"DEBUG: stdin={None if self._proc is None else self._proc.stdin}", flush=True)
             if self._proc is None or self._proc.stdin is None:
+                log.warning("tui_action_skipped", reason="no_proc_or_stdin", action=action)
                 return
             try:
+                log.info("tui_send_action", action=action, turn=self._turn)
                 cmd = ActionCommand(turn=self._turn, action=action)
                 encoded = encode(cmd)
-                print(f"DEBUG: writing '{encoded}'", flush=True)
                 self._proc.stdin.write(encoded + "\n")
                 self._proc.stdin.flush()
-                print(f"DEBUG: write successful", flush=True)
             except Exception as e:
-                print(f"DEBUG: ERROR {type(e).__name__}: {e}", flush=True)
+                log.error("tui_action_failed", action=action, error=str(e))
 
     def action_do_0(self) -> None: self._do(0)
     def action_do_1(self) -> None: self._do(1)
