@@ -168,9 +168,12 @@ class EcoTextualApp(App):
         self._population = ws.get("person_count", 21) * 1000
 
     def _send(self, cmd) -> None:
-        if self._proc and self._proc.stdin:
-            self._proc.stdin.write(encode(cmd) + "\n")
-            self._proc.stdin.flush()
+        try:
+            if self._proc and self._proc.stdin:
+                self._proc.stdin.write(encode(cmd) + "\n")
+                self._proc.stdin.flush()
+        except (BrokenPipeError, IOError):
+            pass
 
     def _do(self, idx: int) -> None:
         if 0 <= idx < len(ACTIONS):
