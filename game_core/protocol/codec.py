@@ -1,3 +1,7 @@
+"""
+Protocol codec for CLI <-> TUI communication.
+"""
+
 from __future__ import annotations
 
 import json
@@ -6,22 +10,26 @@ from typing import Any
 from game_core.protocol.messages import (
     ActionCommand,
     ErrorEvent,
-    GameEvent,
-    MessageType,
     QueryCommand,
     QueryResponseEvent,
     QueryType,
     QuitCommand,
     TerminatedEvent,
-    TurnEndEvent,
-    TurnStartEvent,
-    WorldStateEvent,
-    ActionResultEvent,
-    CrisisEvent,
     TickEvent,
     UnionMessage,
+    MessageType,
+)
+from game_core.systems.observer import (
+    TurnStartEvent,
+    TurnEndEvent,
+    ActionResultEvent,
+    GameEventData,
+    CrisisEvent,
+    WorldStateEvent,
     CircleActivityEvent,
-    NPcActionEvent,
+    EchoSpawnedEvent,
+    ReincarnationCompleteEvent,
+    NpcActionEvent,
 )
 
 
@@ -49,7 +57,7 @@ def decode(raw: str) -> UnionMessage | dict | None:
     try:
         mt = MessageType(msg_type)
     except ValueError:
-        return ErrorEvent(message=f"Unknown message type: {msg_type}").to_dict()
+        return ErrorEvent(message=f"Unknown message type: {msg_type}")
 
     if mt == MessageType.ACTION:
         return ActionCommand(
@@ -74,7 +82,6 @@ def decode(raw: str) -> UnionMessage | dict | None:
     elif mt == MessageType.TURN_START:
         return TurnStartEvent(
             turn=data.get("turn", 0),
-            world_tick=data.get("world_tick", 0),
             world_state=data.get("world_state", {}),
         )
 
@@ -84,7 +91,7 @@ def decode(raw: str) -> UnionMessage | dict | None:
             action=data.get("action", ""),
             success=data.get("success", False),
             message=data.get("message", ""),
-            delta=data.get("delta", {}),
+            state_delta=data.get("state_delta", {}),
         )
 
     elif mt == MessageType.TURN_END:
@@ -95,7 +102,7 @@ def decode(raw: str) -> UnionMessage | dict | None:
         )
 
     elif mt == MessageType.EVENT:
-        return GameEvent(
+        return GameEventData(
             turn=data.get("turn", 0),
             event_type=data.get("event_type", ""),
             title=data.get("title", ""),
@@ -121,8 +128,7 @@ def decode(raw: str) -> UnionMessage | dict | None:
         return WorldStateEvent(
             turn=data.get("turn", 0),
             civ=data.get("civ", {}),
-            echo=data.get("echo", {}),
-            metrics=data.get("metrics", {}),
+            world_state=data.get("world_state", {}),
             entities=data.get("entities", {}),
         )
 
@@ -146,8 +152,21 @@ def decode(raw: str) -> UnionMessage | dict | None:
             activity=data.get("activity", ""),
         )
 
+    elif mt == MessageType.ECHO_SPAWNED:
+        return EchoSpawnedEvent(
+            turn=data.get("turn", 0),
+            parent_name=data.get("parent_name", ""),
+            daughter_name=data.get("daughter_name", ""),
+        )
+
+    elif mt == MessageType.REINCARNATION_COMPLETE:
+        return ReincarnationCompleteEvent(
+            turn=data.get("turn", 0),
+            new_host_name=data.get("new_host_name", ""),
+        )
+
     elif mt == MessageType.NPC_ACTION:
-        return NPcActionEvent(
+        return NpcActionEvent(
             turn=data.get("turn", 0),
             npc_name=data.get("npc_name", ""),
             action=data.get("action", ""),

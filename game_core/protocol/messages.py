@@ -1,32 +1,36 @@
+"""
+Protocol messages for CLI <-> TUI communication.
+
+This module defines:
+- Commands (from TUI to CLI via stdin): ActionCommand, QueryCommand, QuitCommand
+- Events (from CLI to TUI via stdout): re-exported from observer.py
+
+The single source of truth for events is observer.py.
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
-
-class MessageType(str, Enum):
-    READY = "ready"
-    TURN_START = "turn_start"
-    ACTION_RESULT = "action_result"
-    TURN_END = "turn_end"
-    EVENT = "event"
-    QUERY_RESPONSE = "query_response"
-    CRISIS = "crisis"
-    WORLD_STATE = "world_state"
-    TICK = "tick"
-    TERMINATED = "terminated"
-    ERROR = "error"
-    ACTION = "action"
-    QUERY = "query"
-    QUIT = "quit"
-    ECHO_SPAWNED = "echo_spawned"
-    REINCARNATION_COMPLETE = "reincarnation_complete"
-    CIRCLE_ACTIVITY = "circle_activity"
-    NPC_ACTION = "npc_action"
+from game_core.systems.observer import (
+    MessageType,
+    ProtocolEvent,
+    ActionResultEvent,
+    TurnEndEvent,
+    GameEventData,
+    CrisisEvent,
+    WorldStateEvent,
+    CircleActivityEvent,
+    EchoSpawnedEvent,
+    ReincarnationCompleteEvent,
+    NpcActionEvent,
+)
 
 
 class QueryType(str, Enum):
+    """Query types for query commands."""
     WORLD_STATE = "world_state"
     AVAILABLE_ACTIONS = "available_actions"
     METRIC_HISTORY = "metric_history"
@@ -38,6 +42,7 @@ class QueryType(str, Enum):
 
 @dataclass
 class ActionCommand:
+    """Command from TUI to CLI to execute an action."""
     turn: int
     action: str
 
@@ -51,6 +56,7 @@ class ActionCommand:
 
 @dataclass
 class QueryCommand:
+    """Command from TUI to CLI to query state."""
     query_id: str
     query_type: QueryType
     params: dict[str, Any] = field(default_factory=dict)
@@ -59,19 +65,21 @@ class QueryCommand:
         return {
             "type": MessageType.QUERY.value,
             "query_id": self.query_id,
-            "query_type": self.query_type.value,
+            "query_type": self.query_type.value if hasattr(self.query_type, 'value') else self.query_type,
             "params": self.params,
         }
 
 
 @dataclass
 class QuitCommand:
+    """Command from TUI to CLI to quit."""
     def to_dict(self) -> dict[str, Any]:
         return {"type": MessageType.QUIT.value}
 
 
 @dataclass
 class ReadyEvent:
+    """Initial ready event sent when CLI starts."""
     initial_state: dict[str, Any]
 
     def to_dict(self) -> dict[str, Any]:
@@ -82,73 +90,8 @@ class ReadyEvent:
 
 
 @dataclass
-class TurnStartEvent:
-    turn: int
-    world_tick: int
-    world_state: dict[str, Any]
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.TURN_START.value,
-            "turn": self.turn,
-            "world_tick": self.world_tick,
-            "world_state": self.world_state,
-        }
-
-
-@dataclass
-class ActionResultEvent:
-    turn: int
-    action: str
-    success: bool
-    message: str
-    delta: dict[str, Any] = field(default_factory=dict)
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.ACTION_RESULT.value,
-            "turn": self.turn,
-            "action": self.action,
-            "success": self.success,
-            "message": self.message,
-            "delta": self.delta,
-        }
-
-
-@dataclass
-class TurnEndEvent:
-    turn: int
-    world_tick: int
-    action_taken: str | None
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.TURN_END.value,
-            "turn": self.turn,
-            "world_tick": self.world_tick,
-            "action_taken": self.action_taken,
-        }
-
-
-@dataclass
-class GameEvent:
-    turn: int
-    event_type: str
-    title: str
-    summary: str = ""
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.EVENT.value,
-            "turn": self.turn,
-            "event_type": self.event_type,
-            "title": self.title,
-            "summary": self.summary,
-        }
-
-
-@dataclass
 class QueryResponseEvent:
+    """Response to a query command."""
     query_id: str
     query_type: QueryType
     data: dict[str, Any]
@@ -157,47 +100,14 @@ class QueryResponseEvent:
         return {
             "type": MessageType.QUERY_RESPONSE.value,
             "query_id": self.query_id,
-            "query_type": self.query_type.value,
+            "query_type": self.query_type.value if hasattr(self.query_type, 'value') else self.query_type,
             "data": self.data,
         }
 
 
 @dataclass
-class CrisisEvent:
-    turn: int
-    metric: str
-    value: float
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.CRISIS.value,
-            "turn": self.turn,
-            "metric": self.metric,
-            "value": self.value,
-        }
-
-
-@dataclass
-class WorldStateEvent:
-    turn: int
-    civ: dict[str, Any]
-    echo: dict[str, Any]
-    metrics: dict[str, Any]
-    entities: dict[str, Any] = field(default_factory=dict)
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.WORLD_STATE.value,
-            "turn": self.turn,
-            "civ": self.civ,
-            "echo": self.echo,
-            "metrics": self.metrics,
-            "entities": self.entities,
-        }
-
-
-@dataclass
 class TickEvent:
+    """Tick event for periodic updates."""
     turn: int
     world_tick: int
     action_result: dict[str, Any] | None = None
@@ -212,22 +122,8 @@ class TickEvent:
 
 
 @dataclass
-class CircleActivityEvent:
-    turn: int
-    circle_name: str
-    activity: str
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.CIRCLE_ACTIVITY.value,
-            "turn": self.turn,
-            "circle_name": self.circle_name,
-            "activity": self.activity,
-        }
-
-
-@dataclass
 class TerminatedEvent:
+    """Event sent when simulation terminates."""
     reason: str
 
     def to_dict(self) -> dict[str, Any]:
@@ -239,6 +135,7 @@ class TerminatedEvent:
 
 @dataclass
 class ErrorEvent:
+    """Error event."""
     message: str
 
     def to_dict(self) -> dict[str, Any]:
@@ -248,70 +145,14 @@ class ErrorEvent:
         }
 
 
-@dataclass
-class EchoSpawnedEvent:
-    turn: int
-    parent_name: str
-    daughter_name: str
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.ECHO_SPAWNED.value,
-            "turn": self.turn,
-            "parent_name": self.parent_name,
-            "daughter_name": self.daughter_name,
-        }
-
-
-@dataclass
-class ReincarnationCompleteEvent:
-    turn: int
-    new_host_name: str
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.REINCARNATION_COMPLETE.value,
-            "turn": self.turn,
-            "new_host_name": self.new_host_name,
-        }
-
-
-@dataclass
-class NPcActionEvent:
-    turn: int
-    npc_name: str
-    action: str
-    message: str
-    success: bool = True
-
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "type": MessageType.NPC_ACTION.value,
-            "turn": self.turn,
-            "npc_name": self.npc_name,
-            "action": self.action,
-            "message": self.message,
-            "success": self.success,
-        }
-
-
 UnionMessage = (
     ActionCommand
     | QueryCommand
     | QuitCommand
     | ReadyEvent
-    | TurnStartEvent
-    | ActionResultEvent
-    | TurnEndEvent
-    | GameEvent
     | QueryResponseEvent
-    | CrisisEvent
-    | WorldStateEvent
     | TickEvent
     | TerminatedEvent
     | ErrorEvent
-    | EchoSpawnedEvent
-    | ReincarnationCompleteEvent
-    | CircleActivityEvent
-    | NPcActionEvent
+    | ProtocolEvent
 )

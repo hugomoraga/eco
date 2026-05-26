@@ -23,26 +23,27 @@ from game_core.protocol import (
     ActionCommand,
     QueryCommand,
     QuitCommand,
-    ReadyEvent,
+    encode,
+    decode_command,
+    QueryType,
+)
+from game_core.systems.observer import (
+    SimulationObserver,
+    MessageType,
     TurnStartEvent,
     TurnEndEvent,
     ActionResultEvent,
-    GameEvent,
+    ActionSelectedEvent,
+    GameEventData,
     CrisisEvent,
     WorldStateEvent,
-    TickEvent,
-    TerminatedEvent,
-    ErrorEvent,
+    CircleActivityEvent,
+    NpcCreatedEvent,
+    NpcActionEvent,
     EchoSpawnedEvent,
     ReincarnationCompleteEvent,
-    CircleActivityEvent,
-    NPcActionEvent,
-    encode,
-    decode_command,
-    MessageType,
-    QueryType,
 )
-from game_core.systems.simulation import SimulationEngine, SimulationObserver
+from game_core.systems.simulation import SimulationEngine
 from game_core.systems.random import SeededRandom
 
 if TYPE_CHECKING:
@@ -104,15 +105,23 @@ class ProtocolObserver(SimulationObserver):
     def on_turn_start(self, turn: int, world):
         self._emit(TurnStartEvent(
             turn=turn,
-            world_tick=world.clock.world_tick,
             world_state=_serialize_world(turn, world),
         ))
 
     def on_event(self, turn: int, event_type: str, title: str, summary: str = ""):
-        self._emit(GameEvent(turn=turn, event_type=event_type, title=title, summary=summary))
+        self._emit(GameEventData(
+            turn=turn,
+            event_type=event_type,
+            title=title,
+            summary=summary,
+        ))
 
     def on_crisis(self, turn: int, metric: str, value: float):
-        self._emit(CrisisEvent(turn=turn, metric=metric, value=value))
+        self._emit(CrisisEvent(
+            turn=turn,
+            metric=metric,
+            value=value,
+        ))
 
     def on_action_selected(self, turn: int, action_name: str | None):
         pass
@@ -120,13 +129,13 @@ class ProtocolObserver(SimulationObserver):
     def on_action_result(self, turn: int, action_name: str, result):
         msg = getattr(result, 'message', str(result))
         success = getattr(result, 'success', True)
-        delta = getattr(result, 'model_dump', lambda: {})()
+        state_delta = getattr(result, 'state_delta', None) or {}
         self._emit(ActionResultEvent(
             turn=turn,
             action=action_name,
             success=success,
             message=msg,
-            delta=delta,
+            state_delta=state_delta,
         ))
 
     def on_circle_activity(self, turn: int, circle_name: str, activity: str):
@@ -140,7 +149,7 @@ class ProtocolObserver(SimulationObserver):
         pass
 
     def on_npc_action(self, turn: int, npc_name: str, action: str, message: str):
-        self._emit(NPcActionEvent(
+        self._emit(NpcActionEvent(
             turn=turn,
             npc_name=npc_name,
             action=action,
@@ -154,16 +163,15 @@ class ProtocolObserver(SimulationObserver):
     def on_turn_end(self, turn: int, world, action_name: str | None):
         self._emit(TurnEndEvent(
             turn=turn,
-            world_tick=world.clock.world_tick,
             action_taken=action_name,
+            world_tick=world.clock.world_tick,
         ))
 
     def on_world_state(self, turn: int, world):
         self._emit(WorldStateEvent(
             turn=turn,
             civ=getattr(world, 'civ', {}),
-            echo=getattr(world, 'echo', {}),
-            metrics=_serialize_metrics(world),
+            world_state=_serialize_world(turn, world),
             entities={},
         ))
 
