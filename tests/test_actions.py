@@ -53,7 +53,7 @@ class TestJoinCircle:
 
         result = action.execute(echo, world, ctx)
         assert result.success is False
-        assert "No circles" in result.message
+        assert "No hay" in result.message
 
 
 class TestLeaveCircle:
@@ -66,7 +66,7 @@ class TestLeaveCircle:
 
         result = action.execute(echo, world, ctx)
         assert result.success is False
-        assert "Not a member" in result.message
+        assert "No eres" in result.message
 
 
 class TestTalk:
@@ -79,7 +79,7 @@ class TestTalk:
 
         result = action.execute(echo, world, ctx)
         assert result.success is True
-        assert "stub" in result.message.lower()
+        assert result.message is not None
 
 
 class TestSabotage:

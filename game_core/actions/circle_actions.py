@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from game_core.actions.base import Action, ActionContext, ActionResult
+from game_core.i18n import t
 
 if TYPE_CHECKING:
     from game_core.domain.entities import Echo, World
@@ -34,7 +35,7 @@ class FoundCircle(Action):
 
         return ActionResult(
             success=True,
-            message=f"Founded {circle.name}",
+            message=t("actions:founded_circle", default=f"Fundó {circle.name}"),
             state_delta={"circles_added": 1},
             new_entities=[circle.id],
             tags_created=[],
@@ -54,7 +55,7 @@ class JoinCircle(Action):
         if not world.circles:
             return ActionResult(
                 success=False,
-                message="No circles to join",
+                message=t("actions:no_circles_to_join", default="No hay círculos para unirse"),
                 state_delta={},
                 tags_created=[],
                 social_cost=self.social_cost,
@@ -69,7 +70,7 @@ class JoinCircle(Action):
         if not candidate_circles:
             return ActionResult(
                 success=False,
-                message="No circles available to join",
+                message=t("actions:no_circles_available", default="No hay círculos disponibles para unirse"),
                 state_delta={},
                 tags_created=[],
                 social_cost=self.social_cost,
@@ -92,7 +93,7 @@ class JoinCircle(Action):
         if not best_circle:
             return ActionResult(
                 success=False,
-                message="No compatible circles found",
+                message=t("actions:no_compatible_circles", default="No se encontraron círculos compatibles"),
                 state_delta={},
                 tags_created=[],
                 social_cost=self.social_cost,
@@ -101,7 +102,7 @@ class JoinCircle(Action):
         if best_affinity < 0.3:
             return ActionResult(
                 success=False,
-                message=f"Essence mismatch (affinity: {best_affinity:.2f})",
+                message=t("actions:essence_mismatch", default=f"Incompatibilidad de esencia (afinidad: {best_affinity:.2f})"),
                 state_delta={},
                 tags_created=[],
                 social_cost=self.social_cost,
@@ -121,7 +122,7 @@ class JoinCircle(Action):
 
         return ActionResult(
             success=True,
-            message=f"Joined {best_circle.name}",
+            message=t("actions:joined_circle", default=f"Se unió a {best_circle.name}"),
             state_delta={"circle_joined": best_circle.id, "circle_name": best_circle.name},
             tags_created=[],
             social_cost=self.social_cost,
@@ -140,7 +141,7 @@ class LeaveCircle(Action):
         if not echo.circles:
             return ActionResult(
                 success=False,
-                message="Not a member of any circle",
+                message=t("actions:not_member", default="No eres miembro de ningún círculo"),
                 state_delta={},
                 tags_created=[],
                 social_cost=self.social_cost,
@@ -153,7 +154,7 @@ class LeaveCircle(Action):
             echo.circles.remove(circle_id)
             return ActionResult(
                 success=False,
-                message="Circle not found",
+                message=t("actions:circle_not_found", default="Círculo no encontrado"),
                 state_delta={},
                 tags_created=[],
                 social_cost=self.social_cost,
@@ -173,7 +174,7 @@ class LeaveCircle(Action):
 
         return ActionResult(
             success=True,
-            message=f"Left {circle.name}",
+            message=t("actions:left_circle", default=f"Abandonó {circle.name}"),
             state_delta={"circle_left": circle.id},
             tags_created=[],
             social_cost=self.social_cost,
