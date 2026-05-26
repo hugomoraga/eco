@@ -158,6 +158,7 @@ class EcoTextualApp(App):
             log.write(f"[{GREEN}]NEW HOST[/{GREEN}]: {d.get('new_host_name','')}")
 
     def _apply_ws(self, ws: dict) -> None:
+        self._civ_name = ws.get("civ_name", self._civ_name)
         self._pressure = ws.get("pressure", self._pressure)
         self._legitimacy = ws.get("legitimacy", self._legitimacy)
         self._resources = ws.get("resources_global", self._resources)

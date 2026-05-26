@@ -48,8 +48,12 @@ if TYPE_CHECKING:
 
 
 def _serialize_world(turn: int, world) -> dict:
+    selected_civ = world.civs[0] if world.civs else None
+    civ_name = selected_civ.name if selected_civ else "Unknown"
+
     return {
         "turn": turn,
+        "civ_name": civ_name,
         "pressure": world.pressure,
         "legitimacy": world.legitimacy,
         "resources_global": world.resources_global,
@@ -203,6 +207,7 @@ def run_cli():
         autoplay=args.autoplay,
         autoplay_mode=args.autoplay_mode,
         autoplay_style=args.autoplay_style,
+        civ_id="default",
         input_source=input_source,
     )
 

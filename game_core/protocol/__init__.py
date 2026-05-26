@@ -15,6 +15,8 @@ from game_core.protocol.messages import (
     TickEvent,
     TerminatedEvent,
     ErrorEvent,
+    EchoSpawnedEvent,
+    ReincarnationCompleteEvent,
     UnionMessage,
 )
 
@@ -37,6 +39,8 @@ __all__ = [
     "TickEvent",
     "TerminatedEvent",
     "ErrorEvent",
+    "EchoSpawnedEvent",
+    "ReincarnationCompleteEvent",
     "UnionMessage",
     "encode",
     "decode",
