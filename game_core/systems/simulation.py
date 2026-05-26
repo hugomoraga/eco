@@ -231,7 +231,8 @@ class SimulationEngine:
 
         # AI adapter
         from game_core.ai import MiniMaxAdapter, MockAdapter, OpenAIAdapter
-        from game_core.autoplayer import AutoplayerEngine, AutoplayMode
+        from adapter_core.autoplayer import AutoplayerEngine
+        from game_core.shared import AutoplayMode
         from game_core.factory import create_npc
         from game_core.systems.event_generator import EventGenerator
         from game_core.systems.event_pool import EventPool

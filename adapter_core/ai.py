@@ -13,7 +13,8 @@ if TYPE_CHECKING:
 
 from adapter_core.base import GameAdapter
 from adapter_core.input_source import AutoplayInputSource
-from game_core.autoplayer import AutoplayerEngine, AutoplayMode
+from adapter_core.autoplayer import AutoplayerEngine
+from game_core.shared import AutoplayMode
 
 
 class AIGameAdapter(GameAdapter):

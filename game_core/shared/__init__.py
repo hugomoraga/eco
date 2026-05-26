@@ -1,9 +1,3 @@
-"""
-game_core.autoplayer.models - Re-exports from game_core.shared for backward compatibility.
-
-The actual types are defined in game_core.shared.types.
-This module exists for backward compatibility during the transition.
-"""
 from game_core.shared.types import (
     AdaptiveRule,
     AutoplayDecision,

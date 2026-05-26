@@ -193,7 +193,7 @@ class TestAIGameAdapter:
 
     def test_ai_game_adapter_has_autoplayer_engine(self):
         """AIGameAdapter should have internal AutoplayerEngine."""
-        from game_core.autoplayer import AutoplayerEngine
+        from adapter_core.autoplayer import AutoplayerEngine
 
         adapter = AIGameAdapter()
         assert isinstance(adapter._autoplay_engine, AutoplayerEngine)
