@@ -31,10 +31,13 @@ def encode_many(msgs: list[UnionMessage]) -> str:
     return "\n".join(encode(msg) for msg in msgs)
 
 
-def decode(raw: str) -> UnionMessage | None:
+def decode(raw: str) -> UnionMessage | dict | None:
     try:
         data = json.loads(raw)
     except json.JSONDecodeError:
+        return None
+
+    if not isinstance(data, dict):
         return None
 
     msg_type = data.get("type")
@@ -147,4 +150,6 @@ def decode_command(raw: str) -> ActionCommand | QueryCommand | QuitCommand | Err
         return msg
     if isinstance(msg, ErrorEvent):
         return msg
+    if msg is None:
+        return None
     return None
