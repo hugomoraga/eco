@@ -299,6 +299,10 @@ class SimulationEngine:
 
             echo = self.world.get_active_echo()
 
+            # Circle processing (spec-28): NPCs act between turns,
+            # activities shown BEFORE player chooses action
+            self._process_circle_activities(ai_adapter, faction_system, faction_tick_interval)
+
             # World events
             if self.turn % event_interval == 0:
                 context_for_event = {
@@ -382,33 +386,6 @@ class SimulationEngine:
                 faction_results = faction_system.tick(self.world)
                 for fr in faction_results:
                     self._log_event("faction_tick", fr)
-
-            # Circle processing
-            for circle in self.world.circles:
-                activities = process_circle_tick(circle, self.world, self.rng)
-                for activity in activities:
-                    self._notify("on_circle_activity", self.turn, circle.name, activity)
-
-                # NPC generation for mature circles
-                if circle.member_count >= 3:
-                    if len(getattr(circle, 'npcs', [])) < circle.member_count:
-                        self._log.debug("npc_creation", turn=self.turn, circle=circle.name, essence=circle.essence)
-                        npc = create_npc(ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=self.seed)
-                        self._log.info("npc_created", turn=self.turn, circle=circle.name, npc_name=npc.name, npc_id=npc.id)
-                        if not hasattr(circle, 'npcs'):
-                            circle.npcs = []
-                        circle.npcs.append(npc.id)
-                        # Also register in world.persons (new path)
-                        if not hasattr(self.world, 'persons'):
-                            self.world.persons = []
-                        if npc not in self.world.persons:
-                            self.world.persons.append(npc)
-                        self._notify("on_npc_created", self.turn, npc.name, npc.role)
-                        self._log_event("npc_created", {
-                            "npc_id": npc.id,
-                            "npc_name": npc.name,
-                            "circle_id": circle.id,
-                        })
 
             # World metric evolution
             self.world.evolve_metrics(self.rng)
@@ -622,4 +599,33 @@ class SimulationEngine:
     def _serialize_world(self) -> dict:
         """Serialize world state for adapters."""
         return self.world.model_dump()
+
+    def _process_circle_activities(self, ai_adapter, faction_system, faction_tick_interval) -> None:
+        """Process circle activities at turn start (spec-28)."""
+        from game_core.factory import create_npc
+
+        for circle in self.world.circles:
+            activities = process_circle_tick(circle, self.world, self.rng)
+            for activity in activities:
+                self._notify("on_circle_activity", self.turn, circle.name, activity)
+
+            if circle.member_count >= 3:
+                if len(getattr(circle, 'npcs', [])) < circle.member_count:
+                    self._log.debug("npc_creation", turn=self.turn, circle=circle.name, essence=circle.essence)
+                    npc = create_npc(ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=self.seed)
+                    self._log.info("npc_created", turn=self.turn, circle=circle.name, npc_name=npc.name, npc_id=npc.id)
+                    if not hasattr(circle, 'npcs'):
+                        circle.npcs = []
+                    circle.npcs.append(npc.id)
+                    if not hasattr(self.world, 'persons'):
+                        self.world.persons = []
+                    if npc not in self.world.persons:
+                        self.world.persons.append(npc)
+                    self._notify("on_npc_created", self.turn, npc.name, npc.role)
+                    self._log_event("npc_created", {
+                        "npc_id": npc.id,
+                        "npc_name": npc.name,
+                        "circle_id": circle.id,
+                    })
+
 
