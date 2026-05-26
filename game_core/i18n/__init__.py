@@ -47,4 +47,9 @@ def t(key: str, default: str | None = None, **kwargs) -> str:
     return value
 
 
-LANG_PROMPT = {"es": "en español", "en": "in English"}[LANGUAGE]
+def get_lang_prompt() -> str:
+    """Get language prompt dynamically based on current language."""
+    return {"es": "en español", "en": "in English"}[get_lang()]
+
+
+LANG_PROMPT = get_lang_prompt()
