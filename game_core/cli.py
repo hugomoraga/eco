@@ -189,16 +189,25 @@ class StdinInputSource:
 
 def _stdin_reader(cmd_queue: queue.Queue):
     for line in sys.stdin:
-        if not line.strip():
+        stripped = line.strip()
+        if not stripped:
             continue
-        cmd = decode_command(line.strip())
-        if cmd is None:
+
+        # Try JSON first
+        cmd = decode_command(stripped)
+        if cmd is not None:
+            if isinstance(cmd, QuitCommand):
+                cmd_queue.put(QuitCommand())
+                break
+            cmd_queue.put(cmd)
             continue
-        if isinstance(cmd, QuitCommand):
-            cmd_queue.put(QuitCommand())
-            break
-        cmd_queue.put(cmd)
-        print(f"CLI: received command: {line.strip()}", flush=True)
+
+        # Fallback: treat as plain action name
+        VALID_ACTIONS = {"found_circle", "join_circle", "leave_circle", "propagate_idea",
+                        "write_manifesto", "sabotage", "ritualize", "talk",
+                        "spread_rumor", "recruit_follower", "negotiate", "ritual"}
+        if stripped.lower() in VALID_ACTIONS:
+            cmd_queue.put(ActionCommand(turn=0, action=stripped.lower()))
 
 
 def run_cli():

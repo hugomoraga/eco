@@ -56,6 +56,7 @@ class EcoTextualApp(App):
         self._factions = 1
         self._proc: subprocess.Popen | None = None
         self._recv_queue: Queue = Queue()
+        self._log_text: str = ""
 
     def compose(self) -> ComposeResult:
         yield HeaderBar()
@@ -90,13 +91,11 @@ class EcoTextualApp(App):
 
     def _start_cli(self) -> None:
         log = self.query_one(LogPanel)
-        log.write(f">>> Starting CLI: {self._cli_args}")
         self._proc = subprocess.Popen(
             self._cli_args,
             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
             stderr=subprocess.PIPE, text=True, bufsize=1,
         )
-        log.write(f">>> Process started, pid={self._proc.pid}")
         threading.Thread(target=self._reader, daemon=True).start()
         self.set_interval(0.1, self._poll)
 
@@ -107,18 +106,14 @@ class EcoTextualApp(App):
 
     def _poll(self) -> None:
         try:
-            count = 0
             while True:
                 line = self._recv_queue.get_nowait()
-                count += 1
                 msg = decode(line)
                 if msg:
                     d = msg.to_dict() if hasattr(msg, 'to_dict') else msg
                     self._handle(d)
         except Empty:
-            if count > 0:
-                log = self.query_one(LogPanel)
-                log.write(f">>> Processed {count} messages")
+            pass
 
     def _handle(self, d: dict) -> None:
         from ui_core.textual.colors import GREEN, RED, CYAN, YELLOW, WHITE
@@ -127,7 +122,8 @@ class EcoTextualApp(App):
         log = self.query_one(LogPanel)
 
         if t == MessageType.READY.value:
-            log.write("READY - ECO Engine initialized")
+            self._log_text += "The world awakens...\n"
+            log.write("[cyan]The world awakens...[/cyan]\n")
             self._apply_ws(d.get("initial_state", {}))
             self._refresh_all()
 
@@ -135,34 +131,58 @@ class EcoTextualApp(App):
             self._turn = d.get("turn", 0)
             ws = d.get("world_state", {})
             self._apply_ws(ws)
-            log.write("")
-            log.write(f"--- Turn {self._turn} ---  P: {self._pressure:.1f}  L: {self._legitimacy:.1f}  R: {self._resources:.1f}")
+            self._log_text += f"\n— Turn {self._turn} —\n"
+            log.write(f"\n[yellow]— Turn {self._turn} —[/yellow]\n")
             self._refresh_all()
 
         elif t == MessageType.ACTION_RESULT.value:
             ok = d.get("success", False)
-            icon = "OK" if ok else "FAIL"
-            log.write(f"  {icon} {d.get('action','')}: {d.get('message','')}")
+            action = d.get("action", "")
+            message = d.get("message", "")
             if ok:
-                self._action_history.append(d.get("action", ""))
+                self._log_text += f"+ {message}\n"
+                log.write(f"[green]+[/green] {message}\n")
+            else:
+                self._log_text += f"! {message}\n"
+                log.write(f"[red]![/red] {message}\n")
+            if ok:
+                self._action_history.append(action)
                 if len(self._action_history) > 10:
                     self._action_history = self._action_history[-10:]
                 self._refresh_all()
 
         elif t == MessageType.EVENT.value:
-            log.write(f"  EVENT: {d.get('title','')}")
+            title = d.get("title", "")
+            summary = d.get("summary", "")
+            if summary:
+                self._log_text += f"◆ {title}\n  {summary}\n"
+                log.write(f"[magenta]◆ {title}[/magenta]\n")
+                log.write(f"  {summary}\n")
+            else:
+                self._log_text += f"◆ {title}\n"
+                log.write(f"[magenta]◆ {title}[/magenta]\n")
 
         elif t == MessageType.CRISIS.value:
-            log.write(f"CRISIS {d.get('metric','')} = {d.get('value',0.0):.1f}")
+            metric = d.get("metric", "")
+            value = d.get("value", 0.0)
+            self._log_text += f"⚠ Crisis: {metric} = {value:.1f}\n"
+            log.write(f"[red]⚠ Crisis: {metric} = {value:.1f}[/red]\n")
 
         elif t == MessageType.TERMINATED.value:
-            log.write(f"ENDED: {d.get('reason','')}")
+            reason = d.get("reason", "")
+            self._log_text += f"\nThe story ends: {reason}\n"
+            log.write(f"\n[cyan]The story ends: {reason}[/cyan]\n")
 
         elif t == MessageType.ECHO_SPAWNED.value:
-            log.write(f"REINCARNATED: {d.get('parent_name','')} -> {d.get('daughter_name','')}")
+            parent = d.get("parent_name", "")
+            daughter = d.get("daughter_name", "")
+            self._log_text += f"↻ {parent} reincarnates as {daughter}\n"
+            log.write(f"[magenta]↻ {parent} reincarnates as {daughter}[/magenta]\n")
 
         elif t == MessageType.REINCARNATION_COMPLETE.value:
-            log.write(f"NEW HOST: {d.get('new_host_name','')}")
+            name = d.get("new_host_name", "")
+            self._log_text += f"◇ New host emerges: {name}\n"
+            log.write(f"[green]◇ New host emerges: {name}[/green]\n")
 
     def _apply_ws(self, ws: dict) -> None:
         self._civ_name = ws.get("civ_name", self._civ_name)
