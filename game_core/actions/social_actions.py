@@ -1,3 +1,5 @@
+"""Social actions for ECO game."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -7,6 +9,20 @@ from game_core.actions.base import Action, ActionContext, ActionResult
 if TYPE_CHECKING:
     from game_core.domain.entities import Echo, World
 
+
+# ─── Action Metadata ──────────────────────────────────────────────────────────
+
+ACTION_DAMAGE_MAP = {
+    "propagate_idea": 3.0,
+    "sabotage": 20.0,
+    "ritualize": 5.0,
+    "talk": 2.0,
+    "spread_rumor": 8.0,
+    "ritual": 12.0,
+}
+
+
+# ─── Propagate Idea ────────────────────────────────────────────────────────────
 
 class PropagateIdea(Action):
     name: str = "propagate_idea"
@@ -75,6 +91,8 @@ class PropagateIdea(Action):
         )
 
 
+# ─── Sabotage ──────────────────────────────────────────────────────────────────
+
 class Sabotage(Action):
     name: str = "sabotage"
     cooldown: int = 8
@@ -95,6 +113,8 @@ class Sabotage(Action):
             social_cost=self.social_cost,
         )
 
+
+# ─── Ritualize ─────────────────────────────────────────────────────────────────
 
 class Ritualize(Action):
     name: str = "ritualize"
@@ -129,6 +149,8 @@ class Ritualize(Action):
         )
 
 
+# ─── Talk ──────────────────────────────────────────────────────────────────────
+
 class Talk(Action):
     name: str = "talk"
     cooldown: int = 1
@@ -143,3 +165,198 @@ class Talk(Action):
             state_delta={},
             social_cost=self.social_cost,
         )
+
+
+# ─── Spread Rumor (new) ────────────────────────────────────────────────────────
+
+class SpreadRumor(Action):
+    name: str = "spread_rumor"
+    cooldown: int = 4
+    social_cost: float = 3.0
+    tags_required: list[str] = []
+
+    def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
+        from game_core.systems.random import SeededRandom
+
+        rng = SeededRandom.get_instance()
+        success_chance = 0.5 + (echo.influence / 200)
+
+        if rng.random() < success_chance:
+            world.pressure += 5
+            world.legitimacy -= 2
+            world.clamp_metrics()
+            self._apply_temporal_strain(echo, 2.0)
+            self.last_used_tick = context.world_tick
+            return ActionResult(
+                success=True,
+                message="Rumors spread through the civ",
+                state_delta={"pressure_delta": 5, "legitimacy_delta": -2},
+                social_cost=self.social_cost,
+            )
+        else:
+            world.legitimacy -= 1
+            world.clamp_metrics()
+            self.last_used_tick = context.world_tick
+            return ActionResult(
+                success=False,
+                message="Rumors fizzled before spreading",
+                state_delta={"legitimacy_delta": -1},
+                social_cost=self.social_cost,
+            )
+
+
+# ─── Recruit Follower (new) ────────────────────────────────────────────────────
+
+class RecruitFollower(Action):
+    name: str = "recruit_follower"
+    cooldown: int = 5
+    social_cost: float = 4.0
+    tags_required: list[str] = []
+
+    def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
+        from game_core.systems.random import SeededRandom
+
+        if not echo.circles:
+            return ActionResult(
+                success=False,
+                message="You need to be in a circle to recruit",
+                state_delta={},
+                social_cost=self.social_cost,
+            )
+
+        rng = SeededRandom.get_instance()
+        circle = world.get_circle(echo.circles[0])
+        if not circle:
+            return ActionResult(
+                success=False,
+                message="Circle not found",
+                state_delta={},
+                social_cost=self.social_cost,
+            )
+
+        success_chance = 0.4 + (echo.influence / 150)
+
+        if rng.random() < success_chance:
+            circle.member_count += 1
+            echo.influence += 2
+            world.pressure += 1
+            world.clamp_metrics()
+            self._apply_temporal_strain(echo, 3.0)
+            self.last_used_tick = context.world_tick
+            return ActionResult(
+                success=True,
+                message=f"Recruited a new follower to {circle.name}",
+                state_delta={"new_members": 1, "influence_delta": 2},
+                social_cost=self.social_cost,
+            )
+        else:
+            world.legitimacy -= 1
+            world.clamp_metrics()
+            self.last_used_tick = context.world_tick
+            return ActionResult(
+                success=False,
+                message="No one was interested",
+                state_delta={"legitimacy_delta": -1},
+                social_cost=self.social_cost,
+            )
+
+
+# ─── Negotiate (new) ────────────────────────────────────────────────────────────
+
+class Negotiate(Action):
+    name: str = "negotiate"
+    cooldown: int = 6
+    social_cost: float = 3.5
+    tags_required: list[str] = []
+
+    def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
+        from game_core.systems.random import SeededRandom
+
+        rng = SeededRandom.get_instance()
+        success_chance = 0.5 + (echo.influence / 200)
+
+        if rng.random() < success_chance:
+            resource_gain = rng.randint(5, 15)
+            world.resources_global += resource_gain
+            world.legitimacy += 2
+            world.clamp_metrics()
+            self._apply_temporal_strain(echo, 2.5)
+            self.last_used_tick = context.world_tick
+            return ActionResult(
+                success=True,
+                message=f"Negotiated {resource_gain} resources",
+                state_delta={"resources_delta": resource_gain, "legitimacy_delta": 2},
+                social_cost=self.social_cost,
+            )
+        else:
+            world.pressure += 2
+            world.clamp_metrics()
+            self.last_used_tick = context.world_tick
+            return ActionResult(
+                success=False,
+                message="Negotiations failed",
+                state_delta={"pressure_delta": 2},
+                social_cost=self.social_cost,
+            )
+
+
+# ─── Ritual (new - powerful version) ───────────────────────────────────────────
+
+class Ritual(Action):
+    name: str = "ritual"
+    cooldown: int = 10
+    social_cost: float = 6.0
+    tags_required: list[str] = []
+
+    def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
+        from game_core.domain.entities import CircleEvent, CircleEventType
+        from game_core.systems.random import SeededRandom
+
+        rng = SeededRandom.get_instance()
+        success_chance = 0.6 + (echo.influence / 250)
+
+        if rng.random() < success_chance:
+            world.pressure -= 8
+            world.legitimacy += 3
+            world.resources_global += 5
+            world.clamp_metrics()
+
+            if echo.circles:
+                circle_id = echo.circles[0]
+                circle = world.get_circle(circle_id)
+                if circle:
+                    circle.history.append(CircleEvent(
+                        type=CircleEventType.RITUAL,
+                        turn=context.world_tick,
+                        echo_id=echo.id,
+                        details=f"Powerful ritual by {echo.name or 'Echo'}",
+                    ))
+                    circle.coherence = min(100, circle.coherence + 5)
+
+            self._apply_temporal_strain(echo, 5.0)
+            self.last_used_tick = context.world_tick
+            return ActionResult(
+                success=True,
+                message="Powerful ritual completed",
+                state_delta={
+                    "pressure_delta": -8,
+                    "legitimacy_delta": 3,
+                    "resources_delta": 5,
+                },
+                social_cost=self.social_cost,
+            )
+        else:
+            world.pressure += 4
+            world.legitimacy -= 3
+            world.clamp_metrics()
+            self._apply_temporal_strain(echo, 4.0)
+            self.last_used_tick = context.world_tick
+            return ActionResult(
+                success=False,
+                message="Ritual backfired",
+                state_delta={
+                    "pressure_delta": 4,
+                    "legitimacy_delta": -3,
+                },
+                social_cost=self.social_cost,
+            )

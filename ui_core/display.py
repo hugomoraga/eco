@@ -12,8 +12,21 @@ if TYPE_CHECKING:
     from game_core.actions.base import ActionResult
     from game_core.domain.entities import World
 
+from game_core.systems.narrative_engine import NarrativeEngine
 from ui_core.components import Components
 from ui_core.console import Console
+
+
+AVAILABLE_ACTIONS = [
+    "found_circle",
+    "write_manifesto",
+    "propagate_idea",
+    "talk",
+    "sabotage",
+    "ritualize",
+    "join_circle",
+    "leave_circle",
+]
 
 
 class ConsoleDisplay:
@@ -22,18 +35,33 @@ class ConsoleDisplay:
 
     Implements SimulationObserver interface from game_core.systems.observer.
     Registered with SimulationEngine via engine.register_observer().
+
+    Supports two modes:
+    - Layout mode (default): Uses TerminalLayout for fixed adaptive layout
+    - Legacy mode: Direct print output (when layout=None)
     """
 
-    def __init__(self, console: Console | None = None):
+    def __init__(self, console: Console | None = None, layout=None, ai_adapter=None):
         self.console = console or Console.get()
+        self._layout = layout
         self._last_metrics: dict[str, float] = {}
         self._selected_civ_id: str = "default"
+        self._log_lines: list[str] = []
+        self._narrative_engine = NarrativeEngine(ai_adapter=ai_adapter)
 
     # ─── SimulationObserver implementation ─────────────────────────────────
 
-    def on_world_start(self, world: World) -> None:
+    def on_world_start(self, world: World, game_mode: str = "player") -> None:
         """Called once at simulation start, before turn 1."""
-        from game_core.domain.entities import CivAlignment
+        if self._layout is not None:
+            self._layout.start_live(turn=0, world_tick=0)
+            self._layout.set_game_mode(game_mode)
+            self._update_layout_from_world(world, turn=0)
+            return
+
+        self._show_world_start_legacy(world)
+
+    def _show_world_start_legacy(self, world: World) -> None:
 
         console = self.console
         console.print()
@@ -125,19 +153,89 @@ class ConsoleDisplay:
 
         console.rule(style="cyan")
 
+    def _update_layout_from_world(self, world: World, turn: int) -> None:
+        """Update layout with current world state."""
+        from ui_core.layout import EchoInfo, WorldInfo
+
+        player_echo = None
+        player_person = None
+
+        for p in world.persons:
+            if p.type == "player":
+                player_person = p
+                break
+        if player_person:
+            player_host = world.get_host_for_person(player_person.id)
+            if player_host:
+                player_echo = world.get_echo(player_host.echo_id)
+
+        if player_echo:
+            echo_info = EchoInfo(
+                name=player_echo.name,
+                phase=player_echo.phase.value,
+                clarity=player_echo.clarity,
+                essences=player_echo.dominant_essences,
+                action_history=getattr(player_echo, 'action_history', [])[-5:],
+            )
+            self._layout.update(echo_info=echo_info)
+
+        selected_civ = None
+        if hasattr(world, "civs") and world.civs:
+            if self._selected_civ_id:
+                for c in world.civs:
+                    if c.meta_id == self._selected_civ_id:
+                        selected_civ = c
+                        break
+            if selected_civ is None:
+                selected_civ = world.civs[0]
+
+        civ_name = selected_civ.name if selected_civ else "Unknown"
+        self._layout.update(
+            world_info=WorldInfo(
+                civ_name=civ_name,
+                stability=world.stability,
+                pressure=world.pressure,
+                legitimacy=world.legitimacy,
+                population=world.population,
+                echoes=len(world.echoes),
+                circles=len(world.circles),
+                factions=len(world.factions),
+            )
+        )
+
     def on_turn_start(self, turn: int, world: World) -> None:
         """Called at the start of each turn, before any action is taken."""
+        metrics = self._extract_metrics(world)
+
+        if self._layout is not None:
+            self._update_layout_from_world(world, turn)
+            self._layout.set_game_mode(getattr(self, '_game_mode', 'player'))
+            self._layout.set_available_actions(AVAILABLE_ACTIONS)
+            self._layout.update(
+                turn=turn,
+                world_tick=world.clock.world_tick if world else 0,
+                metrics=Components.world_metrics_table(metrics),
+            )
+            self._last_metrics = metrics
+            return
+
         self.console.print()
         self.console.print(Components.turn_header(turn), justify="center")
-
-        metrics = self._extract_metrics(world)
         self.console.print(Components.world_metrics_table(metrics))
         self._last_metrics = metrics
 
     def on_turn_end(self, turn: int, world: World, action_taken: str | None) -> None:
         """Called at the end of each turn, after all effects are applied."""
-        self.console.print()
-        self.console.print(Components.status_line(
+        if self._layout is not None:
+            new_metrics = self._extract_metrics(world)
+            self._layout.update(
+                turn=turn,
+                world_tick=world.clock.world_tick if world else 0,
+            )
+            self._last_metrics = new_metrics
+            return
+
+        status = Components.status_line(
             turn=turn,
             world_tick=world.clock.world_tick if world else 0,
             echoes=len(world.echoes) if world else 0,
@@ -145,9 +243,9 @@ class ConsoleDisplay:
             factions=len(world.factions) if world else 0,
             influence=int(self._total_influence(world)),
             persons=len(world.persons) if world else 0,
-        ))
-
-        # Show delta if metrics changed
+        )
+        self.console.print()
+        self.console.print(status)
         new_metrics = self._extract_metrics(world)
         if new_metrics != self._last_metrics:
             self.console.print(Components.metrics_delta_table(self._last_metrics, new_metrics))
@@ -155,23 +253,40 @@ class ConsoleDisplay:
 
     def on_action_selected(self, turn: int, action_name: str | None) -> None:
         """Called when an action is selected (player or autoplay)."""
-        if action_name:
-            self.console.print(f"[cyan]>>>[/cyan] [bold]{action_name}[/bold] selected")
+        line = f"[cyan]>>>[/cyan] [bold]{action_name}[/bold] selected" if action_name else "[dim]>>> autoplay decision[/dim]"
+        self._log_lines.append(line if isinstance(line, str) else str(line))
+        if self._layout is not None:
+            self._layout.update(log=line)
         else:
-            self.console.print("[dim]>>> autoplay decision[/dim]")
+            self.console.print(line)
 
     def on_action_result(self, turn: int, action_name: str, result: ActionResult) -> None:
         """Called after an action is executed with its result."""
         success = getattr(result, "success", True)
-        message = getattr(result, "message", "")
+
+        if success:
+            narrative = self._narrative_engine.generate_player_action_narrative(action_name, True)
+            line = Components.action_result(action_name, narrative, True)
+        else:
+            narrative = self._narrative_engine.generate_player_action_narrative(action_name, False)
+            line = Components.action_result(action_name, narrative, False)
+
+        self._log_lines.append(str(line))
+        if self._layout is not None:
+            self._layout.update(log=line)
+        else:
+            self.console.print()
+            self.console.print(line)
+
         state_delta = getattr(result, "state_delta", None)
-
-        self.console.print()
-        self.console.print(Components.action_result(action_name, message, success))
-
         if state_delta and isinstance(state_delta, dict):
             for key, value in state_delta.items():
-                self.console.print(Components.action_detail(key, value))
+                detail = Components.action_detail(key, value)
+                self._log_lines.append(str(detail))
+                if self._layout is not None:
+                    self._layout.update(log=str(detail))
+                else:
+                    self.console.print(detail)
 
     def on_metric_changed(self, turn: int, metric: str, old_val: float, new_val: float) -> None:
         """Called when a metric changes significantly."""
@@ -180,36 +295,68 @@ class ConsoleDisplay:
             return
         sign = "+" if delta >= 0 else ""
         color = "green" if delta >= 0 else "red"
-        self.console.print(
-            f"  [cyan]{metric}:[/cyan] {old_val:.1f} -> {new_val:.1f} "
-            f"([{color}]{sign}{delta:.1f}[/{color}])"
-        )
+        line = f"  [cyan]{metric}:[/cyan] {old_val:.1f} -> {new_val:.1f} ([{color}]{sign}{delta:.1f}[/{color}])"
+        self._log_lines.append(line)
+        if self._layout is not None:
+            self._layout.update(log=line)
+        else:
+            self.console.print(line)
 
     def on_event(self, turn: int, event_type: str, title: str, summary: str) -> None:
         """Called when an event is generated (crisis, opportunity, etc.)."""
-        self.console.print()
-        self.console.print(Components.event_banner(event_type, title, summary))
+        line = Components.event_banner(event_type, title, summary)
+        self._log_lines.append(str(line))
+        if self._layout is not None:
+            self._layout.update(log=line)
+        else:
+            self.console.print()
+            self.console.print(line)
 
     def on_circle_founded(self, turn: int, circle_name: str, members: int) -> None:
         """Called when a circle is founded."""
-        self.console.print(f"[yellow]⭕[/yellow] Circle founded: {circle_name} ({members} members)")
+        line = f"[yellow]⭕[/yellow] Circle founded: {circle_name} ({members} members)"
+        self._log_lines.append(line)
+        if self._layout is not None:
+            self._layout.update(log=line)
+        else:
+            self.console.print(line)
 
     def on_npc_created(self, turn: int, npc_name: str, npc_role: str) -> None:
         """Called when a new NPC is created."""
-        self.console.print(f"[magenta]@[/magenta] NPC created: {npc_name} ({npc_role})")
+        line = f"[magenta]@[/magenta] NPC created: {npc_name} ({npc_role})"
+        self._log_lines.append(line)
+        if self._layout is not None:
+            self._layout.update(log=line)
+        else:
+            self.console.print(line)
 
     def on_echo_spawned(self, turn: int, parent_name: str, daughter_name: str) -> None:
         """Called when a new echo is spawned."""
-        self.console.print(f"[green]🌱[/green] Echo spawned: {daughter_name} (from {parent_name})")
+        line = f"[green]🌱[/green] Echo spawned: {daughter_name} (from {parent_name})"
+        self._log_lines.append(line)
+        if self._layout is not None:
+            self._layout.update(log=line)
+        else:
+            self.console.print(line)
 
     def on_crisis(self, turn: int, metric: str, value: float) -> None:
         """Called when a crisis threshold is crossed."""
-        self.console.print()
-        self.console.print(f"[red]⚠ CRISIS:[/red] {metric} = {value:.2f}")
+        line = f"[red]⚠ CRISIS:[/red] {metric} = {value:.2f}"
+        self._log_lines.append(line)
+        if self._layout is not None:
+            self._layout.update(log=line)
+        else:
+            self.console.print()
+            self.console.print(line)
 
     def on_circle_activity(self, turn: int, circle_name: str, activity: str) -> None:
         """Called when a circle performs an activity."""
-        self.console.print(f"[yellow]▸[/yellow] {circle_name}: {activity}")
+        line = f"[yellow]▸[/yellow] {circle_name}: {activity}"
+        self._log_lines.append(line)
+        if self._layout is not None:
+            self._layout.update(log=line)
+        else:
+            self.console.print(line)
 
     def on_world_state(self, turn: int, world: World) -> None:
         """Called with the full world state at end of turn (for snapshots)."""

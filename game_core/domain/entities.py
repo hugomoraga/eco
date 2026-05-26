@@ -414,6 +414,7 @@ class World(BaseModel):
     resources_global: float = 70.0
     crisis_threshold: float = 75.0
     collapse_threshold: float = 15.0
+    transition_turn: int = 0  # Turn when player cannot act (after death)
 
     # ──────────────────────────────────────────────────────────
     # Getters

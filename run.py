@@ -11,6 +11,7 @@ Single entry point that:
 from __future__ import annotations
 
 import argparse
+import os
 
 from game_core.systems.simulation import SimulationEngine
 from game_core.utils.config import get_config
@@ -22,7 +23,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="ECO - Memetic Simulation Engine")
     parser.add_argument("--seed", type=int, help="Random seed")
     parser.add_argument("--turns", type=int, help="Max turns")
-    parser.add_argument("--autoplay", action="store_true", help="Enable autoplay mode")
+    parser.add_argument("--autoplay", action="store_true", help="Enable autoplay mode (input + engine)")
     parser.add_argument("--autoplay-mode", type=str,
                         choices=["manual", "suggest", "autoplay", "director", "replay"],
                         help="Autoplay mode")
@@ -39,13 +40,13 @@ def main() -> None:
                         default="default", help="Civilization template to use")
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     parser.add_argument("--headless", action="store_true", help="No console output")
+    parser.add_argument("--no-layout", action="store_true", help="Disable adaptive layout")
     args = parser.parse_args()
 
     cfg = get_config()
 
     seed = args.seed if args.seed is not None else cfg.simulation.seed
     max_turns = args.turns if args.turns is not None else cfg.simulation.max_turns
-    autoplay = args.autoplay or cfg.simulation.autoplay
     autoplay_mode = args.autoplay_mode or cfg.autoplay.default_mode
     autoplay_style = args.autoplay_style or cfg.autoplay.default_style
     run_dir = args.run_dir or cfg.run_dir
@@ -53,23 +54,29 @@ def main() -> None:
     lang = args.lang or cfg.i18n_language
     verbose = args.verbose or cfg.verbose
     headless = args.headless
+    no_layout = args.no_layout
 
     if lang != cfg.i18n_language:
-        import os
         os.environ["ECO_LANG"] = lang
 
-    # ─── Input source (player_core) ──────────────────────────────────
+    # ─── Input mode & engine autoplay ──────────────────────────────────
+    # --autoplay flag enables both input autoplay AND engine autoplay
+    is_autoplay = args.autoplay
+
     if headless:
         input_source = None
-    else:
+    elif is_autoplay:
         from player_core.modes.autoplay import AutoplayInputSource
         input_source = AutoplayInputSource()
+    else:
+        from player_core.modes.player import PlayerInputSource
+        input_source = PlayerInputSource(timeout_seconds=60)
 
     # ─── Simulation engine ────────────────────────────────────────────
     engine = SimulationEngine(
         seed=seed,
         max_turns=max_turns,
-        autoplay=autoplay,
+        autoplay=is_autoplay,
         autoplay_mode=autoplay_mode,
         autoplay_style=autoplay_style,
         run_dir=run_dir,
@@ -81,8 +88,17 @@ def main() -> None:
 
     # ─── Observer (ui_core) ──────────────────────────────────────────
     if not headless:
+        from game_core.ai import MockAdapter
         console = Console.get()
-        engine.register_observer(ConsoleDisplay(console))
+        ai_adapter = MockAdapter()
+        if no_layout or not is_autoplay:
+            display = ConsoleDisplay(console, ai_adapter=ai_adapter)
+        else:
+            from ui_core.layout import TerminalLayout
+            layout = TerminalLayout()
+            display = ConsoleDisplay(console, layout=layout, ai_adapter=ai_adapter)
+        display._game_mode = "autoplay" if is_autoplay else "player"
+        engine.register_observer(display)
 
     # ─── Run ──────────────────────────────────────────────────────────
     result = engine.run()

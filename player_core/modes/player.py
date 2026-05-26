@@ -58,41 +58,17 @@ class PlayerInputSource(InputSource):
         return self._request_player_input(turn, world)
 
     def _request_player_input(self, turn: int, world: World) -> str | None:
-        """Display menu and wait for player input."""
+        """Display menu and wait for player input using Selector (arrow keys)."""
         from game_core.i18n import t
-        from ui_core.console import Console
+        from ui_core.selector import Selector
 
-        console = Console.get()
         actions = self._get_available_actions()
 
-        # Show prompt
-        console.print()
-        console.print(f"[bold]{t('ui.actions.prompt', turn=turn)}[/bold]")
-        console.print()
-
-        for i, action in enumerate(actions, 1):
-            console.print(f"  [cyan]{i}.[/cyan] {action}")
-
-        console.print()
-        console.print("[dim]/help · /save · /quit[/dim]")
-
-        # Set up timeout
-        if self.timeout_seconds > 0:
-            signal.signal(signal.SIGALRM, _timeout_handler)
-            signal.alarm(self.timeout_seconds)
-
-        try:
-            choice = input("► ").strip()
-        except (EOFError, KeyboardInterrupt):
-            return None
-        finally:
-            if self.timeout_seconds > 0:
-                signal.alarm(0)
-
-        if not choice:
-            return None
-
-        return self._parse_input(choice, actions)
+        selector = Selector(
+            title=t('ui.actions.prompt', turn=turn),
+            options=actions,
+        )
+        return selector.run()
 
     def _parse_input(self, choice: str, actions: list[str]) -> str | None:
         """Parse player input into action name."""

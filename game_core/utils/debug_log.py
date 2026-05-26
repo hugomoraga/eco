@@ -27,7 +27,7 @@ class DebugLog:
     """
     Singleton debug logger for ECO.
     Logs to run_dir/debug.log with timestamps + levels.
-    Console shows INFO+, file shows DEBUG.
+    Console shows INFO+ (to stderr), file shows DEBUG.
     """
     _instance: DebugLog | None = None
 
@@ -51,8 +51,8 @@ class DebugLog:
         )
         fh.setFormatter(file_fmt)
 
-        # Console handler — INFO level only
-        ch = logging.StreamHandler(sys.stdout)
+        # Console handler — INFO level only (to stderr to avoid Rich interference)
+        ch = logging.StreamHandler(sys.stderr)
         ch.setLevel(logging.INFO)
         console_fmt = logging.Formatter(
             "%(asctime)s.%(msecs)03d [%(levelname)s] %(message)s",

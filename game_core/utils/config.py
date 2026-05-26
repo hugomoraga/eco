@@ -26,7 +26,6 @@ class AIConfig:
 class SimulationConfig:
     seed: int = 42
     max_turns: int = 100
-    autoplay: bool = False
     snapshot_interval: int = 10
 
 
@@ -38,7 +37,7 @@ class AutoplayConfig:
 
 @dataclass
 class InputConfig:
-    mode: Literal["autoplay", "hybrid", "player"] = "autoplay"
+    mode: Literal["autoplay", "hybrid", "player"] = "player"
     interactive_turns: int = 5
 
 
@@ -58,7 +57,6 @@ class Config:
             simulation=SimulationConfig(
                 seed=int(os.getenv("ECO_SEED", "42")),
                 max_turns=int(os.getenv("ECO_MAX_TURNS", "100")),
-                autoplay=_str_to_bool(os.getenv("ECO_AUTOPLAY", "false")),
                 snapshot_interval=int(os.getenv("ECO_SNAPSHOT_INTERVAL", "10")),
             ),
             ai=AIConfig(
@@ -72,7 +70,7 @@ class Config:
                 default_style=os.getenv("ECO_AUTOPLAY_STYLE", "preservationist"),
             ),
             input_config=InputConfig(
-                mode=os.getenv("ECO_INPUT_MODE", "autoplay"),
+                mode=os.getenv("ECO_INPUT_MODE", "player"),
                 interactive_turns=int(os.getenv("ECO_INTERACTIVE_TURNS", "5")),
             ),
             i18n_language=os.getenv("ECO_LANG", "es"),

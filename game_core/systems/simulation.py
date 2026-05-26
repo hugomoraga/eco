@@ -9,8 +9,10 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from game_core.domain.entities import World
-from game_core.factory import process_circle_tick
+from game_core.domain.entities import World, Host
+from game_core.factory import process_circle_tick, on_host_death
+from game_core.systems.damage import calculate_damage, can_deal_damage, should_deal_damage_to_player, apply_damage_to_npc
+from game_core.systems.reincarnation import is_in_transition, start_transition_turn, end_transition_turn, find_reincarnation_host, preserve_echo_legacy, transform_legacy, reincarnate_echo
 from game_core.systems.observer import NullObserver, SimulationObserver
 from game_core.systems.random import SeededRandom
 from game_core.utils.debug_log import DebugLog
@@ -95,7 +97,7 @@ class SimulationEngine:
             self.input_source = input_source
         else:
             from player_core import create_input_source
-            self.input_source = create_input_source()
+            self.input_source = create_input_source(autoplay=self.autoplay)
 
     # ─── Observer management ─────────────────────────────────────────────
 
@@ -239,7 +241,16 @@ class SimulationEngine:
     def run(self) -> dict:
         from game_core.actions.circle_actions import FoundCircle, JoinCircle, LeaveCircle
         from game_core.actions.manifesto_actions import WriteManifesto
-        from game_core.actions.social_actions import PropagateIdea, Ritualize, Sabotage, Talk
+        from game_core.actions.social_actions import (
+            Negotiate,
+            PropagateIdea,
+            RecruitFollower,
+            Ritual,
+            Ritualize,
+            Sabotage,
+            SpreadRumor,
+            Talk,
+        )
 
         # AI adapter
         from game_core.ai import MiniMaxAdapter, MockAdapter, OpenAIAdapter
@@ -265,10 +276,14 @@ class SimulationEngine:
             "join_circle": JoinCircle,
             "leave_circle": LeaveCircle,
             "propagate_idea": PropagateIdea,
-            "talk": Talk,
             "write_manifesto": WriteManifesto,
             "sabotage": Sabotage,
             "ritualize": Ritualize,
+            "talk": Talk,
+            "spread_rumor": SpreadRumor,
+            "recruit_follower": RecruitFollower,
+            "negotiate": Negotiate,
+            "ritual": Ritual,
         }
 
         faction_system = FactionTickSystem(seed=self.seed)
@@ -362,6 +377,16 @@ class SimulationEngine:
                         if hasattr(echo, 'last_action_turn'):
                             echo.last_action_turn[action_name] = self.turn
 
+                    # Handle damage to player from NPC actions
+                    if should_deal_damage_to_player(action_name) and result and result.success:
+                        _handle_npc_damage_to_player(action_name, self.world, self._notify, self.turn)
+
+            # Check transition turn - player cannot act during transition
+            if is_in_transition(self.world):
+                if self.world.transition_turn <= self.world.clock.action_tick:
+                    _handle_reincarnation(self.world, self._notify, self.turn)
+                    end_transition_turn(self.world)
+
             # Faction tick
             if self.turn % faction_tick_interval == 0 and self.world.factions:
                 faction_results = faction_system.tick(self.world)
@@ -421,7 +446,82 @@ class SimulationEngine:
 
         return {"turns": self.turn, "run_dir": str(self.run_dir)}
 
-    def _snapshot_metrics(self) -> dict:
+
+def _handle_npc_damage_to_player(action_name: str, world: World, notify, turn: int) -> None:
+    """Handle NPC actions that can damage the player (sabotage, spread_rumor)."""
+    if not hasattr(world, 'hosts') or not world.hosts:
+        return
+
+    active_host = None
+    for h in world.hosts:
+        if h.is_active and world.get_person(h.person_id) and world.get_person(h.person_id).type == "player":
+            active_host = h
+            break
+
+    if not active_host:
+        return
+
+    person = world.get_person(active_host.person_id)
+    if not person:
+        return
+
+    defender_influence = person.influence
+    defender_circle_count = len(getattr(person, 'circles', []))
+
+    damage, is_critical = calculate_damage(
+        action_name,
+        attacker_influence=30.0,
+        defender_influence=defender_influence,
+        defender_circle_count=defender_circle_count,
+    )
+
+    if damage > 0:
+        person.take_damage(damage)
+        notify("on_metric_changed", turn, "player_vitality", person.vitality + damage, person.vitality)
+
+        if person.vitality <= 0:
+            _trigger_host_death(world, active_host, notify, turn)
+
+
+def _trigger_host_death(world: World, host: Host, notify, turn: int) -> None:
+    """Trigger host death and start reincarnation process."""
+    echo = world.get_echo(host.echo_id)
+    if not echo:
+        return
+
+    legacy = preserve_echo_legacy(echo)
+    transformed = transform_legacy(legacy, echo)
+
+    new_person, new_host = reincarnate_echo(echo, world, legacy, transformed)
+    if new_person and new_host:
+        start_transition_turn(world)
+        notify("on_echo_spawned", turn, echo.name, new_person.name)
+    else:
+        notify("on_crisis", turn, "echo_death", echo.name)
+
+
+def _handle_reincarnation(world: World, notify, turn: int) -> None:
+    """Handle the end of transition turn and complete reincarnation."""
+    if not hasattr(world, 'hosts') or not world.hosts:
+        return
+
+    active_host = None
+    for h in world.hosts:
+        if h.is_active:
+            active_host = h
+            break
+
+    if not active_host:
+        return
+
+    person = world.get_person(active_host.person_id)
+    if not person:
+        return
+
+    notify("on_reincarnation_complete", turn, person.name)
+
+
+def _snapshot_metrics(self) -> dict:
         """Capture current world metrics."""
         return {
             "pressure": self.world.pressure,

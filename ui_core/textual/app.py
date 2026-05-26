@@ -1,0 +1,206 @@
+"""
+EcoTextual - Clean TUI for ECO simulation.
+Inspired by posting's layout.
+"""
+
+from __future__ import annotations
+
+import subprocess
+import sys
+import threading
+from queue import Queue, Empty
+
+from textual.app import App, ComposeResult
+from textual.binding import Binding
+from textual.containers import Horizontal, Vertical
+
+from game_core.protocol import ActionCommand, QuitCommand, encode, decode, MessageType
+from ui_core.textual.styles import CSS, ACTIONS
+from ui_core.textual.widgets.header import HeaderBar
+from ui_core.textual.widgets.echo import EchoPanel
+from ui_core.textual.widgets.civ import CivPanel
+from ui_core.textual.widgets.metrics import MetricsPanel
+from ui_core.textual.widgets.actions import ActionsBar, make_actions_text
+from ui_core.textual.widgets.log_panel import LogPanel
+
+
+class EcoTextualApp(App):
+    CSS = CSS
+
+    BINDINGS = [
+        Binding("q", "quit", "Quit", show=True),
+        Binding("1", "do_0", ""), Binding("2", "do_1", ""),
+        Binding("3", "do_2", ""), Binding("4", "do_3", ""),
+        Binding("5", "do_4", ""), Binding("6", "do_5", ""),
+        Binding("7", "do_6", ""), Binding("8", "do_7", ""),
+    ]
+
+    def __init__(self, cli_args: list[str] | None = None, theme_name: str = "nebula", **kwargs):
+        super().__init__(**kwargs)
+        self._cli_args = cli_args or [sys.executable, "-m", "game_core.cli", "--max-turns", "100"]
+        self._turn = 0
+        self._world_tick = 0
+        self._pressure = 30.0
+        self._legitimacy = 60.0
+        self._resources = 70.0
+        self._stability = 50.0
+        self._population = 0
+        self._echo_name = "---"
+        self._echo_phase = "---"
+        self._echo_clarity = 0.0
+        self._echo_essences: list[str] = []
+        self._action_history: list[str] = []
+        self._civ_name = "---"
+        self._echoes = 0
+        self._circles = 0
+        self._factions = 1
+        self._proc: subprocess.Popen | None = None
+        self._recv_queue: Queue = Queue()
+
+    def compose(self) -> ComposeResult:
+        yield HeaderBar()
+        with Horizontal(id="main-area"):
+            with Vertical(id="left-col"):
+                yield EchoPanel()
+                yield CivPanel()
+            with Vertical(id="right-col"):
+                yield MetricsPanel()
+                yield LogPanel()
+        with Horizontal(id="action-bar"):
+            yield ActionsBar()
+
+    def on_mount(self) -> None:
+        self._refresh_all()
+        self._start_cli()
+
+    def _refresh_all(self) -> None:
+        self.query_one(HeaderBar).update_state(
+            self._turn, self._world_tick, self._stability, self._pressure, self._population
+        )
+        self.query_one(EchoPanel).update_state(
+            self._echo_name, self._echo_phase, self._echo_clarity, self._echo_essences, self._action_history
+        )
+        self.query_one(CivPanel).update_state(
+            self._civ_name, self._echoes, self._circles, self._factions, self._population
+        )
+        self.query_one(MetricsPanel).update_state(
+            self._pressure, self._legitimacy, self._resources, self._stability
+        )
+        self.query_one(ActionsBar).update(make_actions_text())
+
+    def _start_cli(self) -> None:
+        self._proc = subprocess.Popen(
+            self._cli_args,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, text=True, bufsize=1,
+        )
+        threading.Thread(target=self._reader, daemon=True).start()
+        self.set_interval(0.1, self._poll)
+
+    def _reader(self) -> None:
+        for line in self._proc.stdout:
+            if line.strip():
+                self._recv_queue.put(line.strip())
+
+    def _poll(self) -> None:
+        try:
+            while True:
+                line = self._recv_queue.get_nowait()
+                msg = decode(line)
+                if msg:
+                    d = msg.to_dict() if hasattr(msg, 'to_dict') else msg
+                    self._handle(d)
+        except Empty:
+            pass
+
+    def _handle(self, d: dict) -> None:
+        from ui_core.textual.colors import GREEN, RED, CYAN, YELLOW, WHITE
+
+        t = d.get("type")
+        log = self.query_one(LogPanel)
+
+        if t == MessageType.READY.value:
+            log.write(f"[{GREEN}]READY[/{GREEN}] - ECO Engine initialized")
+            self._apply_ws(d.get("initial_state", {}))
+            self._refresh_all()
+
+        elif t == MessageType.TURN_START.value:
+            self._turn = d.get("turn", 0)
+            ws = d.get("world_state", {})
+            self._apply_ws(ws)
+            log.write("")
+            log.write(f"[{CYAN}]--- Turn {self._turn} ---[/{CYAN}]  P:[{YELLOW}]{self._pressure:.1f}[/{YELLOW}]  L:[{GREEN}]{self._legitimacy:.1f}[/{GREEN}]  R:[{CYAN}]{self._resources:.1f}[/{CYAN}]")
+            self._refresh_all()
+
+        elif t == MessageType.ACTION_RESULT.value:
+            ok = d.get("success", False)
+            icon = f"[{GREEN}]OK[/{GREEN}]" if ok else f"[{RED}]FAIL[/{RED}]"
+            log.write(f"  {icon} [{WHITE}]{d.get('action','')}[/{WHITE}]: {d.get('message','')}")
+            if ok:
+                self._action_history.append(d.get("action", ""))
+                if len(self._action_history) > 10:
+                    self._action_history = self._action_history[-10:]
+                self._refresh_all()
+
+        elif t == MessageType.EVENT.value:
+            log.write(f"  [{YELLOW}]{d.get('title','')}[/{YELLOW}]")
+
+        elif t == MessageType.CRISIS.value:
+            log.write(f"[{RED}]CRISIS[/{RED}] {d.get('metric','')} = {d.get('value',0.0):.1f}")
+
+        elif t == MessageType.TERMINATED.value:
+            log.write(f"[{RED}]ENDED[/{RED}]: {d.get('reason','')}")
+
+        elif t == MessageType.ECHO_SPAWNED.value:
+            log.write(f"[{CYAN}]REINCARNATED[/{CYAN}]: {d.get('parent_name','')} -> {d.get('daughter_name','')}")
+
+        elif t == MessageType.REINCARNATION_COMPLETE.value:
+            log.write(f"[{GREEN}]NEW HOST[/{GREEN}]: {d.get('new_host_name','')}")
+
+    def _apply_ws(self, ws: dict) -> None:
+        self._pressure = ws.get("pressure", self._pressure)
+        self._legitimacy = ws.get("legitimacy", self._legitimacy)
+        self._resources = ws.get("resources_global", self._resources)
+        self._world_tick = ws.get("world_tick", self._world_tick)
+        self._echoes = ws.get("echo_count", self._echoes)
+        self._circles = ws.get("circle_count", self._circles)
+        self._factions = ws.get("faction_count", self._factions)
+        self._population = ws.get("person_count", 21) * 1000
+
+    def _send(self, cmd) -> None:
+        if self._proc and self._proc.stdin:
+            self._proc.stdin.write(encode(cmd) + "\n")
+            self._proc.stdin.flush()
+
+    def _do(self, idx: int) -> None:
+        if 0 <= idx < len(ACTIONS):
+            self._send(ActionCommand(turn=self._turn, action=ACTIONS[idx]))
+
+    def action_do_0(self) -> None: self._do(0)
+    def action_do_1(self) -> None: self._do(1)
+    def action_do_2(self) -> None: self._do(2)
+    def action_do_3(self) -> None: self._do(3)
+    def action_do_4(self) -> None: self._do(4)
+    def action_do_5(self) -> None: self._do(5)
+    def action_do_6(self) -> None: self._do(6)
+    def action_do_7(self) -> None: self._do(7)
+
+    def action_quit(self) -> None:
+        self._send(QuitCommand())
+        if self._proc:
+            self._proc.terminate()
+        self.exit()
+
+
+if __name__ == "__main__":
+    import argparse
+    from ui_core.textual.theme import THEMES
+
+    p = argparse.ArgumentParser()
+    p.add_argument("--max-turns", type=int, default=100)
+    p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--theme", default="nebula", choices=list(THEMES.keys()))
+    args = p.parse_args()
+
+    cli = [sys.executable, "-m", "game_core.cli", "--max-turns", str(args.max_turns), "--seed", str(args.seed)]
+    EcoTextualApp(cli_args=cli, theme_name=args.theme).run()

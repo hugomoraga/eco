@@ -1,0 +1,6 @@
+templates:
+  - "{actor} dejó su círculo atrás"
+  - "{actor} se alejó del grupo"
+  - "{actor} abandonó su afiliación al círculo"
+  - "{actor} cortó lazos con la reunión"
+  - "{actor} se encontró fuera del círculo"

@@ -10,3 +10,4 @@ game-core/
 dist/
 build/
 game_core/runs/
+runs/

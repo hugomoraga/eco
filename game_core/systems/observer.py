@@ -64,6 +64,9 @@ class SimulationObserver(ABC):
     def on_circle_activity(self, turn: int, circle_name: str, activity: str) -> None:
         """Called when a circle performs an activity."""
 
+    def on_reincarnation_complete(self, turn: int, new_host_name: str) -> None:
+        """Called when echo reincarnation process completes."""
+
 
 class NullObserver(SimulationObserver):
     """No-op observer — does nothing. Used as placeholder."""

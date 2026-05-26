@@ -1,0 +1,6 @@
+templates:
+  - "{actor} joined an existing circle"
+  - "{actor} became part of a gathering"
+  - "{actor} entered a circle of believers"
+  - "{actor} found their place among others"
+  - "{actor} aligned with a new group"
