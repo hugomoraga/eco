@@ -54,6 +54,11 @@ Guía de lectura y dependencias entre especificaciones.
 | 45 | ~~[domain-refactor](45-domain-refactor.md)~~ | Refactor incompleto → merge en 43 | 01, 02 | **deprecated** |
 | 46 | [world-generation](46-world-generation.md) | Civilization templates + Person dataset + IA generation | 01, 02, 03, 19, 28, 30, 43 | draft |
 | 47 | [essence-system-v2](47-essence-system-v2.md) | EssenceProfile, 20 essencias, matriz compatibilidades, mutación | 01 | **active** |
+| 48 | [world-start-screen](48-world-start-screen.md) | World start screen UI | 01, 43 | draft |
+| 50 | [ui-core-protocol](50-ui-core-protocol.md) | UI ↔ game_core protocol | 01, 43 | draft |
+| 51 | [code-patterns](51-code-patterns.md) | Factory & systems patterns, naming conventions | 01 | draft |
+| 52 | [person-host-echo](52-person-host-echo.md) | Person/Host/Echo refactor con herencia OOP | 51 | draft |
+| 53 | [logger](53-logger.md) | Structured logging con structlog, dual output (stderr + file) | 01 | active |
 
 ## Gráfico de dependencias
 
