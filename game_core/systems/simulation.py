@@ -68,6 +68,7 @@ class SimulationEngine:
         self.turn = 0
         self.world = self._create_initial_world()
         self.autoplayer_engine = None
+        self._running = False
 
         init_logger(self.run_dir)
         self._log = get_logger(__name__)
@@ -77,7 +78,7 @@ class SimulationEngine:
         if input_source is not None:
             self.input_source = input_source
         else:
-            from player_core import create_input_source
+            from adapter_core import create_input_source
             self.input_source = create_input_source(autoplay=self.autoplay)
 
     # ─── Observer management ─────────────────────────────────────────────
@@ -213,6 +214,8 @@ class SimulationEngine:
     # ─── Main loop ──────────────────────────────────────────────────────
 
     def run(self) -> dict:
+        self._running = True
+
         from game_core.actions.circle_actions import FoundCircle, JoinCircle, LeaveCircle
         from game_core.actions.manifesto_actions import WriteManifesto
         from game_core.actions.social_actions import (
@@ -433,6 +436,7 @@ class SimulationEngine:
                 self._save_snapshot(self.world, self.turn)
                 self._notify("on_world_state", self.turn, self.world)
 
+        self._running = False
         return {"turns": self.turn, "run_dir": str(self.run_dir)}
 
     @staticmethod
@@ -513,3 +517,109 @@ class SimulationEngine:
                 "legitimacy": self.world.legitimacy,
                 "resources_global": self.world.resources_global,
             }
+
+    # ─── Adapter-friendly API ─────────────────────────────────────────────
+
+    def turn_start(self) -> dict:
+        """Begin a turn. Returns world state for adapters."""
+        self.turn += 1
+        self.world.clock.advance(1)
+        self._notify("on_turn_start", self.turn, self.world)
+        return self._serialize_world()
+
+    def turn_end(self, action_name: str | None = None) -> None:
+        """End current turn. Evolves metrics and notifies observers."""
+        self.world.evolve_metrics(self.rng)
+        new_metrics = self._snapshot_metrics()
+        for metric, new_val in new_metrics.items():
+            old_val = getattr(self, '_last_metrics', {}).get(metric, new_val)
+            if abs(new_val - old_val) >= 0.5:
+                self._notify("on_metric_changed", self.turn, metric, old_val, new_val)
+        self._last_metrics = new_metrics
+        self._notify("on_turn_end", self.turn, self.world, action_name)
+        self._log_event("tick", {
+            "turn": self.turn,
+            "world_tick": self.world.clock.world_tick,
+            "action": action_name,
+        })
+
+    def execute_action(self, turn: int, action_name: str) -> "ActionResult | None":
+        """Execute an action. Called by adapter after getting action from InputSource."""
+        from game_core.actions.circle_actions import FoundCircle, JoinCircle, LeaveCircle
+        from game_core.actions.manifesto_actions import WriteManifesto
+        from game_core.actions.social_actions import (
+            Negotiate,
+            PropagateIdea,
+            RecruitFollower,
+            Ritual,
+            Ritualize,
+            Sabotage,
+            SpreadRumor,
+            Talk,
+        )
+        from game_core.actions.base import ActionContext
+
+        action_classes = {
+            "found_circle": FoundCircle,
+            "join_circle": JoinCircle,
+            "leave_circle": LeaveCircle,
+            "propagate_idea": PropagateIdea,
+            "write_manifesto": WriteManifesto,
+            "sabotage": Sabotage,
+            "ritualize": Ritualize,
+            "talk": Talk,
+            "spread_rumor": SpreadRumor,
+            "recruit_follower": RecruitFollower,
+            "negotiate": Negotiate,
+            "ritual": Ritual,
+        }
+
+        if action_name not in action_classes:
+            return None
+
+        echo = self.world.get_active_echo()
+        action = action_classes[action_name]()
+        context = ActionContext(
+            world_tick=self.world.clock.world_tick,
+            action_tick=self.world.clock.action_tick,
+            autoplay=False,
+        )
+
+        result = None
+        if action.can_execute(echo, self.world, context):
+            result = action.execute(echo, self.world, context)
+            self._log.info("action_executed", turn=turn, action=action_name, success=result.success, message=result.message)
+            self._notify("on_action_result", turn, action_name, result)
+
+            if echo:
+                if hasattr(echo, 'action_history'):
+                    echo.action_history.append(action_name)
+                    if len(echo.action_history) > 10:
+                        echo.action_history = echo.action_history[-10:]
+                if hasattr(echo, 'last_action_turn'):
+                    echo.last_action_turn[action_name] = turn
+
+            if should_deal_damage_to_player(action_name) and result and result.success:
+                try:
+                    self._handle_npc_damage_to_player(action_name, self.world, self._notify, turn)
+                except Exception as e:
+                    self._log.error("npc_damage", turn=turn, action=action_name, stage="error", error=str(e))
+
+        return result
+
+    def get_world_state(self) -> dict:
+        """Return current world state for adapters."""
+        return self._serialize_world()
+
+    def is_running(self) -> bool:
+        """Check if simulation is active."""
+        return self._running and self.turn < self.max_turns
+
+    def stop(self) -> None:
+        """Signal simulation to stop."""
+        self._running = False
+
+    def _serialize_world(self) -> dict:
+        """Serialize world state for adapters."""
+        return self.world.model_dump()
+

@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from game_core.domain.entities import World
 
-from player_core.modes.base import InputSource
+from adapter_core.input_source.base import InputSource
 
 
 class AutoplayInputSource(InputSource):

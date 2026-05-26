@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from game_core.domain.entities import World
 
-from player_core.modes.base import InputSource
+from adapter_core.input_source.base import InputSource
 
 
 class TimeoutException(Exception):
@@ -72,18 +72,15 @@ class PlayerInputSource(InputSource):
 
     def _parse_input(self, choice: str, actions: list[str]) -> str | None:
         """Parse player input into action name."""
-        # Command prefix
         if choice.startswith("/"):
             return self._handle_command(choice[1:])
 
-        # Number choice
         if choice.isdigit():
             idx = int(choice) - 1
             if 0 <= idx < len(actions):
                 return actions[idx]
             return None
 
-        # Direct action name
         if choice in actions:
             return choice
 
@@ -98,12 +95,10 @@ class PlayerInputSource(InputSource):
         from ui_core.input import COMMANDS
 
         if name == "quit":
-            # This will be handled by caller checking running state
             return None
 
         if name in COMMANDS:
-            # COMMANDS are registered in ui_core.input
-            return None  # Commands are handled elsewhere
+            return None
 
         return None
 

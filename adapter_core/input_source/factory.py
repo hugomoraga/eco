@@ -1,5 +1,5 @@
 """
-player_core.modes.factory — create InputSource based on config.
+adapter_core.input_source.factory — create InputSource based on config.
 
 Single source of truth for input mode.
 """
@@ -9,7 +9,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from player_core.modes.base import InputSource
+    from adapter_core.input_source.base import InputSource
 
 
 def create_input_source(autoplay: bool = False) -> InputSource:
@@ -24,27 +24,27 @@ def create_input_source(autoplay: bool = False) -> InputSource:
     mode = cfg.input_config.mode
 
     if autoplay or mode == "autoplay":
-        from player_core.modes.autoplay import AutoplayInputSource
+        from adapter_core.input_source.autoplay import AutoplayInputSource
         return AutoplayInputSource()
     elif mode == "player":
-        from player_core.modes.player import PlayerInputSource
+        from adapter_core.input_source.player import PlayerInputSource
         return PlayerInputSource(timeout_seconds=60)
     elif mode == "hybrid":
-        from player_core.modes.hybrid import HybridInputSource
+        from adapter_core.input_source.hybrid import HybridInputSource
         return HybridInputSource(interactive_turns=cfg.input_config.interactive_turns)
     else:
-        from player_core.modes.autoplay import AutoplayInputSource
+        from adapter_core.input_source.autoplay import AutoplayInputSource
         return AutoplayInputSource()
 
 
 def create_input_source_for_mode(mode: str, **kwargs) -> InputSource:
     """Create input source for explicit mode (for testing)."""
     if mode == "player":
-        from player_core.modes.player import PlayerInputSource
+        from adapter_core.input_source.player import PlayerInputSource
         return PlayerInputSource(**kwargs)
     elif mode == "hybrid":
-        from player_core.modes.hybrid import HybridInputSource
+        from adapter_core.input_source.hybrid import HybridInputSource
         return HybridInputSource(**kwargs)
     else:
-        from player_core.modes.autoplay import AutoplayInputSource
+        from adapter_core.input_source.autoplay import AutoplayInputSource
         return AutoplayInputSource()

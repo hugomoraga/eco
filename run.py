@@ -66,10 +66,10 @@ def main() -> None:
     if headless:
         input_source = None
     elif is_autoplay:
-        from player_core.modes.autoplay import AutoplayInputSource
+        from adapter_core.input_source.autoplay import AutoplayInputSource
         input_source = AutoplayInputSource()
     else:
-        from player_core.modes.player import PlayerInputSource
+        from adapter_core.input_source.player import PlayerInputSource
         input_source = PlayerInputSource(timeout_seconds=60)
 
     # ─── Simulation engine ────────────────────────────────────────────
