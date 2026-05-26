@@ -72,6 +72,7 @@ class EcoTextualApp(App):
     def on_mount(self) -> None:
         self._refresh_all()
         self._start_cli()
+        self.focus()  # Ensure app captures key events
 
     def _refresh_all(self) -> None:
         self.query_one(HeaderBar).update_state(
@@ -189,6 +190,9 @@ class EcoTextualApp(App):
             pass
 
     def _do(self, idx: int) -> None:
+        import sys
+        print(f"DEBUG: _do called with idx={idx}", flush=True)
+        print(f"DEBUG: ACTIONS[{idx}] = {ACTIONS[idx] if 0 <= idx < len(ACTIONS) else 'OUT OF RANGE'}", flush=True)
         if 0 <= idx < len(ACTIONS):
             log = self.query_one(LogPanel)
             log.write(f">>> Key pressed: {idx} -> {ACTIONS[idx]}")
