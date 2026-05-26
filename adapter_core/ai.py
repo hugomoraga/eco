@@ -1,7 +1,7 @@
 """
 adapter_core.ai — AIGameAdapter for AI/autoplay controlled players.
 
-Uses AutoplayEngine internally for action selection when in autoplay mode.
+Uses AutoplayerEngine internally for action selection when in autoplay mode.
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ class AIGameAdapter(GameAdapter):
     """
     Adapter for AI-controlled players.
 
-    Uses AutoplayEngine internally for action selection.
+    Uses AutoplayerEngine internally for action selection.
     Can be configured with different autoplay modes and styles.
     """
 
@@ -31,7 +31,7 @@ class AIGameAdapter(GameAdapter):
         seed: int = 42,
     ):
         super().__init__(AutoplayInputSource())
-        self._autoplay_engine = AutoplayEngine(
+        self._autoplay_engine = AutoplayerEngine(
             seed=seed,
             mode=AutoplayMode(mode) if mode in [m.value for m in AutoplayMode] else AutoplayMode.AUTOPLAY,
             style_id=style,
