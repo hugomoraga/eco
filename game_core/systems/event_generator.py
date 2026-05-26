@@ -187,7 +187,9 @@ class EventGenerator:
             return self._generate_fallback(context)
 
     def _create_event(self, data: dict, context: dict) -> GameEvent:
-        title = data.get("event_title", "Unnamed Event")
+        title = data.get("event_title", "")
+        if not title:
+            title = t("events:unnamed", default="Evento sin nombre")
         summary = data.get("summary", "")
         causes = data.get("causes", [])
         choices = data.get("choices", [])
@@ -207,7 +209,7 @@ class EventGenerator:
                 validated_tags.append(tag)
 
             validated_choices = {
-                "label": choice.get("label", "Unknown"),
+                "label": choice.get("label", t("choices:unknown", default="Opción desconocida")),
                 "effect_tags": validated_tags,
                 "canonical": is_canonical,
             }

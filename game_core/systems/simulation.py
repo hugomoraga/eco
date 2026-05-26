@@ -11,6 +11,7 @@ from pathlib import Path
 
 from game_core.domain.entities import World, Host
 from game_core.factory import process_circle_tick, on_host_death
+from game_core.i18n import get_lang
 from game_core.systems.damage import calculate_damage, can_deal_damage, should_deal_damage_to_player, apply_damage_to_npc
 from game_core.systems.reincarnation import is_in_transition, start_transition_turn, end_transition_turn, find_reincarnation_host, preserve_echo_legacy, transform_legacy, reincarnate_echo
 from game_core.systems.observer import NullObserver, SimulationObserver
@@ -327,6 +328,7 @@ class SimulationEngine:
                     "world_tick": self.world.clock.world_tick,
                     "resources": self.world.resources,
                     "echo_essence": echo.essence if echo else "anarchism",
+                    "language": get_lang(),
                 }
                 event = event_gen.generate(context_for_event)
                 self._notify("on_event", self.turn, "event", event.title, event.summary)
