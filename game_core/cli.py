@@ -51,6 +51,13 @@ def _serialize_world(turn: int, world) -> dict:
     selected_civ = world.civs[0] if world.civs else None
     civ_name = selected_civ.name if selected_civ else "Unknown"
 
+    echo = world.get_active_echo()
+    echo_name = echo.name if echo else "---"
+    echo_essence = echo.dominant_essence if echo else "---"
+    echo_phase = echo.phase.value if echo and hasattr(echo.phase, 'value') else "dormant"
+    echo_clarity = echo.get_attribute("clarity").value if echo and echo.get_attribute("clarity") else 50.0
+    echo_essences = [e.essence for e in echo.essence_profile.dominant] if echo and echo.essence_profile else []
+
     return {
         "turn": turn,
         "civ_name": civ_name,
@@ -62,6 +69,11 @@ def _serialize_world(turn: int, world) -> dict:
         "circle_count": len(getattr(world, 'circles', [])),
         "faction_count": len(getattr(world, 'factions', [])),
         "person_count": len(getattr(world, 'persons', [])),
+        "echo_name": echo_name,
+        "echo_essence": echo_essence,
+        "echo_phase": echo_phase,
+        "echo_clarity": echo_clarity,
+        "echo_essences": echo_essences,
     }
 
 

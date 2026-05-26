@@ -167,6 +167,10 @@ class EcoTextualApp(App):
         self._circles = ws.get("circle_count", self._circles)
         self._factions = ws.get("faction_count", self._factions)
         self._population = ws.get("person_count", 21) * 1000
+        self._echo_name = ws.get("echo_name", self._echo_name)
+        self._echo_phase = ws.get("echo_phase", self._echo_phase)
+        self._echo_clarity = ws.get("echo_clarity", self._echo_clarity)
+        self._echo_essences = ws.get("echo_essences", self._echo_essences)
 
     def _send(self, cmd) -> None:
         try:
