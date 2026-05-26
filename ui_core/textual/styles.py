@@ -16,10 +16,17 @@ Screen { background: """ + SCREEN_BG + """; }
 #main-area {
     width: 100%;
     height: 1fr;
+    overflow: hidden;
 }
 
 #left-col {
     width: 35%;
+    overflow: hidden;
+}
+
+#right-col {
+    width: 65%;
+    overflow: hidden;
 }
 
 #echo-section {
@@ -27,16 +34,14 @@ Screen { background: """ + SCREEN_BG + """; }
     border: round """ + ACCENT + """ 40%;
     border-title-color: """ + ACCENT + """;
     border-title-align: right;
+    overflow: hidden;
 }
 
 #civ-section {
     border: round magenta 40%;
     border-title-color: magenta;
     border-title-align: right;
-}
-
-#right-col {
-    width: 65%;
+    overflow: hidden;
 }
 
 #metrics-section {
@@ -44,12 +49,14 @@ Screen { background: """ + SCREEN_BG + """; }
     border: round yellow 40%;
     border-title-color: yellow;
     border-title-align: right;
+    overflow: hidden;
 }
 
 #log-section {
     border: round green 40%;
     border-title-color: green;
     border-title-align: right;
+    overflow: hidden;
 }
 
 #action-bar {

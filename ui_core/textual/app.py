@@ -120,7 +120,7 @@ class EcoTextualApp(App):
         log = self.query_one(LogPanel)
 
         if t == MessageType.READY.value:
-            log.write(f"[{GREEN}]READY[/{GREEN}] - ECO Engine initialized")
+            log.write("READY - ECO Engine initialized")
             self._apply_ws(d.get("initial_state", {}))
             self._refresh_all()
 
@@ -129,13 +129,13 @@ class EcoTextualApp(App):
             ws = d.get("world_state", {})
             self._apply_ws(ws)
             log.write("")
-            log.write(f"[{CYAN}]--- Turn {self._turn} ---[/{CYAN}]  P:[{YELLOW}]{self._pressure:.1f}[/{YELLOW}]  L:[{GREEN}]{self._legitimacy:.1f}[/{GREEN}]  R:[{CYAN}]{self._resources:.1f}[/{CYAN}]")
+            log.write(f"--- Turn {self._turn} ---  P: {self._pressure:.1f}  L: {self._legitimacy:.1f}  R: {self._resources:.1f}")
             self._refresh_all()
 
         elif t == MessageType.ACTION_RESULT.value:
             ok = d.get("success", False)
-            icon = f"[{GREEN}]OK[/{GREEN}]" if ok else f"[{RED}]FAIL[/{RED}]"
-            log.write(f"  {icon} [{WHITE}]{d.get('action','')}[/{WHITE}]: {d.get('message','')}")
+            icon = "OK" if ok else "FAIL"
+            log.write(f"  {icon} {d.get('action','')}: {d.get('message','')}")
             if ok:
                 self._action_history.append(d.get("action", ""))
                 if len(self._action_history) > 10:
@@ -143,19 +143,19 @@ class EcoTextualApp(App):
                 self._refresh_all()
 
         elif t == MessageType.EVENT.value:
-            log.write(f"  [{YELLOW}]{d.get('title','')}[/{YELLOW}]")
+            log.write(f"  EVENT: {d.get('title','')}")
 
         elif t == MessageType.CRISIS.value:
-            log.write(f"[{RED}]CRISIS[/{RED}] {d.get('metric','')} = {d.get('value',0.0):.1f}")
+            log.write(f"CRISIS {d.get('metric','')} = {d.get('value',0.0):.1f}")
 
         elif t == MessageType.TERMINATED.value:
-            log.write(f"[{RED}]ENDED[/{RED}]: {d.get('reason','')}")
+            log.write(f"ENDED: {d.get('reason','')}")
 
         elif t == MessageType.ECHO_SPAWNED.value:
-            log.write(f"[{CYAN}]REINCARNATED[/{CYAN}]: {d.get('parent_name','')} -> {d.get('daughter_name','')}")
+            log.write(f"REINCARNATED: {d.get('parent_name','')} -> {d.get('daughter_name','')}")
 
         elif t == MessageType.REINCARNATION_COMPLETE.value:
-            log.write(f"[{GREEN}]NEW HOST[/{GREEN}]: {d.get('new_host_name','')}")
+            log.write(f"NEW HOST: {d.get('new_host_name','')}")
 
     def _apply_ws(self, ws: dict) -> None:
         self._civ_name = ws.get("civ_name", self._civ_name)
