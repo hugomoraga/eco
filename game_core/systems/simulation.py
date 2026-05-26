@@ -447,84 +447,84 @@ class SimulationEngine:
         return {"turns": self.turn, "run_dir": str(self.run_dir)}
 
 
-def _handle_npc_damage_to_player(action_name: str, world: World, notify, turn: int) -> None:
-    """Handle NPC actions that can damage the player (sabotage, spread_rumor)."""
-    if not hasattr(world, 'hosts') or not world.hosts:
-        return
+    def _handle_npc_damage_to_player(action_name: str, world: World, notify, turn: int) -> None:
+        """Handle NPC actions that can damage the player (sabotage, spread_rumor)."""
+        if not hasattr(world, 'hosts') or not world.hosts:
+            return
 
-    active_host = None
-    for h in world.hosts:
-        if h.is_active and world.get_person(h.person_id) and world.get_person(h.person_id).type == "player":
-            active_host = h
-            break
+        active_host = None
+        for h in world.hosts:
+            if h.is_active and world.get_person(h.person_id) and world.get_person(h.person_id).type == "player":
+                active_host = h
+                break
 
-    if not active_host:
-        return
+        if not active_host:
+            return
 
-    person = world.get_person(active_host.person_id)
-    if not person:
-        return
+        person = world.get_person(active_host.person_id)
+        if not person:
+            return
 
-    defender_influence = person.influence
-    defender_circle_count = len(getattr(person, 'circles', []))
+        defender_influence = person.influence
+        defender_circle_count = len(getattr(person, 'circles', []))
 
-    damage, is_critical = calculate_damage(
-        action_name,
-        attacker_influence=30.0,
-        defender_influence=defender_influence,
-        defender_circle_count=defender_circle_count,
-    )
+        damage, is_critical = calculate_damage(
+            action_name,
+            attacker_influence=30.0,
+            defender_influence=defender_influence,
+            defender_circle_count=defender_circle_count,
+        )
 
-    if damage > 0:
-        person.take_damage(damage)
-        notify("on_metric_changed", turn, "player_vitality", person.vitality + damage, person.vitality)
+        if damage > 0:
+            person.take_damage(damage)
+            notify("on_metric_changed", turn, "player_vitality", person.vitality + damage, person.vitality)
 
-        if person.vitality <= 0:
-            _trigger_host_death(world, active_host, notify, turn)
-
-
-def _trigger_host_death(world: World, host: Host, notify, turn: int) -> None:
-    """Trigger host death and start reincarnation process."""
-    echo = world.get_echo(host.echo_id)
-    if not echo:
-        return
-
-    legacy = preserve_echo_legacy(echo)
-    transformed = transform_legacy(legacy, echo)
-
-    new_person, new_host = reincarnate_echo(echo, world, legacy, transformed)
-    if new_person and new_host:
-        start_transition_turn(world)
-        notify("on_echo_spawned", turn, echo.name, new_person.name)
-    else:
-        notify("on_crisis", turn, "echo_death", echo.name)
+            if person.vitality <= 0:
+                _trigger_host_death(world, active_host, notify, turn)
 
 
-def _handle_reincarnation(world: World, notify, turn: int) -> None:
-    """Handle the end of transition turn and complete reincarnation."""
-    if not hasattr(world, 'hosts') or not world.hosts:
-        return
+    def _trigger_host_death(world: World, host: Host, notify, turn: int) -> None:
+        """Trigger host death and start reincarnation process."""
+        echo = world.get_echo(host.echo_id)
+        if not echo:
+            return
 
-    active_host = None
-    for h in world.hosts:
-        if h.is_active:
-            active_host = h
-            break
+        legacy = preserve_echo_legacy(echo)
+        transformed = transform_legacy(legacy, echo)
 
-    if not active_host:
-        return
-
-    person = world.get_person(active_host.person_id)
-    if not person:
-        return
-
-    notify("on_reincarnation_complete", turn, person.name)
+        new_person, new_host = reincarnate_echo(echo, world, legacy, transformed)
+        if new_person and new_host:
+            start_transition_turn(world)
+            notify("on_echo_spawned", turn, echo.name, new_person.name)
+        else:
+            notify("on_crisis", turn, "echo_death", echo.name)
 
 
-def _snapshot_metrics(self) -> dict:
-        """Capture current world metrics."""
-        return {
-            "pressure": self.world.pressure,
-            "legitimacy": self.world.legitimacy,
-            "resources_global": self.world.resources_global,
-        }
+    def _handle_reincarnation(world: World, notify, turn: int) -> None:
+        """Handle the end of transition turn and complete reincarnation."""
+        if not hasattr(world, 'hosts') or not world.hosts:
+            return
+
+        active_host = None
+        for h in world.hosts:
+            if h.is_active:
+                active_host = h
+                break
+
+        if not active_host:
+            return
+
+        person = world.get_person(active_host.person_id)
+        if not person:
+            return
+
+        notify("on_reincarnation_complete", turn, person.name)
+
+
+    def _snapshot_metrics(self) -> dict:
+            """Capture current world metrics."""
+            return {
+                "pressure": self.world.pressure,
+                "legitimacy": self.world.legitimacy,
+                "resources_global": self.world.resources_global,
+            }

@@ -198,6 +198,7 @@ def _stdin_reader(cmd_queue: queue.Queue):
             cmd_queue.put(QuitCommand())
             break
         cmd_queue.put(cmd)
+        print(f"CLI: received command: {line.strip()}", flush=True)
 
 
 def run_cli():

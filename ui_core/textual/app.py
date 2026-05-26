@@ -190,26 +190,22 @@ class EcoTextualApp(App):
 
     def _do(self, idx: int) -> None:
         import sys
-        print(f"DEBUG: _do called with idx={idx}", flush=True)
-        print(f"DEBUG: ACTIONS[{idx}] = {ACTIONS[idx] if 0 <= idx < len(ACTIONS) else 'OUT OF RANGE'}", flush=True)
+        print(f"DEBUG: _do({idx}) called", flush=True)
         if 0 <= idx < len(ACTIONS):
-            log = self.query_one(LogPanel)
-            log.write(f">>> Key pressed: {idx} -> {ACTIONS[idx]}")
-            if self._proc is None:
-                log.write("ERROR: _proc is None")
-                return
-            if self._proc.stdin is None:
-                log.write("ERROR: _proc.stdin is None")
+            action = ACTIONS[idx]
+            print(f"DEBUG: action={action}, proc={self._proc}", flush=True)
+            print(f"DEBUG: stdin={None if self._proc is None else self._proc.stdin}", flush=True)
+            if self._proc is None or self._proc.stdin is None:
                 return
             try:
-                cmd = ActionCommand(turn=self._turn, action=ACTIONS[idx])
+                cmd = ActionCommand(turn=self._turn, action=action)
                 encoded = encode(cmd)
-                log.write(f">>> Encoded: {encoded}")
+                print(f"DEBUG: writing '{encoded}'", flush=True)
                 self._proc.stdin.write(encoded + "\n")
                 self._proc.stdin.flush()
-                log.write(f">>> Sent OK")
+                print(f"DEBUG: write successful", flush=True)
             except Exception as e:
-                log.write(f"ERROR: {type(e).__name__}: {e}")
+                print(f"DEBUG: ERROR {type(e).__name__}: {e}", flush=True)
 
     def action_do_0(self) -> None: self._do(0)
     def action_do_1(self) -> None: self._do(1)
