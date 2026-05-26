@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import pytest
 
-from game_core.domain.entities import (
+from core.domain.entities import (
     Circle,
     Echo,
     EchoPhase,
@@ -14,7 +14,7 @@ from game_core.domain.entities import (
     PlayerPerson,
     World,
 )
-from game_core.factory import (
+from core.factories import (
     create_circle,
     create_echo,
     create_faction,
@@ -37,7 +37,7 @@ class TestCreateEcho:
         assert echo.genealogical_lineage == ["anarchism"]
 
     def test_create_echo_with_attributes(self):
-        from game_core.domain.entities import EchoAttribute
+        from core.domain.entities import EchoAttribute
         attrs = [EchoAttribute(label="clarity", value=80.0)]
         echo = create_echo(name="Att Echo", essence="technocracy", attributes=attrs)
         assert echo.get_attribute("clarity").value == 80.0

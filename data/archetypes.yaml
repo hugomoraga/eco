@@ -1,0 +1,249 @@
+# Single source of truth for all archetype definitions
+# This file contains all archetype-specific data used across the system
+
+archetypes:
+  artisan:
+    display_name: "Artesano"
+    description: "Constructor, maker, creador con sus manos"
+    intro_texts:
+      - "Eres la voz de los artesanos, los makers, los que construyen con sus manos."
+      - "Tu esencia es el trabajo. La creación es tu protesta."
+      - "Los herreros, los tejedores, los constructores... todos tejen el futuro."
+    color: "cyan"
+
+    # Goal generation weights
+    goal_weights:
+      accumulate: 0.4
+      progress: 0.4
+      survive: 0.2
+      maintain: 0.0
+
+    # Preferred actions (in order of preference)
+    action_preferences:
+      - organizar
+      - reclutar
+      - conversar
+      - negociar
+      - propagar
+
+    # Base stats for NPCs of this archetype
+    base_stats:
+      loyalty: 55
+      influence: 10
+      vitality: 100
+
+  merchant:
+    display_name: "Mercader"
+    description: "Comerciante, negociador, acumulador"
+    intro_texts:
+      - "De las transacciones surge el poder. Tu riqueza es tu arma."
+      - "El comercio mueve ciudades. Y tú mueves el comercio."
+      - "Tu moneda habla más fuerte que las balas."
+    color: "yellow"
+
+    goal_weights:
+      accumulate: 0.6
+      maintain: 0.3
+      survive: 0.1
+      progress: 0.0
+
+    action_preferences:
+      - negociar
+      - propagar
+      - conversar
+      - reclutar
+      - organizar
+
+    base_stats:
+      loyalty: 50
+      influence: 15
+      vitality: 100
+
+  warrior:
+    display_name: "Guerrero"
+    description: "Luchador, defensor, protector"
+    intro_texts:
+      - "La fuerza bruta abre caminos que la palabra no puede."
+      - "Tu puño es tu argumento. La acción tu discurso."
+      - "Los músculos mueven montañas. Y tú eres la montaña."
+    color: "red"
+
+    goal_weights:
+      maintain: 0.5
+      progress: 0.4
+      survive: 0.1
+      accumulate: 0.0
+
+    action_preferences:
+      - sabotar
+      - predicar
+      - organizar
+      - reclutar
+      - conversar
+
+    base_stats:
+      loyalty: 45
+      influence: 12
+      vitality: 120
+
+  leader:
+    display_name: "Líder"
+    description: "Guía, comandante, inspirador"
+    intro_texts:
+      - "Los demás te siguen. Tu palabra mueve multitudes."
+      - "Naciste para liderar. El pueblo reconoce a su guía."
+      - "Tu voz corta el silencio como espada."
+    color: "magenta"
+
+    goal_weights:
+      progress: 0.5
+      accumulate: 0.3
+      survive: 0.2
+      maintain: 0.0
+
+    action_preferences:
+      - predicar
+      - organizar
+      - reclutar
+      - negociar
+      - sabotar
+
+    base_stats:
+      loyalty: 60
+      influence: 20
+      vitality: 100
+
+  scholar:
+    display_name: "Erudito"
+    description: "Sabio, intelectual, conocedor"
+    intro_texts:
+      - "El conocimiento es poder. Y tú posees verdades peligrosas."
+      - "Los libros encierran secretos. Tú los has leído todos."
+      - "La ignorancia es la prisión. Tú tienes la llave."
+    color: "blue"
+
+    goal_weights:
+      progress: 0.4
+      accumulate: 0.4
+      maintain: 0.2
+      survive: 0.0
+
+    action_preferences:
+      - propagar
+      - conversar
+      - predicar
+      - negociar
+      - organizar
+
+    base_stats:
+      loyalty: 65
+      influence: 12
+      vitality: 80
+
+  artist:
+    display_name: "Artista"
+    description: "Creador, inspirador, provocador"
+    intro_texts:
+      - "El arte desafía. Tu creación agita almas dormidas."
+      - "Con un pincel cambias lo que espadas no pueden."
+      - "Tu arte es tu revolución."
+    color: "green"
+
+    goal_weights:
+      progress: 0.5
+      accumulate: 0.3
+      survive: 0.2
+      maintain: 0.0
+
+    action_preferences:
+      - predicar
+      - propagar
+      - conversar
+      - organizar
+      - reclutar
+
+    base_stats:
+      loyalty: 55
+      influence: 14
+      vitality: 90
+
+  mystic:
+    display_name: "Místico"
+    description: "Visionario, chamán, profeta"
+    intro_texts:
+      - "Ves lo que otros no pueden. Tus visiones son profecías."
+      - "El velo se ha rasgado. Tú ves más allá."
+      - "Tus sueños son mapas del futuro."
+    color: "purple"
+
+    goal_weights:
+      maintain: 0.5
+      progress: 0.3
+      survive: 0.2
+      accumulate: 0.0
+
+    action_preferences:
+      - predicar
+      - organizar
+      - conversar
+      - propagar
+      - negociar
+
+    base_stats:
+      loyalty: 70
+      influence: 16
+      vitality: 85
+
+  wanderer:
+    display_name: "Caminante"
+    description: "Viajero, libre, sin hogar"
+    intro_texts:
+      - "Llegas de donde nadie te espera. Tu libertad es tu mensaje."
+      - "Sin hogar, sin cadenas. Tu camino es tu mensaje."
+      - "Cruzas fronteras sin pedir permiso."
+    color: "white"
+
+    goal_weights:
+      survive: 0.6
+      progress: 0.3
+      maintain: 0.1
+      accumulate: 0.0
+
+    action_preferences:
+      - propagar
+      - conversar
+      - reclutar
+      - negociar
+      - predicar
+
+    base_stats:
+      loyalty: 40
+      influence: 8
+      vitality: 100
+
+  neutral:
+    display_name: "Neutral"
+    description: "Sin arquetipo definido"
+    intro_texts:
+      - "El cambio viene. Solo falta dirección."
+      - "Una nueva era se asoma en el horizonte."
+      - "El futuro está por escribirse."
+    color: "dim"
+
+    goal_weights:
+      survive: 0.5
+      progress: 0.3
+      accumulate: 0.2
+      maintain: 0.0
+
+    action_preferences:
+      - conversar
+      - propagar
+      - reclutar
+      - organizar
+      - predicar
+
+    base_stats:
+      loyalty: 50
+      influence: 10
+      vitality: 100

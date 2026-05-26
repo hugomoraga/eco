@@ -1,13 +1,72 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 *.pyo
-.venv/
-.venv
-uv.lock
-.hermes/
-game-core/
+*.pyd
+.Python
 *.egg-info/
 dist/
 build/
-game_core/runs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Testing
+.pytest_cache/
+.hypothesis/
+coverage/
+.coverage
+htmlcov/
+
+# Linting/Formatting
+.ruff_cache/
+.mypy_cache/
+.pyright/
+*.lint
+.flake8
+
+# Logs
+*.log
+logs/
+
+# Runs (simulation outputs)
 runs/
+
+# Environment (sensitive)
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Project specific (old migrations)
+game_core/
+game-core/
+adapter_core/
+ui_core/
+protocol/
+
+# Node (if used)
+node_modules/
+package-lock.json
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+tmp/

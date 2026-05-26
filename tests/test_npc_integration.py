@@ -7,9 +7,9 @@ from __future__ import annotations
 
 import pytest
 
-from game_core.systems.simulation import SimulationEngine
-from adapter_core.input_source import AutoplayInputSource
-from adapter_core.autoplayer import NPCEngine, get_archetype_for_npc
+from core.systems.simulation import SimulationEngine
+from adapters.ai.input_source import AutoplayInputSource
+from adapters.autoplayer import NPCEngine, get_archetype_for_npc
 
 
 class TestNPCEngine:

@@ -1,9 +1,9 @@
 """Tests for ui_core.textual.app."""
 from __future__ import annotations
 
-from ui_core.textual.app import EcoTextualApp
-from ui_core.textual.styles import ACTIONS
-from game_core.protocol import ActionCommand, encode
+from adapters.tui.textual.app import EcoTextualApp
+from adapters.tui.textual.styles import ACTIONS
+from core.ports import ActionCommand, encode
 
 
 class TestEcoTextualAppBindings:

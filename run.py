@@ -13,10 +13,10 @@ from __future__ import annotations
 import argparse
 import os
 
-from game_core.systems.simulation import SimulationEngine
-from game_core.utils.config import get_config
-from ui_core.console import Console
-from ui_core.display import ConsoleDisplay
+from core.systems.simulation import SimulationEngine
+from core.utils.config import get_config
+from adapters.tui.console import Console
+from adapters.tui.display import ConsoleDisplay
 
 
 def main() -> None:
@@ -66,10 +66,10 @@ def main() -> None:
     if headless:
         input_source = None
     elif is_autoplay:
-        from adapter_core.input_source.autoplay import AutoplayInputSource
+        from adapters.ai.input_source.autoplay import AutoplayInputSource
         input_source = AutoplayInputSource()
     else:
-        from adapter_core.input_source.player import PlayerInputSource
+        from adapters.ai.input_source.player import PlayerInputSource
         input_source = PlayerInputSource(timeout_seconds=60)
 
     # ─── Simulation engine ────────────────────────────────────────────
@@ -88,13 +88,13 @@ def main() -> None:
 
     # ─── Observer (ui_core) ──────────────────────────────────────────
     if not headless:
-        from game_core.ai import MockAdapter
+        from adapters.ai import MockAdapter
         console = Console.get()
         ai_adapter = MockAdapter()
         if no_layout or not is_autoplay:
             display = ConsoleDisplay(console, ai_adapter=ai_adapter)
         else:
-            from ui_core.layout import TerminalLayout
+            from adapters.tui.layout import TerminalLayout
             layout = TerminalLayout()
             display = ConsoleDisplay(console, layout=layout, ai_adapter=ai_adapter)
         display._game_mode = "autoplay" if is_autoplay else "player"

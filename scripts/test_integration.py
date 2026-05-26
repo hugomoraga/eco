@@ -8,13 +8,13 @@ import sys
 
 sys.path.insert(0, '.')
 
-from game_core.ai import MockAdapter
-from game_core.domain.entities import Circle, Faction, World, WorldClock
-from game_core.domain.essence_effects import EssenceEffects
-from game_core.factory import create_npc
-from game_core.systems.event_generator import EventGenerator
-from game_core.systems.event_pool import EventPool
-from game_core.systems.pressure import DerivePressureCalculator, EconomyPressure
+from adapters.ai import MockAdapter
+from core.domain.entities import Circle, Faction, World, WorldClock
+from core.domain.rules.essence_effects import EssenceEffects
+from core.factories import create_npc
+from core.systems.event_generator import EventGenerator
+from core.systems.event_pool import EventPool
+from core.systems.pressure import DerivePressureCalculator, EconomyPressure
 
 
 def test_derive_pressure_calculator():

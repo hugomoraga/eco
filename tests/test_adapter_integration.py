@@ -1,5 +1,5 @@
 """
-Integration tests for adapter_core with SimulationEngine.
+Integration tests for adapters with SimulationEngine.
 
 Tests that verify the game loop works correctly with different adapters.
 """
@@ -7,9 +7,9 @@ from __future__ import annotations
 
 import pytest
 
-from game_core.systems.simulation import SimulationEngine
-from adapter_core.input_source import AutoplayInputSource, PlayerInputSource
-from adapter_core import AIGameAdapter
+from core.systems.simulation import SimulationEngine
+from adapters.ai.input_source import AutoplayInputSource, PlayerInputSource
+from adapters.ai import AIGameAdapter
 
 
 class TestSimulationEngineWithInputSource:

@@ -5,7 +5,7 @@ Ensures that events are properly defined and serialized through the protocol.
 """
 import pytest
 
-from game_core.systems.observer import (
+from core.systems.observer import (
     MessageType,
     ProtocolEvent,
     TurnStartEvent,
@@ -22,7 +22,7 @@ from game_core.systems.observer import (
     TerminatedEvent,
     ErrorEvent,
 )
-from game_core.protocol.codec import encode, decode
+from core.ports.codec import encode, decode
 
 
 class TestEventSerialization:
@@ -189,7 +189,7 @@ class TestProtocolObserver:
 
     def test_protocol_observer_import(self):
         """ProtocolObserver should be importable."""
-        from game_core.cli import ProtocolObserver
+        from core.cli import ProtocolObserver
         assert ProtocolObserver is not None
 
     def test_npc_action_event_in_union(self):

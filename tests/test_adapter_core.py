@@ -1,21 +1,20 @@
 """
-Tests for adapter_core module - hexagonal architecture adapter layer.
+Tests for adapters module - hexagonal architecture adapter layer.
 """
 from __future__ import annotations
 
 import pytest
 
-from adapter_core.base import GameAdapter
-from adapter_core.input_source.base import InputSource
-from adapter_core.input_source.autoplay import AutoplayInputSource
-from adapter_core.input_source.player import PlayerInputSource
-from adapter_core.input_source.hybrid import HybridInputSource
-from adapter_core import (
+from adapters.ai.base import GameAdapter
+from adapters.ai.input_source.base import InputSource
+from adapters.ai.input_source.autoplay import AutoplayInputSource
+from adapters.ai.input_source.player import PlayerInputSource
+from adapters.ai.input_source.hybrid import HybridInputSource
+from adapters.ai.input_source.factory import (
     create_input_source,
     create_input_source_for_mode,
-    HumanGameAdapter,
-    AIGameAdapter,
 )
+from adapters.ai import HumanGameAdapter, AIGameAdapter
 
 
 class TestInputSourceBase:
@@ -193,7 +192,7 @@ class TestAIGameAdapter:
 
     def test_ai_game_adapter_has_autoplayer_engine(self):
         """AIGameAdapter should have internal AutoplayerEngine."""
-        from adapter_core.autoplayer import AutoplayerEngine
+        from adapters.autoplayer import AutoplayerEngine
 
         adapter = AIGameAdapter()
         assert isinstance(adapter._autoplay_engine, AutoplayerEngine)

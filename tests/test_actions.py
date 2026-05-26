@@ -3,11 +3,11 @@ Tests for game_core.actions.
 """
 from __future__ import annotations
 
-from game_core.actions.base import Action, ActionContext, ActionResult
-from game_core.actions.circle_actions import FoundCircle, JoinCircle, LeaveCircle
-from game_core.actions.manifesto_actions import WriteManifesto
-from game_core.actions.social_actions import PropagateIdea, Talk, Sabotage, Ritualize
-from game_core.domain.entities import Circle, Echo, World, WorldClock
+from core.application.actions.base import Action, ActionContext, ActionResult
+from core.application.actions.circle_actions import FoundCircle, JoinCircle, LeaveCircle
+from core.application.actions.manifesto_actions import WriteManifesto
+from core.application.actions.social_actions import PropagateIdea, Talk, Sabotage, Ritualize
+from core.domain.entities import Circle, Echo, World, WorldClock
 
 
 class TestActionContext:

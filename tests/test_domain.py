@@ -3,7 +3,7 @@ Tests for game_core.domain entities.
 """
 from __future__ import annotations
 
-from game_core.domain.entities import (
+from core.domain.entities import (
     Circle,
     CircleEvent,
     CircleEventType,
@@ -131,7 +131,7 @@ class TestWorld:
 
     def test_evolve_metrics(self):
         world = World(pressure=30.0, legitimacy=60.0, resources_global=70.0)
-        from game_core.systems.random import SeededRandom
+        from core.systems.random import SeededRandom
 
         rng = SeededRandom.get_instance(42)
         drift = world.evolve_metrics(rng)

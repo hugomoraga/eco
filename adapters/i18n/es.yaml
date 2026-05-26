@@ -1,0 +1,1050 @@
+events:
+  # ============================================================
+  # CRISIS (18 eventos)
+  # ============================================================
+
+  crisis_protest_001:
+    title: "Manifestación en el distrito industrial"
+    summary: "Los trabajadores salen a las calles exigiendo cambios."
+    choices:
+      - label: "Unirse a la manifestación"
+        effects: ["increase_unrest", "increase_anarchism"]
+      - label: "Reprimir con fuerzas de seguridad"
+        effects: ["increase_technocracy", "lower_productivity"]
+      - label: "Observar sin intervenir"
+        effects: ["increase_ideological_drift"]
+
+  crisis_protest_002:
+    title: "Conflicto en la plaza central"
+    summary: "La tensión escala entre rebeldes y fuerzas del orden."
+    choices:
+      - label: "Escalar el conflicto"
+        effects: ["increase_unrest", "spawn_faction"]
+      - label: "Negociar un alto el fuego"
+        effects: ["increase_technocracy"]
+
+  crisis_protest_003:
+    title: "Ocupación del edificio administrativo"
+    summary: "Un grupo de ciudadanos toma las oficinas del gobierno."
+    choices:
+      - label: "Permitir que escale"
+        effects: ["increase_anarchism", "increase_unrest"]
+      - label: "Establecer control militar"
+        effects: ["increase_surveillance", "increase_technocracy"]
+
+  crisis_shortage_001:
+    title: "Escasez de alimentos"
+    summary: "Los suministros básicos comienzan a escasear en los mercados."
+    choices:
+      - label: "Racionar recursos"
+        effects: ["lower_productivity", "increase_surveillance"]
+      - label: "Dejar que el mercado se ajuste"
+        effects: ["increase_unrest", "increase_anarchism"]
+
+  crisis_shortage_002:
+    title: "Racionamiento de energía"
+    summary: "El consumo de energia debe ser reducido drásticamente."
+    choices:
+      - label: "Implementar distribución centralizada"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Permitir trueque libre"
+        effects: ["increase_anarchism", "lower_productivity"]
+
+  crisis_shortage_003:
+    title: "Crisis del agua"
+    summary: "Los acuíferos públicos se han agotado."
+    choices:
+      - label: "Crear reservas de emergencia"
+        effects: ["increase_technocracy", "lower_productivity"]
+      - label: "Abandonar los mercados"
+        effects: ["increase_absurdism", "increase_unrest"]
+
+  crisis_breakdown_001:
+    title: "Falla en las comunicaciones"
+    summary: "La red de información ha dejado de funcionar."
+    choices:
+      - label: "Reiniciar el sistema manualmente"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Dejar que colapse naturalmente"
+        effects: ["increase_absurdism", "increase_anarchism"]
+
+  crisis_breakdown_002:
+    title: "Caos en el transporte"
+    summary: "Los sistemas de movilidad colectiva colapsan."
+    choices:
+      - label: "Reparar con recursos internos"
+        effects: ["lower_productivity", "increase_technocracy"]
+      - label: "Buscar soluciones externas"
+        effects: ["increase_anarchism", "spawn_faction"]
+
+  crisis_breakdown_003:
+    title: "Apagón general"
+    summary: "Toda la ciudad queda a oscuras."
+    choices:
+      - label: "Aceptar la falla como destino"
+        effects: ["increase_absurdism", "increase_ideological_drift"]
+      - label: "Forzar un reinicio completo"
+        effects: ["increase_cult_risk", "increase_memory_decay"]
+
+  crisis_panic_001:
+    title: "Pánico financiero"
+    summary: "Los habitantes corren a cambiar su moneda."
+    choices:
+      - label: "Establecer comités de emergencia"
+        effects: ["increase_surveillance", "increase_technocracy"]
+      - label: "Promover la desobediencia civil"
+        effects: ["increase_anarchism", "increase_unrest"]
+
+  crisis_panic_002:
+    title: "Huida masiva"
+    summary: "Una oleada de refugiados abandona la ciudad."
+    choices:
+      - label: "Crear grupos de autodefensa"
+        effects: ["spawn_faction", "increase_anarchism"]
+      - label: "Refugiarse en instituciones"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  crisis_panic_003:
+    title: "Psicosis colectiva"
+    summary: "Rumores disparan el miedo general."
+    choices:
+      - label: "Buscar sentido en el caos"
+        effects: ["increase_thelema", "increase_cult_risk"]
+      - label: "Ignorar las advertencias"
+        effects: ["increase_absurdism", "increase_unrest"]
+
+  crisis_food_001:
+    title: "Escasez de alimentos"
+    summary: "Los suministros básicos comienzan a escasear en los mercados."
+    choices:
+      - label: "Crear huertos comunales"
+        effects: ["increase_ecology", "lower_productivity"]
+      - label: "Acumular suministros"
+        effects: ["increase_surveillance", "increase_technocracy"]
+
+  crisis_food_002:
+    title: "Racionamiento alimentario"
+    summary: "Se ha implementado un sistema de distribución limitada de alimentos."
+    choices:
+      - label: "Distribuir sin control"
+        effects: ["increase_anarchism", "increase_unrest"]
+      - label: "Establecer racionamiento"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  crisis_energy_001:
+    title: "Crisis energética"
+    summary: "Los recursos de energía se agotan y deben ser priorizados."
+    choices:
+      - label: "Reconectar la red manualmente"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Abandonar la red energética"
+        effects: ["increase_ecology", "lower_productivity"]
+
+  crisis_energy_002:
+    title: "Colapso energético"
+    summary: "La red eléctrica falla y la ciudad pierde potencia."
+    choices:
+      - label: "Priorizar servicios críticos"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Dejar que todo falle"
+        effects: ["increase_absurdism", "spawn_faction"]
+
+  crisis_infrastructure_001:
+    title: "Infraestructura deteriorada"
+    summary: "Los sistemas básicos de la ciudad muestran signos de falla."
+    choices:
+      - label: "Reparar inmediatamente"
+        effects: ["lower_productivity", "increase_technocracy"]
+      - label: "Reestructurar desde cero"
+        effects: ["increase_anarchism", "increase_ideological_drift"]
+
+  crisis_infrastructure_002:
+    title: "Fallo en infraestructura"
+    summary: "Los servicios esenciales presentan interrupciones frecuentes."
+    choices:
+      - label: "Aceptar el deterioro"
+        effects: ["increase_absurdism", "increase_memory_decay"]
+      - label: "Restaurar con métodos antiguos"
+        effects: ["increase_ecology", "lower_productivity"]
+
+  # ============================================================
+  # RITUAL (17 eventos)
+  # ============================================================
+
+  ritual_gathering_001:
+    title: "Convergencia de círculos"
+    summary: "Los grupos secretos se reunen bajo la luna llena."
+    choices:
+      - label: "Organizar una reunión masiva"
+        effects: ["increase_thelema", "increase_cult_risk"]
+      - label: "Disolver la congregación"
+        effects: ["increase_anarchism", "lower_productivity"]
+
+  ritual_gathering_002:
+    title: "Ceremonia de invocación"
+    summary: "Una nueva entidad emerge de los ritos ancestrales."
+    choices:
+      - label: "Invitar a forasteros"
+        effects: ["spawn_faction", "increase_ideological_drift"]
+      - label: "Mantener la exclusividad"
+        effects: ["increase_thelema", "increase_cult_risk"]
+
+  ritual_gathering_003:
+    title: "Festival de las máscaras"
+    summary: "Todos portan rostros ocultos en esta celebración."
+    choices:
+      - label: "Permitir caos ritual"
+        effects: ["increase_absurdism", "increase_cult_risk"]
+      - label: "Establecer protocolo estricto"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  ritual_initiation_001:
+    title: "Nuevo adepto"
+    summary: "Un echo solicita unirse al círculo interior."
+    choices:
+      - label: "Iniciar nuevos miembros"
+        effects: ["increase_thelema", "spawn_faction"]
+      - label: "Rechazar candidatos"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  ritual_initiation_002:
+    title: "Prueba de fuego"
+    summary: "El candidato debe demostrar su compromiso."
+    choices:
+      - label: "Practicar en secreto"
+        effects: ["increase_cult_risk", "increase_memory_decay"]
+      - label: "Abierto a todos"
+        effects: ["increase_absurdism", "increase_anarchism"]
+
+  ritual_initiation_003:
+    title: "Juramento de sangre"
+    summary: "Un pacto indeleble sellará la pertenencia."
+    choices:
+      - label: "Legar conocimiento oral"
+        effects: ["increase_thelema", "increase_memory_decay"]
+      - label: "Escribir secretos"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  ritual_transgression_001:
+    title: "Quebrantamiento de tabú"
+    summary: "Una regla milenaria ha sido violada."
+    choices:
+      - label: "Romper tabúes establecidos"
+        effects: ["increase_absurdism", "increase_cult_risk"]
+      - label: "Restaurar el orden"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  ritual_transgression_002:
+    title: "Profanación del círculo"
+    summary: "Un intruso ha profanado el espacio sagrado."
+    choices:
+      - label: "Celebrar la transgresión"
+        effects: ["increase_absurdism", "spawn_faction"]
+      - label: "Castigar a los responsables"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  ritual_transgression_003:
+    title: "Inversión de rituales"
+    summary: "Los símbolos tradicionales se han invertido."
+    choices:
+      - label: "Reinterpretar las reglas"
+        effects: ["increase_ideological_drift", "increase_thelema"]
+      - label: "Eliminar las reglas"
+        effects: ["increase_absurdism", "increase_anarchism"]
+
+  ritual_sacrifice_001:
+    title: "Ofrenda a la nada"
+    summary: "Un objeto de valor es entregado a la nada."
+    choices:
+      - label: "Ofrecer recursos valiosos"
+        effects: ["increase_thelema", "lower_productivity"]
+      - label: "Rechazar el sacrificio"
+        effects: ["increase_anarchism", "increase_unrest"]
+
+  ritual_sacrifice_002:
+    title: "Dones de voluntad"
+    summary: "Los participantes entregan parte de su esencia."
+    choices:
+      - label: "Sacrificar objetos simbólicos"
+        effects: ["increase_thelema", "increase_cult_risk"]
+      - label: "Sacrificar tiempo de trabajo"
+        effects: ["lower_productivity", "increase_ideological_drift"]
+
+  ritual_sacrifice_003:
+    title: "Cisión ritual"
+    summary: "Un fragmento del grupo se separa."
+    choices:
+      - label: "Celebrar con símbolos"
+        effects: ["increase_thelema", "increase_memory_decay"]
+      - label: "Destruir los símbolos"
+        effects: ["increase_absurdism", "spawn_faction"]
+
+  ritual_cult_001:
+    title: "Culto fortalecer"
+    summary: "Un grupo fortalece su estructura de poder interno."
+    choices:
+      - label: "Fortalecer la jerarquía"
+        effects: ["increase_thelema", "increase_cult_risk"]
+      - label: "Dispersar el poder"
+        effects: ["increase_anarchism", "increase_ideological_drift"]
+
+  ritual_cult_002:
+    title: "Nuevos rituales"
+    summary: "Rituales desconocidos emergen en la comunidad."
+    choices:
+      - label: "Crear nuevos rituales"
+        effects: ["increase_thelema", "spawn_faction"]
+      - label: "Codificar rituales existentes"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  ritual_gathering_004:
+    title: "Mezcla de tradiciones"
+    summary: "Distintas tradiciones se encuentran y fusionan."
+    choices:
+      - label: "Mezclar tradiciones"
+        effects: ["increase_absurdism", "increase_ideological_drift"]
+      - label: "Purificar tradiciones"
+        effects: ["increase_thelema", "increase_cult_risk"]
+
+  ritual_gathering_005:
+    title: "Ritual de purificación"
+    summary: "Los participantes buscan limpiar su esencia mediante ritos."
+    choices:
+      - label: "Integrar naturismo en rituales"
+        effects: ["increase_ecology", "increase_thelema"]
+      - label: "Separar espíritu y naturaleza"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  ritual_mystery_001:
+    title: "Misterio revelado"
+    summary: "Un secreto antiguo ha sido expuesto al mundo."
+    choices:
+      - label: "Revelar los misterios"
+        effects: ["spawn_faction", "increase_memory_decay"]
+      - label: "Mantener el secreto"
+        effects: ["increase_cult_risk", "increase_thelema"]
+
+  # ============================================================
+  # POLITICAL (17 eventos)
+  # ============================================================
+
+  political_alliance_001:
+    title: "Pacto entre facciones"
+    summary: "Dos grupos históricamente opuestos firman un acuerdo."
+    choices:
+      - label: "Forjar una alianza formal"
+        effects: ["increase_technocracy", "spawn_faction"]
+      - label: "Mantener independencia"
+        effects: ["increase_anarchism", "lower_productivity"]
+
+  political_alliance_002:
+    title: "Unificación de círculos"
+    summary: "Los círculos pequeños se fusionan en estructuras mayores."
+    choices:
+      - label: "Aliarse con ecologistas"
+        effects: ["increase_ecology", "increase_technocracy"]
+      - label: "Aliarse con tecnócratas"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  political_alliance_003:
+    title: "Alianza con tecnócratas"
+    summary: "Los innovadores se acercan al establishment."
+    choices:
+      - label: "Coalición de autónomos"
+        effects: ["increase_anarchism", "spawn_faction"]
+      - label: "Subordinarse a jerarquía"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  political_betrayal_001:
+    title: "Traición descubierta"
+    summary: "Un infiltrado ha sido identificado entre los círculos."
+    choices:
+      - label: "Traicionar por ideales"
+        effects: ["increase_anarchism", "spawn_faction"]
+      - label: "Permanecer leal"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  political_betrayal_002:
+    title: "Deserción masiva"
+    summary: "Miembros abandonan su facción para unirse a otra."
+    choices:
+      - label: "Expulsar a los traidores"
+        effects: ["increase_technocracy", "increase_unrest"]
+      - label: "Perdonar a todos"
+        effects: ["increase_anarchism", "increase_ideological_drift"]
+
+  political_betrayal_003:
+    title: "Golpe interno"
+    summary: "Un círculo es tomado desde dentro por facciones opuestas."
+    choices:
+      - label: "Revelar secretos"
+        effects: ["spawn_faction", "increase_memory_decay"]
+      - label: "Silenciar a los informados"
+        effects: ["increase_surveillance", "increase_technocracy"]
+
+  political_reform_001:
+    title: "Nueva constitución"
+    summary: "Las reglas fundamentales están siendo reescritas."
+    choices:
+      - label: "Implementar reforma gradual"
+        effects: ["increase_technocracy", "lower_productivity"]
+      - label: "Radicalizar la reforma"
+        effects: ["increase_unrest", "spawn_faction"]
+
+  political_reform_002:
+    title: "Reforma agraria"
+    summary: "La distribución de territorios se modifica significativamente."
+    choices:
+      - label: "Descentralizar el poder"
+        effects: ["increase_anarchism", "increase_ideological_drift"]
+      - label: "Centralizar decisiones"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  political_reform_003:
+    title: "Revolución pacífica"
+    summary: "El cambio se logra sin violencia ni derramamiento de sangre."
+    choices:
+      - label: "Reescribir las leyes"
+        effects: ["increase_technocracy", "increase_memory_decay"]
+      - label: "Abrogar todas las leyes"
+        effects: ["increase_absurdism", "increase_anarchism"]
+
+  political_collapse_001:
+    title: "Caída del consejo"
+    summary: "El órgano de gobierno ha dejado de existir."
+    choices:
+      - label: "Dejar que colapse"
+        effects: ["increase_anarchism", "increase_unrest"]
+      - label: "Rescatar las instituciones"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  political_collapse_002:
+    title: "Anarquía generalizada"
+    summary: "Sin autoridad, cada uno actúa por su cuenta."
+    choices:
+      - label: "Reconstruir desde cero"
+        effects: ["spawn_faction", "increase_ideological_drift"]
+      - label: "Restaurar el orden anterior"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  political_collapse_003:
+    title: "Fragmentación territorial"
+    summary: "La ciudad se divide en zonas independientes."
+    choices:
+      - label: "Crear un vacío de poder"
+        effects: ["increase_anarchism", "spawn_faction"]
+      - label: "Llenar el vacío rápidamente"
+        effects: ["increase_technocracy", "increase_cult_risk"]
+
+  political_faction_001:
+    title: "Facciones en competencia"
+    summary: "Múltiples facciones compiten por recursos y poder."
+    choices:
+      - label: "Consolidar facciones"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Fomentar facciones múltiples"
+        effects: ["increase_anarchism", "spawn_faction"]
+
+  political_faction_002:
+    title: "Fragmentación de poder"
+    summary: "El poder se dispersa entre múltiples grupos pequeños."
+    choices:
+      - label: "Unificar bajo una causa"
+        effects: ["increase_anarchism", "increase_ecology"]
+      - label: "Permitir fragmentación"
+        effects: ["spawn_faction", "increase_ideological_drift"]
+
+  political_faction_003:
+    title: "Neutralización de facciones"
+    summary: "Las facciones menores son suprimidas o absorbidas."
+    choices:
+      - label: "Neutralizar facciones"
+        effects: ["increase_technocracy", "lower_productivity"]
+      - label: "Ignorar las facciones"
+        effects: ["increase_absurdism", "increase_unrest"]
+
+  political_coup_001:
+    title: "Golpe de estado"
+    summary: "Un grupo intenta tomar el poder por la fuerza."
+    choices:
+      - label: "Apoyar al golpe"
+        effects: ["increase_technocracy", "spawn_faction"]
+      - label: "Oponerse al golpe"
+        effects: ["increase_anarchism", "increase_unrest"]
+
+  political_coup_002:
+    title: "Conflicto de lealtades"
+    summary: "Los miembros deben elegir entre viejo y nuevo liderazgo."
+    choices:
+      - label: "Declarar lealtad al líder"
+        effects: ["increase_thelema", "increase_cult_risk"]
+      - label: "Rechazar toda autoridad"
+        effects: ["increase_anarchism", "spawn_faction"]
+
+  # ============================================================
+  # DISCOVERY (16 eventos)
+  # ============================================================
+
+  discovery_tech_001:
+    title: "Tecnología perdida"
+    summary: "Se ha encontrado un dispositivo de eras pasadas."
+    choices:
+      - label: "Adoptar la nueva tecnología"
+        effects: ["increase_technocracy", "lower_productivity"]
+      - label: "Rechazar la automatización"
+        effects: ["increase_ecology", "increase_anarchism"]
+
+  discovery_tech_002:
+    title: "Mejora de eficiencia"
+    summary: "Un proceso ha sido optimizado significativamente."
+    choices:
+      - label: "Integrar la tecnología"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Dejar que evolucione sola"
+        effects: ["increase_absurdism", "spawn_faction"]
+
+  discovery_tech_003:
+    title: "Red de comunicación"
+    summary: "Un nuevo sistema de información emerge en la ciudad."
+    choices:
+      - label: "Patentear el descubrimiento"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Compartir libremente"
+        effects: ["increase_anarchism", "increase_ecology"]
+
+  discovery_tech_004:
+    title: "Automatización"
+    summary: "Las máquinas comienzan a realizar trabajo humano."
+    choices:
+      - label: "Aplicar a problemas ecológicos"
+        effects: ["increase_ecology", "lower_productivity"]
+      - label: "Monopolizar para guerra"
+        effects: ["increase_technocracy", "increase_unrest"]
+
+  discovery_memory_001:
+    title: "Archivo descubierto"
+    summary: "Registros antiguos salen a la luz inesperadamente."
+    choices:
+      - label: "Recuperar memorias perdidas"
+        effects: ["increase_memory_decay", "increase_thelema"]
+      - label: "Dejar que la memoria se olvide"
+        effects: ["increase_absurdism", "spawn_faction"]
+
+  discovery_memory_002:
+    title: "Memoria colectiva"
+    summary: "Un evento del pasado es recordado por toda la comunidad."
+    choices:
+      - label: "Registrar en archivos"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Transmitir oralmente"
+        effects: ["increase_thelema", "increase_memory_decay"]
+
+  discovery_memory_003:
+    title: "Olvido intencional"
+    summary: "La gente elige no recordar ciertos eventos dolorosos."
+    choices:
+      - label: "Construir biblioteca"
+        effects: ["increase_technocracy", "lower_productivity"]
+      - label: "Quemar los archivos"
+        effects: ["increase_absurdism", "spawn_faction"]
+
+  discovery_network_001:
+    title: "Nueva conexión"
+    summary: "Dos círculos previamente aislados se vinculan entre sí."
+    choices:
+      - label: "Expandir la red"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Cerrar los nodos"
+        effects: ["increase_anarchism", "lower_productivity"]
+
+  discovery_network_002:
+    title: "Difusión de ideas"
+    summary: "Un concepto se expande rápidamente por toda la ciudad."
+    choices:
+      - label: "Conectar todas las comunidades"
+        effects: ["increase_technocracy", "increase_ecology"]
+      - label: "Dejar comunidades aisladas"
+        effects: ["increase_anarchism", "spawn_faction"]
+
+  discovery_network_003:
+    title: "Red paralela"
+    summary: "Una red clandestina se opone a las estructuras oficiales."
+    choices:
+      - label: "Crear red paralela"
+        effects: ["spawn_faction", "increase_anarchism"]
+      - label: "Infiltrar redes existentes"
+        effects: ["increase_surveillance", "increase_technocracy"]
+
+  discovery_nature_001:
+    title: "Tierra fértil hallada"
+    summary: "Un nuevo territorio cultivable ha sido descubierto."
+    choices:
+      - label: "Explorar el ecosistema"
+        effects: ["increase_ecology", "lower_productivity"]
+      - label: "Proteger sin explorar"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  discovery_nature_002:
+    title: "Sequía inesperada"
+    summary: "Las lluvias han dejado de caer sobre la región."
+    choices:
+      - label: "Catalogar especies"
+        effects: ["increase_technocracy", "increase_ecology"]
+      - label: "Respetar el misterio"
+        effects: ["increase_absurdism", "increase_thelema"]
+
+  discovery_nature_003:
+    title: "Fauna mutante"
+    summary: "Nuevas criaturas habitan la región circundante."
+    choices:
+      - label: "Dominar la naturaleza"
+        effects: ["increase_technocracy", "lower_productivity"]
+      - label: "Convivir con naturaleza"
+        effects: ["increase_ecology", "increase_anarchism"]
+
+  discovery_nature_004:
+    title: "Terremoto menor"
+    summary: "La tierra ha temblado en la zona norte de la ciudad."
+    choices:
+      - label: "Aceptar lo incomprensible"
+        effects: ["increase_absurdism", "spawn_faction"]
+      - label: "Documentar todo"
+        effects: ["increase_technocracy", "increase_memory_decay"]
+
+  discovery_archive_001:
+    title: "Archivo digital"
+    summary: "Los registros históricos son digitalizados para su preservación."
+    choices:
+      - label: "Digitalizar archivos"
+        effects: ["increase_technocracy", "increase_memory_decay"]
+      - label: "Preservar en papel"
+        effects: ["increase_ecology", "lower_productivity"]
+
+  discovery_archive_002:
+    title: "Archivos abiertos"
+    summary: "Los archivos secretos son revelados al público."
+    choices:
+      - label: "Abrir los archivos al público"
+        effects: ["increase_anarchism", "spawn_faction"]
+      - label: "Clasificar como secretos"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  # ============================================================
+  # SOCIAL (16 eventos)
+  # ============================================================
+
+  social_formation_001:
+    title: "Nuevo círculo fundado"
+    summary: "Un grupo de personas se ha organizado oficialmente."
+    choices:
+      - label: "Formar nueva comunidad"
+        effects: ["spawn_faction", "increase_anarchism"]
+      - label: "Unirse a comunidad existente"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  social_formation_002:
+    title: "Fusión de círculos"
+    summary: "Dos círculos deciden unirse en uno solo."
+    choices:
+      - label: "Crear grupo autónomo"
+        effects: ["increase_anarchism", "spawn_faction"]
+      - label: "Integrar en estructura"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  social_formation_003:
+    title: "Red de apoyo mutuo"
+    summary: "Los círculos crean sistema de互助 entre sí."
+    choices:
+      - label: "Fundar eco-comunidad"
+        effects: ["increase_ecology", "spawn_faction"]
+      - label: "Expandir comunidad urbana"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  social_fission_001:
+    title: "Escisión de círculo"
+    summary: "Miembros se separan para formar grupo propio."
+    choices:
+      - label: "Permitir escisión"
+        effects: ["spawn_faction", "increase_anarchism"]
+      - label: "Impedir la división"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  social_fission_002:
+    title: "Expulsión masiva"
+    summary: "Un círculo purge a sus miembros disidentes."
+    choices:
+      - label: "Celebrar la escisión"
+        effects: ["increase_absurdism", "spawn_faction"]
+      - label: "Llorar la separación"
+        effects: ["increase_thelema", "lower_productivity"]
+
+  social_fission_003:
+    title: "Deserción"
+    summary: "Individuos abandonan su grupo sin explicación."
+    choices:
+      - label: "Fragmentar voluntariamente"
+        effects: ["increase_anarchism", "spawn_faction"]
+      - label: "Forzar la reunificación"
+        effects: ["increase_technocracy", "increase_unrest"]
+
+  social_conflict_001:
+    title: "Disputa territorial"
+    summary: "Dos círculos reclaman el mismo territorio."
+    choices:
+      - label: "Mediar el conflicto"
+        effects: ["increase_ecology", "lower_productivity"]
+      - label: "Escalar el conflicto"
+        effects: ["increase_unrest", "spawn_faction"]
+
+  social_conflict_002:
+    title: "Guerra de información"
+    summary: "Circulos se atacan mediante desinformación."
+    choices:
+      - label: "Abrazar el caos"
+        effects: ["increase_absurdism", "spawn_faction"]
+      - label: "Restaurar el orden"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  social_conflict_003:
+    title: "Boicot"
+    summary: "Un círculo se niega a interactuar con otro."
+    choices:
+      - label: "Desafiar a la autoridad"
+        effects: ["increase_anarchism", "increase_unrest"]
+      - label: "Someterse a la autoridad"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  social_conflict_004:
+    title: "Duelo ritual"
+    summary: "La disputa se resuelve mediante desafío formal."
+    choices:
+      - label: "Conflicto por recursos"
+        effects: ["increase_unrest", "lower_productivity"]
+      - label: "Compartir recursos"
+        effects: ["increase_ecology", "increase_anarchism"]
+
+  social_harmony_001:
+    title: "Paz temporal"
+    summary: "Los círculos viven en calma momentánea."
+    choices:
+      - label: "Celebrar la armonía"
+        effects: ["increase_ecology", "spawn_faction"]
+      - label: "Perturbar la armonía"
+        effects: ["increase_absurdism", "increase_ideological_drift"]
+
+  social_harmony_002:
+    title: "Intercambio cultural"
+    summary: "Tradiciones se comparten entre grupos distintos."
+    choices:
+      - label: "Fortalecer lazos sociales"
+        effects: ["increase_thelema", "lower_productivity"]
+      - label: "Romper los lazos"
+        effects: ["increase_anarchism", "spawn_faction"]
+
+  social_harmony_003:
+    title: "Cooperación"
+    summary: "Los círculos trabajan juntos en un proyecto común."
+    choices:
+      - label: "Institucionalizar la armonía"
+        effects: ["increase_technocracy", "increase_surveillance"]
+      - label: "Mantener armonía natural"
+        effects: ["increase_ecology", "increase_anarchism"]
+
+  social_exclusion_001:
+    title: "Expulsión del círculo"
+    summary: "Un miembro ha sido dado de baja del grupo."
+    choices:
+      - label: "Expulsar a los diferentes"
+        effects: ["spawn_faction", "increase_unrest"]
+      - label: "Incluir a todos"
+        effects: ["increase_anarchism", "increase_ecology"]
+
+  social_exclusion_002:
+    title: "Castigo social"
+    summary: "Un individuo es marginado por la comunidad."
+    choices:
+      - label: "Crear grupos exclusivos"
+        effects: ["increase_cult_risk", "increase_thelema"]
+      - label: "Abrir la membresía"
+        effects: ["increase_anarchism", "increase_ideological_drift"]
+
+  social_exclusion_003:
+    title: "Coto vedado"
+    summary: "Un territorio ha sido declarado exclusivo para algunos."
+    choices:
+      - label: "Segregar por capacidades"
+        effects: ["increase_technocracy", "lower_productivity"]
+      - label: "Mezclar todas las habilidades"
+        effects: ["increase_absurdism", "spawn_faction"]
+
+  # ============================================================
+  # ENTROPY (16 eventos)
+  # ============================================================
+
+  entropy_decay_001:
+    title: "Círculo en decadencia"
+    summary: "Un grupo pierde miembros progresivamente."
+    choices:
+      - label: "Dejar que decaiga"
+        effects: ["increase_absurdism", "increase_memory_decay"]
+      - label: "Restaurar lo perdido"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  entropy_decay_002:
+    title: "Pérdida de influencia"
+    summary: "La capacidad de un círculo para afectar el mundo disminuye."
+    choices:
+      - label: "Documentar el deterioro"
+        effects: ["increase_memory_decay", "spawn_faction"]
+      - label: "Ignorar el deterioro"
+        effects: ["increase_absurdism", "increase_unrest"]
+
+  entropy_decay_003:
+    title: "Obsolescencia de ideas"
+    summary: "Los conceptos de un círculo ya no resuenan con la realidad."
+    choices:
+      - label: "Aceptar la decadencia"
+        effects: ["increase_absurdism", "increase_ideological_drift"]
+      - label: "Combatir la decadencia"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  entropy_forgetting_001:
+    title: "Olvido colectivo"
+    summary: "La comunidad ha olvidado un evento importante."
+    choices:
+      - label: "Borrar los recuerdos"
+        effects: ["increase_memory_decay", "spawn_faction"]
+      - label: "Preservar los recuerdos"
+        effects: ["increase_thelema", "increase_technocracy"]
+
+  entropy_forgetting_002:
+    title: "Pérdida de memoria"
+    summary: "Los recuerdos de un círculo se desvanecen lentamente."
+    choices:
+      - label: "Olvidar tradiciones"
+        effects: ["increase_memory_decay", "increase_ideological_drift"]
+      - label: "Revivir tradiciones"
+        effects: ["increase_thelema", "increase_ecology"]
+
+  entropy_forgetting_003:
+    title: "Amnesia estratégica"
+    summary: "El pasado es deliberadamente ignorado por todos."
+    choices:
+      - label: "Reescribir la historia"
+        effects: ["increase_thelema", "increase_memory_decay"]
+      - label: "Dejar que el pasado muera"
+        effects: ["increase_absurdism", "spawn_faction"]
+
+  entropy_corruption_001:
+    title: "Contaminación de esencias"
+    summary: "Las características de un círculo se degradan progresivamente."
+    choices:
+      - label: "Aceptar la corrupción"
+        effects: ["spawn_faction", "increase_ideological_drift"]
+      - label: "Purgar la corrupción"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  entropy_corruption_002:
+    title: "Degeneración moral"
+    summary: "Un círculo abandona sus principios fundamentales."
+    choices:
+      - label: "Usar la corrupción a favor"
+        effects: ["increase_cult_risk", "spawn_faction"]
+      - label: "Denunciar la corrupción"
+        effects: ["increase_anarchism", "increase_unrest"]
+
+  entropy_corruption_003:
+    title: "Infección ideológica"
+    summary: "Ideas externas corrompen al grupo desde dentro."
+    choices:
+      - label: "Normalizar lo corrupto"
+        effects: ["increase_absurdism", "increase_ideological_drift"]
+      - label: "Luchar contra lo corrupto"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  entropy_corruption_004:
+    title: "Podredumbre institucional"
+    summary: "Las estructuras de un círculo se pudren desde el interior."
+    choices:
+      - label: "Degradar el medio ambiente"
+        effects: ["lower_productivity", "increase_memory_decay"]
+      - label: "Restaurar ecosistemas"
+        effects: ["increase_ecology", "spawn_faction"]
+
+  entropy_phantom_001:
+    title: "Círculo fantasma"
+    summary: "Un grupo existe solo en la memoria de otros."
+    choices:
+      - label: "Perseguir fantasmas"
+        effects: ["increase_thelema", "spawn_faction"]
+      - label: "Ignorar las sombras"
+        effects: ["increase_absurdism", "lower_productivity"]
+
+  entropy_phantom_002:
+    title: "Eco retardado"
+    summary: "Un evento pasado se manifiesta en el presente."
+    choices:
+      - label: "Crear mitos de lo perdido"
+        effects: ["increase_thelema", "increase_memory_decay"]
+      - label: "Destruir mitos"
+        effects: ["increase_absurdism", "spawn_faction"]
+
+  entropy_phantom_003:
+    title: "Reflejo deformado"
+    summary: "La imagen de un círculo está distorsionada en el recuerdo."
+    choices:
+      - label: "Venerar los restos"
+        effects: ["increase_thelema", "increase_cult_risk"]
+      - label: "Abandonar los restos"
+        effects: ["increase_ecology", "increase_anarchism"]
+
+  entropy_phantom_004:
+    title: "Sombra de círculos pasados"
+    summary: "Los fundadores defuntos todavía influyen en las decisiones."
+    choices:
+      - label: "Habitar espacios vacíos"
+        effects: ["spawn_faction", "increase_ideological_drift"]
+      - label: "Evitar los vacíos"
+        effects: ["increase_technocracy", "increase_surveillance"]
+
+  entropy_void_001:
+    title: "El vacío"
+    summary: "Un espacio de nada e inexistencia se abre ante los círculos."
+    choices:
+      - label: "Abrazar el vacío"
+        effects: ["increase_absurdism", "spawn_faction"]
+      - label: "Llenar el vacío"
+        effects: ["increase_technocracy", "lower_productivity"]
+
+  entropy_void_002:
+    title: "Rituales del vacío"
+    summary: "Los participantes crean rituales basados en la nada."
+    choices:
+      - label: "Crear rituales del vacío"
+        effects: ["increase_thelema", "increase_cult_risk"]
+      - label: "Rechazar el vacío"
+        effects: ["increase_anarchism", "increase_unrest"]
+
+  unknown:
+    title: "Evento desconocido"
+    summary: "Un evento sin categoría ni descripción."
+
+  unnamed: "Evento sin nombre"
+
+npcs:
+  dra_maela_ruun:
+    name: "Dra. Maela Ruun"
+    role: "investigadora disidente"
+    archetype: "scientist"
+    essence: "technocracy"
+
+  karax_el_sin_amo:
+    name: "Karax el Sin Amo"
+    role: "propagador de ideas"
+    archetype: "propagator"
+    essence: "anarchism"
+
+  hermano_vacio:
+    name: "Hermano Vacio"
+    role: "lider carismatico"
+    archetype: "cult_leader"
+    essence: "thelema"
+
+actions:
+  write_manifesto:
+    success: "Manifesto escrito con {n} tags"
+    no_tags: "Manifesto escrito sin tags reconocidos"
+    cooldown: "Manifesto en cooldown"
+
+  founded_circle: "Fundó {name}"
+  no_circles_to_join: "No hay círculos para unirse"
+  no_circles_available: "No hay círculos disponibles para unirse"
+  no_compatible_circles: "No se encontraron círculos compatibles"
+  essence_mismatch: "Incompatibilidad de esencia"
+  joined_circle: "Se unió a {circle_name}"
+  not_member: "No eres miembro de ningún círculo"
+  circle_not_found: "Círculo no encontrado"
+  left_circle: "Abandonó {circle_name}"
+
+  propagated_ideas: "Propagó {count} ideas a {target_count} objetivos"
+  no_targets: "No hay objetivos para propagar"
+
+  sabotage: "Infraestructura saboteada"
+
+  ritual_completed: "Ritual completado"
+  talked: "Conversó"
+  rumors_spread: "Los rumores se difundieron por la ciudad"
+  rumors_fizzled: "Los rumores se extinguieron antes de propagarse"
+  need_circle_to_recruit: "Necesitas estar en un círculo para reclutar"
+  recruited: "Reclutó un nuevo seguidor"
+  no_one_interested: "Nadie estaba interesado"
+  negotiated: "Negoció recursos"
+  negotiations_failed: "Las negociaciones fallaron"
+  powerful_ritual: "Ritual poderoso completado"
+  ritual_backfired: "El ritual salió mal"
+  no_ideas_to_propagate: "No hay ideas para propagar"
+
+messages:
+  event: "Evento"
+  world_state: "ESTADO DEL MUNDO"
+  available_actions: "ACCIONES DISPONIBLES"
+  your_choice: "Tu eleccion (o Enter para autoplay): "
+  timeout: "Timeout ({seconds}s) — delegando a autoplay"
+  no_targets: "No se encontraron objetivos validos"
+  action_failed: "Accion fallida: {reason}"
+  npc_created: "NPC creado: {name}"
+  circle_created: "Circulo fundado: {name}"
+  manifesto_created: "Manifesto creado"
+  influence_gained: "Influencia ganada: {amount}"
+  pressure_increased: "Presion aumentada: {amount}"
+  pressure_decreased: "Presion reducida: {amount}"
+  essence_changed: "Esencia cambiada a: {essence}"
+  invalid_target: "Objetivo invalido"
+  insufficient_resources: "Recursos insuficientes"
+  action_on_cooldown: "Accion en cooldown"
+  your_circles: "Tus circulos: "
+  turn_activity: "ACTIVIDAD DEL MUNDO"
+
+cli:
+  action_1: "found_circle"
+  action_2: "write_manifesto"
+  action_3: "propagate_idea"
+  action_4: "talk"
+  action_5: "sabotage"
+  action_6: "ritualize"
+  action_7: "join_circle"
+  action_8: "leave_circle"
+  found_circle_desc: "Crear nuevo circulo"
+  write_manifesto_desc: "Escribir ideas al mundo"
+  propagate_idea_desc: "Expandir ideas a facciones/circulos"
+  talk_desc: "Hablar con NPC o Echo"
+  sabotage_desc: "Sabotear infraestructura de faccion"
+  ritualize_desc: "Realizar ritual"
+  join_circle_desc: "Unirse a un circulo existente"
+  leave_circle_desc: "Salir del circulo actual"
+
+ui:
+  turn: "Turno"
+  awakening: "El mundo despierta"
+  story_ends: "La historia termina"
+
+essences:
+  technocracy: "Tecnocracia"
+  absurdism: "Absurdismo"
+  thelema: "Thelema"
+  ecology: "Ecologia"
+
+archetypes:
+  scientist: "Cientifico"
+  propagator: "Propagador"
+  cult_leader: "Lider carismatico"
+  mediator: "Mediador"
+  radical: "Radical"
+
+game:
+  turn: "Turno {n}"
+  year: "Ano {n}"
+  pressure: "Presion: {value}"
+  influence: "Influencia: {value}"
+  faction: "Faccion: {name}"
+  circle: "Circulo: {name}"

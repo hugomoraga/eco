@@ -1,14 +1,14 @@
 """Tests for ui_core.textual.widgets."""
 from __future__ import annotations
 
-from ui_core.textual.widgets.header import HeaderBar, make_header
-from ui_core.textual.widgets.echo import EchoPanel, make_echo_content
-from ui_core.textual.widgets.civ import CivPanel, make_civ_content
-from ui_core.textual.widgets.metrics import MetricsPanel, make_metrics_content
-from ui_core.textual.widgets.actions import ActionsBar, make_actions_text
-from ui_core.textual.widgets.log_panel import LogPanel
-from ui_core.textual.styles import ACTIONS, COLORS, SCREEN_BG, PANEL_BG
-from ui_core.textual.colors import CYAN, MAGENTA, YELLOW, GREEN, RED, WHITE, DIM
+from adapters.tui.textual.widgets.header import HeaderBar, make_header
+from adapters.tui.textual.widgets.echo import EchoPanel, make_echo_content
+from adapters.tui.textual.widgets.civ import CivPanel, make_civ_content
+from adapters.tui.textual.widgets.metrics import MetricsPanel, make_metrics_content
+from adapters.tui.textual.widgets.actions import ActionsBar, make_actions_text
+from adapters.tui.textual.widgets.log_panel import LogPanel
+from adapters.tui.textual.styles import ACTIONS, COLORS, SCREEN_BG, PANEL_BG
+from adapters.tui.textual.colors import CYAN, MAGENTA, YELLOW, GREEN, RED, WHITE, DIM
 
 
 class TestColors:
