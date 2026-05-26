@@ -72,7 +72,6 @@ class EcoTextualApp(App):
     def on_mount(self) -> None:
         self._refresh_all()
         self._start_cli()
-        self.focus()  # Ensure app captures key events
 
     def _refresh_all(self) -> None:
         self.query_one(HeaderBar).update_state(
