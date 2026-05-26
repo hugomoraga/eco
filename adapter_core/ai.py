@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 from adapter_core.base import GameAdapter
 from adapter_core.input_source import AutoplayInputSource
 from adapter_core.autoplayer import AutoplayerEngine
-from game_core.shared import AutoplayMode
+from game_core.shared import AutoplayMode, ALL_AVAILABLE_ACTIONS
 
 
 class AIGameAdapter(GameAdapter):
@@ -37,20 +37,7 @@ class AIGameAdapter(GameAdapter):
             mode=AutoplayMode(mode) if mode in [m.value for m in AutoplayMode] else AutoplayMode.AUTOPLAY,
             style_id=style,
         )
-        self._available_actions = [
-            "found_circle",
-            "join_circle",
-            "leave_circle",
-            "propagate_idea",
-            "write_manifesto",
-            "sabotage",
-            "ritualize",
-            "talk",
-            "spread_rumor",
-            "recruit_follower",
-            "negotiate",
-            "ritual",
-        ]
+        self._available_actions = ALL_AVAILABLE_ACTIONS
 
     def connect(self, engine: SimulationEngine) -> None:
         """Connect this adapter to a simulation engine."""

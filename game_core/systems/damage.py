@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from game_core.actions.social_actions import ACTION_DAMAGE_MAP
+from game_core.shared.actions import ACTION_DAMAGE_MAP
 
 
 @dataclass

@@ -285,6 +285,19 @@ class SimulationEngine:
         # World start screen — show Civ, Host, Persons, Turn System
         self._notify("on_world_start", self.world)
 
+        # Spawn NPCs from datasets at game start
+        from game_core.factory import spawn_npcs_to_world
+        initial_npcs = spawn_npcs_to_world(self.world, seed=self.seed, max_per_dataset=5)
+        for npc in initial_npcs:
+            self._notify("on_npc_created", 0, npc.name, npc.role)
+            self._log.debug("npc_spawned_at_start", npc_id=npc.id, npc_name=npc.name, archetype=npc.archetype)
+        if initial_npcs:
+            self._log.info("npcs_spawned", count=len(initial_npcs))
+
+        # Initialize NPC engine for turn processing
+        from adapter_core.autoplayer import NPCActionExecutor
+        npc_executor = NPCActionExecutor(seed=self.seed)
+
         while self.turn < self.max_turns:
             self.turn += 1
             self._log.info("turn_start", turn=self.turn, pressure=self.world.pressure, legitimacy=self.world.legitimacy, resources=self.world.resources_global)
@@ -300,8 +313,10 @@ class SimulationEngine:
 
             echo = self.world.get_active_echo()
 
-            # Circle processing (spec-28): NPCs act between turns,
-            # activities shown BEFORE player chooses action
+            # NPC processing: NPCs act at turn start, BEFORE player chooses action
+            self._process_npc_turns(npc_executor, ai_adapter)
+
+            # Circle processing (spec-28): circles do internal activities
             self._process_circle_activities(ai_adapter, faction_system, faction_tick_interval)
 
             # World events
@@ -628,5 +643,35 @@ class SimulationEngine:
                         "npc_name": npc.name,
                         "circle_id": circle.id,
                     })
+
+    def _process_npc_turns(self, npc_executor, ai_adapter) -> None:
+        """Process NPC turns at start of each turn (before player action)."""
+        from adapter_core.autoplayer import NPCEngine, process_npc_turn
+
+        npcs = [p for p in self.world.persons if p.type == "npc"]
+        if not npcs:
+            return
+
+        engine = NPCEngine(seed=self.seed)
+
+        for npc in npcs:
+            result = process_npc_turn(
+                npc=npc,
+                world=self.world,
+                engine=engine,
+                executor=npc_executor,
+                world_tick=self.world.clock.world_tick,
+            )
+            if result:
+                self._notify("on_npc_action", self.turn, npc.name or f"NPC-{npc.id[:8]}", result.action, result.message)
+                self._log_event("npc_action", {
+                    "npc_id": npc.id,
+                    "npc_name": npc.name,
+                    "action": result.action,
+                    "success": result.success,
+                    "message": result.message,
+                    "pressure_change": result.pressure_change,
+                    "legitimacy_change": result.legitimacy_change,
+                })
 
 

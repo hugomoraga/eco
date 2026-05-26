@@ -1,4 +1,12 @@
+from game_core.shared.actions import (
+    ACTION_DAMAGE_MAP,
+    ALL_AVAILABLE_ACTIONS,
+    ARCHETYPE_WEIGHTS,
+    ECHO_ACTIONS,
+    NPC_ACTIONS,
+)
 from game_core.shared.types import (
+    ActionResult,
     AdaptiveRule,
     AutoplayDecision,
     AutoplayMode,
@@ -9,11 +17,17 @@ from game_core.shared.types import (
 )
 
 __all__ = [
+    "ActionResult",
     "AdaptiveRule",
     "AutoplayDecision",
     "AutoplayMode",
+    "ALL_AVAILABLE_ACTIONS",
+    "ARCHETYPE_WEIGHTS",
+    "ECHO_ACTIONS",
     "Goal",
+    "NPC_ACTIONS",
     "PlayerStyle",
     "PLAYER_STYLES",
     "ADAPTIVE_RULES",
+    "ACTION_DAMAGE_MAP",
 ]

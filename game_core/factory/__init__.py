@@ -44,7 +44,7 @@ from game_core.factory.host import (
 )
 
 # Person (deprecated - use host.py instead)
-from game_core.factory.npc import create_npc, create_npcs
+from game_core.factory.npc import create_npc, create_npcs, load_npcs_from_datasets, spawn_npcs_to_world
 
 # Ideas
 from game_core.factory.tags import create_ideas_for_essence, create_random_idea
@@ -72,6 +72,8 @@ __all__ = [
     # Person (deprecated - use host.py)
     "create_npc",
     "create_npcs",
+    "load_npcs_from_datasets",
+    "spawn_npcs_to_world",
     # Ideas
     "create_ideas_for_essence",
     "create_random_idea",

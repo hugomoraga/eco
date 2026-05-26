@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 from game_core.actions.base import Action, ActionContext, ActionResult
 from game_core.i18n import t
+from game_core.shared.actions import ACTION_DAMAGE_MAP
 from game_core.utils.logger import get_logger
 
 if TYPE_CHECKING:
@@ -16,14 +17,7 @@ log = get_logger(__name__)
 
 # ─── Action Metadata ──────────────────────────────────────────────────────────
 
-ACTION_DAMAGE_MAP = {
-    "propagate_idea": 3.0,
-    "sabotage": 20.0,
-    "ritualize": 5.0,
-    "talk": 2.0,
-    "spread_rumor": 8.0,
-    "ritual": 12.0,
-}
+# ACTION_DAMAGE_MAP is now imported from game_core.shared.actions
 
 
 # ─── Propagate Idea ────────────────────────────────────────────────────────────

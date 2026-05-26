@@ -12,6 +12,25 @@ from typing import ClassVar
 from pydantic import BaseModel, Field
 
 
+class ActionResult(BaseModel):
+    """Unified action result used by Human, AI, and NPC engines."""
+    action: str = ""
+    success: bool
+    message: str
+    state_delta: dict = Field(default_factory=dict)
+    new_entities: list[str] = Field(default_factory=list)
+    consumed_resources: dict[str, float] = Field(default_factory=dict)
+    tags_created: list[str] = Field(default_factory=list)
+    social_cost: float = 0.0
+    pressure_change: float = 0.0
+    legitimacy_change: float = 0.0
+    resources_change: float = 0.0
+    damage_to_player: float = 0.0
+    circles_affected: int = 0
+    factions_affected: int = 0
+    target_id: str | None = None
+
+
 class AutoplayMode(StrEnum):
     MANUAL = "manual"
     SUGGEST = "suggest"

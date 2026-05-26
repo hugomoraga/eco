@@ -5,21 +5,13 @@ from typing import ClassVar
 
 from pydantic import BaseModel, Field
 
+from game_core.shared.types import ActionResult
+
 
 class ActionContext(BaseModel):
     world_tick: int
     action_tick: int
     autoplay: bool = False
-
-
-class ActionResult(BaseModel):
-    success: bool
-    message: str
-    state_delta: dict = Field(default_factory=dict)
-    new_entities: list[str] = Field(default_factory=list)
-    consumed_resources: dict[str, float] = Field(default_factory=dict)
-    tags_created: list[str] = Field(default_factory=list)
-    social_cost: float = 0.0
 
 
 class Action(ABC):
