@@ -212,6 +212,12 @@ class EcoTextualApp(App):
             self._log_text += f"▸ {circle_name}: {activity}\n"
             log_panel.write(f"[yellow]▸[/yellow] {circle_name}: {activity}\n")
 
+        elif msg_type == MessageType.NPC_ACTION.value:
+            npc_name = d.get("npc_name", "")
+            message = d.get("message", "")
+            self._log_text += f"▸ {npc_name}: {message}\n"
+            log_panel.write(f"[magenta]▸[/magenta] {npc_name}: {message}\n")
+
     def _apply_ws(self, ws: dict) -> None:
         self._civ_name = ws.get("civ_name", self._civ_name)
         self._pressure = ws.get("pressure", self._pressure)

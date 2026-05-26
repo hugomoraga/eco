@@ -52,6 +52,9 @@ class SimulationObserver(ABC):
     def on_npc_created(self, turn: int, npc_name: str, npc_role: str) -> None:
         """Called when a new NPC is created."""
 
+    def on_npc_action(self, turn: int, npc_name: str, action: str, message: str) -> None:
+        """Called when an NPC takes an action."""
+
     def on_echo_spawned(self, turn: int, parent_name: str, daughter_name: str) -> None:
         """Called when a new echo is spawned."""
 

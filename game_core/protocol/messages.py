@@ -23,6 +23,7 @@ class MessageType(str, Enum):
     ECHO_SPAWNED = "echo_spawned"
     REINCARNATION_COMPLETE = "reincarnation_complete"
     CIRCLE_ACTIVITY = "circle_activity"
+    NPC_ACTION = "npc_action"
 
 
 class QueryType(str, Enum):
@@ -275,6 +276,25 @@ class ReincarnationCompleteEvent:
         }
 
 
+@dataclass
+class NPcActionEvent:
+    turn: int
+    npc_name: str
+    action: str
+    message: str
+    success: bool = True
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "type": MessageType.NPC_ACTION.value,
+            "turn": self.turn,
+            "npc_name": self.npc_name,
+            "action": self.action,
+            "message": self.message,
+            "success": self.success,
+        }
+
+
 UnionMessage = (
     ActionCommand
     | QueryCommand
@@ -293,4 +313,5 @@ UnionMessage = (
     | EchoSpawnedEvent
     | ReincarnationCompleteEvent
     | CircleActivityEvent
+    | NPcActionEvent
 )

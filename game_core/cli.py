@@ -36,6 +36,7 @@ from game_core.protocol import (
     EchoSpawnedEvent,
     ReincarnationCompleteEvent,
     CircleActivityEvent,
+    NPcActionEvent,
     encode,
     decode_command,
     MessageType,
@@ -137,6 +138,15 @@ class ProtocolObserver(SimulationObserver):
 
     def on_npc_created(self, turn: int, npc_name: str, npc_role: str):
         pass
+
+    def on_npc_action(self, turn: int, npc_name: str, action: str, message: str):
+        self._emit(NPcActionEvent(
+            turn=turn,
+            npc_name=npc_name,
+            action=action,
+            message=message,
+            success=True,
+        ))
 
     def on_metric_changed(self, turn: int, metric: str, old_val: float, new_val: float):
         pass

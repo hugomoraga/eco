@@ -21,6 +21,7 @@ from game_core.protocol.messages import (
     TickEvent,
     UnionMessage,
     CircleActivityEvent,
+    NPcActionEvent,
 )
 
 
@@ -143,6 +144,15 @@ def decode(raw: str) -> UnionMessage | dict | None:
             turn=data.get("turn", 0),
             circle_name=data.get("circle_name", ""),
             activity=data.get("activity", ""),
+        )
+
+    elif mt == MessageType.NPC_ACTION:
+        return NPcActionEvent(
+            turn=data.get("turn", 0),
+            npc_name=data.get("npc_name", ""),
+            action=data.get("action", ""),
+            message=data.get("message", ""),
+            success=data.get("success", True),
         )
 
     return ErrorEvent(message=f"Unhandled message type: {msg_type}")

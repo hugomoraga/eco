@@ -330,6 +330,15 @@ class ConsoleDisplay:
         else:
             self.console.print(line)
 
+    def on_npc_action(self, turn: int, npc_name: str, action: str, message: str) -> None:
+        """Called when an NPC takes an action."""
+        line = f"[magenta]▸[/magenta] {npc_name}: {message}"
+        self._log_lines.append(str(line))
+        if self._layout is not None:
+            self._layout.update(log=line)
+        else:
+            self.console.print(line)
+
     def on_echo_spawned(self, turn: int, parent_name: str, daughter_name: str) -> None:
         """Called when a new echo is spawned."""
         line = f"[green]🌱[/green] Echo spawned: {daughter_name} (from {parent_name})"
