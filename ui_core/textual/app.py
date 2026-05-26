@@ -89,11 +89,14 @@ class EcoTextualApp(App):
         self.query_one(ActionsBar).update(make_actions_text())
 
     def _start_cli(self) -> None:
+        log = self.query_one(LogPanel)
+        log.write(f">>> Starting CLI: {self._cli_args}")
         self._proc = subprocess.Popen(
             self._cli_args,
             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
             stderr=subprocess.PIPE, text=True, bufsize=1,
         )
+        log.write(f">>> Process started, pid={self._proc.pid}")
         threading.Thread(target=self._reader, daemon=True).start()
         self.set_interval(0.1, self._poll)
 
@@ -104,14 +107,18 @@ class EcoTextualApp(App):
 
     def _poll(self) -> None:
         try:
+            count = 0
             while True:
                 line = self._recv_queue.get_nowait()
+                count += 1
                 msg = decode(line)
                 if msg:
                     d = msg.to_dict() if hasattr(msg, 'to_dict') else msg
                     self._handle(d)
         except Empty:
-            pass
+            if count > 0:
+                log = self.query_one(LogPanel)
+                log.write(f">>> Processed {count} messages")
 
     def _handle(self, d: dict) -> None:
         from ui_core.textual.colors import GREEN, RED, CYAN, YELLOW, WHITE
@@ -175,14 +182,31 @@ class EcoTextualApp(App):
     def _send(self, cmd) -> None:
         try:
             if self._proc and self._proc.stdin:
-                self._proc.stdin.write(encode(cmd) + "\n")
+                encoded = encode(cmd)
+                self._proc.stdin.write(encoded + "\n")
                 self._proc.stdin.flush()
         except (BrokenPipeError, IOError):
             pass
 
     def _do(self, idx: int) -> None:
         if 0 <= idx < len(ACTIONS):
-            self._send(ActionCommand(turn=self._turn, action=ACTIONS[idx]))
+            log = self.query_one(LogPanel)
+            log.write(f">>> Key pressed: {idx} -> {ACTIONS[idx]}")
+            if self._proc is None:
+                log.write("ERROR: _proc is None")
+                return
+            if self._proc.stdin is None:
+                log.write("ERROR: _proc.stdin is None")
+                return
+            try:
+                cmd = ActionCommand(turn=self._turn, action=ACTIONS[idx])
+                encoded = encode(cmd)
+                log.write(f">>> Encoded: {encoded}")
+                self._proc.stdin.write(encoded + "\n")
+                self._proc.stdin.flush()
+                log.write(f">>> Sent OK")
+            except Exception as e:
+                log.write(f"ERROR: {type(e).__name__}: {e}")
 
     def action_do_0(self) -> None: self._do(0)
     def action_do_1(self) -> None: self._do(1)
