@@ -6,7 +6,7 @@ we now create PlayerPerson directly which contains all incarnation context.
 """
 from __future__ import annotations
 
-from core.domain.entities import Echo, NPCPerson, PlayerPerson, World
+from core.domain import Echo, NPCPerson, PlayerPerson, World
 
 
 def create_player_person(

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import uuid
 
-from core.domain.entities import Faction, Ideas
+from core.domain import Faction, Ideas
 
 
 def _str_to_ideas(tag_str: str, essence: str) -> Ideas:

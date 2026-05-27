@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from core.domain.entities import Echo, World
+    from core.domain import Echo, World
     from core.domain.rules.goals import Goal
 
 

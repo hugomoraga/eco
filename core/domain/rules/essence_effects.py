@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from core.domain.entities import EssenceRegistry
+from core.domain import EssenceRegistry
 
 
 class EssenceEffects:

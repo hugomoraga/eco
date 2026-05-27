@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from core.domain.entities import WorldClock
+    from core.domain import WorldClock
 
 
 def load_yaml(path: str) -> dict:

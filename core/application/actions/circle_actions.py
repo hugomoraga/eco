@@ -4,12 +4,9 @@ from typing import TYPE_CHECKING
 
 from core.application.actions.base import Action, ActionContext, ActionResult
 from adapters.i18n import t
-from core.utils.logger import get_logger
 
 if TYPE_CHECKING:
-    from core.domain.entities import Echo, World
-
-log = get_logger(__name__)
+    from core.domain import Echo, World
 
 
 class FoundCircle(Action):
@@ -39,11 +36,6 @@ class FoundCircle(Action):
         self._apply_temporal_strain(echo, 2.0)
         self.last_used_tick = context.world_tick
 
-        log.info("action_found_circle", action=self.name, echo_name=echo.name, world_tick=context.world_tick,
-                 circle_id=circle.id, circle_name=circle.name, essence=circle.essence,
-                 pressure_change={"before": old_pressure, "after": world.pressure},
-                 legitimacy_change={"before": old_legitimacy, "after": world.legitimacy})
-
         return ActionResult(
             success=True,
             message=t("actions:founded_circle", name=circle.name),
@@ -61,7 +53,7 @@ class JoinCircle(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from core.domain.entities import CircleEvent, CircleEventType, EssenceRegistry
+        from core.domain import CircleEvent, CircleEventType, EssenceRegistry
 
         if not world.circles:
             return ActionResult(
@@ -147,7 +139,7 @@ class LeaveCircle(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from core.domain.entities import CircleEvent, CircleEventType
+        from core.domain import CircleEvent, CircleEventType
 
         if not echo.circles:
             return ActionResult(

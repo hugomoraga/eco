@@ -4,7 +4,7 @@ Tests for game_core.factory.goal_factory module.
 from __future__ import annotations
 
 import pytest
-from core.domain.entities import Person, World, WorldClock
+from core.domain import Person, World, WorldClock
 from core.factories.goal_factory import (
     GoalFactory,
     GOAL_TEMPLATES,

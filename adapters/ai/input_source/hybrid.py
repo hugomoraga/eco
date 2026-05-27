@@ -4,7 +4,7 @@ import os
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from core.domain.entities import World
+    from core.domain import World
 
 from adapters.ai.input_source.base import InputSource
 

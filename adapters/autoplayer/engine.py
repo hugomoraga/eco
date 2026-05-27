@@ -8,19 +8,19 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, ClassVar
 
-from core.shared.types import (
+from adapters.autoplayer.types import (
     ADAPTIVE_RULES,
     PLAYER_STYLES,
     AutoplayDecision,
     AutoplayMode,
     Goal,
 )
-from core.systems.random import SeededRandom
-from core.utils.logger import get_logger
-from core.utils.tuning import tuning
+from core.application.processors.random import SeededRandom
+from infra.logging import get_logger
+from adapters.config.tuning import tuning
 
 if TYPE_CHECKING:
-    from core.domain.entities import Echo, World
+    from core.domain import Echo, World
 
 log = get_logger(__name__)
 

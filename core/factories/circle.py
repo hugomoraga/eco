@@ -12,7 +12,7 @@ import uuid
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from core.domain.entities import Circle, Echo, Ideas, World
+    from core.domain import Circle, Echo, Ideas, World
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -170,7 +170,7 @@ def create_circle(
     founding_tick: int = 0,
 ) -> Circle:
     """Create and register a new Circle in the world."""
-    from core.domain.entities import Circle, CircleEvent
+    from core.domain import Circle, CircleEvent
     from core.domain.enums import CircleEventType
 
     name = generate_circle_name_with_fallback(essence or echo.essence, world.circles)
@@ -214,7 +214,7 @@ def process_circle_tick(circle: Circle, world: World, rng) -> list[str]:
     if circle.status.value == "dissolved":
         return activities
 
-    from core.domain.entities import CircleStatus
+    from core.domain import CircleStatus
 
     if circle.member_count == 0:
         circle.dormant_turns += 1
@@ -245,7 +245,7 @@ def process_circle_tick(circle: Circle, world: World, rng) -> list[str]:
 
 def _attract_echo_to_circle(circle: Circle, world: World) -> str | None:
     """Try to attract an echo to the circle."""
-    from core.domain.entities import CircleEvent
+    from core.domain import CircleEvent
     from core.domain.enums import CircleEventType
     from core.domain.rules.essence_effects import EssenceEffects
 
@@ -300,7 +300,7 @@ def _remove_lowest_resonance_member(circle: Circle, world: World) -> str | None:
     if hasattr(lowest, 'circles') and circle.id in lowest.circles:
         lowest.circles.remove(circle.id)
 
-    from core.domain.entities import CircleEvent
+    from core.domain import CircleEvent
     from core.domain.enums import CircleEventType
     circle.history.append(CircleEvent(
         type=CircleEventType.LEAVE,
@@ -322,7 +322,7 @@ def _splinter_circle(circle: Circle, world: World, rng) -> str | None:
 
     new_name = generate_circle_name_with_fallback(circle.essence, world.circles)
 
-    from core.domain.entities import CircleEvent
+    from core.domain import CircleEvent
     from core.domain.enums import CircleEventType
     new_circle = type(circle)(
         id=str(uuid.uuid4()),
@@ -378,7 +378,7 @@ def _spawn_npc_in_circle(circle: Circle, world: World, rng) -> str | None:
     circle.npcs.append(npc.id)
     circle.add_member(npc.id)
 
-    from core.domain.entities import CircleEvent
+    from core.domain import CircleEvent
     from core.domain.enums import CircleEventType
     circle.history.append(CircleEvent(
         type=CircleEventType.NPC_SPAWN,

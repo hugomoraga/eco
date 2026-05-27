@@ -6,10 +6,10 @@ from __future__ import annotations
 import uuid
 from typing import TYPE_CHECKING
 
-from core.domain.entities import Ideas
+from core.domain import Ideas
 
 if TYPE_CHECKING:
-    from core.systems.random import SeededRandom
+    from core.application.processors.random import SeededRandom
 
 
 # ----------------------------------------------------------------------

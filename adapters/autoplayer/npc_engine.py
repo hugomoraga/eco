@@ -9,13 +9,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from core.systems.random import SeededRandom
-from core.shared.actions import ARCHETYPE_WEIGHTS, NPC_ACTIONS
-from core.shared.types import ActionResult
-from core.utils.logger import get_logger
+from core.application.processors.random import SeededRandom
+from adapters.autoplayer.actions import ARCHETYPE_WEIGHTS, NPC_ACTIONS
+from adapters.autoplayer.types import ActionResult
+from infra.logging import get_logger
 
 if TYPE_CHECKING:
-    from core.domain.entities import Person, World
+    from core.domain import Person, World
 
 log = get_logger(__name__)
 

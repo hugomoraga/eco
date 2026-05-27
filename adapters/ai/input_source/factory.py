@@ -18,7 +18,7 @@ def create_input_source(autoplay: bool = False) -> InputSource:
 
     Does NOT import ui_core at module level to avoid circular deps.
     """
-    from core.utils.config import get_config
+    from adapters.config.config import get_config
 
     cfg = get_config()
     mode = cfg.input_config.mode

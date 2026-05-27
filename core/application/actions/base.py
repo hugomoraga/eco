@@ -5,7 +5,7 @@ from typing import ClassVar
 
 from pydantic import BaseModel, Field
 
-from core.shared.types import ActionResult
+from adapters.autoplayer.types import ActionResult
 
 
 class ActionContext(BaseModel):

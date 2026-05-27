@@ -6,13 +6,11 @@ from typing import TYPE_CHECKING
 
 from core.application.actions.base import Action, ActionContext, ActionResult
 from adapters.i18n import t
-from core.shared.actions import ACTION_DAMAGE_MAP
-from core.utils.logger import get_logger
+from adapters.autoplayer.actions import ACTION_DAMAGE_MAP
 
 if TYPE_CHECKING:
-    from core.domain.entities import Echo, World
-
-log = get_logger(__name__)
+    from core.ports.logger import Logger
+    from core.domain import Echo, World
 
 
 # ─── Action Metadata ──────────────────────────────────────────────────────────
@@ -30,7 +28,7 @@ class PropagateIdea(Action):
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
         from core.domain.rules.essence_effects import EssenceEffects
-        from core.systems.random import SeededRandom
+        from core.application.processors.random import SeededRandom
 
         propagated = 0
         tags_created = []
@@ -108,11 +106,6 @@ class Sabotage(Action):
 
         self.last_used_tick = context.world_tick
 
-        log.info("action_sabotage", action=self.name, echo_name=echo.name, world_tick=context.world_tick,
-                 pressure_change={"before": old_pressure, "after": world.pressure},
-                 legitimacy_change={"before": old_legitimacy, "after": world.legitimacy},
-                 resources_change={"before": old_resources, "after": world.resources_global})
-
         return ActionResult(
             success=True,
             message=t("actions:sabotage"),
@@ -130,7 +123,7 @@ class Ritualize(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from core.domain.entities import CircleEvent, CircleEventType
+        from core.domain import CircleEvent, CircleEventType
 
         world.pressure -= 3
         world.legitimacy -= 1
@@ -183,7 +176,7 @@ class SpreadRumor(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from core.systems.random import SeededRandom
+        from core.application.processors.random import SeededRandom
 
         rng = SeededRandom.get_instance()
         success_chance = 0.5 + (echo.influence / 200)
@@ -197,11 +190,6 @@ class SpreadRumor(Action):
             world.clamp_metrics()
             self._apply_temporal_strain(echo, 2.0)
             self.last_used_tick = context.world_tick
-
-            log.info("action_spread_rumor", action=self.name, echo_name=echo.name, world_tick=context.world_tick,
-                     success=True, success_chance=success_chance,
-                     pressure_change={"before": old_pressure, "after": world.pressure},
-                     legitimacy_change={"before": old_legitimacy, "after": world.legitimacy})
 
             return ActionResult(
                 success=True,
@@ -230,7 +218,7 @@ class RecruitFollower(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from core.systems.random import SeededRandom
+        from core.application.processors.random import SeededRandom
 
         if not echo.circles:
             return ActionResult(
@@ -286,7 +274,7 @@ class Negotiate(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from core.systems.random import SeededRandom
+        from core.application.processors.random import SeededRandom
 
         rng = SeededRandom.get_instance()
         success_chance = 0.5 + (echo.influence / 200)
@@ -325,8 +313,8 @@ class Ritual(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from core.domain.entities import CircleEvent, CircleEventType
-        from core.systems.random import SeededRandom
+        from core.domain import CircleEvent, CircleEventType
+        from core.application.processors.random import SeededRandom
 
         rng = SeededRandom.get_instance()
         success_chance = 0.6 + (echo.influence / 250)

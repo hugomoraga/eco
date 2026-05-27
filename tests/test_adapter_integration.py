@@ -7,33 +7,31 @@ from __future__ import annotations
 
 import pytest
 
-from core.systems.simulation import SimulationEngine
-from adapters.ai.input_source import AutoplayInputSource, PlayerInputSource
+from core.application.processors.simulation import SimulationEngine
+from core.application.players.auto import AutoPlayer
 from adapters.ai import AIGameAdapter
 
 
-class TestSimulationEngineWithInputSource:
-    """Integration tests: SimulationEngine with InputSource."""
+class TestSimulationEngineWithPlayer:
+    """Integration tests: SimulationEngine with Player."""
 
     def test_engine_creation(self):
         """Engine can be created with default settings."""
         engine = SimulationEngine(
             seed=42,
             max_turns=5,
-            input_source=AutoplayInputSource(),
         )
         assert engine.turn == 0
         assert engine.max_turns == 5
-        assert engine.input_source is not None
+        assert engine._player is not None
 
     def test_engine_runs_autoplay_5_turns(self):
         """Engine can run 5 turns in autoplay mode."""
+        player = AutoPlayer(seed=42)
         engine = SimulationEngine(
             seed=42,
             max_turns=5,
-            input_source=AutoplayInputSource(),
-            autoplay=True,
-            snapshot_interval=10,
+            player=player,
         )
 
         result = engine.run()
@@ -43,11 +41,11 @@ class TestSimulationEngineWithInputSource:
 
     def test_engine_runs_autoplay_3_turns(self):
         """Engine can run 3 turns in autoplay mode."""
+        player = AutoPlayer(seed=123)
         engine = SimulationEngine(
             seed=123,
             max_turns=3,
-            input_source=AutoplayInputSource(),
-            autoplay=True,
+            player=player,
         )
 
         result = engine.run()
@@ -57,11 +55,11 @@ class TestSimulationEngineWithInputSource:
 
     def test_engine_world_state_available(self):
         """Engine world state is accessible after creation."""
+        player = AutoPlayer(seed=42)
         engine = SimulationEngine(
             seed=42,
             max_turns=2,
-            input_source=AutoplayInputSource(),
-            autoplay=True,
+            player=player,
         )
 
         engine.run()
@@ -76,11 +74,11 @@ class TestAIGameAdapterIntegration:
 
     def test_ai_adapter_can_connect_to_engine(self):
         """AIGameAdapter can connect to engine."""
+        player = AutoPlayer(seed=42)
         engine = SimulationEngine(
             seed=42,
             max_turns=2,
-            autoplay=True,
-            snapshot_interval=10,
+            player=player,
         )
         adapter = AIGameAdapter(mode="autoplay", style="preservationist")
 
@@ -90,11 +88,11 @@ class TestAIGameAdapterIntegration:
 
     def test_ai_adapter_runs_3_turns(self):
         """AIGameAdapter can run 3 turns."""
+        player = AutoPlayer(seed=42)
         engine = SimulationEngine(
             seed=42,
             max_turns=3,
-            autoplay=True,
-            snapshot_interval=10,
+            player=player,
         )
         adapter = AIGameAdapter(mode="autoplay", style="preservationist")
 
@@ -105,11 +103,11 @@ class TestAIGameAdapterIntegration:
 
     def test_ai_adapter_runs_with_revolutionary_style(self):
         """AIGameAdapter can use revolutionary style."""
+        player = AutoPlayer(seed=99, style_id="revolutionary")
         engine = SimulationEngine(
             seed=99,
             max_turns=2,
-            autoplay=True,
-            snapshot_interval=10,
+            player=player,
         )
         adapter = AIGameAdapter(mode="autoplay", style="revolutionary")
 
@@ -145,27 +143,16 @@ class TestAutoplayModes:
 
     def test_autoplay_mode_manual_no_action(self):
         """Autoplay with mode=manual should not execute actions."""
+        player = AutoPlayer(seed=42, mode="manual")
         engine = SimulationEngine(
             seed=42,
             max_turns=3,
-            input_source=AutoplayInputSource(),
-            autoplay=False,
+            player=player,
         )
 
         engine.run()
 
         assert engine.turn == 3
-
-    def test_engine_with_player_input_source_placeholder(self):
-        """Engine can be created with PlayerInputSource (for TUI)."""
-        engine = SimulationEngine(
-            seed=42,
-            max_turns=1,
-            input_source=PlayerInputSource(),
-        )
-
-        assert engine.input_source is not None
-        assert isinstance(engine.input_source, PlayerInputSource)
 
 
 class TestGameStateAfterTurns:
@@ -173,12 +160,11 @@ class TestGameStateAfterTurns:
 
     def test_world_metrics_change_after_turns(self):
         """World metrics should be tracked after running turns."""
+        player = AutoPlayer(seed=42)
         engine = SimulationEngine(
             seed=42,
             max_turns=5,
-            input_source=AutoplayInputSource(),
-            autoplay=True,
-            snapshot_interval=10,
+            player=player,
         )
 
         initial_pressure = engine.world.pressure
@@ -190,11 +176,11 @@ class TestGameStateAfterTurns:
 
     def test_echo_exists_after_game(self):
         """An echo should exist in the world after running turns."""
+        player = AutoPlayer(seed=42)
         engine = SimulationEngine(
             seed=42,
             max_turns=3,
-            input_source=AutoplayInputSource(),
-            autoplay=True,
+            player=player,
         )
 
         engine.run()
@@ -205,13 +191,11 @@ class TestGameStateAfterTurns:
 
     def test_circles_can_exist(self):
         """Circles can exist after game runs with actions."""
+        player = AutoPlayer(seed=42, style_id="preservationist")
         engine = SimulationEngine(
             seed=42,
             max_turns=8,
-            input_source=AutoplayInputSource(),
-            autoplay=True,
-            autoplay_style="preservationist",
-            snapshot_interval=10,
+            player=player,
         )
 
         engine.run()

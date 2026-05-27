@@ -19,7 +19,7 @@ from core.ports.messages import (
     UnionMessage,
     MessageType,
 )
-from core.systems.observer import (
+from core.application.processors.observer import (
     TurnStartEvent,
     TurnEndEvent,
     ActionResultEvent,

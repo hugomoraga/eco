@@ -1,5 +1,0 @@
-{"timestamp": "2026-05-24T21:34:37.524997", "turn": 1, "event_type": "tick", "data": {"turn": 1, "world_tick": 0, "action_result": null}}
-{"timestamp": "2026-05-24T21:34:37.525221", "turn": 2, "event_type": "tick", "data": {"turn": 2, "world_tick": 0, "action_result": null}}
-{"timestamp": "2026-05-24T21:34:37.527626", "turn": 3, "event_type": "faction_tick", "data": {"faction_id": "30759e41-0dbf-4b55-bd7c-12a84529f35a", "faction_name": "Circulo Libertario", "action": "spread_doctrine", "score": 41.80000000000001, "goal": "expand_influence", "effect": {"changes": ["influence: +5, resources: -5"]}}}
-{"timestamp": "2026-05-24T21:34:37.527711", "turn": 3, "event_type": "tick", "data": {"turn": 3, "world_tick": 0, "action_result": null}}
-{"timestamp": "2026-05-24T21:34:37.527801", "turn": 4, "event_type": "tick", "data": {"turn": 4, "world_tick": 0, "action_result": null}}

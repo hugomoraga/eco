@@ -6,7 +6,7 @@ from __future__ import annotations
 import yaml
 from pathlib import Path
 
-from core.domain.entities import Person, EssenceProfile, EssenceScore
+from core.domain import Person, EssenceProfile, EssenceScore
 
 
 def load_person_dataset(persons_dir: str = "data/world/persons") -> list[Person]:

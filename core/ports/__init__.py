@@ -4,7 +4,7 @@ Protocol package for CLI <-> TUI communication.
 Re-exports events from observer.py and commands from messages.py.
 """
 
-from core.systems.observer import (
+from core.application.processors.observer import (
     MessageType,
     ProtocolEvent,
     TurnStartEvent,

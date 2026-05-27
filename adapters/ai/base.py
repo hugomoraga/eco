@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from core.systems.simulation import SimulationEngine
+    from core.application.processors.simulation import SimulationEngine
 
 
 @dataclass
@@ -80,7 +80,7 @@ class GameAdapter(ABC):
         """Request a decision from the underlying InputSource."""
         if self._input_source is None:
             return None
-        from core.domain.entities import World
+        from core.domain import World
         return self._input_source.get_action(turn, self._engine.world if self._engine else None)
 
     @abstractmethod

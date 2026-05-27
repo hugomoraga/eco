@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING
 
 import yaml
 
-from core.domain.entities import EssenceProfile, EssenceScore, Person
-from core.systems.random import SeededRandom
+from core.domain import EssenceProfile, EssenceScore, Person
+from core.application.processors.random import SeededRandom
 
 if TYPE_CHECKING:
     from core.ai.base import AIAdapter

@@ -9,12 +9,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from core.systems.simulation import SimulationEngine
+    from core.application.processors.simulation import SimulationEngine
 
 from adapters.ai.base import GameAdapter
 from adapters.ai.input_source import AutoplayInputSource
-from adapters.autoplayer import AutoplayerEngine
-from core.shared import AutoplayMode, ALL_AVAILABLE_ACTIONS
+from adapters.autoplayer.engine import AutoplayerEngine
+from adapters.autoplayer.types import AutoplayMode
+from adapters.autoplayer.actions import ALL_AVAILABLE_ACTIONS
 
 
 class AIGameAdapter(GameAdapter):

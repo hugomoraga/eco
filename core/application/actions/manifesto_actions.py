@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 
 from core.application.actions.base import Action, ActionContext, ActionResult
-from core.domain.entities import Echo, Ideas, World
+from core.domain import Echo, Ideas, World
 
 
 class WriteManifesto(Action):
@@ -22,7 +22,7 @@ class WriteManifesto(Action):
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
         from adapters.ai import MockAdapter
-        from core.domain.entities import Manifesto
+        from core.domain import Manifesto
         from adapters.i18n import t
 
         ai_adapter = MockAdapter()

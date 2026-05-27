@@ -7,9 +7,9 @@ from __future__ import annotations
 
 import pytest
 
-from core.systems.simulation import SimulationEngine
-from adapters.ai.input_source import AutoplayInputSource
-from adapters.autoplayer import NPCEngine, get_archetype_for_npc
+from core.application.processors.simulation import SimulationEngine
+from core.application.players.auto import AutoPlayer
+from adapters.autoplayer.npc_engine import NPCEngine, get_archetype_for_npc
 
 
 class TestNPCEngine:
@@ -22,11 +22,11 @@ class TestNPCEngine:
 
     def test_npc_engine_with_world(self):
         """NPCEngine can evaluate world state."""
+        player = AutoPlayer(seed=42)
         engine = SimulationEngine(
             seed=42,
             max_turns=3,
-            input_source=AutoplayInputSource(),
-            autoplay=True,
+            player=player,
         )
         engine.run()
 
@@ -83,11 +83,11 @@ class TestNPCsInWorld:
 
     def test_engine_runs_without_npcs(self):
         """Engine runs fine even if no NPCs exist yet."""
+        player = AutoPlayer(seed=42)
         engine = SimulationEngine(
             seed=42,
             max_turns=5,
-            input_source=AutoplayInputSource(),
-            autoplay=True,
+            player=player,
         )
 
         engine.run()

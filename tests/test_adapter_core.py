@@ -59,13 +59,13 @@ class TestPlayerInputSource:
 
     def test_player_input_source_inject_clears_after_use(self):
         """PlayerInputSource should clear injected action after use."""
-        source = PlayerInputSource()
+        source = PlayerInputSource(timeout_seconds=1)
         source.inject_action("found_circle")
         first_result = source.get_action(1, None)
         assert first_result == "found_circle"
-        # After use, pending action is cleared
-        # We verify by checking internal state
-        assert source._pending_action is None
+        # After use, queue is empty - next get_action times out
+        second_result = source.get_action(1, None)
+        assert second_result is None
 
 
 class TestHybridInputSource:
@@ -192,7 +192,7 @@ class TestAIGameAdapter:
 
     def test_ai_game_adapter_has_autoplayer_engine(self):
         """AIGameAdapter should have internal AutoplayerEngine."""
-        from adapters.autoplayer import AutoplayerEngine
+        from adapters.autoplayer.engine import AutoplayerEngine
 
         adapter = AIGameAdapter()
         assert isinstance(adapter._autoplay_engine, AutoplayerEngine)

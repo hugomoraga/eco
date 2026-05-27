@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
-from core.systems.observer import (
+from core.application.processors.observer import (
     MessageType,
     ProtocolEvent,
     ActionResultEvent,

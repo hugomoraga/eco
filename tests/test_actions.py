@@ -7,7 +7,7 @@ from core.application.actions.base import Action, ActionContext, ActionResult
 from core.application.actions.circle_actions import FoundCircle, JoinCircle, LeaveCircle
 from core.application.actions.manifesto_actions import WriteManifesto
 from core.application.actions.social_actions import PropagateIdea, Talk, Sabotage, Ritualize
-from core.domain.entities import Circle, Echo, World, WorldClock
+from core.domain import Circle, Echo, World, WorldClock
 
 
 class TestActionContext:

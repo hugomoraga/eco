@@ -6,7 +6,7 @@ from enum import Enum
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from core.domain.entities import World
+    from core.domain import World
 
 
 class GoalType(Enum):

@@ -1,6 +1,0 @@
-2026-05-24 21:09:48.121 [INFO] Turn 1 started — pressure=30.0 legitimacy=60.0 resources=70.0
-2026-05-24 21:09:48.126 [INFO] Turn 1 ended — action=found_circle
-2026-05-24 21:09:48.126 [INFO] Turn 2 started — pressure=31.7 legitimacy=57.5 resources=69.8
-2026-05-24 21:09:48.129 [INFO] Turn 2 ended — action=propagate_idea
-2026-05-24 21:09:48.129 [INFO] Turn 3 started — pressure=31.0 legitimacy=58.1 resources=70.3
-2026-05-24 21:09:48.130 [INFO] Turn 3 ended — action=write_manifesto

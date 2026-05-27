@@ -10,9 +10,9 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from core.application.actions.base import ActionResult
-    from core.domain.entities import World
+    from core.domain import World
 
-from core.systems.narrative_engine import NarrativeEngine
+from core.application.processors.narrative_engine import NarrativeEngine
 from adapters.tui.components import Components
 from adapters.tui.console import Console
 
@@ -33,7 +33,7 @@ class ConsoleDisplay:
     """
     Observer that renders simulation events to the console.
 
-    Implements SimulationObserver interface from core.systems.observer.
+    Implements SimulationObserver interface from core.application.processors.observer.
     Registered with SimulationEngine via engine.register_observer().
 
     Supports two modes:

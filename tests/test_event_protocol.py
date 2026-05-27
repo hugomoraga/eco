@@ -5,7 +5,7 @@ Ensures that events are properly defined and serialized through the protocol.
 """
 import pytest
 
-from core.systems.observer import (
+from core.application.processors.observer import (
     MessageType,
     ProtocolEvent,
     TurnStartEvent,
@@ -189,7 +189,7 @@ class TestProtocolObserver:
 
     def test_protocol_observer_import(self):
         """ProtocolObserver should be importable."""
-        from core.cli import ProtocolObserver
+        from adapters.cli import ProtocolObserver
         assert ProtocolObserver is not None
 
     def test_npc_action_event_in_union(self):

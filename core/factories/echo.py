@@ -3,8 +3,8 @@ Echo factory — creates Echo entities.
 """
 from __future__ import annotations
 
-from core.domain.entities import Echo, EchoAttribute, EchoPhase, EssenceProfile, EssenceScore
-from core.systems.random import SeededRandom
+from core.domain import Echo, EchoAttribute, EchoPhase, EssenceProfile, EssenceScore
+from core.application.processors.random import SeededRandom
 
 
 def create_echo(

@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from core.domain.entities import World
+    from core.domain import World
 
 
 class Session:

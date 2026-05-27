@@ -14,7 +14,7 @@ from core.domain.rules.goals import (
 )
 
 if TYPE_CHECKING:
-    from core.domain.entities import Person
+    from core.domain import Person
 
 
 GOAL_TEMPLATES: dict[str, list[dict]] = {

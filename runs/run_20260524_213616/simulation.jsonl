@@ -1,7 +1,0 @@
-{"timestamp": "2026-05-24T21:36:16.946745", "turn": 1, "event_type": "tick", "data": {"turn": 1, "world_tick": 0, "action_result": null}}
-{"timestamp": "2026-05-24T21:36:16.946999", "turn": 2, "event_type": "tick", "data": {"turn": 2, "world_tick": 0, "action_result": null}}
-{"timestamp": "2026-05-24T21:36:16.949176", "turn": 3, "event_type": "faction_tick", "data": {"faction_id": "d470f2f5-c6e1-4e1f-bad2-71c966826d34", "faction_name": "Circulo Libertario", "action": "spread_doctrine", "score": 41.80000000000001, "goal": "expand_influence", "effect": {"changes": ["influence: +5, resources: -5"]}}}
-{"timestamp": "2026-05-24T21:36:16.949271", "turn": 3, "event_type": "tick", "data": {"turn": 3, "world_tick": 0, "action_result": null}}
-{"timestamp": "2026-05-24T21:36:16.949371", "turn": 4, "event_type": "tick", "data": {"turn": 4, "world_tick": 0, "action_result": null}}
-{"timestamp": "2026-05-24T21:36:16.949471", "turn": 5, "event_type": "event", "data": {"title": "Unnamed Event", "summary": "Los trabajadores salen a las calles exigiendo cambios.", "canonical": true}}
-{"timestamp": "2026-05-24T21:36:16.949539", "turn": 5, "event_type": "tick", "data": {"turn": 5, "world_tick": 0, "action_result": null}}
