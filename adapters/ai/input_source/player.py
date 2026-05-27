@@ -1,41 +1,36 @@
 """
 PlayerInputSource — human player input with timeout.
 
-Uses ui_core interface to display actions and capture player choice.
-Falls back to timeout if no input.
+Uses queue internally for TUI integration.
+Falls back to Selector for console mode.
 """
 
 from __future__ import annotations
 
-import signal
+import queue
+import threading
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from core.domain.entities import World
+    from core.domain import World
 
 from adapters.ai.input_source.base import InputSource
 
 
-class TimeoutException(Exception):
-    pass
-
-
-def _timeout_handler(signum, frame):
-    raise TimeoutException()
-
-
 class PlayerInputSource(InputSource):
     """
-    Human player input with timeout.
+    Human player input via queue (TUI) or Selector (console).
 
-    Shows action menu, captures player choice via number or command.
-    Uses ui_core for display and input.
+    TUI mode: inject_action puts in queue, get_action blocks on queue.
+    Console mode: get_action calls Selector.run().
     """
 
     def __init__(self, timeout_seconds: int = 60, selector=None):
         self.timeout_seconds = timeout_seconds
-        self._pending_action: str | None = None
         self._selector = selector
+        self._action_queue: queue.Queue[str | None] = queue.Queue()
+        self._tui_mode = False
+        self._injected = False
 
     @property
     def mode(self) -> str:
@@ -44,17 +39,27 @@ class PlayerInputSource(InputSource):
     def supports_realtime_override(self) -> bool:
         return True
 
-    def inject_action(self, action: str) -> None:
-        """TUI calls this to inject player action mid-simulation."""
-        self._pending_action = action
+    def set_tui_mode(self, enabled: bool = True) -> None:
+        """Enable TUI mode - get_action blocks on queue instead of Selector."""
+        self._tui_mode = enabled
+
+    def inject_action(self, action: str | None) -> None:
+        """TUI calls this to inject player action."""
+        self._action_queue.put(action)
+        self._injected = True
+        self._tui_mode = True
 
     def get_action(self, turn: int, world: World) -> str | None:
-        """Get action from human player. Returns action name or None on timeout."""
-        if self._pending_action is not None:
-            action = self._pending_action
-            self._pending_action = None
-            return action
-
+        """Get action from human player. TUI uses queue, console uses Selector."""
+        if self._tui_mode:
+            try:
+                return self._action_queue.get(timeout=self.timeout_seconds)
+            except queue.Empty:
+                return None
+        try:
+            return self._action_queue.get_nowait()
+        except queue.Empty:
+            pass
         return self._request_player_input(turn, world)
 
     def _request_player_input(self, turn: int, world: World) -> str | None:

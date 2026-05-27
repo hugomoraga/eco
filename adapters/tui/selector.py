@@ -1,4 +1,5 @@
 from collections.abc import Callable
+import io
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
@@ -42,14 +43,22 @@ class Selector:
         """Run selector with keyboard navigation."""
         import sys
 
-        if sys.stdin.isatty():
+        if sys.stdin.isatty() and not self._is_piped_input():
             return self._interactive_select()
 
-        # Non-TTY: use simple numbered input
         return self._numbered_select()
+
+    def _is_piped_input(self) -> bool:
+        """Check if stdin has piped input (not a real TTY)."""
+        import sys
+        try:
+            return not sys.stdin.isatty() or sys.stdin.seekable() is False
+        except (AttributeError, io.UnsupportedOperation):
+            return False
 
     def _numbered_select(self) -> str | None:
         """Simple numbered selection (works without TTY)."""
+        import re
         print(f"\n  {self.title}")
         print("  " + "─" * 40)
         for i, opt in enumerate(self.options, 1):
@@ -57,20 +66,21 @@ class Selector:
         print("  (escribe el numero)")
 
         try:
-            choice = input("\n  Tu eleccion: ").strip()
+            raw_input = input("\n  Tu eleccion: ")
+            clean_input = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', raw_input).strip()
         except (EOFError, KeyboardInterrupt):
             return None
 
-        if not choice:
+        if not clean_input:
             return self.options[self.selected] if self.options else None
-        if choice == "q":
+        if clean_input == "q":
             return None
-        if choice.isdigit():
-            idx = int(choice) - 1
+        if clean_input.isdigit():
+            idx = int(clean_input) - 1
             if 0 <= idx < len(self.options):
                 return self.options[idx]
-        if choice in self.options:
-            return choice
+        if clean_input in self.options:
+            return clean_input
 
         return self.options[self.selected] if self.options else None
 

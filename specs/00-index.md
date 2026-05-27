@@ -59,6 +59,8 @@ Guía de lectura y dependencias entre especificaciones.
 | 51 | [code-patterns](51-code-patterns.md) | Factory & systems patterns, naming conventions | 01 | draft |
 | 52 | [person-host-echo](52-person-host-echo.md) | Person/Host/Echo refactor con herencia OOP | 51 | draft |
 | 53 | [logger](53-logger.md) | Structured logging con structlog, dual output (stderr + file) | 01 | active |
+| 55 | [defensive-error-handling](55-defensive-error-handling.md) | Try-except en engine threads para loggear excepciones | 01, 53 | draft |
+| 56 | [cli-refactor](56-cli-refactor.md) | GameConfig + Launcher pattern, default HumanPlayer, --autoplay flag | 01, 53, 55 | draft |
 
 ## Gráfico de dependencias
 
