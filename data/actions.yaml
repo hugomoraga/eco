@@ -28,3 +28,33 @@ actions:
     cooldown: 6
     social_cost: 4.0
     tags_required: []
+
+  join_circle:
+    cooldown: 2
+    social_cost: 1.0
+    tags_required: []
+
+  leave_circle:
+    cooldown: 1
+    social_cost: 0.5
+    tags_required: []
+
+  negotiate:
+    cooldown: 4
+    social_cost: 2.0
+    tags_required: []
+
+  recruit_follower:
+    cooldown: 5
+    social_cost: 3.0
+    tags_required: []
+
+  ritual:
+    cooldown: 7
+    social_cost: 3.0
+    tags_required: []
+
+  spread_rumor:
+    cooldown: 3
+    social_cost: 1.5
+    tags_required: []
