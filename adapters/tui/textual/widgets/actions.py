@@ -25,4 +25,4 @@ class ActionsBar(Horizontal):
     def on_select_changed(self, event: Select.Changed) -> None:
         if event.value and event.value != Select.BLANK:
             self.app._do_from_select(event.value)
-            event.select.value = Select.BLANK
+            event.select.clear()
