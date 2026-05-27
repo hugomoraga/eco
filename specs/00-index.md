@@ -7,14 +7,11 @@ Guía de lectura y dependencias entre especificaciones.
 | # | Spec | Descripción | Dependencias |
 |---|------|-------------|--------------|
 | 00 | [index](00-index.md) | Este índice | - |
-| 01 | [architecture](01-architecture.md) | Stack, estructura carpetas, principios | - |
-| 02 | [domain](02-domain.md) | Modelo de entidades World, Civilizations | 01 |
-| 03 | [player-echo](03-player-echo.md) | Atributos, encarnación, reencarnación | 01, 02 |
-| 04 | ~~[essences](04-essences.md)~~ | Sistema v1 → reemplazado por 47 | 01 | **deprecated** |
-| 05 | [ideas-doctrines](05-ideas-doctrines.md) | Ideas, doctrinas, genealogía memética | 04 |
-| 06 | [ideological-drift](06-ideological-drift.md) | Sistema de deriva (4 capas) | 04, 05 |
-| 07 | [actions](07-actions.md) | Acciones humanas, efectos, duración | 01, 02 |
-| 08 | [temporal-system](08-temporal-system.md) | ActionTick, WorldTick, HistoricalTick | 01, 07 |
+| 01 | [architecture](implemented/01-architecture.md) | Stack, estructura carpetas, principios | - |
+| 02 | [domain](implemented/02-domain.md) | Modelo de entidades World, Civilizations | 01 |
+| 03 | [player-echo](implemented/03-player-echo.md) | Atributos, encarnación, reencarnación | 01, 02 |
+| 07 | [actions](implemented/07-actions.md) | Acciones humanas, efectos, duración | 01, 02 |
+| 08 | [temporal-system](implemented/08-temporal-system.md) | ActionTick, WorldTick, HistoricalTick | 01, 07 |
 | 09 | [economy](09-economy.md) | Economía estructural, coste social | 01, 02 |
 | 10 | [factions](10-factions.md) | Faction Tick System, agency limitada | 01, 02, 04 |
 | 11 | [autoplayer](11-autoplayer.md) | Goals, evaluación multiobjetivo, personalidad | 01, 03, 06, 07 |
@@ -43,15 +40,15 @@ Guía de lectura y dependencias entre especificaciones.
 | 34 | [events-system](34-events-system.md) | Event types, triggers, consequences on world | 01, 02, 13, 26, 29 |
 | 35 | [circle-system](35-circle-system.md) | Circle identity, members, names, history, growth | 01, 02, 07, 08, 26, 28, 29, 30 |
 | 36 | [player-input-system](36-player-input-system.md) | Input modes: autoplay, hybrid, player via .env | 01, 02, 07, 24 |
-| 37 | ~~[tui](37-tui.md)~~ | Terminal UI con rich + prompt_toolkit | 01, 19 | **deprecated** → reemplazada por 43 |
-| 38 | ~~[eco-agent](38-eco-agent.md)~~ | ~~CLI agent~~ → merged into 37 | - | **deprecated** |
+| 37 | ~~[tui](implemented/37-tui.md)~~ | Terminal UI con rich + prompt_toolkit | 01, 19 | **deprecated** → reemplazada por 43 |
+| 38 | ~~[eco-agent](implemented/38-eco-agent.md)~~ | ~~CLI agent~~ → merged into 37 | - | **deprecated** |
 | 39 | [circle-names](39-circle-names.md) | Name generator + i18n | 01, 07, 23 |
 | 40 | [event-categorization](40-event-categorization.md) | 4 categorías eventos con consecuencias | 01, 02, 13, 26, 29 |
-| 41 | ~~[tui](41-tui.md)~~ | TUI legacy → refactor notes | - | **deprecated** → reemplazada por 43 |
-| 42 | ~~[refactor-jerarquia](42-refactor-jerarquia.md)~~ | Reorganizar: game_core/ motor, ui_core/ output, player_core/ input | 37, 11 | **deprecated** → reemplazada por 43 |
+| 41 | ~~[tui](implemented/41-tui.md)~~ | TUI legacy → refactor notes | - | **deprecated** → reemplazada por 43 |
+| 42 | ~~[refactor-jerarquia](implemented/42-refactor-jerarquia.md)~~ | Reorganizar: game_core/ motor, ui_core/ output, player_core/ input | 37, 11 | **deprecated** → reemplazada por 43 |
 | 43 | [ui](43-ui.md) | Sistema UI unificado — fuente de verdad (reemplaza 33, 37, 41, 42) | 01, 19, 24, 42 | **active** |
-| 44 | ~~[domain-entities](44-domain-entities.md)~~ | Duplicado de 02-domain → deprecated | 01 | **deprecated** |
-| 45 | ~~[domain-refactor](45-domain-refactor.md)~~ | Refactor incompleto → merge en 43 | 01, 02 | **deprecated** |
+| 44 | ~~[domain-entities](implemented/44-domain-entities.md)~~ | Duplicado de 02-domain → deprecated | 01 | **deprecated** |
+| 45 | ~~[domain-refactor](implemented/45-domain-refactor.md)~~ | Refactor incompleto → merge en 43 | 01, 02 | **deprecated** |
 | 46 | [world-generation](46-world-generation.md) | Civilization templates + Person dataset + IA generation | 01, 02, 03, 19, 28, 30, 43 | draft |
 | 47 | [essence-system-v2](47-essence-system-v2.md) | EssenceProfile, 20 essencias, matriz compatibilidades, mutación | 01 | **active** |
 | 48 | [world-start-screen](48-world-start-screen.md) | World start screen UI | 01, 43 | draft |
@@ -160,8 +157,13 @@ Seguir el orden topológico: 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08
 
 - **draft**: Sin implementar
 - **in_progress**: Parcialmente implementado
-- **deprecated**: Implementado pero puede cambiar
+- **deprecated**: Implementado y obsoleto
 - **stable**: Implementado y congelado
+
+## Estructura de carpetas
+
+- `specs/` — Specs activas o pendientes
+- `specs/implemented/` — Specs implementadas y deprecated (historical reference)
 
 ## Implementacion
 
