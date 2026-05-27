@@ -158,11 +158,10 @@ class TestMakeActionsText:
 class TestActionsBar:
     def test_actions_bar_init(self):
         bar = ActionsBar()
-        assert bar.id == "actions-display"
+        assert bar.id == "actions-bar"
 
     def test_actions_bar_content(self):
         bar = ActionsBar()
-        content = bar.renderable if hasattr(bar, 'renderable') else str(bar._nodes)
 
 
 class TestLogPanel:

@@ -22,7 +22,7 @@ log = get_logger(__name__)
 from adapters.tui.textual.widgets.echo import EchoPanel
 from adapters.tui.textual.widgets.civ import CivPanel
 from adapters.tui.textual.widgets.metrics import MetricsPanel
-from adapters.tui.textual.widgets.actions import ActionsBar, make_actions_text
+from adapters.tui.textual.widgets.actions import ActionsBar
 from adapters.tui.textual.widgets.log_panel import LogPanel
 
 
@@ -253,7 +253,6 @@ class EcoTextualApp(App):
         self.query_one(MetricsPanel).update_state(
             self._pressure, self._legitimacy, self._resources, self._stability
         )
-        self.query_one(ActionsBar).update(make_actions_text())
 
     def _on_turn_start(self, turn: int, world) -> None:
         self._turn = turn
@@ -337,17 +336,23 @@ class EcoTextualApp(App):
     def _do(self, idx: int) -> None:
         if 0 <= idx < len(ACTIONS):
             action = ACTIONS[idx]
-            if self._engine is None:
-                log.warning("tui_action_skipped", reason="no_engine")
-                return
-            if self._human_player is None:
-                log.warning("tui_action_skipped", reason="no_human_player")
-                return
-            try:
-                log.info("tui_send_action", action=action, turn=self._turn)
-                self._human_player.submit_action(action)
-            except Exception as e:
-                log.error("tui_action_failed", action=action, error=str(e))
+            self._submit_action(action)
+
+    def _do_from_select(self, action: str) -> None:
+        self._submit_action(action)
+
+    def _submit_action(self, action: str) -> None:
+        if self._engine is None:
+            log.warning("tui_action_skipped", reason="no_engine")
+            return
+        if self._human_player is None:
+            log.warning("tui_action_skipped", reason="no_human_player")
+            return
+        try:
+            log.info("tui_send_action", action=action, turn=self._turn)
+            self._human_player.submit_action(action)
+        except Exception as e:
+            log.error("tui_action_failed", action=action, error=str(e))
 
     def action_do_0(self) -> None: self._do(0)
     def action_do_1(self) -> None: self._do(1)
