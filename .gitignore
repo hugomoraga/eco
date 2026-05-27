@@ -30,6 +30,9 @@ htmlcov/
 *.lint
 .flake8
 
+# Type checking
+*.pyi (unless manually maintained)
+
 # Logs
 *.log
 logs/
@@ -41,6 +44,8 @@ runs/
 .env
 .env.local
 .env.*.local
+.env.production
+.env.staging
 
 # IDE
 .idea/
@@ -48,17 +53,30 @@ runs/
 *.swp
 *.swo
 *~
+*.sublime-project
+*.sublime-workspace
 
 # macOS
 .DS_Store
 .AppleDouble
 .LSOverride
+._*
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# Windows
+Thumbs.db
+Desktop.ini
 
 # Project specific (old migrations)
 game_core/
 game-core/
 adapter_core/
 ui_core/
+player_core/
 protocol/
 
 # Node (if used)
@@ -70,4 +88,29 @@ package-lock.json
 *.temp
 .tmp/
 tmp/
-.env
+
+# AI/Agent tools
+.hermes/
+.opencode/
+.aider*
+.claude/
+.copilot/
+
+# Stray pip/uv output files
+=*
+
+# SQLite databases
+*.db
+*.sqlite3
+
+# Profiling
+*.prof
+
+# mypy
+.mypy_cache/
+
+# Security
+*.pem
+*.key
+*.cert
+secrets/
