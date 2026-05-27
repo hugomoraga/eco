@@ -4,25 +4,21 @@ resource_pool.py — ResourcePool value object.
 
 from __future__ import annotations
 
+from pydantic import BaseModel, Field
 
-class ResourcePool:
+
+class ResourcePool(BaseModel):
     """
     Pool of resources for an entity.
 
     Note: legitimacy is NOT here - it lives in Civ.
     """
+    model_config = {"arbitrary_types_allowed": True}
 
-    def __init__(
-        self,
-        food: float = 100.0,
-        infrastructure: float = 80.0,
-        energy: float = 60.0,
-        knowledge: float = 40.0,
-    ):
-        self.food = food
-        self.infrastructure = infrastructure
-        self.energy = energy
-        self.knowledge = knowledge
+    food: float = 100.0
+    infrastructure: float = 80.0
+    energy: float = 60.0
+    knowledge: float = 40.0
 
     def total(self) -> float:
         """Sum of all resources."""
