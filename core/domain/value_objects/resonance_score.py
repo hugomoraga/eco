@@ -15,6 +15,7 @@ class ResonanceScore(BaseModel):
         resonance_id: ID of the essence (thelema, anarchism, etc)
         value: Weight 0-100
     """
+
     resonance_id: str
     value: float = Field(ge=0, le=100)
 

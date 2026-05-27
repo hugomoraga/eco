@@ -19,8 +19,6 @@ class Player(ABC):
         Called by engine at turn start.
         Returns action name or None to skip.
         """
-        pass
 
     def on_turn_end(self, turn: int, world: "World") -> None:
         """Optional hook called after turn completes."""
-        pass

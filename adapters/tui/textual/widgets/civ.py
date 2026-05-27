@@ -1,7 +1,8 @@
 """Civ panel widget."""
 
 from textual.widgets import Static
-from adapters.tui.textual.colors import MAGENTA, CYAN, YELLOW, DIM, GREEN
+
+from adapters.tui.textual.colors import CYAN, DIM, GREEN, MAGENTA, YELLOW
 
 
 def make_civ_content(name: str, echoes: int, circles: int, factions: int, population: int) -> str:
@@ -21,5 +22,7 @@ class CivPanel(Static):
     def on_mount(self) -> None:
         self.border_title = "CIV"
 
-    def update_state(self, name: str, echoes: int, circles: int, factions: int, population: int) -> None:
+    def update_state(
+        self, name: str, echoes: int, circles: int, factions: int, population: int
+    ) -> None:
         self.update(make_civ_content(name, echoes, circles, factions, population))

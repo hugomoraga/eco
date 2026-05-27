@@ -4,11 +4,9 @@ test_new_entities.py — Tests for new spec-57 entities.
 
 from __future__ import annotations
 
-import pytest
-
 from core.domain.entities.actor import Actor
-from core.domain.entities.idea import Idea, IdeaState, IdeaKind
 from core.domain.entities.doctrine import Doctrine, DoctrineBranch
+from core.domain.entities.idea import Idea, IdeaKind, IdeaState
 from core.domain.value_objects import ResonanceProfile, ResonanceScore, ResourcePool
 
 

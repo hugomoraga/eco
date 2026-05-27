@@ -2,7 +2,8 @@
 import re
 from pathlib import Path
 
-SPECS_DIR = Path('specs')
+SPECS_DIR = Path("specs")
+
 
 def get_index_dependencies() -> dict[str, list[str]]:
     """Read dependencies from index file."""
@@ -19,7 +20,10 @@ def get_index_dependencies() -> dict[str, list[str]]:
     header_idx = -1
     dep_col = 4  # Default fourth column (0-indexed from cells)
     for i, line in enumerate(lines):
-        if "| # | Spec | Descripción | Dependencias |" in line or "| # | Spec | Descripcion | Dependencias |" in line:
+        if (
+            "| # | Spec | Descripción | Dependencias |" in line
+            or "| # | Spec | Descripcion | Dependencias |" in line
+        ):
             header_idx = i
             break
 
@@ -57,6 +61,7 @@ def get_index_dependencies() -> dict[str, list[str]]:
                     deps[spec_num] = []
 
     return deps
+
 
 result = get_index_dependencies()
 print(f"Result: {result}")

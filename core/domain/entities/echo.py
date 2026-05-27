@@ -6,12 +6,11 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from typing import ClassVar
 
 from pydantic import BaseModel, Field
 
-from core.domain.enums import EchoPhase
 from core.domain.entities.ideas import EssenceProfile, Ideas
+from core.domain.enums import EchoPhase
 
 
 class EchoAttribute(BaseModel):

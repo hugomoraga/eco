@@ -3,12 +3,11 @@ Integration tests for adapters with SimulationEngine.
 
 Tests that verify the game loop works correctly with different adapters.
 """
+
 from __future__ import annotations
 
-import pytest
-
-from core.application.processors.simulation import SimulationEngine
 from core.application.players.auto import AutoPlayer
+from core.application.processors.simulation import SimulationEngine
 from infra.ai import AIGameAdapter
 
 
@@ -172,7 +171,11 @@ class TestGameStateAfterTurns:
 
         engine.run()
 
-        assert engine.world.pressure != initial_pressure or engine.world.legitimacy != initial_legitimacy or True
+        assert (
+            engine.world.pressure != initial_pressure
+            or engine.world.legitimacy != initial_legitimacy
+            or True
+        )
 
     def test_echo_exists_after_game(self):
         """An echo should exist in the world after running turns."""

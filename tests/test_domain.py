@@ -1,6 +1,7 @@
 """
 Tests for game_core.domain entities.
 """
+
 from __future__ import annotations
 
 from core.domain import (
@@ -11,7 +12,6 @@ from core.domain import (
     Echo,
     EchoAttribute,
     EchoPhase,
-    Faction,
     World,
     WorldClock,
 )

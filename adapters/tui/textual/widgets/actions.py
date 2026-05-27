@@ -3,6 +3,7 @@
 from textual import on
 from textual.containers import Horizontal
 from textual.widgets import Select
+
 from adapters.tui.textual.styles import ACTIONS
 
 

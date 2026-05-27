@@ -12,41 +12,33 @@ The CLI wraps SimulationEngine and translates observer callbacks to protocol mes
 from __future__ import annotations
 
 import argparse
+import queue
 import sys
 import threading
-import time
-import queue
-from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from core.ports import (
-    ActionCommand,
-    QueryCommand,
-    QuitCommand,
-    TerminatedEvent,
-    encode,
-    decode_command,
-    QueryType,
-)
 from core.application.processors.observer import (
-    SimulationObserver,
-    MessageType,
-    TurnStartEvent,
-    TurnEndEvent,
     ActionResultEvent,
-    ActionSelectedEvent,
-    GameEventData,
-    CrisisEvent,
-    WorldStateEvent,
     CircleActivityEvent,
-    NpcCreatedEvent,
-    NpcActionEvent,
+    CrisisEvent,
     EchoSpawnedEvent,
-    ReincarnationCompleteEvent,
+    GameEventData,
+    NpcActionEvent,
     ReadyEvent,
+    ReincarnationCompleteEvent,
+    SimulationObserver,
+    TurnEndEvent,
+    TurnStartEvent,
+    WorldStateEvent,
 )
 from core.application.processors.simulation import SimulationEngine
-from core.application.processors.random import SeededRandom
+from core.ports import (
+    ActionCommand,
+    QuitCommand,
+    TerminatedEvent,
+    decode_command,
+    encode,
+)
 
 if TYPE_CHECKING:
     from core.domain import World
@@ -59,9 +51,13 @@ def _serialize_world(turn: int, world) -> dict:
     echo = world.get_active_echo()
     echo_name = echo.name if echo else "---"
     echo_essence = echo.dominant_essence if echo else "---"
-    echo_phase = echo.phase.value if echo and hasattr(echo.phase, 'value') else "dormant"
-    echo_clarity = echo.get_attribute("clarity").value if echo and echo.get_attribute("clarity") else 50.0
-    echo_essences = [e.essence for e in echo.essence_profile.dominant] if echo and echo.essence_profile else []
+    echo_phase = echo.phase.value if echo and hasattr(echo.phase, "value") else "dormant"
+    echo_clarity = (
+        echo.get_attribute("clarity").value if echo and echo.get_attribute("clarity") else 50.0
+    )
+    echo_essences = (
+        [e.essence for e in echo.essence_profile.dominant] if echo and echo.essence_profile else []
+    )
 
     person = world.get_active_player_person()
     player_vitality = person.vitality if person else 100.0
@@ -73,10 +69,10 @@ def _serialize_world(turn: int, world) -> dict:
         "legitimacy": world.legitimacy,
         "resources_global": world.resources_global,
         "world_tick": world.clock.world_tick,
-        "active_echo_id": getattr(world, 'active_echo_id', None),
-        "circle_count": len(getattr(world, 'circles', [])),
-        "faction_count": len(getattr(world, 'factions', [])),
-        "person_count": len(getattr(world, 'persons', [])),
+        "active_echo_id": getattr(world, "active_echo_id", None),
+        "circle_count": len(getattr(world, "circles", [])),
+        "faction_count": len(getattr(world, "factions", [])),
+        "person_count": len(getattr(world, "persons", [])),
         "echo_name": echo_name,
         "echo_essence": echo_essence,
         "echo_phase": echo_phase,
@@ -105,90 +101,110 @@ class ProtocolObserver(SimulationObserver):
         pass
 
     def on_turn_start(self, turn: int, world):
-        self._emit(TurnStartEvent(
-            turn=turn,
-            world_state=_serialize_world(turn, world),
-        ))
+        self._emit(
+            TurnStartEvent(
+                turn=turn,
+                world_state=_serialize_world(turn, world),
+            )
+        )
 
     def on_event(self, turn: int, event_type: str, title: str, summary: str = ""):
-        self._emit(GameEventData(
-            turn=turn,
-            event_type=event_type,
-            title=title,
-            summary=summary,
-        ))
+        self._emit(
+            GameEventData(
+                turn=turn,
+                event_type=event_type,
+                title=title,
+                summary=summary,
+            )
+        )
 
     def on_crisis(self, turn: int, metric: str, value: float):
-        self._emit(CrisisEvent(
-            turn=turn,
-            metric=metric,
-            value=value,
-        ))
+        self._emit(
+            CrisisEvent(
+                turn=turn,
+                metric=metric,
+                value=value,
+            )
+        )
 
     def on_action_selected(self, turn: int, action_name: str | None):
         pass
 
     def on_action_result(self, turn: int, action_name: str, result):
-        msg = getattr(result, 'message', str(result))
-        success = getattr(result, 'success', True)
-        state_delta = getattr(result, 'state_delta', None) or {}
-        self._emit(ActionResultEvent(
-            turn=turn,
-            action=action_name,
-            success=success,
-            message=msg,
-            state_delta=state_delta,
-        ))
+        msg = getattr(result, "message", str(result))
+        success = getattr(result, "success", True)
+        state_delta = getattr(result, "state_delta", None) or {}
+        self._emit(
+            ActionResultEvent(
+                turn=turn,
+                action=action_name,
+                success=success,
+                message=msg,
+                state_delta=state_delta,
+            )
+        )
 
     def on_circle_activity(self, turn: int, circle_name: str, activity: str):
-        self._emit(CircleActivityEvent(
-            turn=turn,
-            circle_name=circle_name,
-            activity=activity,
-        ))
+        self._emit(
+            CircleActivityEvent(
+                turn=turn,
+                circle_name=circle_name,
+                activity=activity,
+            )
+        )
 
     def on_npc_created(self, turn: int, npc_name: str, npc_role: str):
         pass
 
     def on_npc_action(self, turn: int, npc_name: str, action: str, message: str):
-        self._emit(NpcActionEvent(
-            turn=turn,
-            npc_name=npc_name,
-            action=action,
-            message=message,
-            success=True,
-        ))
+        self._emit(
+            NpcActionEvent(
+                turn=turn,
+                npc_name=npc_name,
+                action=action,
+                message=message,
+                success=True,
+            )
+        )
 
     def on_metric_changed(self, turn: int, metric: str, old_val: float, new_val: float):
         pass
 
     def on_turn_end(self, turn: int, world, action_name: str | None):
-        self._emit(TurnEndEvent(
-            turn=turn,
-            action_taken=action_name,
-            world_tick=world.clock.world_tick,
-        ))
+        self._emit(
+            TurnEndEvent(
+                turn=turn,
+                action_taken=action_name,
+                world_tick=world.clock.world_tick,
+            )
+        )
 
     def on_world_state(self, turn: int, world):
-        self._emit(WorldStateEvent(
-            turn=turn,
-            civ=getattr(world, 'civ', {}),
-            world_state=_serialize_world(turn, world),
-            entities={},
-        ))
+        self._emit(
+            WorldStateEvent(
+                turn=turn,
+                civ=getattr(world, "civ", {}),
+                world_state=_serialize_world(turn, world),
+                entities={},
+            )
+        )
 
     def on_echo_spawned(self, turn: int, parent_name: str, daughter_name: str):
-        self._emit(EchoSpawnedEvent(
-            turn=turn,
-            parent_name=parent_name,
-            daughter_name=daughter_name,
-        ))
+        self._emit(
+            EchoSpawnedEvent(
+                turn=turn,
+                parent_name=parent_name,
+                daughter_name=daughter_name,
+            )
+        )
 
     def on_reincarnation_complete(self, turn: int, new_host_name: str):
-        self._emit(ReincarnationCompleteEvent(
-            turn=turn,
-            new_host_name=new_host_name,
-        ))
+        self._emit(
+            ReincarnationCompleteEvent(
+                turn=turn,
+                new_host_name=new_host_name,
+            )
+        )
 
 
 class StdinInputSource:
@@ -232,9 +248,20 @@ def _stdin_reader(cmd_queue: queue.Queue):
             continue
 
         # Fallback: treat as plain action name
-        VALID_ACTIONS = {"found_circle", "join_circle", "leave_circle", "propagate_idea",
-                        "write_manifesto", "sabotage", "ritualize", "talk",
-                        "spread_rumor", "recruit_follower", "negotiate", "ritual"}
+        VALID_ACTIONS = {
+            "found_circle",
+            "join_circle",
+            "leave_circle",
+            "propagate_idea",
+            "write_manifesto",
+            "sabotage",
+            "ritualize",
+            "talk",
+            "spread_rumor",
+            "recruit_follower",
+            "negotiate",
+            "ritual",
+        }
         if stripped.lower() in VALID_ACTIONS:
             cmd_queue.put(ActionCommand(turn=0, action=stripped.lower()))
 

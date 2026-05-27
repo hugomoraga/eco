@@ -7,9 +7,22 @@ from __future__ import annotations
 import json
 from typing import Any
 
+from core.application.processors.observer import (
+    ActionResultEvent,
+    CircleActivityEvent,
+    CrisisEvent,
+    EchoSpawnedEvent,
+    GameEventData,
+    NpcActionEvent,
+    ReincarnationCompleteEvent,
+    TurnEndEvent,
+    TurnStartEvent,
+    WorldStateEvent,
+)
 from core.ports.messages import (
     ActionCommand,
     ErrorEvent,
+    MessageType,
     QueryCommand,
     QueryResponseEvent,
     QueryType,
@@ -17,19 +30,6 @@ from core.ports.messages import (
     TerminatedEvent,
     TickEvent,
     UnionMessage,
-    MessageType,
-)
-from core.application.processors.observer import (
-    TurnStartEvent,
-    TurnEndEvent,
-    ActionResultEvent,
-    GameEventData,
-    CrisisEvent,
-    WorldStateEvent,
-    CircleActivityEvent,
-    EchoSpawnedEvent,
-    ReincarnationCompleteEvent,
-    NpcActionEvent,
 )
 
 

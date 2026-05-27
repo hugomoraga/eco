@@ -1,6 +1,7 @@
 """
 Pytest configuration for ECO game tests.
 """
+
 from __future__ import annotations
 
 import sys

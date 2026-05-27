@@ -3,26 +3,19 @@ Tests for the event protocol system.
 
 Ensures that events are properly defined and serialized through the protocol.
 """
-import pytest
 
 from core.application.processors.observer import (
-    MessageType,
-    ProtocolEvent,
-    TurnStartEvent,
-    TurnEndEvent,
     ActionResultEvent,
-    GameEventData,
-    CrisisEvent,
     CircleActivityEvent,
-    NpcActionEvent,
+    CrisisEvent,
     EchoSpawnedEvent,
+    GameEventData,
+    MessageType,
+    NpcActionEvent,
     ReincarnationCompleteEvent,
-    WorldStateEvent,
-    TickEvent,
-    TerminatedEvent,
-    ErrorEvent,
+    TurnStartEvent,
 )
-from core.ports.codec import encode, decode
+from core.ports.codec import decode, encode
 
 
 class TestEventSerialization:
@@ -181,7 +174,9 @@ class TestMessageType:
             "npc_action",
         ]
         for type_name in expected_types:
-            assert hasattr(MessageType, type_name.upper()), f"Missing MessageType.{type_name.upper()}"
+            assert hasattr(MessageType, type_name.upper()), (
+                f"Missing MessageType.{type_name.upper()}"
+            )
 
 
 class TestProtocolObserver:
@@ -190,6 +185,7 @@ class TestProtocolObserver:
     def test_protocol_observer_import(self):
         """ProtocolObserver should be importable."""
         from adapters.cli import ProtocolObserver
+
         assert ProtocolObserver is not None
 
     def test_npc_action_event_in_union(self):

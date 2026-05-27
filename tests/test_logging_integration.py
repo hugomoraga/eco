@@ -8,9 +8,9 @@ Tests:
 4. Hexagonal architecture: core imports from core.utils.logger, not infra
 5. init_logger is called by adapter layer, not core
 """
+
 from __future__ import annotations
 
-import os
 import subprocess
 import sys
 import tempfile
@@ -22,7 +22,7 @@ class TestLoggingIntegration:
 
     def test_structlog_is_configured(self):
         """Verify structlog can be imported and used."""
-        from infra.logging import init_logger, get_logger
+        from infra.logging import get_logger, init_logger
 
         with tempfile.TemporaryDirectory() as tmpdir:
             run_dir = Path(tmpdir)
@@ -150,5 +150,6 @@ class TestHexagonalArchitecture:
         for py_file in core_dir.rglob("*.py"):
             content = py_file.read_text()
             if "get_logger" in content and "infra" not in content:
-                assert "from core.utils.logger import" in content or "core.utils.logger" in content, \
-                    f"{py_file.name} uses get_logger but doesn't import from core.utils.logger"
+                assert (
+                    "from core.utils.logger import" in content or "core.utils.logger" in content
+                ), f"{py_file.name} uses get_logger but doesn't import from core.utils.logger"

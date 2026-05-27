@@ -2,6 +2,7 @@
 ECO Tuning Configuration Loader
 Reads game_core/tuning.yaml and provides access to tuning values.
 """
+
 from __future__ import annotations
 
 from pathlib import Path

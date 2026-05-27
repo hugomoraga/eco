@@ -4,6 +4,7 @@ game_core.shared.types - Shared types between game_core and adapter_core.
 These are pure data types/enums that don't depend on game_core internals.
 Moved here to break circular dependencies in hexagonal architecture.
 """
+
 from __future__ import annotations
 
 from enum import StrEnum
@@ -14,6 +15,7 @@ from pydantic import BaseModel, Field
 
 class ActionResult(BaseModel):
     """Unified action result used by Human, AI, and NPC engines."""
+
     action: str = ""
     success: bool
     message: str

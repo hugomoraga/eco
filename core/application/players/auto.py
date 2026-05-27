@@ -2,9 +2,9 @@
 auto.py — AutoPlayer: wraps AutoplayerEngine as a Player.
 """
 
-from core.ports.player import Player
 from adapters.autoplayer.engine import AutoplayerEngine
 from adapters.autoplayer.types import AutoplayMode
+from core.ports.player import Player
 
 
 class AutoPlayer(Player):
@@ -16,7 +16,9 @@ class AutoPlayer(Player):
         mode: str = "autoplay",
         style_id: str = "preservationist",
     ):
-        autoplay_mode = AutoplayMode(mode) if mode in [m.value for m in AutoplayMode] else AutoplayMode.AUTOPLAY
+        autoplay_mode = (
+            AutoplayMode(mode) if mode in [m.value for m in AutoplayMode] else AutoplayMode.AUTOPLAY
+        )
         self._engine = AutoplayerEngine(
             seed=seed,
             mode=autoplay_mode,

@@ -21,6 +21,8 @@ class Faction(BaseModel):
     member_ids: list[str] = Field(default_factory=list)
     circle_ids: list[str] = Field(default_factory=list)
     influence: float = 0.0
-    resources: dict[str, float] = Field(default_factory=lambda: {"food": 50, "infrastructure": 30, "energy": 20})
+    resources: dict[str, float] = Field(
+        default_factory=lambda: {"food": 50, "infrastructure": 30, "energy": 20}
+    )
     goals: list[str] = Field(default_factory=list)
     radicalization: float = 0.0

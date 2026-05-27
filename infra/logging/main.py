@@ -17,13 +17,8 @@ from __future__ import annotations
 import os
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 import structlog
-
-if TYPE_CHECKING:
-    pass
-
 
 _log_level: str = os.getenv("ECO_LOG_LEVEL", "DEBUG").upper()
 _log_file_path: Path | None = None

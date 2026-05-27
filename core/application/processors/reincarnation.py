@@ -14,11 +14,20 @@ if TYPE_CHECKING:
 class _NoOpLogger:
     """No-op logger for when logging is not configured."""
 
-    def debug(self, msg: str, **kwargs: Any) -> None: pass
-    def info(self, msg: str, **kwargs: Any) -> None: pass
-    def warning(self, msg: str, **kwargs: Any) -> None: pass
-    def error(self, msg: str, **kwargs: Any) -> None: pass
-    def exception(self, msg: str, **kwargs: Any) -> None: pass
+    def debug(self, msg: str, **kwargs: Any) -> None:
+        pass
+
+    def info(self, msg: str, **kwargs: Any) -> None:
+        pass
+
+    def warning(self, msg: str, **kwargs: Any) -> None:
+        pass
+
+    def error(self, msg: str, **kwargs: Any) -> None:
+        pass
+
+    def exception(self, msg: str, **kwargs: Any) -> None:
+        pass
 
 
 @dataclass
@@ -30,7 +39,9 @@ class ReincarnationResult:
     narrative: str
 
 
-def find_reincarnation_candidate(echo: Echo, world: World, log: Logger | None = None) -> NPCPerson | None:
+def find_reincarnation_candidate(
+    echo: Echo, world: World, log: Logger | None = None
+) -> NPCPerson | None:
     """
     Find the best compatible NPCPerson for an echo to reincarnate into.
 
@@ -45,7 +56,9 @@ def find_reincarnation_candidate(echo: Echo, world: World, log: Logger | None = 
         log = _NoOpLogger()
     candidates = _get_candidates(echo, world)
     if not candidates:
-        log.warning("reincarnation_candidate", stage="no_candidates", echo_id=echo.id, echo_name=echo.name)
+        log.warning(
+            "reincarnation_candidate", stage="no_candidates", echo_id=echo.id, echo_name=echo.name
+        )
         return None
 
     scored = []
@@ -56,7 +69,14 @@ def find_reincarnation_candidate(echo: Echo, world: World, log: Logger | None = 
     scored.sort(key=lambda x: x[0], reverse=True)
     best = scored[0][1] if scored else None
     if best:
-        log.debug("reincarnation_candidate", stage="found", echo_id=echo.id, candidate_name=best.name, score=scored[0][0], total_candidates=len(scored))
+        log.debug(
+            "reincarnation_candidate",
+            stage="found",
+            echo_id=echo.id,
+            candidate_name=best.name,
+            score=scored[0][0],
+            total_candidates=len(scored),
+        )
     return best
 
 
@@ -72,7 +92,7 @@ def _get_candidates(echo: Echo, world: World) -> list[NPCPerson]:
     any_person = []
 
     for p in npc_persons:
-        if hasattr(p, 'circles') and p.circles:
+        if hasattr(p, "circles") and p.circles:
             person_circles = set(p.circles)
             if echo_circle_ids & person_circles:
                 same_circle.append(p)
@@ -94,10 +114,16 @@ def _calculate_affinity(echo: Echo, person: NPCPerson) -> float:
         overlap = echo_dom & person_dom
         score += len(overlap) * 30
 
-        score += (100 - abs(
-            echo.essence_profile.dominant[0].value if echo.essence_profile.dominant else 50
-            - person.essence_profile.dominant[0].value if person.essence_profile.dominant else 50
-        )) * 0.2
+        score += (
+            100
+            - abs(
+                echo.essence_profile.dominant[0].value
+                if echo.essence_profile.dominant
+                else 50 - person.essence_profile.dominant[0].value
+                if person.essence_profile.dominant
+                else 50
+            )
+        ) * 0.2
 
     score += person.loyalty * 0.1
     score += person.influence * 0.05
@@ -173,13 +199,20 @@ def reincarnate_echo(
         if hasattr(echo, attr):
             setattr(echo, attr, transformed_legacy.get(attr, getattr(echo, attr)))
 
-    log.info("reincarnate_echo", stage="success", echo_id=echo.id, echo_name=echo.name, new_host=new_candidate.name, new_host_id=new_candidate.id)
+    log.info(
+        "reincarnate_echo",
+        stage="success",
+        echo_id=echo.id,
+        echo_name=echo.name,
+        new_host=new_candidate.name,
+        new_host_id=new_candidate.id,
+    )
     return new_candidate
 
 
 def is_in_transition(world: World) -> bool:
     """Check if the world is in a transition turn (player cannot act)."""
-    if not hasattr(world, 'transition_turn'):
+    if not hasattr(world, "transition_turn"):
         return False
     return world.transition_turn > 0
 

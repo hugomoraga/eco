@@ -44,7 +44,9 @@ class OpenAIAdapter(AIAdapter):
     def generate_npc(self, context: dict) -> AIResponse:
         from adapters.i18n import get_lang_prompt
 
-        system = f"Eres un generador de NPCs para un juego de simulacion memetica. {get_lang_prompt()}."
+        system = (
+            f"Eres un generador de NPCs para un juego de simulacion memetica. {get_lang_prompt()}."
+        )
         user = f"Genera un NPC basado en este contexto: {context}"
         try:
             result = self._call_llm(system, user)
@@ -97,7 +99,7 @@ El manifiesto debe:
 - Ser evocador y persuasivo
 - Terminar con un grito de guerra o eslogan
 
-Contexto: World tick {context.get('world_tick', 0)}, influencia {context.get('influence', 0)}"""
+Contexto: World tick {context.get("world_tick", 0)}, influencia {context.get("influence", 0)}"""
         try:
             result = self._call_llm(system, user)
             return AIResponse(success=True, data={"content": result, "essence": essence})

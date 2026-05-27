@@ -17,6 +17,7 @@ from core.domain.value_objects import ResonanceProfile
 
 class IdeaState(str, Enum):
     """Lifecycle state of an Idea."""
+
     GERMINATING = "germinating"
     EXPANDING = "expanding"
     STABLE = "stable"
@@ -26,6 +27,7 @@ class IdeaState(str, Enum):
 
 class IdeaKind(str, Enum):
     """Kind of idea."""
+
     BELIEF = "belief"
     RUMOR = "rumor"
     MOVEMENT_SEED = "movement_seed"
@@ -57,6 +59,7 @@ class Idea(BaseModel):
         distortion: Deviation from original intent 0-100
         doctrine_id: If stabilized into a Doctrine
     """
+
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
 
     author_actor_id: str = ""

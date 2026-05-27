@@ -17,7 +17,6 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from core.domain.entities.world import World
 from adapters.i18n import get_lang
 from core.application.processors.action_registry import ACTION_CLASSES
 from core.application.processors.circle_processor import process_circle_activities
@@ -33,6 +32,7 @@ from core.application.processors.turn_context import (
     track_echo_action,
 )
 from core.application.processors.world_builder import build_initial_world
+from core.domain.entities.world import World
 from core.utils.logger import get_logger
 
 
@@ -62,8 +62,8 @@ class SimulationEngine:
         verbose: bool = False,
         civ_id: str = "default",
     ):
-        from core.ports.player import Player
         from core.application.players.auto import AutoPlayer
+        from core.ports.player import Player
 
         self.seed = seed
         self.civ_id = civ_id
@@ -114,14 +114,21 @@ class SimulationEngine:
                 try:
                     method(*args, **kwargs)
                 except Exception as e:
-                    self._log.exception("observer_notification_failed", observer=type(obs).__name__, method=method_name, error=str(e))
+                    self._log.exception(
+                        "observer_notification_failed",
+                        observer=type(obs).__name__,
+                        method=method_name,
+                        error=str(e),
+                    )
 
     # ─── Run directory ──────────────────────────────────────────────────
 
     def _create_run_dir(self) -> Path:
         run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
         project_root = Path(__file__).parent.parent.parent
-        while project_root != project_root.parent and not (project_root / "pyproject.toml").exists():
+        while (
+            project_root != project_root.parent and not (project_root / "pyproject.toml").exists()
+        ):
             project_root = project_root.parent
         run_dir = project_root / "runs" / f"run_{run_id}"
         run_dir.mkdir(parents=True, exist_ok=True)
@@ -184,6 +191,7 @@ class SimulationEngine:
         )
 
         from adapters.autoplayer.npc_engine import NPCActionExecutor
+
         npc_executor = NPCActionExecutor(seed=self.seed)
 
         while self.turn < self.max_turns:
@@ -242,17 +250,32 @@ class SimulationEngine:
         initial_npcs = spawn_npcs_to_world(self.world, seed=self.seed, max_per_dataset=5)
         for npc in initial_npcs:
             self._notify("on_npc_created", 0, npc.name, npc.role)
-            self._log.debug("npc_spawned_at_start", npc_id=npc.id, npc_name=npc.name, archetype=npc.archetype)
+            self._log.debug(
+                "npc_spawned_at_start", npc_id=npc.id, npc_name=npc.name, archetype=npc.archetype
+            )
         if initial_npcs:
             self._log.info("npcs_spawned", count=len(initial_npcs))
         return initial_npcs
 
-    def _execute_turn(self, npc_executor, ai_adapter, faction_system, event_gen, event_interval, faction_tick_interval):
-        from core.application.actions.base import ActionContext
+    def _execute_turn(
+        self,
+        npc_executor,
+        ai_adapter,
+        faction_system,
+        event_gen,
+        event_interval,
+        faction_tick_interval,
+    ):
         from core.application.processors.damage import should_deal_damage_to_player
 
         self.turn += 1
-        self._log.info("turn_start", turn=self.turn, pressure=self.world.pressure, legitimacy=self.world.legitimacy, resources=self.world.resources_global)
+        self._log.info(
+            "turn_start",
+            turn=self.turn,
+            pressure=self.world.pressure,
+            legitimacy=self.world.legitimacy,
+            resources=self.world.resources_global,
+        )
 
         self.world.clock.advance(1)
         self._notify("on_turn_start", self.turn, self.world)
@@ -260,8 +283,26 @@ class SimulationEngine:
         old_metrics = snapshot_metrics(self.world)
         echo = self.world.get_active_echo()
 
-        process_npc_turns(self.world, self.seed, self.turn, npc_executor, ai_adapter, self._notify, self._log, self._log_event)
-        process_circle_activities(self.world, self.rng, self.seed, self.turn, ai_adapter, self._notify, self._log, self._log_event)
+        process_npc_turns(
+            self.world,
+            self.seed,
+            self.turn,
+            npc_executor,
+            ai_adapter,
+            self._notify,
+            self._log,
+            self._log_event,
+        )
+        process_circle_activities(
+            self.world,
+            self.rng,
+            self.seed,
+            self.turn,
+            ai_adapter,
+            self._notify,
+            self._log,
+            self._log_event,
+        )
 
         self._generate_world_event(event_gen, event_interval, echo)
 
@@ -287,19 +328,31 @@ class SimulationEngine:
                 self._notify("on_metric_changed", self.turn, metric, old_val, new_val)
 
         self._notify("on_turn_end", self.turn, self.world, action_name)
-        self._log.info("turn_end", turn=self.turn, action=action_name, pressure=self.world.pressure, legitimacy=self.world.legitimacy, resources=self.world.resources_global)
+        self._log.info(
+            "turn_end",
+            turn=self.turn,
+            action=action_name,
+            pressure=self.world.pressure,
+            legitimacy=self.world.legitimacy,
+            resources=self.world.resources_global,
+        )
 
-        goal_results = evaluate_goals(self.player_goal, self.npc_goals, self.world, self.turn, self._notify)
+        goal_results = evaluate_goals(
+            self.player_goal, self.npc_goals, self.world, self.turn, self._notify
+        )
 
         if self.turn % 5 == 0:
             self._notify("on_story_beat", self.turn, self.world, goal_results)
 
-        self._log_event("tick", {
-            "turn": self.turn,
-            "world_tick": self.world.clock.world_tick,
-            "action_result": result.model_dump() if result else None,
-            "goal_results": goal_results,
-        })
+        self._log_event(
+            "tick",
+            {
+                "turn": self.turn,
+                "world_tick": self.world.clock.world_tick,
+                "action_result": result.model_dump() if result else None,
+                "goal_results": goal_results,
+            },
+        )
 
         if self.turn % self.snapshot_interval == 0:
             self._save_snapshot(self.world, self.turn)
@@ -316,11 +369,14 @@ class SimulationEngine:
             }
             event = event_gen.generate(context_for_event)
             self._notify("on_event", self.turn, "event", event.title, event.summary)
-            self._log_event("event", {
-                "title": event.title,
-                "summary": event.summary,
-                "canonical": event.canonical,
-            })
+            self._log_event(
+                "event",
+                {
+                    "title": event.title,
+                    "summary": event.summary,
+                    "canonical": event.canonical,
+                },
+            )
 
     def _get_player_action(self, echo):
         try:
@@ -353,16 +409,31 @@ class SimulationEngine:
                 )
                 if action.can_execute(echo, self.world, context):
                     result = action.execute(echo, self.world, context)
-                    self._log.info("action_executed", turn=self.turn, action=action_name, success=result.success, message=result.message)
+                    self._log.info(
+                        "action_executed",
+                        turn=self.turn,
+                        action=action_name,
+                        success=result.success,
+                        message=result.message,
+                    )
                     self._notify("on_action_result", self.turn, action_name, result)
 
                     track_echo_action(echo, action_name, self.turn)
 
                     if should_deal_damage_fn(action_name) and result and result.success:
                         try:
-                            handle_npc_damage_to_player(action_name, self.world, self._notify, self.turn, self._log)
+                            handle_npc_damage_to_player(
+                                action_name, self.world, self._notify, self.turn, self._log
+                            )
                         except Exception as e:
-                            self._log.error("npc_damage", turn=self.turn, action=action_name, stage="error", error=str(e), error_type=type(e).__name__)
+                            self._log.error(
+                                "npc_damage",
+                                turn=self.turn,
+                                action=action_name,
+                                stage="error",
+                                error=str(e),
+                                error_type=type(e).__name__,
+                            )
 
             return result
         except Exception as e:
@@ -382,17 +453,25 @@ class SimulationEngine:
 
         gen = NarrativeGenerator(seed=self.seed)
 
-        player_progress = self.player_goal.evaluate(self.world, self.turn) if self.player_goal else 0.0
+        player_progress = (
+            self.player_goal.evaluate(self.world, self.turn) if self.player_goal else 0.0
+        )
         all_goals = [self.player_goal] + self.npc_goals if self.player_goal else self.npc_goals
 
-        best_npc_progress = max((g.evaluate(self.world, self.turn) for g in self.npc_goals), default=0.0)
+        best_npc_progress = max(
+            (g.evaluate(self.world, self.turn) for g in self.npc_goals), default=0.0
+        )
 
         if player_progress >= best_npc_progress:
             winner = "player"
             winner_name = "Tú"
         else:
             winner = "npc"
-            winner_name = max(self.npc_goals, key=lambda g: g.evaluate(self.world, self.turn)).owner_name if self.npc_goals else "NPC"
+            winner_name = (
+                max(self.npc_goals, key=lambda g: g.evaluate(self.world, self.turn)).owner_name
+                if self.npc_goals
+                else "NPC"
+            )
 
         finale = gen.generate_finale(
             turn=self.turn,
@@ -411,7 +490,9 @@ class SimulationEngine:
             "final_stats": finale.final_stats,
             "player_goal_progress": finale.player_goal_progress,
             "player_goal_description": self.player_goal.description if self.player_goal else None,
-            "player_goal_bar": self.player_goal.progress_bar(self.world, self.turn) if self.player_goal else "░░░░░",
+            "player_goal_bar": self.player_goal.progress_bar(self.world, self.turn)
+            if self.player_goal
+            else "░░░░░",
             "winner": winner,
             "winner_name": winner_name,
             "npc_goal_results": [

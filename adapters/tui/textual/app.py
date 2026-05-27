@@ -6,24 +6,25 @@ Direct integration with engine (no subprocess).
 from __future__ import annotations
 
 import threading
+
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
 
 from adapters.i18n import t
-from core.application.processors.simulation import SimulationEngine
+from adapters.tui.textual.styles import ACTIONS, CSS
+from adapters.tui.textual.widgets.header import HeaderBar
 from core.application.players.human import HumanPlayer
 from core.application.processors.observer import SimulationObserver
+from core.application.processors.simulation import SimulationEngine
 from infra.logging import get_logger
-from adapters.tui.textual.styles import CSS, ACTIONS
-from adapters.tui.textual.widgets.header import HeaderBar
 
 log = get_logger(__name__)
-from adapters.tui.textual.widgets.echo import EchoPanel
-from adapters.tui.textual.widgets.civ import CivPanel
-from adapters.tui.textual.widgets.metrics import MetricsPanel
 from adapters.tui.textual.widgets.actions import ActionsBar
+from adapters.tui.textual.widgets.civ import CivPanel
+from adapters.tui.textual.widgets.echo import EchoPanel
 from adapters.tui.textual.widgets.log_panel import LogPanel
+from adapters.tui.textual.widgets.metrics import MetricsPanel
 
 
 def _serialize_world(turn: int, world) -> dict:
@@ -33,9 +34,13 @@ def _serialize_world(turn: int, world) -> dict:
     echo = world.get_active_echo()
     echo_name = echo.name if echo else "---"
     echo_essence = echo.dominant_essence if echo else "---"
-    echo_phase = echo.phase.value if echo and hasattr(echo.phase, 'value') else "dormant"
-    echo_clarity = echo.get_attribute("clarity").value if echo and echo.get_attribute("clarity") else 50.0
-    echo_essences = [e.essence for e in echo.essence_profile.dominant] if echo and echo.essence_profile else []
+    echo_phase = echo.phase.value if echo and hasattr(echo.phase, "value") else "dormant"
+    echo_clarity = (
+        echo.get_attribute("clarity").value if echo and echo.get_attribute("clarity") else 50.0
+    )
+    echo_essences = (
+        [e.essence for e in echo.essence_profile.dominant] if echo and echo.essence_profile else []
+    )
 
     person = world.get_active_player_person()
     player_vitality = person.vitality if person else 100.0
@@ -47,10 +52,10 @@ def _serialize_world(turn: int, world) -> dict:
         "legitimacy": world.legitimacy,
         "resources_global": world.resources_global,
         "world_tick": world.clock.world_tick,
-        "active_echo_id": getattr(world, 'active_echo_id', None),
-        "circle_count": len(getattr(world, 'circles', [])),
-        "faction_count": len(getattr(world, 'factions', [])),
-        "person_count": len(getattr(world, 'persons', [])),
+        "active_echo_id": getattr(world, "active_echo_id", None),
+        "circle_count": len(getattr(world, "circles", [])),
+        "faction_count": len(getattr(world, "factions", [])),
+        "person_count": len(getattr(world, "persons", [])),
         "echo_name": echo_name,
         "echo_essence": echo_essence,
         "echo_phase": echo_phase,
@@ -123,10 +128,14 @@ class EcoTextualApp(App):
 
     BINDINGS = [
         Binding("q", "quit", "Quit", show=True),
-        Binding("1", "do_0", ""), Binding("2", "do_1", ""),
-        Binding("3", "do_2", ""), Binding("4", "do_3", ""),
-        Binding("5", "do_4", ""), Binding("6", "do_5", ""),
-        Binding("7", "do_6", ""), Binding("8", "do_7", ""),
+        Binding("1", "do_0", ""),
+        Binding("2", "do_1", ""),
+        Binding("3", "do_2", ""),
+        Binding("4", "do_3", ""),
+        Binding("5", "do_4", ""),
+        Binding("6", "do_5", ""),
+        Binding("7", "do_6", ""),
+        Binding("8", "do_7", ""),
     ]
 
     def __init__(self, max_turns: int = 100, seed: int = 42, theme_name: str = "nebula", **kwargs):
@@ -175,6 +184,7 @@ class EcoTextualApp(App):
 
     def _start_engine(self) -> None:
         from infra.logging import get_logger
+
         engine_log = get_logger("engine_start")
         engine_log.warning("ENGINE_CREATED", max_turns=self._max_turns, seed=self._seed)
         self._human_player = HumanPlayer()
@@ -219,9 +229,9 @@ class EcoTextualApp(App):
         if self._game_over and self._engine and not self._simulation_complete_shown:
             self._simulation_complete_shown = True
             log_panel = self.query_one(LogPanel)
-            log_panel.write(f"\n[green]═══ SIMULATION COMPLETE ═══[/green]\n")
+            log_panel.write("\n[green]═══ SIMULATION COMPLETE ═══[/green]\n")
             log_panel.write(f"[cyan]Turns played: {self._engine.turn}[/cyan]\n")
-            log_panel.write(f"[dim]Press 'q' to quit[/dim]\n")
+            log_panel.write("[dim]Press 'q' to quit[/dim]\n")
 
     def _apply_ws(self, ws: dict) -> None:
         self._civ_name = ws.get("civ_name", self._civ_name)
@@ -244,8 +254,13 @@ class EcoTextualApp(App):
             self._turn, self._world_tick, self._stability, self._pressure, self._population
         )
         self.query_one(EchoPanel).update_state(
-            self._echo_name, self._echo_phase, self._echo_clarity, self._echo_essences,
-            self._action_history, self._echo_influence, self._player_vitality
+            self._echo_name,
+            self._echo_phase,
+            self._echo_clarity,
+            self._echo_essences,
+            self._action_history,
+            self._echo_influence,
+            self._player_vitality,
         )
         self.query_one(CivPanel).update_state(
             self._civ_name, self._echoes, self._circles, self._factions, self._population
@@ -274,6 +289,7 @@ class EcoTextualApp(App):
 
     def _write_event(self, title: str, summary: str) -> None:
         from adapters.tui.components import Components
+
         log_panel = self.query_one(LogPanel)
         panel = Components.event_banner("event", title, summary)
         log_panel.write(panel)
@@ -288,8 +304,8 @@ class EcoTextualApp(App):
         log_panel.write(f"[red]⚠ Crisis: {metric} = {value:.1f}[/red]\n")
 
     def _on_action_result(self, turn: int, action_name: str, result) -> None:
-        ok = getattr(result, 'success', False)
-        message = getattr(result, 'message', str(result))
+        ok = getattr(result, "success", False)
+        message = getattr(result, "message", str(result))
         log.info("tui_action_result", action=action_name, success=ok, message=message)
         self.call_after_refresh(self._write_action_result, ok, message)
 
@@ -354,14 +370,29 @@ class EcoTextualApp(App):
         except Exception as e:
             log.error("tui_action_failed", action=action, error=str(e))
 
-    def action_do_0(self) -> None: self._do(0)
-    def action_do_1(self) -> None: self._do(1)
-    def action_do_2(self) -> None: self._do(2)
-    def action_do_3(self) -> None: self._do(3)
-    def action_do_4(self) -> None: self._do(4)
-    def action_do_5(self) -> None: self._do(5)
-    def action_do_6(self) -> None: self._do(6)
-    def action_do_7(self) -> None: self._do(7)
+    def action_do_0(self) -> None:
+        self._do(0)
+
+    def action_do_1(self) -> None:
+        self._do(1)
+
+    def action_do_2(self) -> None:
+        self._do(2)
+
+    def action_do_3(self) -> None:
+        self._do(3)
+
+    def action_do_4(self) -> None:
+        self._do(4)
+
+    def action_do_5(self) -> None:
+        self._do(5)
+
+    def action_do_6(self) -> None:
+        self._do(6)
+
+    def action_do_7(self) -> None:
+        self._do(7)
 
     def _on_finale(self, finale_data: dict) -> None:
         outcome = finale_data.get("outcome", "unknown")

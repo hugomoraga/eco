@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from core.domain import EssenceRegistry
+from core.domain import EssenceRegistry, World
 
 
 class DerivePressureCalculator:
@@ -29,7 +29,9 @@ class DerivePressureCalculator:
             return 0.0
 
         compatibility_modifier = cls._calculate_compatibility_modifier(lineage)
-        mutation_risk_bonus = cls._calculate_mutation_risk_bonus(dominant_essence or (lineage[0] if lineage else "anarchism"))
+        mutation_risk_bonus = cls._calculate_mutation_risk_bonus(
+            dominant_essence or (lineage[0] if lineage else "anarchism")
+        )
 
         pressure = (
             (material_pressure * 0.25)

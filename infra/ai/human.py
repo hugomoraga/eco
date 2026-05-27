@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.application.processors.simulation import SimulationEngine
 
-from infra.ai.base import GameAdapter
 from adapters.player_input import PlayerInputSource
+from infra.ai.base import GameAdapter
 
 
 class HumanGameAdapter(GameAdapter):
@@ -36,15 +36,12 @@ class HumanGameAdapter(GameAdapter):
 
     def on_world_state(self, turn: int, world_state: dict) -> None:
         """Called when engine sends world state."""
-        pass
 
     def on_event(self, event_type: str, data: dict) -> None:
         """Called when engine sends an event."""
-        pass
 
     def on_action_result(self, turn: int, action: str, success: bool, message: str) -> None:
         """Called when player's action completes."""
-        pass
 
     def start(self) -> None:
         """Start the game. Currently delegates to engine.run()."""

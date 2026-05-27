@@ -25,15 +25,19 @@ def create_input_source(autoplay: bool = False) -> InputSource:
 
     if autoplay or mode == "autoplay":
         from adapters.player_input.autoplay import AutoplayInputSource
+
         return AutoplayInputSource()
     elif mode == "player":
         from adapters.player_input.player import PlayerInputSource
+
         return PlayerInputSource(timeout_seconds=60)
     elif mode == "hybrid":
         from adapters.player_input.hybrid import HybridInputSource
+
         return HybridInputSource(interactive_turns=cfg.input_config.interactive_turns)
     else:
         from adapters.player_input.autoplay import AutoplayInputSource
+
         return AutoplayInputSource()
 
 
@@ -41,10 +45,13 @@ def create_input_source_for_mode(mode: str, **kwargs) -> InputSource:
     """Create input source for explicit mode (for testing)."""
     if mode == "player":
         from adapters.player_input.player import PlayerInputSource
+
         return PlayerInputSource(**kwargs)
     elif mode == "hybrid":
         from adapters.player_input.hybrid import HybridInputSource
+
         return HybridInputSource(**kwargs)
     else:
         from adapters.player_input.autoplay import AutoplayInputSource
+
         return AutoplayInputSource()

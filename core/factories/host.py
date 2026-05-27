@@ -4,6 +4,7 @@ Person factory — creación de PlayerPerson y NPCPerson.
 Replaces the old Host pattern. Instead of separate Host entity linked to Person,
 we now create PlayerPerson directly which contains all incarnation context.
 """
+
 from __future__ import annotations
 
 from core.domain import Echo, NPCPerson, PlayerPerson, World

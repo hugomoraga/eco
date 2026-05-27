@@ -60,6 +60,7 @@ def get_main_branch() -> str:
 @dataclass
 class SpecProgress:
     """Progress tracking for a spec."""
+
     number: str
     name: str
     status: str = "draft"
@@ -100,12 +101,7 @@ def parse_specs_status():
         version_match = re.search(r"version:\s*\"(\d+\.\d+\.\d+)\"", content)
         version = version_match.group(1) if version_match else "0.1.0"
 
-        specs.append(SpecProgress(
-            number=spec_num,
-            name=title,
-            status=status,
-            version=version
-        ))
+        specs.append(SpecProgress(number=spec_num, name=title, status=status, version=version))
 
     return specs
 
@@ -122,7 +118,7 @@ def suggest_branch_name(spec_num: str, action: str) -> str:
         "implement": "feat",
         "commit": "feat",
         "done": "chore",
-        "review": "docs"
+        "review": "docs",
     }
     prefix = prefixes.get(action, "feat")
     return f"{prefix}/{spec_num}-{spec_name}"
@@ -339,18 +335,16 @@ def cmd_status():
     specs = parse_specs_status()
 
     for spec in specs:
-        status_icon = {
-            "stable": "✅",
-            "in_progress": "🔄",
-            "draft": "📝"
-        }.get(spec.status, "❓")
+        status_icon = {"stable": "✅", "in_progress": "🔄", "draft": "📝"}.get(spec.status, "❓")
 
         print(f"  spec-{spec.number} {status_icon} {spec.name[:40]:<40} v{spec.version}")
 
     print(f"\nTotal: {len(specs)} specs")
     stable = sum(1 for s in specs if s.status == "stable")
     in_progress = sum(1 for s in specs if s.status == "in_progress")
-    print(f"  Stable: {stable}, In Progress: {in_progress}, Draft: {len(specs) - stable - in_progress}")
+    print(
+        f"  Stable: {stable}, In Progress: {in_progress}, Draft: {len(specs) - stable - in_progress}"
+    )
 
 
 def cmd_tag(spec_num: str, version: str = "v1.0.0"):
@@ -466,8 +460,11 @@ def main():
 
     parser = argparse.ArgumentParser(description="ECO Development Workflow")
     parser.add_argument("--spec", help="Spec number (e.g., 05)")
-    parser.add_argument("--action", choices=["start", "commit", "done", "status", "tag", "pr", "diff"],
-                       help="Action to perform")
+    parser.add_argument(
+        "--action",
+        choices=["start", "commit", "done", "status", "tag", "pr", "diff"],
+        help="Action to perform",
+    )
     parser.add_argument("--message", "-m", help="Commit message")
     parser.add_argument("--version", "-v", help="Version for tag (default: v1.0.0)")
 

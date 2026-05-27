@@ -1,6 +1,7 @@
 """
 MiniMax Adapter - Anthropic-compatible API
 """
+
 from __future__ import annotations
 
 import os
@@ -77,7 +78,8 @@ Responde solo con JSON."""
             result = self._call_llm(system, user)
             import json
             import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
+
+            json_match = re.search(r"\{.*\}", result, re.DOTALL)
             if json_match:
                 data = json.loads(json_match.group())
             else:
@@ -102,7 +104,8 @@ Responde solo con JSON."""
             result = self._call_llm(system, user)
             import json
             import re
-            json_match = re.search(r'\{.*\}', result, re.DOTALL)
+
+            json_match = re.search(r"\{.*\}", result, re.DOTALL)
             if json_match:
                 data = json.loads(json_match.group())
             else:
@@ -139,7 +142,7 @@ El manifiesto debe:
 - Ser evocador y persuasivo
 - Terminar con un grito de guerra o eslogan
 
-Contexto: World tick {context.get('world_tick', 0)}, influencia {context.get('influence', 0)}"""
+Contexto: World tick {context.get("world_tick", 0)}, influencia {context.get("influence", 0)}"""
         try:
             result = self._call_llm(system, user)
             return AIResponse(success=True, data={"content": result, "essence": essence})

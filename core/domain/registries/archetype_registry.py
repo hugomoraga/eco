@@ -105,8 +105,12 @@ class ArchetypeRegistry:
                 description="Constructor, maker",
                 intro_texts=["Eres la voz de los artesanos."],
                 color="cyan",
-                goal_weights=ArchetypeGoalWeights(accumulate=0.4, progress=0.4, survive=0.2, maintain=0.0),
-                action_preferences=ArchetypeActionPreferences(preferred_actions=["organizar", "reclutar", "conversar"]),
+                goal_weights=ArchetypeGoalWeights(
+                    accumulate=0.4, progress=0.4, survive=0.2, maintain=0.0
+                ),
+                action_preferences=ArchetypeActionPreferences(
+                    preferred_actions=["organizar", "reclutar", "conversar"]
+                ),
                 base_stats=ArchetypeStats(loyalty=55.0, influence=10.0, vitality=100.0),
             ),
             "merchant": Archetype(
@@ -115,8 +119,12 @@ class ArchetypeRegistry:
                 description="Comerciante",
                 intro_texts=["De las transacciones surge el poder."],
                 color="yellow",
-                goal_weights=ArchetypeGoalWeights(accumulate=0.6, maintain=0.3, survive=0.1, progress=0.0),
-                action_preferences=ArchetypeActionPreferences(preferred_actions=["negociar", "propagar", "conversar"]),
+                goal_weights=ArchetypeGoalWeights(
+                    accumulate=0.6, maintain=0.3, survive=0.1, progress=0.0
+                ),
+                action_preferences=ArchetypeActionPreferences(
+                    preferred_actions=["negociar", "propagar", "conversar"]
+                ),
                 base_stats=ArchetypeStats(loyalty=50.0, influence=15.0, vitality=100.0),
             ),
             "warrior": Archetype(
@@ -125,8 +133,12 @@ class ArchetypeRegistry:
                 description="Luchador",
                 intro_texts=["La fuerza bruta abre caminos."],
                 color="red",
-                goal_weights=ArchetypeGoalWeights(maintain=0.5, progress=0.4, survive=0.1, accumulate=0.0),
-                action_preferences=ArchetypeActionPreferences(preferred_actions=["sabotar", "predicar", "organizar"]),
+                goal_weights=ArchetypeGoalWeights(
+                    maintain=0.5, progress=0.4, survive=0.1, accumulate=0.0
+                ),
+                action_preferences=ArchetypeActionPreferences(
+                    preferred_actions=["sabotar", "predicar", "organizar"]
+                ),
                 base_stats=ArchetypeStats(loyalty=45.0, influence=12.0, vitality=120.0),
             ),
             "leader": Archetype(
@@ -135,8 +147,12 @@ class ArchetypeRegistry:
                 description="Guía",
                 intro_texts=["Los demás te siguen."],
                 color="magenta",
-                goal_weights=ArchetypeGoalWeights(progress=0.5, accumulate=0.3, survive=0.2, maintain=0.0),
-                action_preferences=ArchetypeActionPreferences(preferred_actions=["predicar", "organizar", "reclutar"]),
+                goal_weights=ArchetypeGoalWeights(
+                    progress=0.5, accumulate=0.3, survive=0.2, maintain=0.0
+                ),
+                action_preferences=ArchetypeActionPreferences(
+                    preferred_actions=["predicar", "organizar", "reclutar"]
+                ),
                 base_stats=ArchetypeStats(loyalty=60.0, influence=20.0, vitality=100.0),
             ),
             "scholar": Archetype(
@@ -145,8 +161,12 @@ class ArchetypeRegistry:
                 description="Sabio",
                 intro_texts=["El conocimiento es poder."],
                 color="blue",
-                goal_weights=ArchetypeGoalWeights(progress=0.4, accumulate=0.4, maintain=0.2, survive=0.0),
-                action_preferences=ArchetypeActionPreferences(preferred_actions=["propagar", "conversar", "predicar"]),
+                goal_weights=ArchetypeGoalWeights(
+                    progress=0.4, accumulate=0.4, maintain=0.2, survive=0.0
+                ),
+                action_preferences=ArchetypeActionPreferences(
+                    preferred_actions=["propagar", "conversar", "predicar"]
+                ),
                 base_stats=ArchetypeStats(loyalty=65.0, influence=12.0, vitality=80.0),
             ),
             "artist": Archetype(
@@ -155,8 +175,12 @@ class ArchetypeRegistry:
                 description="Creador",
                 intro_texts=["El arte desafía."],
                 color="green",
-                goal_weights=ArchetypeGoalWeights(progress=0.5, accumulate=0.3, survive=0.2, maintain=0.0),
-                action_preferences=ArchetypeActionPreferences(preferred_actions=["predicar", "propagar", "conversar"]),
+                goal_weights=ArchetypeGoalWeights(
+                    progress=0.5, accumulate=0.3, survive=0.2, maintain=0.0
+                ),
+                action_preferences=ArchetypeActionPreferences(
+                    preferred_actions=["predicar", "propagar", "conversar"]
+                ),
                 base_stats=ArchetypeStats(loyalty=55.0, influence=14.0, vitality=90.0),
             ),
             "mystic": Archetype(
@@ -165,8 +189,12 @@ class ArchetypeRegistry:
                 description="Visionario",
                 intro_texts=["Ves lo que otros no pueden."],
                 color="purple",
-                goal_weights=ArchetypeGoalWeights(maintain=0.5, progress=0.3, survive=0.2, accumulate=0.0),
-                action_preferences=ArchetypeActionPreferences(preferred_actions=["predicar", "organizar", "conversar"]),
+                goal_weights=ArchetypeGoalWeights(
+                    maintain=0.5, progress=0.3, survive=0.2, accumulate=0.0
+                ),
+                action_preferences=ArchetypeActionPreferences(
+                    preferred_actions=["predicar", "organizar", "conversar"]
+                ),
                 base_stats=ArchetypeStats(loyalty=70.0, influence=16.0, vitality=85.0),
             ),
             "wanderer": Archetype(
@@ -175,8 +203,12 @@ class ArchetypeRegistry:
                 description="Viajero",
                 intro_texts=["Llegas de donde nadie te espera."],
                 color="white",
-                goal_weights=ArchetypeGoalWeights(survive=0.6, progress=0.3, maintain=0.1, accumulate=0.0),
-                action_preferences=ArchetypeActionPreferences(preferred_actions=["propagar", "conversar", "reclutar"]),
+                goal_weights=ArchetypeGoalWeights(
+                    survive=0.6, progress=0.3, maintain=0.1, accumulate=0.0
+                ),
+                action_preferences=ArchetypeActionPreferences(
+                    preferred_actions=["propagar", "conversar", "reclutar"]
+                ),
                 base_stats=ArchetypeStats(loyalty=40.0, influence=8.0, vitality=100.0),
             ),
             "neutral": Archetype(
@@ -185,8 +217,12 @@ class ArchetypeRegistry:
                 description="Sin arquetipo",
                 intro_texts=["El cambio viene."],
                 color="dim",
-                goal_weights=ArchetypeGoalWeights(survive=0.5, progress=0.3, accumulate=0.2, maintain=0.0),
-                action_preferences=ArchetypeActionPreferences(preferred_actions=["conversar", "propagar", "reclutar"]),
+                goal_weights=ArchetypeGoalWeights(
+                    survive=0.5, progress=0.3, accumulate=0.2, maintain=0.0
+                ),
+                action_preferences=ArchetypeActionPreferences(
+                    preferred_actions=["conversar", "propagar", "reclutar"]
+                ),
                 base_stats=ArchetypeStats(loyalty=50.0, influence=10.0, vitality=100.0),
             ),
         }

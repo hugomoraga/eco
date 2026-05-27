@@ -35,9 +35,7 @@ class Interface:
             border_style="cyan",
         )
 
-        choice = CommandInput.get_choice(
-            ["Nueva Partida", "Continuar", "Cargar", "Salir"]
-        )
+        choice = CommandInput.get_choice(["Nueva Partida", "Continuar", "Cargar", "Salir"])
         options = ["new", "continue", "load", "quit"]
         return options[choice] if choice is not None else "quit"
 
@@ -127,19 +125,19 @@ class Interface:
         result_msg = f"Ejecutando {action_name}..."
         success = True
 
-        self.history.add(Action(
-            turn=self._turn,
-            timestamp=datetime.now(),
-            action_type=action_name,
-            actor="Player",
-            description=f"Player executed {action_name}",
-            result=result_msg,
-            success=success,
-        ))
-
-        self.console.print(
-            Components.action_result(action_name, result_msg, success)
+        self.history.add(
+            Action(
+                turn=self._turn,
+                timestamp=datetime.now(),
+                action_type=action_name,
+                actor="Player",
+                description=f"Player executed {action_name}",
+                result=result_msg,
+                success=success,
+            )
         )
+
+        self.console.print(Components.action_result(action_name, result_msg, success))
 
         return {"action": action_name, "result": result_msg, "success": success}
 

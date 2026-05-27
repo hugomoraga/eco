@@ -49,6 +49,8 @@ select = [
 ignore = [
     "RET505",   # else-return (sometimes cleaner with else)
     "SIM108",   # ternary for side effects (not always cleaner)
+    "TC001",    # Pydantic models need runtime imports for validation
+    "TC003",    # Pydantic models need runtime imports for validation
 ]
 
 [tool.ruff.lint.per-file-ignores]

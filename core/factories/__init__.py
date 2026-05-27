@@ -15,6 +15,7 @@ API:
     create_random_idea()        — tags.py
     process_circle_tick()       — circle.py
 """
+
 from __future__ import annotations
 
 # Circle

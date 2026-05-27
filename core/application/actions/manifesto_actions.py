@@ -14,22 +14,32 @@ class WriteManifesto(Action):
 
     ESSENCE_KEYWORDS: dict[str, list[str]] = {
         "anarchism": ["libertad", "autonomia", "horizontal", "estado", "revolucion", "solidaridad"],
-        "technocracy": ["conocimiento", "protocolo", "expertos", "ciencia", "eficiencia", "sistema"],
+        "technocracy": [
+            "conocimiento",
+            "protocolo",
+            "expertos",
+            "ciencia",
+            "eficiencia",
+            "sistema",
+        ],
         "absurdism": ["caos", "absurdo", "risa", "vacio", "nonsense", "ironia"],
         "thelema": ["voluntad", "destino", "magia", "gnosis", "individuo", "poder"],
         "ecology": ["naturaleza", "equilibrio", "sustentable", "tierra", "ciclo", "vida"],
     }
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from infra.ai import MockAdapter
-        from core.domain import Manifesto
         from adapters.i18n import t
+        from core.domain import Manifesto
+        from infra.ai import MockAdapter
 
         ai_adapter = MockAdapter()
-        ai_response = ai_adapter.generate_manifesto(echo.essence, {
-            "world_tick": context.world_tick,
-            "influence": 10,
-        })
+        ai_response = ai_adapter.generate_manifesto(
+            echo.essence,
+            {
+                "world_tick": context.world_tick,
+                "influence": 10,
+            },
+        )
 
         content = ""
         if ai_response.success and ai_response.data:

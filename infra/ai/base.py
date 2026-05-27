@@ -19,6 +19,7 @@ if TYPE_CHECKING:
 @dataclass
 class AIResponse:
     """Response from an AI generator adapter."""
+
     text: str = ""
     success: bool = True
     error: str | None = None
@@ -80,7 +81,6 @@ class GameAdapter(ABC):
         """Request a decision from the underlying InputSource."""
         if self._input_source is None:
             return None
-        from core.domain import World
         return self._input_source.get_action(turn, self._engine.world if self._engine else None)
 
     @abstractmethod

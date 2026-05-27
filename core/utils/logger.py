@@ -29,7 +29,7 @@ if TYPE_CHECKING:
     from core.ports.logger import Logger
 
 
-def get_logger(name: str) -> "Logger":
+def get_logger(name: str) -> Logger:
     """
     Get a logger instance for the given module name.
 
@@ -38,6 +38,7 @@ def get_logger(name: str) -> "Logger":
     before calling this function.
     """
     from infra.logging import get_logger as _get_logger
+
     return _get_logger(name)
 
 
@@ -52,10 +53,12 @@ def init_logger(run_dir: Path | None = None) -> None:
         run_dir: Directory for debug.log file (optional).
     """
     from infra.logging import init_logger as _init_logger
+
     _init_logger(run_dir)
 
 
 def log_file() -> Path | None:
     """Return the current log file path, if initialized."""
     from infra.logging import log_file as _log_file
+
     return _log_file()

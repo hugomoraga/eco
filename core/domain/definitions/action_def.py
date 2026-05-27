@@ -6,10 +6,10 @@ Static data - loaded once and cached.
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import ClassVar
 
 import yaml
-from pathlib import Path
 
 
 class ActionDef:
@@ -18,6 +18,7 @@ class ActionDef:
 
     Static data - loaded once and cached.
     """
+
     _cache: ClassVar[dict[str, ActionDef] | None] = None
 
     def __init__(self, action_id: str, cooldown: int, social_cost: float, tags_required: list[str]):

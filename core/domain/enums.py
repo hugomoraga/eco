@@ -44,9 +44,9 @@ class EventCategory(StrEnum):
 
 
 class CivAlignment(StrEnum):
-    ALIGNED = "aligned"     # ≥60
-    NEUTRAL = "neutral"     # 40-60
-    DISIDENT = "disident"   # ≤40
+    ALIGNED = "aligned"  # ≥60
+    NEUTRAL = "neutral"  # 40-60
+    DISIDENT = "disident"  # ≤40
 
 
 class ActionCategory(StrEnum):

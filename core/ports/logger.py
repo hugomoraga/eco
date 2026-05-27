@@ -12,7 +12,7 @@ Hexagonal architecture:
 
 from __future__ import annotations
 
-from typing import Protocol, Any
+from typing import Any, Protocol
 
 
 class Logger(Protocol):

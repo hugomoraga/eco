@@ -8,17 +8,27 @@ from core.application.processors.random import SeededRandom
 
 if TYPE_CHECKING:
     from core.ai.base import AIAdapter
+
     from core.ports.logger import Logger
 
 
 class _NoOpLogger:
     """No-op logger for when logging is not configured."""
 
-    def debug(self, msg: str, **kwargs: Any) -> None: pass
-    def info(self, msg: str, **kwargs: Any) -> None: pass
-    def warning(self, msg: str, **kwargs: Any) -> None: pass
-    def error(self, msg: str, **kwargs: Any) -> None: pass
-    def exception(self, msg: str, **kwargs: Any) -> None: pass
+    def debug(self, msg: str, **kwargs: Any) -> None:
+        pass
+
+    def info(self, msg: str, **kwargs: Any) -> None:
+        pass
+
+    def warning(self, msg: str, **kwargs: Any) -> None:
+        pass
+
+    def error(self, msg: str, **kwargs: Any) -> None:
+        pass
+
+    def exception(self, msg: str, **kwargs: Any) -> None:
+        pass
 
 
 class EffectTagValidator:
@@ -38,7 +48,11 @@ class EffectTagValidator:
     }
 
     EMERGENT_TAGS: ClassVar[dict[str, list[str]]] = {
-        "collective_memory_bleeding": ["memory_decay", "ideological_drift", "identity_fragmentation"],
+        "collective_memory_bleeding": [
+            "memory_decay",
+            "ideological_drift",
+            "identity_fragmentation",
+        ],
         "ritualized_algorithms": ["technocracy", "cult_risk", "institutional_drift"],
         "shared_temporal_echo": ["memory", "ideological_drift", "identity_fragmentation"],
     }
@@ -79,7 +93,9 @@ class GameEvent:
 
 
 class EventGenerator:
-    def __init__(self, adapter: AIAdapter | None = None, seed: int = 42, pool=None, log: Logger | None = None):
+    def __init__(
+        self, adapter: AIAdapter | None = None, seed: int = 42, pool=None, log: Logger | None = None
+    ):
         self.adapter = adapter
         self.rng = SeededRandom.get_instance(seed)
         self.pool = pool
@@ -123,7 +139,12 @@ class EventGenerator:
 
         choices = self._validate_choices(event_data.get("choices", []))
 
-        self._log.info("event_generated", event_id=event_id, category=category, title=title[:50] if title else "unknown")
+        self._log.info(
+            "event_generated",
+            event_id=event_id,
+            category=category,
+            title=title[:50] if title else "unknown",
+        )
         return GameEvent(
             event_id=event_id,
             title=title,
@@ -135,7 +156,12 @@ class EventGenerator:
 
     def _enrich_text(self, event_data: dict, context: dict) -> tuple[str, str]:
         """Use AI adapter to enrich title/summary while keeping structure from pool."""
-        self._log.debug("event_enrich", stage="start", event_id=event_data.get("id", "unknown"), adapter=type(self.adapter).__name__)
+        self._log.debug(
+            "event_enrich",
+            stage="start",
+            event_id=event_data.get("id", "unknown"),
+            adapter=type(self.adapter).__name__,
+        )
         enrichment_context = {
             "event_data": event_data,
             "language": context.get("language", "es"),
@@ -148,10 +174,17 @@ class EventGenerator:
                 title = response.data.get("title") or response.data.get("event_title")
                 summary = response.data.get("summary")
                 if title and summary:
-                    self._log.debug("event_enrich", stage="success", event_id=event_data.get("id", "unknown"))
+                    self._log.debug(
+                        "event_enrich", stage="success", event_id=event_data.get("id", "unknown")
+                    )
                     return title, summary
         except Exception as e:
-            self._log.exception("event_enrich", stage="exception", event_id=event_data.get("id", "unknown"), error=str(e))
+            self._log.exception(
+                "event_enrich",
+                stage="exception",
+                event_id=event_data.get("id", "unknown"),
+                error=str(e),
+            )
 
         event_id = event_data.get("id", "")
         if event_id:
@@ -180,11 +213,13 @@ class EventGenerator:
                     is_canonical = False
                 validated_tags.append(tag)
 
-            validated_choices.append({
-                "label": choice.get("label", "Unknown"),
-                "effect_tags": validated_tags,
-                "canonical": is_canonical,
-            })
+            validated_choices.append(
+                {
+                    "label": choice.get("label", "Unknown"),
+                    "effect_tags": validated_tags,
+                    "canonical": is_canonical,
+                }
+            )
 
         return validated_choices
 
@@ -235,7 +270,6 @@ class EventGenerator:
             canonical=all(c.get("canonical", True) for c in valid_choices),
         )
 
-
     def _generate_fallback(self, context: dict) -> GameEvent:
         events = [
             GameEvent(
@@ -244,8 +278,16 @@ class EventGenerator:
                 summary="Se descubrieron nuevos protocolos de coordinación horizontal.",
                 causes=["technocracy", "innovation"],
                 choices=[
-                    {"label": "Adoptar los protocolos", "effect_tags": ["increase_technocracy"], "canonical": True},
-                    {"label": "Documentar sin implementar", "effect_tags": ["increase_memory_decay"], "canonical": True},
+                    {
+                        "label": "Adoptar los protocolos",
+                        "effect_tags": ["increase_technocracy"],
+                        "canonical": True,
+                    },
+                    {
+                        "label": "Documentar sin implementar",
+                        "effect_tags": ["increase_memory_decay"],
+                        "canonical": True,
+                    },
                 ],
                 canonical=True,
             ),
@@ -255,8 +297,16 @@ class EventGenerator:
                 summary="Los obreros dejaron de hablar durante siete días.",
                 causes=["unrest", "absurdism"],
                 choices=[
-                    {"label": "Apoyar el silencio", "effect_tags": ["increase_absurdism"], "canonical": True},
-                    {"label": "Convertirlo en ritual", "effect_tags": ["increase_thelema", "increase_cult_risk"], "canonical": True},
+                    {
+                        "label": "Apoyar el silencio",
+                        "effect_tags": ["increase_absurdism"],
+                        "canonical": True,
+                    },
+                    {
+                        "label": "Convertirlo en ritual",
+                        "effect_tags": ["increase_thelema", "increase_cult_risk"],
+                        "canonical": True,
+                    },
                 ],
                 canonical=True,
             ),
@@ -266,12 +316,14 @@ class EventGenerator:
 
     def _log_unknown_tag(self, tag: str, context: dict) -> None:
         neighbors = EffectTagValidator.get_neighbors(tag)
-        self.unknown_tags_log.append({
-            "tag": tag,
-            "context": context,
-            "neighbors": neighbors,
-            "canonical": False,
-        })
+        self.unknown_tags_log.append(
+            {
+                "tag": tag,
+                "context": context,
+                "neighbors": neighbors,
+                "canonical": False,
+            }
+        )
 
     def get_unknown_tags(self) -> list[dict]:
         return self.unknown_tags_log

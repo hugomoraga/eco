@@ -2,17 +2,15 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from typing import Callable, Any
+from typing import Any
 
 from rich.console import Console as RichConsole
 from rich.live import Live
 from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn
 from rich.table import Table
 from rich.text import Text
 
-from .styles import s, CYAN, YELLOW, GREEN
-
+from .styles import CYAN, s
 
 TURNS_PER_WORLD_TICK = 10
 
@@ -100,7 +98,9 @@ class TerminalLayout:
     def _get_terminal_size(self) -> tuple[int, int]:
         try:
             width, height = os.get_terminal_size()
-            return max(width, self.config.min_terminal_width), max(height, self.config.min_terminal_height)
+            return max(width, self.config.min_terminal_width), max(
+                height, self.config.min_terminal_height
+            )
         except OSError:
             return self.config.min_terminal_width, self.config.min_terminal_height
 
@@ -117,8 +117,20 @@ class TerminalLayout:
         )
 
     def _build_top_bar(self) -> Text:
-        stab_color = "green" if self._world_info.stability > 60 else "yellow" if self._world_info.stability > 30 else "red"
-        press_color = "green" if self._world_info.pressure < 40 else "yellow" if self._world_info.pressure < 60 else "red"
+        stab_color = (
+            "green"
+            if self._world_info.stability > 60
+            else "yellow"
+            if self._world_info.stability > 30
+            else "red"
+        )
+        press_color = (
+            "green"
+            if self._world_info.pressure < 40
+            else "yellow"
+            if self._world_info.pressure < 60
+            else "red"
+        )
 
         return Text.assemble(
             ("╔══════════════════╗ ", "dim"),
@@ -147,7 +159,9 @@ class TerminalLayout:
             Text.assemble(("   Clarity: ", "dim"), (f"{echo.clarity:.0f}", "")),
         ]
         if echo.essences:
-            lines.append(Text.assemble(("   Essences: ", "dim"), (", ".join(echo.essences[:3]), "")))
+            lines.append(
+                Text.assemble(("   Essences: ", "dim"), (", ".join(echo.essences[:3]), ""))
+            )
 
         if self._available_actions:
             lines.append(Text.assemble(("\n   [bold]Actions:[/bold]", s("title"))))
@@ -180,7 +194,9 @@ class TerminalLayout:
         )
 
     def _build_log_panel(self) -> Panel:
-        log_content = "\n".join(self._log_lines[-20:]) if self._log_lines else "[dim]No activity yet[/dim]"
+        log_content = (
+            "\n".join(self._log_lines[-20:]) if self._log_lines else "[dim]No activity yet[/dim]"
+        )
         return Panel(
             log_content,
             title="[green]📜 Activity[/green]",
@@ -220,12 +236,20 @@ class TerminalLayout:
             ("🏛 ", "dim"),
             (self._world_info.civ_name, s("title")),
             "\n",
-            ("─" * 20, "dim"), "\n",
-            ("   Echoes: ", "dim"), (f"{self._world_info.echoes}", ""), "\n",
-            ("   Circles: ", "dim"), (f"{self._world_info.circles}", ""), "\n",
-            ("   Factions: ", "dim"), (f"{self._world_info.factions}", ""),
+            ("─" * 20, "dim"),
+            "\n",
+            ("   Echoes: ", "dim"),
+            (f"{self._world_info.echoes}", ""),
+            "\n",
+            ("   Circles: ", "dim"),
+            (f"{self._world_info.circles}", ""),
+            "\n",
+            ("   Factions: ", "dim"),
+            (f"{self._world_info.factions}", ""),
         )
-        layout["civ"].update(Panel(civ_text, title="[magenta]🏛 Civilization[/magenta]", border_style="magenta"))
+        layout["civ"].update(
+            Panel(civ_text, title="[magenta]🏛 Civilization[/magenta]", border_style="magenta")
+        )
 
         layout["right"].split_column(
             Layout(name="metrics", size=term_height // 3),
@@ -242,6 +266,7 @@ class TerminalLayout:
         }.get(self._game_mode, "ECO")
 
         from adapters.i18n import t
+
         turn_label = t("ui:turn", default="Turn ")
         footer_text = Text.assemble(
             ("ECO │ ", "dim"),

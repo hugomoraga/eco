@@ -1,13 +1,13 @@
 """
 Tests for game_core.actions.
 """
+
 from __future__ import annotations
 
-from core.application.actions.base import Action, ActionContext, ActionResult
+from core.application.actions.base import ActionContext, ActionResult
 from core.application.actions.circle_actions import FoundCircle, JoinCircle, LeaveCircle
-from core.application.actions.manifesto_actions import WriteManifesto
-from core.application.actions.social_actions import PropagateIdea, Talk, Sabotage, Ritualize
-from core.domain import Circle, Echo, World, WorldClock
+from core.application.actions.social_actions import Sabotage, Talk
+from core.domain import Echo, World
 
 
 class TestActionContext:

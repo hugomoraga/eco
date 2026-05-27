@@ -8,7 +8,6 @@ Falls back to Selector for console mode.
 from __future__ import annotations
 
 import queue
-import threading
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -75,7 +74,7 @@ class PlayerInputSource(InputSource):
         actions = self._get_available_actions()
 
         selector = Selector(
-            title=t('ui.actions.prompt', turn=turn),
+            title=t("ui.actions.prompt", turn=turn),
             options=actions,
         )
         return selector.run()

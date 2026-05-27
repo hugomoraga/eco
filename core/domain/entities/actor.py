@@ -8,7 +8,6 @@ Links to Echo (identity), Person (body), and Faction (if belonging).
 from __future__ import annotations
 
 import uuid
-
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -36,6 +35,7 @@ class Actor(BaseModel):
         manifesto_ids: Manifestos created
         circle_ids: Circles joined
     """
+
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str = ""
 

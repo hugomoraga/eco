@@ -25,16 +25,19 @@ class Launcher:
         from datetime import datetime
         from pathlib import Path
 
-        from infra.logging import init_logger
-        from core.application.processors.simulation_engine import SimulationEngine
-        from infra.ai import MockAdapter
         from adapters.tui.console import Console
         from adapters.tui.display import ConsoleDisplay
+        from core.application.processors.simulation_engine import SimulationEngine
+        from infra.ai import MockAdapter
+        from infra.logging import init_logger
 
         if config.run_dir is None:
             run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
             project_root = Path(__file__).parent.parent.parent
-            while project_root != project_root.parent and not (project_root / "pyproject.toml").exists():
+            while (
+                project_root != project_root.parent
+                and not (project_root / "pyproject.toml").exists()
+            ):
                 project_root = project_root.parent
             run_dir = project_root / "runs" / f"run_{run_id}"
             run_dir.mkdir(parents=True, exist_ok=True)
@@ -59,6 +62,7 @@ class Launcher:
 
             if config.display_mode == "layout":
                 from adapters.tui.layout import TerminalLayout
+
                 layout = TerminalLayout()
                 display = ConsoleDisplay(console, layout=layout, ai_adapter=ai_adapter)
             else:

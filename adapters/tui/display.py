@@ -12,10 +12,9 @@ if TYPE_CHECKING:
     from core.application.actions.base import ActionResult
     from core.domain import World
 
-from core.application.processors.narrative_engine import NarrativeEngine
 from adapters.tui.components import Components
 from adapters.tui.console import Console
-
+from core.application.processors.narrative_engine import NarrativeEngine
 
 AVAILABLE_ACTIONS = [
     "found_circle",
@@ -81,10 +80,14 @@ class ConsoleDisplay:
         if selected_civ:
             console.print(f"[bold yellow]Civ:[/bold yellow] [cyan]{selected_civ.name}[/cyan]")
             console.print(f"  [dim]{selected_civ.description}[/dim]")
-            console.print(f"  [dim]Dificultad: {selected_civ.difficulty} | "
-                          f"Poblacion: {selected_civ.population:,}[/dim]")
+            console.print(
+                f"  [dim]Dificultad: {selected_civ.difficulty} | "
+                f"Poblacion: {selected_civ.population:,}[/dim]"
+            )
             dom_essences = selected_civ.essence_profile.dominant_essences()
-            console.print(f"  [dim]Esencias dominantes: {', '.join(dom_essences) if dom_essences else '-'}[/dim]")
+            console.print(
+                f"  [dim]Esencias dominantes: {', '.join(dom_essences) if dom_essences else '-'}[/dim]"
+            )
             console.print()
 
         # ── 2. Host ──────────────────────────────────────────────────────────
@@ -107,12 +110,16 @@ class ConsoleDisplay:
             if player_person.essence_profile:
                 dom = player_person.essence_profile.dominant_essences()
                 console.print(f"  [dim]  Esencias: {', '.join(dom) if dom else 'ninguna'}[/dim]")
-            console.print(f"  [dim]  Lealtad: {player_person.loyalty:.0f} | "
-                          f"Influencia: {player_person.influence:.0f}[/dim]")
+            console.print(
+                f"  [dim]  Lealtad: {player_person.loyalty:.0f} | "
+                f"Influencia: {player_person.influence:.0f}[/dim]"
+            )
         if player_echo:
             console.print(f"  [green]Echo:[/green] {player_echo.name}")
-            console.print(f"  [dim]  Fase: {player_echo.phase.value} | "
-                          f"Claridad: {player_echo.clarity:.0f}[/dim]")
+            console.print(
+                f"  [dim]  Fase: {player_echo.phase.value} | "
+                f"Claridad: {player_echo.clarity:.0f}[/dim]"
+            )
             dom_e = player_echo.dominant_essences
             console.print(f"  [dim]  Esencias: {', '.join(dom_e) if dom_e else '-'}[/dim]")
         console.print()
@@ -123,15 +130,19 @@ class ConsoleDisplay:
         sorted_persons = sorted(npc_persons, key=lambda x: x.influence, reverse=True)[:10]
 
         if sorted_persons:
-            console.print(f"  [dim]{'Nombre':<18} {'Tipo':<12} {'Lealtad':<8} {'Influ.':<7} Esencias[/dim]")
-            console.print(f"  [dim]{'-'*65}[/dim]")
+            console.print(
+                f"  [dim]{'Nombre':<18} {'Tipo':<12} {'Lealtad':<8} {'Influ.':<7} Esencias[/dim]"
+            )
+            console.print(f"  [dim]{'-' * 65}[/dim]")
             for p in sorted_persons:
                 dom = p.essence_profile.dominant_essences() if p.essence_profile else []
                 essences_str = ",".join(dom[:2]) if dom else "-"
                 alignment = ""
                 if selected_civ and selected_civ.id == p.civ_id:
                     status = selected_civ.alignment_status(p.essence_profile)
-                    color = {"aligned": "green", "neutral": "yellow", "disident": "red"}.get(status.value, "dim")
+                    color = {"aligned": "green", "neutral": "yellow", "disident": "red"}.get(
+                        status.value, "dim"
+                    )
                     alignment = f"[{color}]{status.value[:4]}[/{color}]"
                 console.print(
                     f"  [cyan]{p.name:<18}[/cyan] "
@@ -175,7 +186,7 @@ class ConsoleDisplay:
                 phase=player_echo.phase.value,
                 clarity=player_echo.clarity,
                 essences=player_echo.dominant_essences,
-                action_history=getattr(player_echo, 'action_history', [])[-5:],
+                action_history=getattr(player_echo, "action_history", [])[-5:],
             )
             self._layout.update(echo_info=echo_info)
 
@@ -209,7 +220,7 @@ class ConsoleDisplay:
 
         if self._layout is not None:
             self._update_layout_from_world(world, turn)
-            self._layout.set_game_mode(getattr(self, '_game_mode', 'player'))
+            self._layout.set_game_mode(getattr(self, "_game_mode", "player"))
             self._layout.set_available_actions(AVAILABLE_ACTIONS)
             self._layout.update(
                 turn=turn,
@@ -253,7 +264,11 @@ class ConsoleDisplay:
 
     def on_action_selected(self, turn: int, action_name: str | None) -> None:
         """Called when an action is selected (player or autoplay)."""
-        line = f"[cyan]>>>[/cyan] [bold]{action_name}[/bold] selected" if action_name else "[dim]>>> autoplay decision[/dim]"
+        line = (
+            f"[cyan]>>>[/cyan] [bold]{action_name}[/bold] selected"
+            if action_name
+            else "[dim]>>> autoplay decision[/dim]"
+        )
         self._log_lines.append(line if isinstance(line, str) else str(line))
         if self._layout is not None:
             self._layout.update(log=line)

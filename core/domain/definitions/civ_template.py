@@ -6,10 +6,10 @@ Static data - loaded once and cached.
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import ClassVar
 
 import yaml
-from pathlib import Path
 
 
 class CivTemplate:
@@ -18,6 +18,7 @@ class CivTemplate:
 
     Static data - loaded once and cached.
     """
+
     _cache: ClassVar[dict[str, CivTemplate] | None] = None
 
     def __init__(

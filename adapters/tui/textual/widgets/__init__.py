@@ -1,10 +1,10 @@
 """Textual widgets for EcoTextualApp."""
 
-from .header import HeaderBar
-from .echo import EchoPanel
-from .civ import CivPanel
-from .metrics import MetricsPanel
 from .actions import ActionsBar
+from .civ import CivPanel
+from .echo import EchoPanel
+from .header import HeaderBar
 from .log_panel import LogPanel
+from .metrics import MetricsPanel
 
-__all__ = ["HeaderBar", "EchoPanel", "CivPanel", "MetricsPanel", "ActionsBar", "LogPanel"]
+__all__ = ["ActionsBar", "CivPanel", "EchoPanel", "HeaderBar", "LogPanel", "MetricsPanel"]

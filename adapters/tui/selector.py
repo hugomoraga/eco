@@ -1,5 +1,5 @@
-from collections.abc import Callable
 import io
+from collections.abc import Callable
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
@@ -51,6 +51,7 @@ class Selector:
     def _is_piped_input(self) -> bool:
         """Check if stdin has piped input (not a real TTY)."""
         import sys
+
         try:
             return not sys.stdin.isatty() or sys.stdin.seekable() is False
         except (AttributeError, io.UnsupportedOperation):
@@ -59,6 +60,7 @@ class Selector:
     def _numbered_select(self) -> str | None:
         """Simple numbered selection (works without TTY)."""
         import re
+
         print(f"\n  {self.title}")
         print("  " + "─" * 40)
         for i, opt in enumerate(self.options, 1):
@@ -67,7 +69,7 @@ class Selector:
 
         try:
             raw_input = input("\n  Tu eleccion: ")
-            clean_input = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', raw_input).strip()
+            clean_input = re.sub(r"\x1b\[[0-9;]*[a-zA-Z]", "", raw_input).strip()
         except (EOFError, KeyboardInterrupt):
             return None
 
@@ -131,10 +133,12 @@ class Selector:
                 self._result = self.options[num - 1]
                 event.app.exit()
 
-        style = Style.from_dict({
-            "selected": "#00D4FF bold",
-            "dim": "#666666 dim",
-        })
+        style = Style.from_dict(
+            {
+                "selected": "#00D4FF bold",
+                "dim": "#666666 dim",
+            }
+        )
 
         text_control = FormattedTextControl(
             text=lambda: self._build_text(),

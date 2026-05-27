@@ -1,7 +1,8 @@
 """Echo panel widget."""
 
 from textual.widgets import Static
-from adapters.tui.textual.colors import CYAN, MAGENTA, DIM, GREEN, YELLOW, RED
+
+from adapters.tui.textual.colors import CYAN, DIM, GREEN, MAGENTA, RED, YELLOW
 
 ACTION_ICONS = {
     "found_circle": "🔵",
@@ -52,7 +53,9 @@ def make_echo_content(
     hist_labels = _make_history_labels(history)
 
     influence_bar = _make_bar(influence, 8, YELLOW)
-    vitality_bar = _make_bar(vitality, 8, GREEN if vitality > 50 else YELLOW if vitality > 25 else RED)
+    vitality_bar = _make_bar(
+        vitality, 8, GREEN if vitality > 50 else YELLOW if vitality > 25 else RED
+    )
     vitality_color = GREEN if vitality > 50 else YELLOW if vitality > 25 else RED
 
     return (

@@ -4,6 +4,8 @@ from typing import ClassVar
 
 from pydantic import BaseModel
 
+from core.domain.enums import CircleEventType
+
 
 class CircleEvent(BaseModel):
     type: CircleEventType

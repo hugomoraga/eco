@@ -32,7 +32,9 @@ class SimulationConfig:
 @dataclass
 class AutoplayConfig:
     default_mode: Literal["manual", "suggest", "autoplay", "director", "replay"] = "autoplay"
-    default_style: Literal["preservationist", "revolutionary", "manipulator", "mystic", "technocrat"] = "preservationist"
+    default_style: Literal[
+        "preservationist", "revolutionary", "manipulator", "mystic", "technocrat"
+    ] = "preservationist"
 
 
 @dataclass

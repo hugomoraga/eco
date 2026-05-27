@@ -1,0 +1,400 @@
+# 20 Essences + Matriz de Compatibilidades
+# Fuente de verdad: spec-47
+
+essences:
+  thelema:
+    name: "Thelema"
+    description: "\"Mi voluntad es ley\" — el individuo como centro"
+    attributes:
+      will: 25
+      individualism: 20
+      cult_risk: 15
+      order: -10
+      autonomy: 15
+
+  monoteism:
+    name: "Monoteísmo"
+    description: "Un dios, un camino, un orden"
+    attributes:
+      order: 20
+      obedience: 20
+      symbolic_unity: 20
+      heresy_pressure: 20
+      empathy: -5
+
+  polytheism:
+    name: "Politeísmo"
+    description: "Muchos dioses, muchas verdades"
+    attributes:
+      tolerance: 20
+      diversity: 20
+      complexity: 15
+      flexibility: 15
+
+  animism:
+    name: "Animismo"
+    description: "Todo tiene espíritu — conexión mística con la naturaleza"
+    attributes:
+      spirituality: 25
+      nature_respect: 20
+      mysticism: 15
+      extraction: -15
+
+  atheism:
+    name: "Ateísmo"
+    description: "No hay trascendencia — solo lo material"
+    attributes:
+      rationalism: 20
+      independence: 15
+      nihilism: 10
+      skepticism: 20
+
+  absurdism:
+    name: "Absurdismo"
+    description: "El universo no tiene sentido — crear el nuestro"
+    attributes:
+      creativity: 25
+      meaning_stability: -20
+      individualism: 15
+      drift_risk: 25
+
+  nihilism:
+    name: "Nihilismo"
+    description: "Nada tiene valor intrínseco"
+    attributes:
+      apathy: 20
+      meaning_stability: -25
+      drift_risk: 15
+      resilience: 10
+
+  existentialism:
+    name: "Existencialismo"
+    description: "Existencia precede esencia — libertad radical"
+    attributes:
+      autonomy: 25
+      meaning_stability: 15
+      individualism: 20
+      empathy: 10
+
+  humanism:
+    name: "Humanismo"
+    description: "El ser humano como centro del universo"
+    attributes:
+      empathy: 25
+      social_cohesion: 15
+      rationalism: 10
+      equality: 15
+
+  pragmatism:
+    name: "Pragmatismo"
+    description: "Lo que funciona es lo vrai"
+    attributes:
+      efficiency: 25
+      adaptability: 20
+      realpolitik: 15
+      competition: 10
+
+  ecology:
+    name: "Ecología"
+    description: "La naturaleza es sagrada — equilibrio"
+    attributes:
+      extraction: -20
+      resilience: 20
+      nature_respect: 25
+      territorial_balance: 20
+
+  technocracy:
+    name: "Tecnocracia"
+    description: "Los técnicos y el conocimiento gobiernan"
+    attributes:
+      efficiency: 25
+      surveillance: 20
+      institutional_stability: 15
+      innovation: 10
+
+  anarchism:
+    name: "Anarquismo"
+    description: "Sin gobierno — auto-organización"
+    attributes:
+      autonomy: 30
+      institutional_stability: -20
+      innovation: 15
+      social_cohesion: 10
+
+  feudalism:
+    name: "Feudalismo"
+    description: "Jerarquía natural — cada uno en su lugar"
+    attributes:
+      order: 25
+      obedience: 25
+      inequality: 15
+      institutional_stability: 15
+
+  socialism:
+    name: "Socialismo"
+    description: "Lo común sobre lo individual"
+    attributes:
+      social_cohesion: 25
+      equality: 20
+      collectivism: 20
+      institutional_stability: 10
+
+  capitalism:
+    name: "Capitalismo"
+    description: "El mercado libre es sagrado"
+    attributes:
+      competition: 25
+      growth: 25
+      inequality: 15
+      innovation: 15
+
+  mysticism:
+    name: "Misticismo"
+    description: "Experiencia directa de lo divino"
+    attributes:
+      spirituality: 30
+      mysticism: 25
+      intuition: 20
+      meaning_stability: 10
+
+  rationalism:
+    name: "Racionalismo"
+    description: "La razón sobre todo"
+    attributes:
+      rationalism: 30
+      order: 15
+      skepticism: 15
+      innovation: 10
+
+  romanticism:
+    name: "Romanticismo"
+    description: "Emoción, pasión, naturaleza"
+    attributes:
+      creativity: 25
+      emotion: 25
+      nature_respect: 15
+      individualism: 10
+
+  stoicism:
+    name: "Estoicismo"
+    description: "Virtud, autocontrol, aceptar lo que viene"
+    attributes:
+      order: 20
+      resilience: 20
+      obedience: 15
+      apathy: 10
+
+  individualism:
+    name: "Individualismo"
+    description: "El individuo por encima del grupo"
+    attributes:
+      autonomy: 25
+      independence: 20
+      self_reliance: 20
+      competition: 15
+
+  collectivism:
+    name: "Colectivismo"
+    description: "El grupo por encima del individuo"
+    attributes:
+      social_cohesion: 25
+      conformity: 20
+      group_identity: 20
+      sacrifice: 15
+
+  communism:
+    name: "Comunismo"
+    description: "Propiedad común,sin clases"
+    attributes:
+      equality: 25
+      collectivism: 20
+      state_control: 15
+      redistribution: 20
+
+  extremism:
+    name: "Extremismo"
+    description: "Posturas radicales,sin matices"
+    attributes:
+      conviction: 30
+      polarization: 25
+      intransigence: 20
+      risk_tolerance: 15
+
+  moderation:
+    name: "Moderación"
+    description: "Buscar el punto medio,la balances"
+    attributes:
+      compromise: 25
+      patience: 20
+      tolerance: 20
+      flexibility: 15
+
+  dogmatism:
+    name: "Dogmatismo"
+    description: "Fe ciega en una doctrina"
+    attributes:
+      conviction: 25
+      obedience: 20
+      certainty: 20
+      inflexibility: 15
+
+  spirituality:
+    name: "Espiritualidad"
+    description: "Búsqueda de conexión trascendental"
+    attributes:
+      mysticism: 25
+      transcendence: 20
+      inner_peace: 20
+      connection: 15
+
+  leadership:
+    name: "Liderazgo"
+    description: "Capacidad de guiar y motivar"
+    attributes:
+      charisma: 25
+      vision: 20
+      authority: 20
+      responsibility: 15
+
+# Matriz de compatibilidades entre esencias
+# Niveles: CONFIRMED, HIGH_AFFINITY, MEDIUM_AFFINITY, NEUTRAL, MEDIUM_TENSION, HIGH_TENSION, INCOMPATIBLE
+
+affinity_matrix:
+  thelema:
+    absurdism: CONFIRMED
+    existentialism: HIGH_AFFINITY
+    anarchism: MEDIUM_TENSION
+    monoteism: HIGH_TENSION
+    socialism: INCOMPATIBLE
+
+  monoteism:
+    stoicism: HIGH_AFFINITY
+    feudalism: HIGH_AFFINITY
+    rationalism: MEDIUM_AFFINITY
+    thelema: MEDIUM_TENSION
+    atheism: INCOMPATIBLE
+
+  polytheism:
+    animism: HIGH_AFFINITY
+    romanticism: HIGH_AFFINITY
+    mysticism: MEDIUM_AFFINITY
+    monoteism: HIGH_TENSION
+
+  animism:
+    ecology: CONFIRMED
+    mysticism: HIGH_AFFINITY
+    romanticism: MEDIUM_AFFINITY
+    technocracy: HIGH_TENSION
+
+  atheism:
+    rationalism: CONFIRMED
+    existentialism: HIGH_AFFINITY
+    nihilism: MEDIUM_TENSION
+    mysticism: INCOMPATIBLE
+
+  absurdism:
+    thelema: CONFIRMED
+    existentialism: HIGH_AFFINITY
+    romanticism: MEDIUM_AFFINITY
+    stoicism: HIGH_TENSION
+    monoteism: INCOMPATIBLE
+
+  nihilism:
+    absurdism: HIGH_AFFINITY
+    existentialism: MEDIUM_AFFINITY
+    stoicism: HIGH_TENSION
+    humanism: INCOMPATIBLE
+
+  existentialism:
+    absurdism: HIGH_AFFINITY
+    humanism: HIGH_AFFINITY
+    thelema: MEDIUM_AFFINITY
+    nihilism: MEDIUM_TENSION
+
+  humanism:
+    existentialism: HIGH_AFFINITY
+    socialism: HIGH_AFFINITY
+    rationalism: MEDIUM_AFFINITY
+    feudalism: HIGH_TENSION
+
+  pragmatism:
+    capitalism: HIGH_AFFINITY
+    technocracy: HIGH_AFFINITY
+    socialism: MEDIUM_TENSION
+    romanticism: NEUTRAL
+
+  ecology:
+    animism: CONFIRMED
+    socialism: HIGH_AFFINITY
+    romanticism: MEDIUM_AFFINITY
+    capitalism: HIGH_TENSION
+
+  technocracy:
+    pragmatism: HIGH_AFFINITY
+    capitalism: HIGH_AFFINITY
+    rationalism: MEDIUM_AFFINITY
+    anarchism: HIGH_TENSION
+
+  anarchism:
+    socialism: CONFIRMED
+    ecology: HIGH_AFFINITY
+    absurdism: MEDIUM_AFFINITY
+    feudalism: INCOMPATIBLE
+
+  feudalism:
+    monoteism: HIGH_AFFINITY
+    stoicism: HIGH_AFFINITY
+    socialism: HIGH_TENSION
+    anarchism: INCOMPATIBLE
+
+  socialism:
+    anarchism: CONFIRMED
+    humanism: HIGH_AFFINITY
+    ecology: MEDIUM_AFFINITY
+    capitalism: INCOMPATIBLE
+
+  capitalism:
+    pragmatism: HIGH_AFFINITY
+    technocracy: HIGH_AFFINITY
+    feudalism: MEDIUM_TENSION
+    socialism: INCOMPATIBLE
+
+  mysticism:
+    animism: CONFIRMED
+    polytheism: MEDIUM_AFFINITY
+    romanticism: MEDIUM_AFFINITY
+    rationalism: HIGH_TENSION
+
+  rationalism:
+    atheism: CONFIRMED
+    technocracy: HIGH_AFFINITY
+    existentialism: MEDIUM_AFFINITY
+    mysticism: HIGH_TENSION
+
+  romanticism:
+    animism: HIGH_AFFINITY
+    existentialism: MEDIUM_AFFINITY
+    polytheism: MEDIUM_AFFINITY
+    rationalism: HIGH_TENSION
+
+  stoicism:
+    monoteism: HIGH_AFFINITY
+    feudalism: MEDIUM_AFFINITY
+    rationalism: MEDIUM_AFFINITY
+    absurdism: HIGH_TENSION
+
+# Affinity levels como constantes numéricas para cálculos
+affinity_values:
+  CONFIRMED: 100
+  HIGH_AFFINITY: 75
+  MEDIUM_AFFINITY: 50
+  NEUTRAL: 25
+  MEDIUM_TENSION: 10
+  HIGH_TENSION: -25
+  INCOMPATIBLE: -75
+
+# Alignment thresholds
+alignment:
+  aligned_threshold: 60
+  disident_threshold: 40
+  target_civ_aligned_ratio: 0.7

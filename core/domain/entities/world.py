@@ -11,12 +11,11 @@ from pydantic import BaseModel, Field
 from core.domain.entities.circle import Circle
 from core.domain.entities.civ import Civ
 from core.domain.entities.echo import Echo
-from core.domain.registries.essence_registry import EssenceRegistry
-from core.domain.enums import CivAlignment
 from core.domain.entities.faction import Faction
 from core.domain.entities.host import Host
 from core.domain.entities.manifesto import Manifesto
 from core.domain.entities.person import Person, PlayerPerson
+from core.domain.enums import CivAlignment
 
 
 class WorldClock(BaseModel):
@@ -49,9 +48,15 @@ class World(BaseModel):
     civs: list[Civ] = Field(default_factory=list)
     population: int = 10000
     stability: float = 50.0
-    resources: dict[str, float] = Field(default_factory=lambda: {
-        "food": 100, "infrastructure": 80, "energy": 60, "knowledge": 40, "legitimacy": 70,
-    })
+    resources: dict[str, float] = Field(
+        default_factory=lambda: {
+            "food": 100,
+            "infrastructure": 80,
+            "energy": 60,
+            "knowledge": 40,
+            "legitimacy": 70,
+        }
+    )
     active_echo_id: str | None = None
     pressure: float = 30.0
     legitimacy: float = 60.0
@@ -141,13 +146,21 @@ class World(BaseModel):
         civ = self.get_civ(civ_id)
         if not civ:
             return []
-        return [p for p in self.persons if civ.alignment_status(p.essence_profile) == CivAlignment.ALIGNED]
+        return [
+            p
+            for p in self.persons
+            if civ.alignment_status(p.essence_profile) == CivAlignment.ALIGNED
+        ]
 
     def get_disident_persons(self, civ_id: str) -> list[Person]:
         civ = self.get_civ(civ_id)
         if not civ:
             return []
-        return [p for p in self.persons if civ.alignment_status(p.essence_profile) == CivAlignment.DISIDENT]
+        return [
+            p
+            for p in self.persons
+            if civ.alignment_status(p.essence_profile) == CivAlignment.DISIDENT
+        ]
 
     def clamp_metrics(self) -> None:
         self.pressure = max(0.0, min(100.0, self.pressure))

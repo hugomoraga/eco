@@ -2,6 +2,7 @@
 CivFactory — creates Civ entities from dataset YAML files.
 No circular imports with Echo/World.
 """
+
 from __future__ import annotations
 
 from adapters.data_loader.civ_dataset import load_civ_dataset
@@ -37,7 +38,11 @@ def create_default_civ(civs_dir: str = "data/civs") -> Civ:
 def _fallback_civ() -> Civ:
     """Minimal fallback if no civs are found."""
     from core.domain import EssenceProfile, EssenceScore
-    dominant = [EssenceScore(essence="humanism", value=40), EssenceScore(essence="pragmatism", value=35)]
+
+    dominant = [
+        EssenceScore(essence="humanism", value=40),
+        EssenceScore(essence="pragmatism", value=35),
+    ]
     return Civ(
         meta_id="fallback",
         name="Unknown Civilization",

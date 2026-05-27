@@ -44,7 +44,7 @@ class EventPool:
         Handles both dict and Pydantic model objects.
         """
         # Handle Pydantic model (World object)
-        if hasattr(world_state, 'model_dump'):
+        if hasattr(world_state, "model_dump"):
             world_state = world_state.model_dump()
 
         essence_dist = world_state.get("essence_distribution", {})
@@ -53,6 +53,7 @@ class EventPool:
             echoes = world_state.get("echoes", [])
             if echoes:
                 from collections import Counter
+
                 essences = [e.get("essence", "anarchism") for e in echoes]
                 counter = Counter(essences)
                 return counter.most_common(1)[0][0]
@@ -68,7 +69,7 @@ class EventPool:
         Base weights + modifier based on dominant essence.
         """
         # Handle Pydantic model (World object)
-        if hasattr(world_state, 'model_dump'):
+        if hasattr(world_state, "model_dump"):
             world_state = world_state.model_dump()
 
         base_weights = {
@@ -109,7 +110,7 @@ class EventPool:
     def select_category(self, world_state: dict) -> str:
         """Select a category using weighted random based on world state."""
         # Handle Pydantic model (World object)
-        if hasattr(world_state, 'model_dump'):
+        if hasattr(world_state, "model_dump"):
             world_state = world_state.model_dump()
 
         weights = self.calculate_category_weights(world_state)
@@ -119,7 +120,11 @@ class EventPool:
         weight_values = list(weights.values())
 
         # Filter categories that have events
-        available = [(c, w) for c, w in zip(categories, weight_values, strict=False) if self.category_index.get(c)]
+        available = [
+            (c, w)
+            for c, w in zip(categories, weight_values, strict=False)
+            if self.category_index.get(c)
+        ]
         if not available:
             return "crisis"
 

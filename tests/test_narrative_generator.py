@@ -1,20 +1,20 @@
 """
 Tests for game_core.factory.narrative_generator module.
 """
+
 from __future__ import annotations
 
-import pytest
-from core.domain import World, WorldClock, Circle, CircleStatus, Echo
+from core.domain import Circle, CircleStatus, Echo, World, WorldClock
+from core.domain.rules.goals import ProgressGoal
 from core.factories.narrative_generator import (
+    NarrativeFinale,
     NarrativeGenerator,
     NarrativeIntro,
     StoryBeat,
-    NarrativeFinale,
+    format_finale,
     format_intro_screen,
     format_story_beat,
-    format_finale,
 )
-from core.domain.rules.goals import ProgressGoal
 
 
 class TestNarrativeGenerator:
@@ -49,7 +49,10 @@ class TestNarrativeGenerator:
         intro = gen.generate_intro(echo=None, world=world)
 
         assert intro.legitimacy == 20
-        assert "no confía" in intro.legitimacy_text.lower() or "erguidas" in intro.legitimacy_text.lower()
+        assert (
+            "no confía" in intro.legitimacy_text.lower()
+            or "erguidas" in intro.legitimacy_text.lower()
+        )
 
     def test_generate_intro_legitimacy_high(self):
         world = _create_world(legitimacy=80)
@@ -57,7 +60,10 @@ class TestNarrativeGenerator:
         intro = gen.generate_intro(echo=None, world=world)
 
         assert intro.legitimacy == 80
-        assert "murmuran" in intro.legitimacy_text.lower() or "inevitable" in intro.legitimacy_text.lower()
+        assert (
+            "murmuran" in intro.legitimacy_text.lower()
+            or "inevitable" in intro.legitimacy_text.lower()
+        )
 
     def test_generate_intro_pressure_high(self):
         world = _create_world(pressure=85)
@@ -65,7 +71,9 @@ class TestNarrativeGenerator:
         intro = gen.generate_intro(echo=None, world=world)
 
         assert intro.pressure == 85
-        assert "revolución" in intro.pressure_text.lower() or "actuar" in intro.pressure_text.lower()
+        assert (
+            "revolución" in intro.pressure_text.lower() or "actuar" in intro.pressure_text.lower()
+        )
 
     def test_generate_story_beat_act_1(self):
         world = _create_world()

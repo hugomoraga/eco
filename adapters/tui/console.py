@@ -29,9 +29,7 @@ class Console:
         title: str = "",
         border_style: str = "green",
     ) -> None:
-        self._console.print(
-            Panel(content, title=title, border_style=border_style)
-        )
+        self._console.print(Panel(content, title=title, border_style=border_style))
 
     def print_table(
         self,
@@ -53,9 +51,7 @@ class Console:
         self._console.clear()
 
     def start_live(self, renderable: Any) -> None:
-        self._live = Live(
-            renderable, console=self._console, refresh_per_second=4
-        )
+        self._live = Live(renderable, console=self._console, refresh_per_second=4)
         self._live.start()
 
     def update_live(self, renderable: Any) -> None:

@@ -1,6 +1,7 @@
 """
 Faction factory — creates Faction entities.
 """
+
 from __future__ import annotations
 
 import uuid
@@ -10,7 +11,9 @@ from core.domain import Faction, Ideas
 
 def _str_to_ideas(tag_str: str, essence: str) -> Ideas:
     """Convert a string tag to an Ideas instance."""
-    return Ideas(id=str(uuid.uuid4()), category="concept", name=tag_str, essence_weights={essence: 1.0})
+    return Ideas(
+        id=str(uuid.uuid4()), category="concept", name=tag_str, essence_weights={essence: 1.0}
+    )
 
 
 def create_faction(

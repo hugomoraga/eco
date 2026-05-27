@@ -15,6 +15,7 @@ from core.domain.value_objects import ResonanceProfile
 
 class DoctrineBranch(BaseModel):
     """A branch/schism of a Doctrine."""
+
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str = ""
     emphasis: str = ""  # Main interpretation
@@ -42,6 +43,7 @@ class Doctrine(BaseModel):
         follower_count: Total followers
         stability: Internal stability 0-100
     """
+
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
 
     name: str = ""

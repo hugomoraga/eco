@@ -2,8 +2,8 @@
 players — Player implementations for hexagonal architecture.
 """
 
-from core.ports.player import Player
 from core.application.players.auto import AutoPlayer
 from core.application.players.human import HumanPlayer
+from core.ports.player import Player
 
-__all__ = ["Player", "AutoPlayer", "HumanPlayer"]
+__all__ = ["AutoPlayer", "HumanPlayer", "Player"]

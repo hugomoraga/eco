@@ -56,7 +56,7 @@ class Goal(ABC):
         return GoalProgress(
             current=self._get_current(world),
             target=self._get_target(),
-            percentage=self.evaluate(world, current_turn)
+            percentage=self.evaluate(world, current_turn),
         )
 
     def progress_bar(self, world: World, current_turn: int, width: int = 10) -> str:
@@ -291,7 +291,7 @@ class AccumulateGoal(Goal):
         actual_rate = current / max(1, self.turn_limit - remaining)
         rate_efficiency = min(1.0, actual_rate / expected_rate) if expected_rate > 0 else 0.0
 
-        return (progress_ratio * 0.6 + rate_efficiency * 0.4)
+        return progress_ratio * 0.6 + rate_efficiency * 0.4
 
     def _get_current(self, world: World) -> float:
         return self._get_current_from_world(world)

@@ -1,19 +1,19 @@
 """
 Tests for game_core.domain.archetype_registry module.
 """
+
 from __future__ import annotations
 
-import pytest
 from core.domain.registries.archetype_registry import (
-    ArchetypeRegistry,
     Archetype,
-    ArchetypeGoalWeights,
     ArchetypeActionPreferences,
+    ArchetypeGoalWeights,
+    ArchetypeRegistry,
     ArchetypeStats,
     get_archetype,
+    get_goal_weights,
     get_intro_text,
     get_preferred_action,
-    get_goal_weights,
 )
 
 

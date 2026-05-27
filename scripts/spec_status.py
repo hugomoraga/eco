@@ -163,7 +163,10 @@ def get_index_dependencies() -> dict[str, list[str]]:
     header_idx = -1
     dep_col = 4  # Default fourth column (0-indexed from cells)
     for i, line in enumerate(lines):
-        if "| # | Spec | Descripción | Dependencias |" in line or "| # | Spec | Descripcion | Dependencias |" in line:
+        if (
+            "| # | Spec | Descripción | Dependencias |" in line
+            or "| # | Spec | Descripcion | Dependencias |" in line
+        ):
             header_idx = i
             break
 

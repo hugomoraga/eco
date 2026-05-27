@@ -4,7 +4,7 @@ resource_pool.py — ResourcePool value object.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class ResourcePool(BaseModel):
@@ -13,6 +13,7 @@ class ResourcePool(BaseModel):
 
     Note: legitimacy is NOT here - it lives in Civ.
     """
+
     model_config = {"arbitrary_types_allowed": True}
 
     food: float = 100.0
@@ -47,7 +48,7 @@ class ResourcePool(BaseModel):
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> "ResourcePool":
+    def from_dict(cls, data: dict) -> ResourcePool:
         return cls(
             food=data.get("food", 100.0),
             infrastructure=data.get("infrastructure", 80.0),

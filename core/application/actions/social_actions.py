@@ -4,12 +4,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from core.application.actions.base import Action, ActionContext, ActionResult
 from adapters.i18n import t
-from adapters.autoplayer.actions import ACTION_DAMAGE_MAP
+from core.application.actions.base import Action, ActionContext, ActionResult
 
 if TYPE_CHECKING:
-    from core.ports.logger import Logger
     from core.domain import Echo, World
 
 
@@ -20,6 +18,7 @@ if TYPE_CHECKING:
 
 # ─── Propagate Idea ────────────────────────────────────────────────────────────
 
+
 class PropagateIdea(Action):
     name: str = "propagate_idea"
     cooldown: int = 3
@@ -27,8 +26,8 @@ class PropagateIdea(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from core.domain.rules.essence_effects import EssenceEffects
         from core.application.processors.random import SeededRandom
+        from core.domain.rules.essence_effects import EssenceEffects
 
         propagated = 0
         tags_created = []
@@ -60,11 +59,11 @@ class PropagateIdea(Action):
             target = targets[propagated % len(targets)]
             tag_key = tag.to_semantic_key()
 
-            if hasattr(target, 'essence'):
+            if hasattr(target, "essence"):
                 affinity = EssenceEffects.get_essence_affinity(echo.essence, target.essence)
                 affinity_modifier = 1.0 + (affinity * 0.02)
 
-            if rng.random() < affinity_modifier and hasattr(target, 'ideology_tags'):
+            if rng.random() < affinity_modifier and hasattr(target, "ideology_tags"):
                 if tag_key not in target.ideology_tags:
                     target.ideology_tags.append(tag_key)
                     tags_created.append(tag_key)
@@ -87,6 +86,7 @@ class PropagateIdea(Action):
 
 
 # ─── Sabotage ──────────────────────────────────────────────────────────────────
+
 
 class Sabotage(Action):
     name: str = "sabotage"
@@ -116,6 +116,7 @@ class Sabotage(Action):
 
 # ─── Ritualize ─────────────────────────────────────────────────────────────────
 
+
 class Ritualize(Action):
     name: str = "ritualize"
     cooldown: int = 6
@@ -133,12 +134,14 @@ class Ritualize(Action):
             circle_id = echo.circles[0]
             circle = world.get_circle(circle_id)
             if circle:
-                circle.history.append(CircleEvent(
-                    type=CircleEventType.RITUAL,
-                    turn=context.world_tick,
-                    echo_id=echo.id,
-                    details=f"Ritual performed by {echo.name or 'Echo'}",
-                ))
+                circle.history.append(
+                    CircleEvent(
+                        type=CircleEventType.RITUAL,
+                        turn=context.world_tick,
+                        echo_id=echo.id,
+                        details=f"Ritual performed by {echo.name or 'Echo'}",
+                    )
+                )
 
         self.last_used_tick = context.world_tick
         return ActionResult(
@@ -150,6 +153,7 @@ class Ritualize(Action):
 
 
 # ─── Talk ──────────────────────────────────────────────────────────────────────
+
 
 class Talk(Action):
     name: str = "talk"
@@ -168,6 +172,7 @@ class Talk(Action):
 
 
 # ─── Spread Rumor (new) ────────────────────────────────────────────────────────
+
 
 class SpreadRumor(Action):
     name: str = "spread_rumor"
@@ -210,6 +215,7 @@ class SpreadRumor(Action):
 
 
 # ─── Recruit Follower (new) ────────────────────────────────────────────────────
+
 
 class RecruitFollower(Action):
     name: str = "recruit_follower"
@@ -267,6 +273,7 @@ class RecruitFollower(Action):
 
 # ─── Negotiate (new) ────────────────────────────────────────────────────────────
 
+
 class Negotiate(Action):
     name: str = "negotiate"
     cooldown: int = 6
@@ -306,6 +313,7 @@ class Negotiate(Action):
 
 # ─── Ritual (new - powerful version) ───────────────────────────────────────────
 
+
 class Ritual(Action):
     name: str = "ritual"
     cooldown: int = 10
@@ -313,8 +321,8 @@ class Ritual(Action):
     tags_required: list[str] = []
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from core.domain import CircleEvent, CircleEventType
         from core.application.processors.random import SeededRandom
+        from core.domain import CircleEvent, CircleEventType
 
         rng = SeededRandom.get_instance()
         success_chance = 0.6 + (echo.influence / 250)
@@ -329,12 +337,14 @@ class Ritual(Action):
                 circle_id = echo.circles[0]
                 circle = world.get_circle(circle_id)
                 if circle:
-                    circle.history.append(CircleEvent(
-                        type=CircleEventType.RITUAL,
-                        turn=context.world_tick,
-                        echo_id=echo.id,
-                        details=f"Powerful ritual by {echo.name or 'Echo'}",
-                    ))
+                    circle.history.append(
+                        CircleEvent(
+                            type=CircleEventType.RITUAL,
+                            turn=context.world_tick,
+                            echo_id=echo.id,
+                            details=f"Powerful ritual by {echo.name or 'Echo'}",
+                        )
+                    )
                     circle.coherence = min(100, circle.coherence + 5)
 
             self._apply_temporal_strain(echo, 5.0)

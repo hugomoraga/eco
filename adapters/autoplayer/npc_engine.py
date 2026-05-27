@@ -5,13 +5,14 @@ This module contains the AI logic for individual NPC decisions.
 NPCs use archetype-based scoring to select actions.
 Moved here from core.autoplayer as part of hexagonal architecture refactor.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from core.application.processors.random import SeededRandom
 from adapters.autoplayer.actions import ARCHETYPE_WEIGHTS, NPC_ACTIONS
 from adapters.autoplayer.types import ActionResult
+from core.application.processors.random import SeededRandom
 from infra.logging import get_logger
 
 if TYPE_CHECKING:
@@ -150,7 +151,7 @@ class NPCEngine:
             base_score += archetype_mods.get("survival_probability", 0) * 40
             base_score -= 20
 
-        action_history = getattr(npc, 'action_history', None)
+        action_history = getattr(npc, "action_history", None)
         if action_history:
             repeats = action_history.count(action_name)
             base_score *= max(0.5, 1.0 - (repeats * 0.1))
@@ -173,8 +174,15 @@ class NPCEngine:
         best_action = max(action_scores, key=lambda a: (action_scores[a], self.rng.random()))
         best_score = action_scores[best_action]
 
-        log.debug("npc_decision", npc_id=npc.id, npc_name=npc.name or f"NPC-{npc.id[:8]}", archetype=archetype,
-                   action_scores=action_scores, selected_action=best_action, selected_score=best_score)
+        log.debug(
+            "npc_decision",
+            npc_id=npc.id,
+            npc_name=npc.name or f"NPC-{npc.id[:8]}",
+            archetype=archetype,
+            action_scores=action_scores,
+            selected_action=best_action,
+            selected_score=best_score,
+        )
 
         return NPCDecision(
             npc_id=npc.id,
@@ -260,18 +268,20 @@ class NPCActionExecutor:
         actual_legitimacy_change = world.legitimacy - old_legitimacy
         actual_resources_change = world.resources_global - old_resources
 
-        log.info("npc_action_executed",
-                 npc_id=npc.id,
-                 npc_name=npc.name or f"NPC-{npc.id[:8]}",
-                 action=getattr(self, 'current_action', 'unknown'),
-                 success=success,
-                 message=message,
-                 pressure_change=actual_pressure_change,
-                 legitimacy_change=actual_legitimacy_change,
-                 resources_change=actual_resources_change)
+        log.info(
+            "npc_action_executed",
+            npc_id=npc.id,
+            npc_name=npc.name or f"NPC-{npc.id[:8]}",
+            action=getattr(self, "current_action", "unknown"),
+            success=success,
+            message=message,
+            pressure_change=actual_pressure_change,
+            legitimacy_change=actual_legitimacy_change,
+            resources_change=actual_resources_change,
+        )
 
         return ActionResult(
-            action=getattr(self, 'current_action', 'unknown'),
+            action=getattr(self, "current_action", "unknown"),
             success=success,
             message=message,
             pressure_change=actual_pressure_change,
@@ -283,7 +293,9 @@ class NPCActionExecutor:
             target_id=target_id,
         )
 
-    def _execute_propagate_idea(self, npc: Person, world: World, world_tick: int) -> NPCActionResult:
+    def _execute_propagate_idea(
+        self, npc: Person, world: World, world_tick: int
+    ) -> ActionResult:
         """NPC propagates ideas to circles/factions."""
         self.current_action = "propagate_idea"
 
@@ -299,25 +311,28 @@ class NPCActionExecutor:
         circles_hit = 0
         factions_hit = 0
 
-        if hasattr(target, 'member_ids'):
+        if hasattr(target, "member_ids"):
             circles_hit = 1
-        elif hasattr(target, 'members'):
+        elif hasattr(target, "members"):
             factions_hit = 1
 
         pressure_delta = 1.0
         legitimacy_delta = -0.5
 
         return self._apply_world_changes(
-            npc, world,
+            npc,
+            world,
             pressure_delta=pressure_delta,
             legitimacy_delta=legitimacy_delta,
             message=f"Propagated ideas to {target.name if hasattr(target, 'name') else 'targets'}",
             circles_affected=circles_hit,
             factions_affected=factions_hit,
-            target_id=target.id if hasattr(target, 'id') else None,
+            target_id=target.id if hasattr(target, "id") else None,
         )
 
-    def _execute_write_manifesto(self, npc: Person, world: World, world_tick: int) -> NPCActionResult:
+    def _execute_write_manifesto(
+        self, npc: Person, world: World, world_tick: int
+    ) -> ActionResult:
         """NPC writes a manifesto, affecting world metrics."""
         self.current_action = "write_manifesto"
 
@@ -325,13 +340,14 @@ class NPCActionExecutor:
         legitimacy_delta = -1.0
 
         return self._apply_world_changes(
-            npc, world,
+            npc,
+            world,
             pressure_delta=pressure_delta,
             legitimacy_delta=legitimacy_delta,
             message=f"Wrote manifesto: {npc.name or 'NPC'} articulates their vision",
         )
 
-    def _execute_sabotage(self, npc: Person, world: World, world_tick: int) -> NPCActionResult:
+    def _execute_sabotage(self, npc: Person, world: World, world_tick: int) -> ActionResult:
         """NPC sabotages, damaging player vitality."""
         self.current_action = "sabotage"
 
@@ -346,7 +362,8 @@ class NPCActionExecutor:
         resources_delta = -5.0
 
         return self._apply_world_changes(
-            npc, world,
+            npc,
+            world,
             pressure_delta=pressure_delta,
             legitimacy_delta=legitimacy_delta,
             resources_delta=resources_delta,
@@ -355,7 +372,7 @@ class NPCActionExecutor:
             target_id=player.id if player else None,
         )
 
-    def _execute_ritualize(self, npc: Person, world: World, world_tick: int) -> NPCActionResult:
+    def _execute_ritualize(self, npc: Person, world: World, world_tick: int) -> ActionResult:
         """NPC performs ritualize action."""
         self.current_action = "ritualize"
 
@@ -370,15 +387,16 @@ class NPCActionExecutor:
         legitimacy_delta = -2.0
 
         return self._apply_world_changes(
-            npc, world,
+            npc,
+            world,
             pressure_delta=pressure_delta,
             legitimacy_delta=legitimacy_delta,
             circles_affected=circles_hit,
-            message=f"Performed rituals" + (f" in {target.name}" if circles_hit else ""),
+            message="Performed rituals" + (f" in {target.name}" if circles_hit else ""),
             target_id=target.id if circles_hit else None,
         )
 
-    def _execute_talk(self, npc: Person, world: World, world_tick: int) -> NPCActionResult:
+    def _execute_talk(self, npc: Person, world: World, world_tick: int) -> ActionResult:
         """NPC talks, minor social pressure effect."""
         self.current_action = "talk"
 
@@ -386,13 +404,14 @@ class NPCActionExecutor:
         legitimacy_delta = -0.5
 
         return self._apply_world_changes(
-            npc, world,
+            npc,
+            world,
             pressure_delta=pressure_delta,
             legitimacy_delta=legitimacy_delta,
             message=f"{npc.name or 'NPC'} engaged in conversation",
         )
 
-    def _execute_spread_rumor(self, npc: Person, world: World, world_tick: int) -> NPCActionResult:
+    def _execute_spread_rumor(self, npc: Person, world: World, world_tick: int) -> ActionResult:
         """NPC spreads rumors, damaging player."""
         self.current_action = "spread_rumor"
 
@@ -406,7 +425,8 @@ class NPCActionExecutor:
         legitimacy_delta = -2.0
 
         return self._apply_world_changes(
-            npc, world,
+            npc,
+            world,
             pressure_delta=pressure_delta,
             legitimacy_delta=legitimacy_delta,
             damage_to_player=damage,
@@ -414,7 +434,9 @@ class NPCActionExecutor:
             target_id=player.id if player else None,
         )
 
-    def _execute_recruit_follower(self, npc: Person, world: World, world_tick: int) -> NPCActionResult:
+    def _execute_recruit_follower(
+        self, npc: Person, world: World, world_tick: int
+    ) -> ActionResult:
         """NPC recruits followers to circles."""
         self.current_action = "recruit_follower"
 
@@ -431,7 +453,8 @@ class NPCActionExecutor:
         legitimacy_delta = -1.0
 
         return self._apply_world_changes(
-            npc, world,
+            npc,
+            world,
             pressure_delta=pressure_delta,
             legitimacy_delta=legitimacy_delta,
             circles_affected=1,
@@ -439,7 +462,7 @@ class NPCActionExecutor:
             target_id=target.id,
         )
 
-    def _execute_negotiate(self, npc: Person, world: World, world_tick: int) -> NPCActionResult:
+    def _execute_negotiate(self, npc: Person, world: World, world_tick: int) -> ActionResult:
         """NPC negotiates, gaining resources."""
         self.current_action = "negotiate"
 
@@ -447,14 +470,15 @@ class NPCActionExecutor:
         legitimacy_delta = 1.0
 
         return self._apply_world_changes(
-            npc, world,
+            npc,
+            world,
             pressure_delta=0,
             legitimacy_delta=legitimacy_delta,
             resources_delta=resources_delta,
             message=f"{npc.name or 'NPC'} negotiated successfully",
         )
 
-    def _execute_ritual(self, npc: Person, world: World, world_tick: int) -> NPCActionResult:
+    def _execute_ritual(self, npc: Person, world: World, world_tick: int) -> ActionResult:
         """NPC performs a ritual."""
         self.current_action = "ritual"
 
@@ -463,7 +487,8 @@ class NPCActionExecutor:
         resources_delta = 5.0
 
         return self._apply_world_changes(
-            npc, world,
+            npc,
+            world,
             pressure_delta=pressure_delta,
             legitimacy_delta=legitimacy_delta,
             resources_delta=resources_delta,

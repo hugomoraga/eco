@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from core.application.actions.base import Action, ActionContext, ActionResult
 from adapters.i18n import t
+from core.application.actions.base import Action, ActionContext, ActionResult
 
 if TYPE_CHECKING:
     from core.domain import Echo, World
@@ -65,9 +65,7 @@ class JoinCircle(Action):
             )
 
         candidate_circles = [
-            c for c in world.circles
-            if c.status.value != "dissolved"
-            and c.id not in echo.circles
+            c for c in world.circles if c.status.value != "dissolved" and c.id not in echo.circles
         ]
 
         if not candidate_circles:
@@ -114,12 +112,14 @@ class JoinCircle(Action):
         best_circle.add_member(echo.id)
         echo.circles.append(best_circle.id)
 
-        best_circle.history.append(CircleEvent(
-            type=CircleEventType.JOIN,
-            turn=context.world_tick,
-            echo_id=echo.id,
-            details=f"{echo.name or 'Echo'} joined {best_circle.name}",
-        ))
+        best_circle.history.append(
+            CircleEvent(
+                type=CircleEventType.JOIN,
+                turn=context.world_tick,
+                echo_id=echo.id,
+                details=f"{echo.name or 'Echo'} joined {best_circle.name}",
+            )
+        )
 
         self.last_used_tick = context.world_tick
 
@@ -166,12 +166,14 @@ class LeaveCircle(Action):
         circle.remove_member(echo.id)
         echo.circles.remove(circle_id)
 
-        circle.history.append(CircleEvent(
-            type=CircleEventType.LEAVE,
-            turn=context.world_tick,
-            echo_id=echo.id,
-            details=f"{echo.name or 'Echo'} left {circle.name}",
-        ))
+        circle.history.append(
+            CircleEvent(
+                type=CircleEventType.LEAVE,
+                turn=context.world_tick,
+                echo_id=echo.id,
+                details=f"{echo.name or 'Echo'} left {circle.name}",
+            )
+        )
 
         self.last_used_tick = context.world_tick
 

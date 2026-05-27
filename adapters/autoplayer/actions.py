@@ -9,10 +9,10 @@ This module is the single source of truth for all action-related data:
 
 All engines (Human, AI, NPC) should import from here.
 """
+
 from __future__ import annotations
 
 from typing import ClassVar
-
 
 # ─── All Available Actions ──────────────────────────────────────────────────
 

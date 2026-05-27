@@ -1,10 +1,12 @@
 """
 CivDataset — loads civilization templates from data/civs/*.yaml
 """
+
 from __future__ import annotations
 
-import yaml
 from pathlib import Path
+
+import yaml
 
 from core.domain import Civ, EssenceProfile, EssenceScore
 
@@ -41,7 +43,9 @@ def _yaml_to_civ(raw: dict) -> Civ | None:
 
     underlying = []
     for e in essence_data.get("underlying", []):
-        underlying.append(EssenceScore(essence=e.get("essence", ""), value=float(e.get("value", 0))))
+        underlying.append(
+            EssenceScore(essence=e.get("essence", ""), value=float(e.get("value", 0)))
+        )
 
     essence_profile = EssenceProfile(dominant=dominant, underlying=underlying)
 
@@ -60,9 +64,16 @@ def _yaml_to_civ(raw: dict) -> Civ | None:
         resources_global=civ_data.get("resources_global", 70.0),
         crisis_threshold=civ_data.get("crisis_threshold", 75.0),
         collapse_threshold=civ_data.get("collapse_threshold", 15.0),
-        resources=civ_data.get("resources", {
-            "food": 80, "infrastructure": 60, "energy": 50, "knowledge": 50, "legitimacy": 60,
-        }),
+        resources=civ_data.get(
+            "resources",
+            {
+                "food": 80,
+                "infrastructure": 60,
+                "energy": 50,
+                "knowledge": 50,
+                "legitimacy": 60,
+            },
+        ),
     )
 
 

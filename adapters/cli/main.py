@@ -21,22 +21,35 @@ def create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="ECO - Memetic Simulation Engine")
     parser.add_argument("--seed", type=int, help="Random seed")
     parser.add_argument("--turns", type=int, help="Max turns")
-    parser.add_argument("--autoplay", action="store_true",
-                        help="Use AutoPlayer (automatic decisions). Default: HumanPlayer")
-    parser.add_argument("--autoplay-mode", type=str,
-                        choices=["manual", "suggest", "autoplay", "director", "replay"],
-                        help="Autoplay mode")
-    parser.add_argument("--autoplay-style", type=str,
-                        choices=["preservationist", "revolutionary", "manipulator", "mystic", "technocrat"],
-                        help="Autoplayer style")
+    parser.add_argument(
+        "--autoplay",
+        action="store_true",
+        help="Use AutoPlayer (automatic decisions). Default: HumanPlayer",
+    )
+    parser.add_argument(
+        "--autoplay-mode",
+        type=str,
+        choices=["manual", "suggest", "autoplay", "director", "replay"],
+        help="Autoplay mode",
+    )
+    parser.add_argument(
+        "--autoplay-style",
+        type=str,
+        choices=["preservationist", "revolutionary", "manipulator", "mystic", "technocrat"],
+        help="Autoplayer style",
+    )
     parser.add_argument("--run-dir", type=str, help="Run directory for logs")
-    parser.add_argument("--ai-adapter", type=str,
-                        choices=["mock", "openai", "minimax"],
-                        help="AI adapter to use")
+    parser.add_argument(
+        "--ai-adapter", type=str, choices=["mock", "openai", "minimax"], help="AI adapter to use"
+    )
     parser.add_argument("--lang", type=str, choices=["es", "en"], help="Language")
-    parser.add_argument("--civ", type=str,
-                        choices=["default", "technocracy", "theocracy", "anarchist_utopia", "dark_ages"],
-                        default="default", help="Civilization template to use")
+    parser.add_argument(
+        "--civ",
+        type=str,
+        choices=["default", "technocracy", "theocracy", "anarchist_utopia", "dark_ages"],
+        default="default",
+        help="Civilization template to use",
+    )
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     parser.add_argument("--headless", action="store_true", help="No console output")
     parser.add_argument("--no-layout", action="store_true", help="Disable adaptive layout")

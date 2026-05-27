@@ -1,6 +1,7 @@
 """
 Ideas factory — creates Ideas entities for Echo and Circle use.
 """
+
 from __future__ import annotations
 
 import uuid

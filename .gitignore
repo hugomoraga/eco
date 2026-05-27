@@ -70,3 +70,4 @@ package-lock.json
 *.temp
 .tmp/
 tmp/
+.env

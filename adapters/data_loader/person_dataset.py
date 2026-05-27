@@ -1,12 +1,14 @@
 """
 PersonDataset — loads archetype persons from data/world/persons/*.yaml
 """
+
 from __future__ import annotations
 
-import yaml
 from pathlib import Path
 
-from core.domain import Person, EssenceProfile, EssenceScore
+import yaml
+
+from core.domain import EssenceProfile, EssenceScore, Person
 
 
 def load_person_dataset(persons_dir: str = "data/world/persons") -> list[Person]:
@@ -47,7 +49,9 @@ def _yaml_to_person(data: dict) -> Person | None:
 
     underlying = []
     for e in essence_data.get("underlying", []):
-        underlying.append(EssenceScore(essence=e.get("essence", ""), value=float(e.get("value", 0))))
+        underlying.append(
+            EssenceScore(essence=e.get("essence", ""), value=float(e.get("value", 0)))
+        )
 
     essence_profile = EssenceProfile(dominant=dominant, underlying=underlying)
 
@@ -68,15 +72,20 @@ def _yaml_to_person(data: dict) -> Person | None:
     )
 
 
-def get_persons_by_archetype(archetype: str, persons_dir: str = "data/world/persons") -> list[Person]:
+def get_persons_by_archetype(
+    archetype: str, persons_dir: str = "data/world/persons"
+) -> list[Person]:
     """Get persons matching a specific archetype tag."""
     all_persons = load_person_dataset(persons_dir)
     return [p for p in all_persons if archetype in p.archetype.split(",")]
 
 
-def get_random_persons(count: int, persons_dir: str = "data/world/persons", seed: int = 42) -> list[Person]:
+def get_random_persons(
+    count: int, persons_dir: str = "data/world/persons", seed: int = 42
+) -> list[Person]:
     """Get a random sample of persons from the dataset."""
     import random
+
     all_persons = load_person_dataset(persons_dir)
     random.seed(seed)
     return random.sample(all_persons, min(count, len(all_persons)))

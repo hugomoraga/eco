@@ -15,6 +15,7 @@ from infra.config.config import get_config
 @dataclass
 class GameConfig:
     """All game settings in one place."""
+
     seed: int
     max_turns: int
     player: Player | None
@@ -36,7 +37,9 @@ class GameConfig:
 
         seed = args.seed if args.seed is not None else cfg.simulation.seed
         max_turns = args.turns if args.turns is not None else cfg.simulation.max_turns
-        run_dir = Path(args.run_dir) if args.run_dir else (Path(cfg.run_dir) if cfg.run_dir else None)
+        run_dir = (
+            Path(args.run_dir) if args.run_dir else (Path(cfg.run_dir) if cfg.run_dir else None)
+        )
         ai_adapter_type = args.ai_adapter or cfg.ai.adapter
         civ_id = args.civ
         verbose = args.verbose or cfg.verbose
@@ -45,11 +48,13 @@ class GameConfig:
         autoplay = args.autoplay
         autoplay_mode = args.autoplay_mode or cfg.autoplay.default_mode
         autoplay_style = args.autoplay_style or cfg.autoplay.default_style
-        display_mode = "tui" if args.tui else ("layout" if autoplay and not no_layout else "console")
+        display_mode = (
+            "tui" if args.tui else ("layout" if autoplay and not no_layout else "console")
+        )
 
-        from core.application.players.human import HumanPlayer
-        from core.application.players.auto import AutoPlayer
         from adapters.tui.selector import Selector
+        from core.application.players.auto import AutoPlayer
+        from core.application.players.human import HumanPlayer
 
         if headless:
             player = None

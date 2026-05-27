@@ -54,9 +54,7 @@ class FactionTickSystem:
             "effect": effect,
         }
 
-    def _calculate_score(
-        self, faction: Faction, action: str, goal: str, world: World
-    ) -> float:
+    def _calculate_score(self, faction: Faction, action: str, goal: str, world: World) -> float:
         from core.application.processors.pressure import DerivePressureCalculator, EconomyPressure
 
         goal_alignment = 50.0
@@ -75,8 +73,8 @@ class FactionTickSystem:
             - risk
         )
 
-        lineage = [i.to_semantic_key() for i in faction.ideas] if hasattr(faction, 'ideas') else []
-        dominant_essence = getattr(faction, 'essence', None)
+        lineage = [i.to_semantic_key() for i in faction.ideas] if hasattr(faction, "ideas") else []
+        dominant_essence = getattr(faction, "essence", None)
 
         material = EconomyPressure.calculate_material_pressure(world.resources)
         social = EconomyPressure.calculate_social_pressure(world)
@@ -135,9 +133,7 @@ class FactionTickSystem:
         }
         return risks.get(action, 30)
 
-    def _apply_action(
-        self, faction: Faction, action: str, world: World
-    ) -> dict:
+    def _apply_action(self, faction: Faction, action: str, world: World) -> dict:
         effect = {"changes": []}
 
         if action == "recruit_npc":

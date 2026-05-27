@@ -11,8 +11,8 @@ to dict for protocol transmission.
 
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
-from dataclasses import dataclass, asdict
+from abc import ABC
+from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import TYPE_CHECKING, Any
 
@@ -89,7 +89,11 @@ class TurnStartEvent(ProtocolEvent):
     world_state: dict = None
 
     def to_dict(self) -> dict[str, Any]:
-        return {"type": self.message_type.value, "turn": self.turn, "world_state": self.world_state or {}}
+        return {
+            "type": self.message_type.value,
+            "turn": self.turn,
+            "world_state": self.world_state or {},
+        }
 
 
 @dataclass
@@ -253,25 +257,37 @@ class SimulationObserver(ABC):
     def on_action_selected(self, turn: int, action_name: str | None) -> ActionSelectedEvent | None:
         """Called when an action is selected (player or autoplay)."""
 
-    def on_action_result(self, turn: int, action_name: str, result: ActionResult) -> ActionResultEvent | None:
+    def on_action_result(
+        self, turn: int, action_name: str, result: ActionResult
+    ) -> ActionResultEvent | None:
         """Called after an action is executed with its result."""
 
-    def on_metric_changed(self, turn: int, metric: str, old_val: float, new_val: float) -> MetricChangedEvent | None:
+    def on_metric_changed(
+        self, turn: int, metric: str, old_val: float, new_val: float
+    ) -> MetricChangedEvent | None:
         """Called when a metric changes significantly."""
 
-    def on_event(self, turn: int, event_type: str, title: str, summary: str) -> GameEventData | None:
+    def on_event(
+        self, turn: int, event_type: str, title: str, summary: str
+    ) -> GameEventData | None:
         """Called when an event is generated (crisis, opportunity, etc.)."""
 
-    def on_circle_founded(self, turn: int, circle_name: str, members: int) -> CircleFoundedEvent | None:
+    def on_circle_founded(
+        self, turn: int, circle_name: str, members: int
+    ) -> CircleFoundedEvent | None:
         """Called when a circle is founded."""
 
     def on_npc_created(self, turn: int, npc_name: str, npc_role: str) -> NpcCreatedEvent | None:
         """Called when a new NPC is created."""
 
-    def on_npc_action(self, turn: int, npc_name: str, action: str, message: str) -> NpcActionEvent | None:
+    def on_npc_action(
+        self, turn: int, npc_name: str, action: str, message: str
+    ) -> NpcActionEvent | None:
         """Called when an NPC takes an action."""
 
-    def on_echo_spawned(self, turn: int, parent_name: str, daughter_name: str) -> EchoSpawnedEvent | None:
+    def on_echo_spawned(
+        self, turn: int, parent_name: str, daughter_name: str
+    ) -> EchoSpawnedEvent | None:
         """Called when a new echo is spawned."""
 
     def on_world_state(self, turn: int, world: World) -> WorldStateEvent | None:
@@ -280,10 +296,14 @@ class SimulationObserver(ABC):
     def on_crisis(self, turn: int, metric: str, value: float) -> CrisisEvent | None:
         """Called when a crisis threshold is crossed."""
 
-    def on_circle_activity(self, turn: int, circle_name: str, activity: str) -> CircleActivityEvent | None:
+    def on_circle_activity(
+        self, turn: int, circle_name: str, activity: str
+    ) -> CircleActivityEvent | None:
         """Called when a circle performs an activity."""
 
-    def on_reincarnation_complete(self, turn: int, new_host_name: str) -> ReincarnationCompleteEvent | None:
+    def on_reincarnation_complete(
+        self, turn: int, new_host_name: str
+    ) -> ReincarnationCompleteEvent | None:
         """Called when echo reincarnation process completes."""
 
 

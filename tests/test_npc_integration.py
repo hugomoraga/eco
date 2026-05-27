@@ -3,13 +3,12 @@ Integration tests for NPC Engine in adapter_core.
 
 Tests that verify NPC AI decision making works correctly.
 """
+
 from __future__ import annotations
 
-import pytest
-
-from core.application.processors.simulation import SimulationEngine
-from core.application.players.auto import AutoPlayer
 from adapters.autoplayer.npc_engine import NPCEngine, get_archetype_for_npc
+from core.application.players.auto import AutoPlayer
+from core.application.processors.simulation import SimulationEngine
 
 
 class TestNPCEngine:

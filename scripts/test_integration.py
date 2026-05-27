@@ -2,19 +2,20 @@
 Integration test for disconnected systems.
 Tests: DerivePressureCalculator, EventGenerator, EssenceEffects, create_npc
 """
+
 from __future__ import annotations
 
 import sys
 
-sys.path.insert(0, '.')
+sys.path.insert(0, ".")
 
-from infra.ai import MockAdapter
-from core.domain import Circle, Faction, World, WorldClock
-from core.domain.rules.essence_effects import EssenceEffects
-from core.factories import create_npc
 from core.application.processors.event_generator import EventGenerator
 from core.application.processors.event_pool import EventPool
 from core.application.processors.pressure import DerivePressureCalculator, EconomyPressure
+from core.domain import Circle, Faction, World, WorldClock
+from core.domain.rules.essence_effects import EssenceEffects
+from core.factories import create_npc
+from infra.ai import MockAdapter
 
 
 def test_derive_pressure_calculator():
@@ -91,13 +92,7 @@ def test_event_generator():
     """Test 3: EventGenerator fires events."""
     print("\n=== Test 3: EventGenerator ===")
 
-    world = World(
-        clock=WorldClock(),
-        factions=[],
-        circles=[],
-        echoes=[],
-        stability=50.0
-    )
+    world = World(clock=WorldClock(), factions=[], circles=[], echoes=[], stability=50.0)
 
     ai_adapter = MockAdapter()
     pool = EventPool()
@@ -134,7 +129,7 @@ def test_npc_generator():
         name="Test Circle",
         essence="anarchism",
         member_ids=["echo1", "echo2", "echo3"],
-        npcs=[]
+        npcs=[],
     )
 
     print(f"  Circle: {circle.name}")
@@ -144,7 +139,9 @@ def test_npc_generator():
     # Check threshold
     threshold = 3
     if circle.member_count >= threshold:
-        npc = create_npc(ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=42)
+        npc = create_npc(
+            ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=42
+        )
         circle.npcs.append(npc.id)
         print(f"  Generated NPC: {npc.name} (ID: {npc.id})")
         print(f"  NPCs after: {len(circle.npcs)}")
@@ -164,22 +161,13 @@ def test_full_integration():
         name="Test Faction",
         essence="anarchism",
         influence=50.0,
-        resources={"food": 50, "infrastructure": 30, "energy": 20}
+        resources={"food": 50, "infrastructure": 30, "energy": 20},
     )
 
-    circle = Circle(
-        id="test_circle",
-        name="Test Circle",
-        essence="anarchism",
-        members=3
-    )
+    circle = Circle(id="test_circle", name="Test Circle", essence="anarchism", members=3)
 
     world = World(
-        clock=WorldClock(),
-        factions=[faction],
-        circles=[circle],
-        echoes=[],
-        stability=50.0
+        clock=WorldClock(), factions=[faction], circles=[circle], echoes=[], stability=50.0
     )
 
     print(f"  World: {len(world.factions)} factions, {len(world.circles)} circles")
@@ -208,7 +196,9 @@ def test_full_integration():
     # 3. Check NPC
     threshold = 3
     if circle.member_count >= threshold:
-        npc = create_npc(ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=42)
+        npc = create_npc(
+            ai_adapter, {"essence": circle.essence, "context": "circle_growth"}, seed=42
+        )
         circle.npcs.append(npc.id)
         print(f"  NPC created: {npc.name}")
 
@@ -237,5 +227,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nERROR: {e}")
         import traceback
+
         traceback.print_exc()
         sys.exit(1)

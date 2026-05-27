@@ -1,21 +1,18 @@
 """
 Tests for game_core.factory.goal_factory module.
 """
+
 from __future__ import annotations
 
-import pytest
 from core.domain import Person, World, WorldClock
+from core.domain.rules.goals import (
+    GoalType,
+    ProgressGoal,
+)
 from core.factories.goal_factory import (
-    GoalFactory,
     GOAL_TEMPLATES,
     PLAYER_GOAL_POOL,
-)
-from core.domain.rules.goals import (
-    ProgressGoal,
-    MaintainGoal,
-    AccumulateGoal,
-    SurviveGoal,
-    GoalType,
+    GoalFactory,
 )
 
 
@@ -58,7 +55,12 @@ class TestGoalFactoryCreateNpcGoal:
         npc = Person(id="npc_2", name="Test Warrior", archetype="warrior", type="npc")
         goal = GoalFactory.create_npc_goal(npc, turn_limit=20, seed=42)
         assert goal is not None
-        assert goal.goal_type in [GoalType.PROGRESS, GoalType.MAINTAIN, GoalType.ACCUMULATE, GoalType.SURVIVE]
+        assert goal.goal_type in [
+            GoalType.PROGRESS,
+            GoalType.MAINTAIN,
+            GoalType.ACCUMULATE,
+            GoalType.SURVIVE,
+        ]
 
     def test_creates_goal_for_neutral_archetype(self):
         npc = Person(id="npc_3", name="Test Neutral", archetype="neutral", type="npc")

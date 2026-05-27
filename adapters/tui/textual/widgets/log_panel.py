@@ -1,7 +1,7 @@
 """Log panel widget."""
 
-from textual.widgets import RichLog
 from textual.events import Click
+from textual.widgets import RichLog
 
 
 class LogPanel(RichLog):
@@ -13,5 +13,5 @@ class LogPanel(RichLog):
 
     def on_click(self, event: Click) -> None:
         app = self.app
-        if hasattr(app, '_log_text') and app._log_text:
+        if hasattr(app, "_log_text") and app._log_text:
             app.copy_to_clipboard(app._log_text)

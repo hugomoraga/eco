@@ -1,16 +1,15 @@
 """
 Tests for game_core.factory functions.
 """
+
 from __future__ import annotations
 
 import pytest
 
 from core.domain import (
     Circle,
-    Echo,
     EchoPhase,
     NPCPerson,
-    Person,
     PlayerPerson,
     World,
 )
@@ -38,6 +37,7 @@ class TestCreateEcho:
 
     def test_create_echo_with_attributes(self):
         from core.domain import EchoAttribute
+
         attrs = [EchoAttribute(label="clarity", value=80.0)]
         echo = create_echo(name="Att Echo", essence="technocracy", attributes=attrs)
         assert echo.get_attribute("clarity").value == 80.0

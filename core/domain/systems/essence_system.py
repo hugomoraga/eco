@@ -10,17 +10,8 @@ Implements spec-47 mechanics:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
 
 from core.domain.entities.ideas import EssenceProfile, EssenceScore
-
-if TYPE_CHECKING:
-    from core.domain.entities.person import Person
-    from core.domain.entities.host import Host
-    from core.domain.entities.echo import Echo
-    from core.domain.entities.circle import Circle
-    from core.domain.entities.faction import Faction
-
 
 ACTION_ESSENCE_MODIFIERS: dict[str, dict[str, float]] = {
     "write_manifesto": {"thelema": 5, "individualism": 3, "monoteism": -2, "collectivism": -2},
@@ -107,7 +98,11 @@ class EssenceSystem:
         return EssenceProfile(dominant=new_dominant, underlying=new_underlying)
 
     def _decrease_essence(
-        self, dominant: list[EssenceScore], underlying: list[EssenceScore], essence: str, amount: float
+        self,
+        dominant: list[EssenceScore],
+        underlying: list[EssenceScore],
+        essence: str,
+        amount: float,
     ) -> None:
         for s in dominant:
             if s.essence == essence:
@@ -122,7 +117,11 @@ class EssenceSystem:
                 return
 
     def _increase_essence(
-        self, dominant: list[EssenceScore], underlying: list[EssenceScore], essence: str, amount: float
+        self,
+        dominant: list[EssenceScore],
+        underlying: list[EssenceScore],
+        essence: str,
+        amount: float,
     ) -> None:
         for s in dominant:
             if s.essence == essence:
@@ -147,21 +146,27 @@ class EssenceSystem:
                     return
             underlying.append(EssenceScore(essence=essence, value=amount))
 
-    def _move_to_underlying(self, dominant: list[EssenceScore], underlying: list[EssenceScore], essence: str) -> None:
+    def _move_to_underlying(
+        self, dominant: list[EssenceScore], underlying: list[EssenceScore], essence: str
+    ) -> None:
         for i, s in enumerate(dominant):
             if s.essence == essence:
                 dominant.pop(i)
                 underlying.append(EssenceScore(essence=essence, value=s.value))
                 break
 
-    def _move_to_dominant(self, dominant: list[EssenceScore], underlying: list[EssenceScore], essence: str) -> None:
+    def _move_to_dominant(
+        self, dominant: list[EssenceScore], underlying: list[EssenceScore], essence: str
+    ) -> None:
         for i, s in enumerate(underlying):
             if s.essence == essence:
                 underlying.pop(i)
                 dominant.append(s)
                 break
 
-    def _crystallize(self, dominant: list[EssenceScore], underlying: list[EssenceScore], essence: str) -> None:
+    def _crystallize(
+        self, dominant: list[EssenceScore], underlying: list[EssenceScore], essence: str
+    ) -> None:
         weakest = min(dominant, key=lambda s: s.value)
         if weakest.essence != essence:
             self._move_to_underlying(dominant, underlying, weakest.essence)
@@ -170,14 +175,18 @@ class EssenceSystem:
                     s.value = CRYSTALLIZATION_THRESHOLD
                     break
 
-    def _normalize_profile(self, dominant: list[EssenceScore], underlying: list[EssenceScore]) -> None:
+    def _normalize_profile(
+        self, dominant: list[EssenceScore], underlying: list[EssenceScore]
+    ) -> None:
         total = sum(s.value for s in dominant)
         if total > 100:
             factor = 100.0 / total
             for s in dominant:
                 s.value *= factor
 
-    def _apply_threshold_rules(self, dominant: list[EssenceScore], underlying: list[EssenceScore]) -> None:
+    def _apply_threshold_rules(
+        self, dominant: list[EssenceScore], underlying: list[EssenceScore]
+    ) -> None:
         for s in dominant[:]:
             if s.value < MIN_DOMINANT_THRESHOLD:
                 self._move_to_underlying(dominant, underlying, s.essence)
@@ -186,7 +195,9 @@ class EssenceSystem:
             if s.value >= MIN_UNDERLYING_FOR_DOMINANT and len(dominant) < MAX_DOMINANT_COUNT:
                 self._move_to_dominant(dominant, underlying, s.essence)
 
-    def compatible(self, person: EssenceProfile, host: EssenceProfile, min_affinity: float = 60.0) -> bool:
+    def compatible(
+        self, person: EssenceProfile, host: EssenceProfile, min_affinity: float = 60.0
+    ) -> bool:
         """
         Check if person is compatible with host for circle formation.
 
@@ -236,7 +247,6 @@ class EssenceSystem:
 
         Returns faction key or None if no clear match.
         """
-        from core.domain.registries.essence_registry import EssenceRegistry
 
         if not entity.dominant:
             return None

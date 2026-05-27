@@ -1,6 +1,7 @@
 """
 NPC factory — creates NPC entities.
 """
+
 from __future__ import annotations
 
 import os
@@ -9,8 +10,8 @@ from typing import TYPE_CHECKING
 
 import yaml
 
-from core.domain import EssenceProfile, EssenceScore, Person
 from core.application.processors.random import SeededRandom
+from core.domain import EssenceProfile, EssenceScore, Person
 
 if TYPE_CHECKING:
     from core.ai.base import AIAdapter

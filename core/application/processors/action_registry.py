@@ -16,7 +16,6 @@ from core.application.actions.social_actions import (
     Talk,
 )
 
-
 ACTION_CLASSES: dict[str, type] = {
     "found_circle": FoundCircle,
     "join_circle": JoinCircle,

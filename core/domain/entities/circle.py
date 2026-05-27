@@ -8,8 +8,8 @@ import uuid
 
 from pydantic import BaseModel, Field
 
-from core.domain.enums import CircleStatus, CircleEventType
 from core.domain.entities.ideas import Ideas
+from core.domain.enums import CircleEventType, CircleStatus
 
 
 class CircleEvent(BaseModel):

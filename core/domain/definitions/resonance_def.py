@@ -6,10 +6,10 @@ Static data - loaded once and cached.
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import ClassVar
 
 import yaml
-from pathlib import Path
 
 
 class ResonanceDef:
@@ -18,6 +18,7 @@ class ResonanceDef:
 
     Static data - loaded once and cached.
     """
+
     _cache: ClassVar[dict[str, ResonanceDef] | None] = None
     _affinity_cache: ClassVar[dict[str, dict[str, str]] | None] = None
     _affinity_values: ClassVar[dict[str, int]] = {
@@ -30,7 +31,9 @@ class ResonanceDef:
         "INCOMPATIBLE": -75,
     }
 
-    def __init__(self, resonance_id: str, name: str, description: str, attributes: dict[str, float]):
+    def __init__(
+        self, resonance_id: str, name: str, description: str, attributes: dict[str, float]
+    ):
         self.id = resonance_id
         self.name = name
         self.description = description

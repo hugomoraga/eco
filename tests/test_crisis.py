@@ -1,18 +1,18 @@
 """
 Tests for game_core.domain.crisis module.
 """
+
 from __future__ import annotations
 
-import pytest
 from core.domain.rules.crisis import (
-    CrisisType,
-    CrisisEffect,
-    Crisis,
-    get_random_crisis,
-    create_crisis,
-    should_trigger_crisis,
-    format_crisis_narrative,
     CRISIS_DATA,
+    Crisis,
+    CrisisEffect,
+    CrisisType,
+    create_crisis,
+    format_crisis_narrative,
+    get_random_crisis,
+    should_trigger_crisis,
 )
 
 

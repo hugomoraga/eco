@@ -4,9 +4,7 @@ test_definitions.py — Tests for definition wrappers.
 
 from __future__ import annotations
 
-import pytest
-
-from core.domain.definitions import ResonanceDef, ActionDef, CivTemplate
+from core.domain.definitions import ActionDef, CivTemplate, ResonanceDef
 
 
 class TestResonanceDef:

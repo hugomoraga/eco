@@ -1,10 +1,11 @@
 """
 Echo factory — creates Echo entities.
 """
+
 from __future__ import annotations
 
-from core.domain import Echo, EchoAttribute, EchoPhase, EssenceProfile, EssenceScore
 from core.application.processors.random import SeededRandom
+from core.domain import Echo, EchoAttribute, EchoPhase, EssenceProfile, EssenceScore
 
 
 def create_echo(

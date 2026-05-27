@@ -88,6 +88,7 @@ def audit_essences():
 
     try:
         import yaml
+
         with open(essences_file) as f:
             essences = yaml.safe_load(f)
     except ModuleNotFoundError:
@@ -139,7 +140,11 @@ def audit_actions():
 
         # Check for action classes/functions
         for action in required_actions:
-            found = action in base_content or action in echo_file.read_text() if echo_file.exists() else False
+            found = (
+                action in base_content or action in echo_file.read_text()
+                if echo_file.exists()
+                else False
+            )
             checks.append((f"action: {action}", found))
     else:
         checks.append(("base.py exists", False))
@@ -229,9 +234,9 @@ def audit_reproducibility():
 
 
 def main():
-    print(f"\n{BOLD}{'='*60}")
+    print(f"\n{BOLD}{'=' * 60}")
     print("MVP 0 Audit - spec-16 requirements")
-    print(f"{'='*60}{RESET}")
+    print(f"{'=' * 60}{RESET}")
 
     os.chdir(Path(__file__).parent.parent)
 
@@ -246,9 +251,9 @@ def main():
         "Reproducibility": audit_reproducibility(),
     }
 
-    print(f"\n{BOLD}{'='*60}")
+    print(f"\n{BOLD}{'=' * 60}")
     print("SUMMARY")
-    print(f"{'='*60}{RESET}")
+    print(f"{'=' * 60}{RESET}")
 
     passed = sum(1 for v in results.values() if v)
     total = len(results)

@@ -45,11 +45,11 @@ def calculate_damage(
 
     if defender_circle_count > 0:
         defense_reduction = min(0.3, defender_circle_count * 0.1)
-        final_damage *= (1 - defense_reduction)
+        final_damage *= 1 - defense_reduction
 
     if defender_influence > 0:
         defense_bonus = (defender_influence / 100) * 0.2
-        final_damage *= (1 - defense_bonus)
+        final_damage *= 1 - defense_bonus
 
     return min(final_damage, 100), is_critical
 
@@ -57,6 +57,7 @@ def calculate_damage(
 def _roll_critical() -> bool:
     """Roll for critical hit."""
     import random
+
     return random.random() < 0.1
 
 

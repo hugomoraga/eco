@@ -1,8 +1,8 @@
 """Metrics panel widget."""
 
 from textual.widgets import Static
-from adapters.tui.textual.colors import YELLOW, GREEN, CYAN, DIM, RED
 
+from adapters.tui.textual.colors import CYAN, GREEN, RED, YELLOW
 
 MAX_BAR_WIDTH = 12
 
@@ -23,7 +23,12 @@ def make_metrics_content(
     pressure_bar = _make_bar(pressure, max_val, MAX_BAR_WIDTH, YELLOW)
     legit_bar = _make_bar(legitimacy, max_val, MAX_BAR_WIDTH, GREEN)
     resources_bar = _make_bar(resources, max_val, MAX_BAR_WIDTH, CYAN)
-    stab_bar = _make_bar(stability, max_val, MAX_BAR_WIDTH, GREEN if stability > 60 else YELLOW if stability > 30 else RED)
+    stab_bar = _make_bar(
+        stability,
+        max_val,
+        MAX_BAR_WIDTH,
+        GREEN if stability > 60 else YELLOW if stability > 30 else RED,
+    )
 
     return (
         f"[bold]Pressure:[/bold] {pressure_bar} [{YELLOW}]{pressure:.0f}[/{YELLOW}]\n"

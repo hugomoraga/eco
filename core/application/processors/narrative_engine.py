@@ -4,13 +4,8 @@ from __future__ import annotations
 
 import random
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 import yaml
-
-if TYPE_CHECKING:
-    from core.domain import Echo, Person
-    from core.ai.base import AIAdapter
 
 from adapters.i18n import get_lang
 
@@ -58,7 +53,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} gathered followers and founded a new circle",
                     "{actor} established a gathering around shared beliefs",
-                ]
+                ],
             },
             "join_circle": {
                 "es": [
@@ -68,7 +63,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} joined an existing circle",
                     "{actor} became part of a circle",
-                ]
+                ],
             },
             "propagate_idea": {
                 "es": [
@@ -78,7 +73,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} spread ideas to those willing to listen",
                     "{actor} whispered concepts that challenged the norm",
-                ]
+                ],
             },
             "spread_rumor": {
                 "es": [
@@ -88,7 +83,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} spread rumors through the streets",
                     "{actor} whispered half-truths that gained traction",
-                ]
+                ],
             },
             "recruit_follower": {
                 "es": [
@@ -98,7 +93,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} recruited a new follower to the cause",
                     "{actor} convinced someone to join",
-                ]
+                ],
             },
             "negotiate": {
                 "es": [
@@ -108,7 +103,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} negotiated a deal",
                     "{actor} brokered an agreement",
-                ]
+                ],
             },
             "ritual": {
                 "es": [
@@ -118,7 +113,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} performed a powerful ritual",
                     "{actor} channeled energy through ancient forms",
-                ]
+                ],
             },
             "ritualize": {
                 "es": [
@@ -128,7 +123,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} completed a ritual",
                     "{actor} performed ceremonial actions",
-                ]
+                ],
             },
             "sabotage": {
                 "es": [
@@ -138,7 +133,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} sabotaged infrastructure",
                     "{actor} disrupted operations",
-                ]
+                ],
             },
             "talk": {
                 "es": [
@@ -148,7 +143,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} spoke with those nearby",
                     "{actor} engaged in conversation",
-                ]
+                ],
             },
             "write_manifesto": {
                 "es": [
@@ -158,7 +153,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} wrote down their beliefs",
                     "{actor} documented their philosophy",
-                ]
+                ],
             },
             "leave_circle": {
                 "es": [
@@ -168,7 +163,7 @@ class NarrativeEngine:
                 "en": [
                     "{actor} left their circle",
                     "{actor} walked away from the group",
-                ]
+                ],
             },
         }
 
@@ -196,7 +191,9 @@ class NarrativeEngine:
         """Get a pre-generated narrative."""
         if action in self.templates and self.language in self.templates[action]:
             templates = self.templates[action][self.language]
-        elif action in self._fallback_templates and self.language in self._fallback_templates[action]:
+        elif (
+            action in self._fallback_templates and self.language in self._fallback_templates[action]
+        ):
             templates = self._fallback_templates[action][self.language]
         else:
             templates = self._fallback_templates.get(action, {}).get("en", [])
@@ -222,7 +219,9 @@ class NarrativeEngine:
             prompt = self._build_ai_prompt(action, actor_name, target_name, context)
             response = self.ai_adapter.generate_narrative(prompt)
             if response and response.success:
-                return response.data.get("narrative", self._get_pre_generated_narrative(action, actor_name, context))
+                return response.data.get(
+                    "narrative", self._get_pre_generated_narrative(action, actor_name, context)
+                )
         except Exception:
             pass
 

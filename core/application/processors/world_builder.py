@@ -4,8 +4,8 @@ world_builder.py — World creation and initialization.
 
 from __future__ import annotations
 
-from core.domain.entities.world import World
 from core.application.processors.random import SeededRandom
+from core.domain.entities.world import World
 
 
 def build_initial_world(
@@ -79,8 +79,14 @@ def build_initial_world(
         resources_global=selected_civ.resources_global if selected_civ else 70.0,
         crisis_threshold=selected_civ.crisis_threshold if selected_civ else 75.0,
         collapse_threshold=selected_civ.collapse_threshold if selected_civ else 15.0,
-        resources=selected_civ.resources if selected_civ else {
-            "food": 80, "infrastructure": 60, "energy": 50, "knowledge": 50, "legitimacy": 60,
+        resources=selected_civ.resources
+        if selected_civ
+        else {
+            "food": 80,
+            "infrastructure": 60,
+            "energy": 50,
+            "knowledge": 50,
+            "legitimacy": 60,
         },
     )
 

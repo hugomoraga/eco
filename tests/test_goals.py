@@ -1,16 +1,14 @@
 """
 Tests for game_core.domain.goals module.
 """
+
 from __future__ import annotations
 
-import pytest
-from core.domain import World, WorldClock, Circle, CircleStatus, Echo
+from core.domain import Circle, CircleStatus, World, WorldClock
 from core.domain.rules.goals import (
-    Goal,
-    GoalType,
-    ProgressGoal,
-    MaintainGoal,
     AccumulateGoal,
+    MaintainGoal,
+    ProgressGoal,
     SurviveGoal,
 )
 

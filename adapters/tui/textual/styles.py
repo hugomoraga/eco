@@ -4,12 +4,17 @@ SCREEN_BG = "#0a0a12"
 PANEL_BG = "#0f0f1f"
 ACCENT = "cyan"
 
-CSS = """
-Screen { background: """ + SCREEN_BG + """; }
+CSS = (
+    """
+Screen { background: """
+    + SCREEN_BG
+    + """; }
 
 #header-bar {
     height: 3;
-    background: """ + PANEL_BG + """;
+    background: """
+    + PANEL_BG
+    + """;
     border-bottom: heavy cyan;
 }
 
@@ -31,15 +36,23 @@ Screen { background: """ + SCREEN_BG + """; }
 
 #echo-section {
     height: 14;
-    background: """ + PANEL_BG + """;
-    border: round """ + ACCENT + """ 40%;
-    border-title-color: """ + ACCENT + """;
+    background: """
+    + PANEL_BG
+    + """;
+    border: round """
+    + ACCENT
+    + """ 40%;
+    border-title-color: """
+    + ACCENT
+    + """;
     border-title-align: right;
     overflow: hidden;
 }
 
 #civ-section {
-    background: """ + PANEL_BG + """;
+    background: """
+    + PANEL_BG
+    + """;
     border: round magenta 40%;
     border-title-color: magenta;
     border-title-align: right;
@@ -48,7 +61,9 @@ Screen { background: """ + SCREEN_BG + """; }
 
 #metrics-section {
     height: 14;
-    background: """ + PANEL_BG + """;
+    background: """
+    + PANEL_BG
+    + """;
     border: round yellow 40%;
     border-title-color: yellow;
     border-title-align: right;
@@ -57,7 +72,9 @@ Screen { background: """ + SCREEN_BG + """; }
 
 #log-section {
     height: 1fr;
-    background: """ + PANEL_BG + """;
+    background: """
+    + PANEL_BG
+    + """;
     border: round green 40%;
     border-title-color: green;
     border-title-align: right;
@@ -65,7 +82,9 @@ Screen { background: """ + SCREEN_BG + """; }
 
 #action-bar {
     height: 4;
-    background: """ + PANEL_BG + """;
+    background: """
+    + PANEL_BG
+    + """;
     border-top: heavy yellow;
 }
 
@@ -75,6 +94,7 @@ Screen { background: """ + SCREEN_BG + """; }
 
 Footer { dock: bottom; }
 """
+)
 
 COLORS = {
     "cyan": "cyan",
@@ -86,5 +106,13 @@ COLORS = {
     "dim": "dim",
 }
 
-ACTIONS = ["found_circle", "write_manifesto", "propagate_idea", "talk",
-           "sabotage", "ritualize", "join_circle", "leave_circle"]
+ACTIONS = [
+    "found_circle",
+    "write_manifesto",
+    "propagate_idea",
+    "talk",
+    "sabotage",
+    "ritualize",
+    "join_circle",
+    "leave_circle",
+]

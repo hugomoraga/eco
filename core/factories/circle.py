@@ -5,6 +5,7 @@ Replaces:
 - game_core/circle/circle_manager.py
 - game_core/circle/name_generator.py
 """
+
 from __future__ import annotations
 
 import random
@@ -20,81 +21,177 @@ if TYPE_CHECKING:
 # ─────────────────────────────────────────────────────────────────────────────
 
 ADJECTIVES_POOL = [
-    "First", "Burning", "Silent", "Wandering", "Echoing",
-    "Hidden", "Crimson", "Silver", "Ancient", "New",
-    "Radiant", "Shadowed", "Vigilant", "Free", "Bound",
+    "First",
+    "Burning",
+    "Silent",
+    "Wandering",
+    "Echoing",
+    "Hidden",
+    "Crimson",
+    "Silver",
+    "Ancient",
+    "New",
+    "Radiant",
+    "Shadowed",
+    "Vigilant",
+    "Free",
+    "Bound",
 ]
 
 NOUNS_POOL = [
-    "Echo", "Garden", "Flame", "Voice", "Root",
-    "Threshold", "Memory", "Path", "Mirror", "Stone",
-    "Signal", "Tide", "Vision", "Command", "Synergy",
+    "Echo",
+    "Garden",
+    "Flame",
+    "Voice",
+    "Root",
+    "Threshold",
+    "Memory",
+    "Path",
+    "Mirror",
+    "Stone",
+    "Signal",
+    "Tide",
+    "Vision",
+    "Command",
+    "Synergy",
 ]
 
 ESSENCE_TEMPLATES_EN = {
     "anarchism": [
-        "Circle of the Free", "Circle of Autonomy", "Circle of the Syndicate",
-        "Circle of No Masters", "Circle of the Liberated", "Circle of the Horizontal",
+        "Circle of the Free",
+        "Circle of Autonomy",
+        "Circle of the Syndicate",
+        "Circle of No Masters",
+        "Circle of the Liberated",
+        "Circle of the Horizontal",
     ],
     "collectivism": [
-        "Circle of the Commons", "Circle of the Collective", "Circle of Solidarity",
-        "Circle of United Voices", "Circle of the Many", "Circle of Together",
+        "Circle of the Commons",
+        "Circle of the Collective",
+        "Circle of Solidarity",
+        "Circle of United Voices",
+        "Circle of the Many",
+        "Circle of Together",
     ],
     "technocracy": [
-        "Circle of the Protocol", "Circle of the Network", "Circle of Systems",
-        "Circle of the Engineers", "Circle of the Efficient", "Circle of the Optimized",
+        "Circle of the Protocol",
+        "Circle of the Network",
+        "Circle of Systems",
+        "Circle of the Engineers",
+        "Circle of the Efficient",
+        "Circle of the Optimized",
     ],
     "absurdism": [
-        "Circle of the Laughing Void", "Circle of Paradox", "Circle of the Unreasonable",
-        "Circle of the Absurd", "Circle of the Inconsistent", "Circle of the Silly",
+        "Circle of the Laughing Void",
+        "Circle of Paradox",
+        "Circle of the Unreasonable",
+        "Circle of the Absurd",
+        "Circle of the Inconsistent",
+        "Circle of the Silly",
     ],
     "thelema": [
-        "Circle of Will", "Circle of the Star", "Circle of Destiny",
-        "Circle of the Initiated", "Circle of Magick", "Circle of True Will",
+        "Circle of Will",
+        "Circle of the Star",
+        "Circle of Destiny",
+        "Circle of the Initiated",
+        "Circle of Magick",
+        "Circle of True Will",
     ],
     "ecology": [
-        "Circle of the Living Earth", "Circle of Balance", "Circle of Cycles",
-        "Circle of the Root Network", "Circle of Sustainability", "Circle of the Green",
+        "Circle of the Living Earth",
+        "Circle of Balance",
+        "Circle of Cycles",
+        "Circle of the Root Network",
+        "Circle of Sustainability",
+        "Circle of the Green",
     ],
 }
 
 ESSENCE_TEMPLATES_ES = {
     "anarchism": [
-        "Círculo de los Libres", "Círculo de la Autonomía", "Círculo del Sindicalismo",
-        "Círculo Sin Amos", "Círculo de los Liberados", "Círculo de lo Horizontal",
+        "Círculo de los Libres",
+        "Círculo de la Autonomía",
+        "Círculo del Sindicalismo",
+        "Círculo Sin Amos",
+        "Círculo de los Liberados",
+        "Círculo de lo Horizontal",
     ],
     "collectivism": [
-        "Círculo de los Comunes", "Círculo de la Colectividad", "Círculo de la Solidaridad",
-        "Círculo de Voces Unidas", "Círculo de los Muchos", "Círculo de la Unión",
+        "Círculo de los Comunes",
+        "Círculo de la Colectividad",
+        "Círculo de la Solidaridad",
+        "Círculo de Voces Unidas",
+        "Círculo de los Muchos",
+        "Círculo de la Unión",
     ],
     "technocracy": [
-        "Círculo del Protocolo", "Círculo de la Red", "Círculo de los Sistemas",
-        "Círculo de los Ingenieros", "Círculo de lo Eficiente", "Círculo de lo Optimizado",
+        "Círculo del Protocolo",
+        "Círculo de la Red",
+        "Círculo de los Sistemas",
+        "Círculo de los Ingenieros",
+        "Círculo de lo Eficiente",
+        "Círculo de lo Optimizado",
     ],
     "absurdism": [
-        "Círculo de la Nada Riente", "Círculo de la Paradoja", "Círculo de lo Irrazonable",
-        "Círculo de lo Absurdo", "Círculo de lo Inconsistente", "Círculo de lo Ridículo",
+        "Círculo de la Nada Riente",
+        "Círculo de la Paradoja",
+        "Círculo de lo Irrazonable",
+        "Círculo de lo Absurdo",
+        "Círculo de lo Inconsistente",
+        "Círculo de lo Ridículo",
     ],
     "thelema": [
-        "Círculo de la Voluntad", "Círculo de la Estrella", "Círculo del Destino",
-        "Círculo de los Iniciados", "Círculo de la Magia", "Círculo de la Voluntad Verdadera",
+        "Círculo de la Voluntad",
+        "Círculo de la Estrella",
+        "Círculo del Destino",
+        "Círculo de los Iniciados",
+        "Círculo de la Magia",
+        "Círculo de la Voluntad Verdadera",
     ],
     "ecology": [
-        "Círculo de la Tierra Viva", "Círculo del Equilibrio", "Círculo de los Ciclos",
-        "Círculo de la Red de Raíces", "Círculo de la Sostenibilidad", "Círculo de lo Verde",
+        "Círculo de la Tierra Viva",
+        "Círculo del Equilibrio",
+        "Círculo de los Ciclos",
+        "Círculo de la Red de Raíces",
+        "Círculo de la Sostenibilidad",
+        "Círculo de lo Verde",
     ],
 }
 
 ADJECTIVES_POOL_ES = [
-    "Primero", "Ardiente", "Silencioso", "Errante", "Resonante",
-    "Oculto", "Carmesí", "Plateado", "Antiguo", "Nuevo",
-    "Radiante", "Sombrío", "Vigilante", "Libre", "Atado",
+    "Primero",
+    "Ardiente",
+    "Silencioso",
+    "Errante",
+    "Resonante",
+    "Oculto",
+    "Carmesí",
+    "Plateado",
+    "Antiguo",
+    "Nuevo",
+    "Radiante",
+    "Sombrío",
+    "Vigilante",
+    "Libre",
+    "Atado",
 ]
 
 NOUNS_POOL_ES = [
-    "Eco", "Jardín", "Llama", "Voz", "Raíz",
-    "Umbral", "Memoria", "Camino", "Espejo", "Piedra",
-    "Señal", "Marea", "Visión", "Mando", "Sinergia",
+    "Eco",
+    "Jardín",
+    "Llama",
+    "Voz",
+    "Raíz",
+    "Umbral",
+    "Memoria",
+    "Camino",
+    "Espejo",
+    "Piedra",
+    "Señal",
+    "Marea",
+    "Visión",
+    "Mando",
+    "Sinergia",
 ]
 
 ESSENCE_TEMPLATES = ESSENCE_TEMPLATES_EN
@@ -121,6 +218,7 @@ def _get_fallback_prefix(lang: str) -> str:
 def generate_unique_circle_name(essence: str, existing_circles: list[Circle]) -> str:
     """Generate a name unique among existing circles."""
     from adapters.i18n import get_lang
+
     lang = get_lang()
     templates = _get_templates_for_lang(lang).get(essence, [])
     used_names = {c.name for c in existing_circles if c.name}
@@ -150,6 +248,7 @@ def generate_circle_name_with_fallback(
 ) -> str:
     """Generate circle name with template or fallback."""
     from adapters.i18n import get_lang
+
     lang = get_lang()
     templates = _get_templates_for_lang(lang).get(essence, [])
 
@@ -189,12 +288,14 @@ def create_circle(
         influence=15.0,
     )
 
-    circle.history.append(CircleEvent(
-        type=CircleEventType.FOUNDED,
-        turn=founding_tick,
-        echo_id=echo.id,
-        details=f"Founded by {echo.name or 'First Echo'}",
-    ))
+    circle.history.append(
+        CircleEvent(
+            type=CircleEventType.FOUNDED,
+            turn=founding_tick,
+            echo_id=echo.id,
+            details=f"Founded by {echo.name or 'First Echo'}",
+        )
+    )
 
     world.circles.append(circle)
     echo.circles.append(circle.id)
@@ -206,6 +307,7 @@ def create_circle(
 # ─────────────────────────────────────────────────────────────────────────────
 # Lifecycle
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def process_circle_tick(circle: Circle, world: World, rng) -> list[str]:
     """Process a single world tick for a circle. Returns list of activities."""
@@ -249,10 +351,7 @@ def _attract_echo_to_circle(circle: Circle, world: World) -> str | None:
     from core.domain.enums import CircleEventType
     from core.domain.rules.essence_effects import EssenceEffects
 
-    candidates = [
-        e for e in world.echoes
-        if e.id not in circle.member_ids
-    ]
+    candidates = [e for e in world.echoes if e.id not in circle.member_ids]
 
     if not candidates:
         return None
@@ -269,12 +368,14 @@ def _attract_echo_to_circle(circle: Circle, world: World) -> str | None:
     if best_candidate:
         circle.add_member(best_candidate.id)
         best_candidate.circles.append(circle.id)
-        circle.history.append(CircleEvent(
-            type=CircleEventType.JOIN,
-            turn=world.clock.world_tick,
-            echo_id=best_candidate.id,
-            details=f"{best_candidate.name or 'Echo'} joined {circle.name}",
-        ))
+        circle.history.append(
+            CircleEvent(
+                type=CircleEventType.JOIN,
+                turn=world.clock.world_tick,
+                echo_id=best_candidate.id,
+                details=f"{best_candidate.name or 'Echo'} joined {circle.name}",
+            )
+        )
         return f"{best_candidate.name or 'An echo'} joined {circle.name} (influence: {circle.influence:.0f})"
 
     return None
@@ -293,21 +394,24 @@ def _remove_lowest_resonance_member(circle: Circle, world: World) -> str | None:
 
     lowest = min(
         members,
-        key=lambda e: e.get_attribute("resonance").value if e.get_attribute("resonance") else 50.0
+        key=lambda e: e.get_attribute("resonance").value if e.get_attribute("resonance") else 50.0,
     )
 
     circle.remove_member(lowest.id)
-    if hasattr(lowest, 'circles') and circle.id in lowest.circles:
+    if hasattr(lowest, "circles") and circle.id in lowest.circles:
         lowest.circles.remove(circle.id)
 
     from core.domain import CircleEvent
     from core.domain.enums import CircleEventType
-    circle.history.append(CircleEvent(
-        type=CircleEventType.LEAVE,
-        turn=world.clock.world_tick,
-        echo_id=lowest.id,
-        details=f"{lowest.name or 'Echo'} left {circle.name}",
-    ))
+
+    circle.history.append(
+        CircleEvent(
+            type=CircleEventType.LEAVE,
+            turn=world.clock.world_tick,
+            echo_id=lowest.id,
+            details=f"{lowest.name or 'Echo'} left {circle.name}",
+        )
+    )
 
     return f"{lowest.name or 'An echo'} left {circle.name} (low resonance)"
 
@@ -324,6 +428,7 @@ def _splinter_circle(circle: Circle, world: World, rng) -> str | None:
 
     from core.domain import CircleEvent
     from core.domain.enums import CircleEventType
+
     new_circle = type(circle)(
         id=str(uuid.uuid4()),
         name=new_name,
@@ -339,23 +444,27 @@ def _splinter_circle(circle: Circle, world: World, rng) -> str | None:
 
     for echo_id in new_members:
         echo = world.get_echo(echo_id)
-        if echo and hasattr(echo, 'circles'):
+        if echo and hasattr(echo, "circles"):
             echo.circles.append(new_circle.id)
 
     circle.member_ids = kept_members
     circle.influence *= 0.7
 
-    circle.history.append(CircleEvent(
-        type=CircleEventType.SPLINTER,
-        turn=world.clock.world_tick,
-        details=f"Circle splintered into {new_name}",
-    ))
+    circle.history.append(
+        CircleEvent(
+            type=CircleEventType.SPLINTER,
+            turn=world.clock.world_tick,
+            details=f"Circle splintered into {new_name}",
+        )
+    )
 
-    new_circle.history.append(CircleEvent(
-        type=CircleEventType.FOUNDED,
-        turn=world.clock.world_tick,
-        details=f"Splintered from {circle.name}",
-    ))
+    new_circle.history.append(
+        CircleEvent(
+            type=CircleEventType.FOUNDED,
+            turn=world.clock.world_tick,
+            details=f"Splintered from {circle.name}",
+        )
+    )
 
     world.circles.append(new_circle)
 
@@ -370,21 +479,28 @@ def _spawn_npc_in_circle(circle: Circle, world: World, rng) -> str | None:
     if rng.random() > 0.2:
         return None
 
-    from infra.ai import MockAdapter
     from core.factories.npc import create_npc
+    from infra.ai import MockAdapter
 
-    npc = create_npc(MockAdapter(), {"essence": circle.essence, "context": "circle_growth"}, seed=rng.randint(0, 99999))
+    npc = create_npc(
+        MockAdapter(),
+        {"essence": circle.essence, "context": "circle_growth"},
+        seed=rng.randint(0, 99999),
+    )
 
     circle.npcs.append(npc.id)
     circle.add_member(npc.id)
 
     from core.domain import CircleEvent
     from core.domain.enums import CircleEventType
-    circle.history.append(CircleEvent(
-        type=CircleEventType.NPC_SPAWN,
-        turn=world.clock.world_tick,
-        npc_id=npc.id,
-        details=f"NPC {npc.name} spawned in {circle.name}",
-    ))
+
+    circle.history.append(
+        CircleEvent(
+            type=CircleEventType.NPC_SPAWN,
+            turn=world.clock.world_tick,
+            npc_id=npc.id,
+            details=f"NPC {npc.name} spawned in {circle.name}",
+        )
+    )
 
     return npc.id

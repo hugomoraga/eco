@@ -111,11 +111,18 @@ class NarrativeGenerator:
         self.rng = random.Random(seed)
 
     def generate_intro(self, echo: Echo | None, world: World) -> NarrativeIntro:
-        archetype = getattr(echo, 'archetype', 'neutral') if echo else "neutral"
-        essence = echo.dominant_essence if echo else world.circles[0].essence if world.circles else "anarchism"
+        archetype = getattr(echo, "archetype", "neutral") if echo else "neutral"
+        essence = (
+            echo.dominant_essence
+            if echo
+            else world.circles[0].essence
+            if world.circles
+            else "anarchism"
+        )
         clarity = echo.clarity if echo else 50.0
 
         from core.domain.registries.archetype_registry import get_archetype
+
         archetype_data = get_archetype(archetype)
         intro_text = self.rng.choice(archetype_data.intro_texts)
 
@@ -301,7 +308,9 @@ def format_story_beat(beat: StoryBeat) -> str:
     return "\n".join(lines)
 
 
-def format_finale(finale: NarrativeFinale, player_goal: Goal | None, top_rival_goals: list[Goal]) -> str:
+def format_finale(
+    finale: NarrativeFinale, player_goal: Goal | None, top_rival_goals: list[Goal]
+) -> str:
     goal_desc = player_goal.description if player_goal else "N/A"
     goal_bar = player_goal.progress_bar(None, finale.turn) if player_goal else "░░░░░"
     pct = int(finale.player_goal_progress * 100)
@@ -338,7 +347,9 @@ def format_finale(finale: NarrativeFinale, player_goal: Goal | None, top_rival_g
     if finale.winner == "player":
         lines.append(f"  🏆 RESULTADO: ¡VICTORIA! ({pct}%)")
     else:
-        lines.append(f"  ⚔ RESULTADO: Derrota ({pct}% vs {int(top_rival_goals[0].evaluate(None, finale.turn) * 100) if top_rival_goals else 0}%)")
+        lines.append(
+            f"  ⚔ RESULTADO: Derrota ({pct}% vs {int(top_rival_goals[0].evaluate(None, finale.turn) * 100) if top_rival_goals else 0}%)"
+        )
 
     lines.append("═" * 60)
     return "\n".join(lines)

@@ -23,15 +23,18 @@ class EssenceRegistry:
 
         cls._affinity = data.get("affinity_matrix", {})
 
-        cls._affinity_values = data.get("affinity_values", {
-            "CONFIRMED": 100,
-            "HIGH_AFFINITY": 75,
-            "MEDIUM_AFFINITY": 50,
-            "NEUTRAL": 25,
-            "MEDIUM_TENSION": 10,
-            "HIGH_TENSION": -25,
-            "INCOMPATIBLE": -75,
-        })
+        cls._affinity_values = data.get(
+            "affinity_values",
+            {
+                "CONFIRMED": 100,
+                "HIGH_AFFINITY": 75,
+                "MEDIUM_AFFINITY": 50,
+                "NEUTRAL": 25,
+                "MEDIUM_TENSION": 10,
+                "HIGH_TENSION": -25,
+                "INCOMPATIBLE": -75,
+            },
+        )
 
     @classmethod
     def get(cls, essence: str) -> dict:

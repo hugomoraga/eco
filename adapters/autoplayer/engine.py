@@ -4,6 +4,7 @@ adapter_core.autoplayer.engine - AutoplayerEngine for AI-controlled player decis
 This module contains the AI logic for deciding player actions.
 Moved here from core.autoplayer as part of hexagonal architecture refactor.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, ClassVar
@@ -16,8 +17,8 @@ from adapters.autoplayer.types import (
     Goal,
 )
 from core.application.processors.random import SeededRandom
-from infra.logging import get_logger
 from infra.config.tuning import tuning
+from infra.logging import get_logger
 
 if TYPE_CHECKING:
     from core.domain import Echo, World
@@ -115,8 +116,16 @@ class AutoplayerEngine:
             if action_name in goal.strategy:
                 base_score += goal.priority * 0.2
 
-        base_score += metrics.get("memetic_spread", 0) * 0.1 if action_name in ["found_circle", "propagate_idea"] else 0
-        base_score += metrics.get("doctrinal_clarity", 0) * 0.1 if action_name in ["write_manifesto", "ritualize"] else 0
+        base_score += (
+            metrics.get("memetic_spread", 0) * 0.1
+            if action_name in ["found_circle", "propagate_idea"]
+            else 0
+        )
+        base_score += (
+            metrics.get("doctrinal_clarity", 0) * 0.1
+            if action_name in ["write_manifesto", "ritualize"]
+            else 0
+        )
 
         penalty = tuning.diminishing_penalty
         min_mult = tuning.diminishing_min
@@ -128,7 +137,9 @@ class AutoplayerEngine:
             freshness_bonus = tuning.max_freshness_bonus
         else:
             turns_since = world.clock.action_tick - last_turn
-            freshness_bonus = min(tuning.max_freshness_bonus, turns_since * tuning.freshness_bonus_per_turn)
+            freshness_bonus = min(
+                tuning.max_freshness_bonus, turns_since * tuning.freshness_bonus_per_turn
+            )
 
         final_score = base_score * diminishing_factor * (1 + freshness_bonus)
         return max(0, min(100, final_score))
@@ -138,7 +149,12 @@ class AutoplayerEngine:
     ) -> AutoplayDecision:
         if self.take_control_requested:
             self.take_control_requested = False
-            log.info("autoplay_decision", turn=world.clock.action_tick, selected_action="", reason="take_control_requested")
+            log.info(
+                "autoplay_decision",
+                turn=world.clock.action_tick,
+                selected_action="",
+                reason="take_control_requested",
+            )
             return AutoplayDecision(
                 turn=world.clock.action_tick,
                 selected_action="",
@@ -156,12 +172,21 @@ class AutoplayerEngine:
         best_score = action_scores[best_action]
 
         alternatives = [
-            {"action": a, "score": s} for a, s in sorted(action_scores.items(), key=lambda x: x[1], reverse=True) if a != best_action
+            {"action": a, "score": s}
+            for a, s in sorted(action_scores.items(), key=lambda x: x[1], reverse=True)
+            if a != best_action
         ]
 
-        log.info("autoplay_decision", turn=world.clock.action_tick, echo_name=echo.name,
-                 selected_action=best_action, score=best_score, style=self.style.name,
-                 metrics=metrics, action_scores=action_scores)
+        log.info(
+            "autoplay_decision",
+            turn=world.clock.action_tick,
+            echo_name=echo.name,
+            selected_action=best_action,
+            score=best_score,
+            style=self.style.name,
+            metrics=metrics,
+            action_scores=action_scores,
+        )
 
         return AutoplayDecision(
             turn=world.clock.action_tick,
@@ -171,7 +196,9 @@ class AutoplayerEngine:
             alternatives=alternatives[:3],
         )
 
-    def suggest_action(self, echo: Echo, world: World, available_actions: list[str]) -> AutoplayDecision:
+    def suggest_action(
+        self, echo: Echo, world: World, available_actions: list[str]
+    ) -> AutoplayDecision:
         decision = self.select_action(echo, world, available_actions)
         self.pending_suggestion = decision
         return decision

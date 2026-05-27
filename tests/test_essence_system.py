@@ -7,12 +7,11 @@ Demonstrates usage of essence mechanics:
 - suggest_faction: Faction suggestion based on essence
 - alignment: Civ vs Person alignment calculation
 """
+
 from __future__ import annotations
 
-import pytest
-
 from core.domain.entities.ideas import EssenceProfile, EssenceScore
-from core.domain.systems.essence_system import EssenceSystem, ACTION_ESSENCE_MODIFIERS
+from core.domain.systems.essence_system import ACTION_ESSENCE_MODIFIERS, EssenceSystem
 
 
 class TestEssenceMutation:
@@ -22,10 +21,12 @@ class TestEssenceMutation:
         """write_manifesto should add thelema and individualism."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="humanism", value=50),
-            EssenceScore(essence="pragmatism", value=50),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="humanism", value=50),
+                EssenceScore(essence="pragmatism", value=50),
+            ]
+        )
 
         new_profile = system.mutate(profile, "write_manifesto")
 
@@ -33,16 +34,20 @@ class TestEssenceMutation:
         assert thelema_score is not None and thelema_score > 0, "thelema should be added"
 
         individualism_score = new_profile.get("individualism")
-        assert individualism_score is not None and individualism_score > 0, "individualism should be added"
+        assert individualism_score is not None and individualism_score > 0, (
+            "individualism should be added"
+        )
 
     def test_destroy_institution_increases_anarchism(self):
         """destroy_institution should increase anarchism."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="socialism", value=60),
-            EssenceScore(essence="collectivism", value=40),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="socialism", value=60),
+                EssenceScore(essence="collectivism", value=40),
+            ]
+        )
 
         new_profile = system.mutate(profile, "destroy_institution")
 
@@ -56,10 +61,12 @@ class TestEssenceMutation:
         """donate_resources should increase socialism and collectivism."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="humanism", value=50),
-            EssenceScore(essence="pragmatism", value=50),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="humanism", value=50),
+                EssenceScore(essence="pragmatism", value=50),
+            ]
+        )
 
         new_profile = system.mutate(profile, "donate_resources")
 
@@ -73,9 +80,11 @@ class TestEssenceMutation:
         """Unknown action should return profile unchanged."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="humanism", value=50),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="humanism", value=50),
+            ]
+        )
 
         new_profile = system.mutate(profile, "unknown_action")
 
@@ -85,25 +94,32 @@ class TestEssenceMutation:
         """Essence with value < 20 should move to underlying."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="thelema", value=25),
-            EssenceScore(essence="humanism", value=75),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="thelema", value=25),
+                EssenceScore(essence="humanism", value=75),
+            ]
+        )
 
         new_profile = system.mutate(profile, "write_manifesto")
 
-        thelema_in_dominant = any(e.essence == "thelema" and e in new_profile.dominant for e in new_profile.dominant)
+        thelema_in_dominant = any(
+            e.essence == "thelema" and e in new_profile.dominant for e in new_profile.dominant
+        )
         assert thelema_in_dominant or new_profile.get("thelema") < 20
 
     def test_underlying_promotes_to_dominant_at_30(self):
         """Underlying essence >= 30 should move to dominant if space available."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="humanism", value=80),
-        ], underlying=[
-            EssenceScore(essence="anarchism", value=30),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="humanism", value=80),
+            ],
+            underlying=[
+                EssenceScore(essence="anarchism", value=30),
+            ],
+        )
 
         new_profile = system.mutate(profile, "destroy_institution")
 
@@ -114,11 +130,13 @@ class TestEssenceMutation:
         """Should not exceed MAX_DOMINANT_COUNT (3)."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="humanism", value=40),
-            EssenceScore(essence="pragmatism", value=40),
-            EssenceScore(essence="rationalism", value=20),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="humanism", value=40),
+                EssenceScore(essence="pragmatism", value=40),
+                EssenceScore(essence="rationalism", value=20),
+            ]
+        )
 
         new_profile = system.mutate(profile, "write_manifesto")
 
@@ -128,14 +146,18 @@ class TestEssenceMutation:
         """Essence > 80 should crystallize (consume weakest dominant)."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="thelema", value=85),
-            EssenceScore(essence="humanism", value=15),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="thelema", value=85),
+                EssenceScore(essence="humanism", value=15),
+            ]
+        )
 
         new_profile = system.mutate(profile, "write_manifesto")
 
-        thelema_crystallized = any(e.essence == "thelema" and e.value == 80 for e in new_profile.dominant)
+        thelema_crystallized = any(
+            e.essence == "thelema" and e.value == 80 for e in new_profile.dominant
+        )
         assert thelema_crystallized, "thelema should crystallize at 80"
 
         humanism_moved = any(e.essence == "humanism" for e in new_profile.underlying)
@@ -149,15 +171,19 @@ class TestEssenceCompatibility:
         """High affinity profiles should be compatible."""
         system = EssenceSystem()
 
-        person = EssenceProfile(dominant=[
-            EssenceScore(essence="socialism", value=60),
-            EssenceScore(essence="humanism", value=40),
-        ])
+        person = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="socialism", value=60),
+                EssenceScore(essence="humanism", value=40),
+            ]
+        )
 
-        host = EssenceProfile(dominant=[
-            EssenceScore(essence="socialism", value=70),
-            EssenceScore(essence="collectivism", value=30),
-        ])
+        host = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="socialism", value=70),
+                EssenceScore(essence="collectivism", value=30),
+            ]
+        )
 
         assert system.compatible(person, host) is True
 
@@ -165,15 +191,19 @@ class TestEssenceCompatibility:
         """Low affinity profiles should not be compatible."""
         system = EssenceSystem()
 
-        person = EssenceProfile(dominant=[
-            EssenceScore(essence="anarchism", value=60),
-            EssenceScore(essence="extremism", value=40),
-        ])
+        person = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="anarchism", value=60),
+                EssenceScore(essence="extremism", value=40),
+            ]
+        )
 
-        host = EssenceProfile(dominant=[
-            EssenceScore(essence="feudalism", value=50),
-            EssenceScore(essence="monotheism", value=50),
-        ])
+        host = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="feudalism", value=50),
+                EssenceScore(essence="monotheism", value=50),
+            ]
+        )
 
         assert system.compatible(person, host) is False
 
@@ -181,13 +211,17 @@ class TestEssenceCompatibility:
         """Custom min_affinity threshold should work."""
         system = EssenceSystem()
 
-        person = EssenceProfile(dominant=[
-            EssenceScore(essence="humanism", value=50),
-        ])
+        person = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="humanism", value=50),
+            ]
+        )
 
-        host = EssenceProfile(dominant=[
-            EssenceScore(essence="socialism", value=50),
-        ])
+        host = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="socialism", value=50),
+            ]
+        )
 
         assert system.compatible(person, host, min_affinity=30) is True
         assert system.compatible(person, host, min_affinity=80) is False
@@ -200,10 +234,12 @@ class TestSuggestFaction:
         """Anarchist profile should suggest revolutionaries faction."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="anarchism", value=70),
-            EssenceScore(essence="communism", value=30),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="anarchism", value=70),
+                EssenceScore(essence="communism", value=30),
+            ]
+        )
 
         faction = system.suggest_faction(profile)
 
@@ -213,10 +249,12 @@ class TestSuggestFaction:
         """Technocrat profile should suggest technocrats faction."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="technocracy", value=60),
-            EssenceScore(essence="pragmatism", value=40),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="technocracy", value=60),
+                EssenceScore(essence="pragmatism", value=40),
+            ]
+        )
 
         faction = system.suggest_faction(profile)
 
@@ -226,10 +264,12 @@ class TestSuggestFaction:
         """Mystic profile should suggest mystics faction."""
         system = EssenceSystem()
 
-        profile = EssenceProfile(dominant=[
-            EssenceScore(essence="mysticism", value=50),
-            EssenceScore(essence="polytheism", value=50),
-        ])
+        profile = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="mysticism", value=50),
+                EssenceScore(essence="polytheism", value=50),
+            ]
+        )
 
         faction = system.suggest_faction(profile)
 
@@ -253,10 +293,12 @@ class TestAlignment:
         """Similar essences should have high alignment."""
         system = EssenceSystem()
 
-        person = EssenceProfile(dominant=[
-            EssenceScore(essence="socialism", value=60),
-            EssenceScore(essence="humanism", value=40),
-        ])
+        person = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="socialism", value=60),
+                EssenceScore(essence="humanism", value=40),
+            ]
+        )
 
         civ_dominant = [
             EssenceScore(essence="socialism", value=70),
@@ -271,10 +313,12 @@ class TestAlignment:
         """Opposing essences should have low alignment."""
         system = EssenceSystem()
 
-        person = EssenceProfile(dominant=[
-            EssenceScore(essence="anarchism", value=60),
-            EssenceScore(essence="extremism", value=40),
-        ])
+        person = EssenceProfile(
+            dominant=[
+                EssenceScore(essence="anarchism", value=60),
+                EssenceScore(essence="extremism", value=40),
+            ]
+        )
 
         civ_dominant = [
             EssenceScore(essence="feudalism", value=50),
@@ -306,8 +350,12 @@ class TestActionEssenceModifiers:
     def test_all_actions_have_modifiers(self):
         """All key actions should have essence modifiers."""
         key_actions = [
-            "write_manifesto", "donate_resources", "destroy_institution",
-            "perform_ritual", "propagate_idea", "sabotage"
+            "write_manifesto",
+            "donate_resources",
+            "destroy_institution",
+            "perform_ritual",
+            "propagate_idea",
+            "sabotage",
         ]
 
         for action in key_actions:
@@ -321,4 +369,6 @@ class TestActionEssenceModifiers:
         for action, modifiers in ACTION_ESSENCE_MODIFIERS.items():
             has_positive = any(v > 0 for v in modifiers.values())
             has_negative = any(v < 0 for v in modifiers.values())
-            assert has_positive and has_negative, f"Action {action} missing positive or negative modifiers"
+            assert has_positive and has_negative, (
+                f"Action {action} missing positive or negative modifiers"
+            )

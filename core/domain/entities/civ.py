@@ -4,12 +4,10 @@ civ.py — Civ
 
 from __future__ import annotations
 
-from typing import ClassVar
-
 from pydantic import BaseModel, Field
 
-from core.domain.enums import CivAlignment
 from core.domain.entities.ideas import EssenceProfile
+from core.domain.enums import CivAlignment
 
 
 class Civ(BaseModel):
@@ -26,9 +24,15 @@ class Civ(BaseModel):
     resources_global: float = 70.0
     crisis_threshold: float = 75.0
     collapse_threshold: float = 15.0
-    resources: dict[str, float] = Field(default_factory=lambda: {
-        "food": 80, "infrastructure": 60, "energy": 50, "knowledge": 50, "legitimacy": 60,
-    })
+    resources: dict[str, float] = Field(
+        default_factory=lambda: {
+            "food": 80,
+            "infrastructure": 60,
+            "energy": 50,
+            "knowledge": 50,
+            "legitimacy": 60,
+        }
+    )
     target_aligned_ratio: float = 0.70
 
     @property

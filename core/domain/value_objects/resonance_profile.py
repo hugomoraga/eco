@@ -17,6 +17,7 @@ class ResonanceProfile(BaseModel):
         dominant: 1-3 dominant resonances, sum ~100
         underlying: Other resonances, 0-100 each
     """
+
     model_config = {"arbitrary_types_allowed": True}
 
     dominant: list[ResonanceScore] = Field(default_factory=list)
