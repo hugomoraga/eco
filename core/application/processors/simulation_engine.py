@@ -33,7 +33,7 @@ from core.application.processors.turn_context import (
     track_echo_action,
 )
 from core.application.processors.world_builder import build_initial_world
-from infra.logging import get_logger, init_logger
+from core.utils.logger import get_logger
 
 
 class SimulationEngine:
@@ -85,7 +85,6 @@ class SimulationEngine:
         self.player_goal = None
         self.npc_goals = []
 
-        init_logger(self.run_dir)
         self._log = get_logger(__name__)
 
         self._observers: list[SimulationObserver] = [NullObserver()]

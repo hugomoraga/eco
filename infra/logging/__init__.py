@@ -14,7 +14,6 @@ Usage:
 
 from __future__ import annotations
 
-import logging
 import os
 import sys
 from pathlib import Path
@@ -28,16 +27,24 @@ if TYPE_CHECKING:
 
 _log_level: str = os.getenv("ECO_LOG_LEVEL", "DEBUG").upper()
 _log_file_path: Path | None = None
+_file_handle = None
 
 
 def init_logger(run_dir: Path | None = None) -> None:
     """
-    Initialize structlog with output to stderr and optional debug.log file.
+    Initialize structlog with dual output: stderr + debug.log file.
+
+    When run_dir is provided:
+        - Logs go to BOTH stderr AND debug.log
+        - This allows real-time viewing AND post-mortem analysis
+
+    When run_dir is None:
+        - Logs go to stderr only
 
     Args:
         run_dir: Directory for debug.log file (optional).
     """
-    global _log_file_path
+    global _log_file_path, _file_handle
 
     structlog.reset_defaults()
 
@@ -53,28 +60,35 @@ def init_logger(run_dir: Path | None = None) -> None:
         structlog.processors.format_exc_info,
     ]
 
-    def console_only_renderer(logger, method_name, event_dict):
-        """Render to console only (stderr)."""
-        return console_renderer(logger, method_name, event_dict)
-
-    def file_renderer(logger, method_name, event_dict):
-        """Render to file."""
-        return console_renderer(logger, method_name, event_dict)
-
     level = getattr(structlog.stdlib.logging, _log_level, structlog.stdlib.logging.DEBUG)
 
     if run_dir:
         _log_file_path = run_dir / "debug.log"
-        file_logger = structlog.PrintLoggerFactory(file=open(_log_file_path, "a", encoding="utf-8"))
+        _file_handle = open(_log_file_path, "a", encoding="utf-8")
+
+        def console_and_file_renderer(logger, method_name, event_dict):
+            """Render to both console (stderr) and file."""
+            rendered = console_renderer(logger, method_name, event_dict)
+            if rendered:
+                _file_handle.write(rendered + "\n")
+                _file_handle.flush()
+            return rendered
+
         structlog.configure(
-            processors=processors + [file_renderer],
+            processors=processors + [console_and_file_renderer],
             wrapper_class=structlog.make_filtering_bound_logger(level),
             context_class=dict,
-            logger_factory=file_logger,
+            logger_factory=structlog.PrintLoggerFactory(file=sys.stderr),
             cache_logger_on_first_use=False,
         )
     else:
         _log_file_path = None
+        _file_handle = None
+
+        def console_only_renderer(logger, method_name, event_dict):
+            """Render to console only (stderr)."""
+            return console_renderer(logger, method_name, event_dict)
+
         structlog.configure(
             processors=processors + [console_only_renderer],
             wrapper_class=structlog.make_filtering_bound_logger(level),

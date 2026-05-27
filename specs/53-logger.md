@@ -1,5 +1,7 @@
 # SPEC-53: Logger/Observabilidad
 
+## Status: Implemented
+
 ## Context / Problema
 
 Necesitamos observabilidad en el motor de simulación para:
@@ -8,22 +10,53 @@ Necesitamos observabilidad en el motor de simulación para:
 3. **Capacidad de edge cases** - try/except con contexto, condiciones "esto no debería pasar"
 4. **Separación de canales** - logs van a stderr (consola) y archivo, NO a stdout (protocolo TUI)
 
+## Arquitectura Implementada
+
+### Hexagonal Architecture
+
+```
+core/
+├── ports/logger.py          # Logger protocol (interface)
+├── utils/logger.py          # Logger shim (delega a infra)
+└── application/
+    └── processors/          # Usa core.utils.logger
+
+infra/
+└── logging/__init__.py     # structlog implementation
+
+adapters/
+├── cli/launcher.py         # Llama init_logger ANTES de crear engine
+└── ...
+```
+
+### Principios
+
+1. **core/ NO importa de infra/** - usa `core.utils.logger`
+2. **init_logger() se llama en adapter layer** - antes de crear el engine
+3. **Logs van a stderr Y debug.log** - dual output
+4. **stdout es solo para protocolo JSON** - comunicación core↔adapters↔TUI
+
 ## Decisiones
 
 ### Librería
-- `structlog` - structured logging, JSON output, processors chain
-- Instalar como dependency `structlog>=25.0`
+- `structlog>=25.0` - structured logging, processors chain, ConsoleRenderer
 
 ### Ubicación
-- `game_core/utils/logger.py` - módulo centralizado
+- `infra/logging/__init__.py` - implementación con structlog
+- `core/utils/logger.py` - shim que permite a core usar logging sin depender de infra
+- `core/ports/logger.py` - protocolo Logger (interfaz)
 
 ### Output
-- **stderr** (consola) - visible durante ejecución, NO mezcla con protocolo JSON
+
+**Dual output:**
+- **stderr** - logs visibles durante ejecución (formato ConsoleRenderer legible)
 - **`runs/{run_id}/debug.log`** - archivo persistente por run para análisis post-mortem
+
+**No stdout** - stdout es reservado para protocolo JSON de comunicación con TUI
 
 ### Configuración
 - `ECO_LOG_LEVEL=DEBUG|INFO|WARNING|ERROR` en `.env`
-- Default: `DEBUG` en desarrollo
+- Default: `DEBUG`
 
 ### Semántica de niveles
 
@@ -36,7 +69,8 @@ ERROR: Excepciones reales (API timeout, file not found, bugs, asserts fallidos)
 ### API
 
 ```python
-from game_core.utils.logger import get_logger
+# En core/application/ - usar core.utils.logger (NO infra.logging)
+from core.utils.logger import get_logger
 
 log = get_logger(__name__)  # module-aware logger
 
@@ -56,43 +90,84 @@ log.error("file_not_found", path="data/events.yaml")
 log.debug("autoplay_decision", turn=1, archetype="propagator", scores={"sabotage": 20, "talk": 85}, selected="talk")
 ```
 
-### Archivos a modificar (prioridad alta - FULL logging)
+```python
+# En adapters/ - usar infra.logging directamente
+from infra.logging import init_logger, get_logger
 
-**systems/**
-- `simulation.py` - loop principal, action execution, NPC damage, reincarnation
-- `reincarnation.py` - find_candidate, reincarnate_echo, preserve_legacy
-- `faction_tick.py` - faction updates
-- `event_pool.py` - event selection
-- `event_generator.py` - AI adapter calls
+init_logger(run_dir)  # Una vez, antes de crear engine
+log = get_logger(__name__)
+```
 
-**actions/**
-- `base.py` - execute, can_execute
-- `social_actions.py` - sabotage, spread_rumor, talk, ritualize
-- `circle_actions.py` - found_circle, join_circle, leave_circle
-- `manifesto_actions.py` - write_manifesto
-- `propagation_actions.py` - propagate_idea
+## Implementación
 
-**autoplayer/**
-- `npc_engine.py` - decision scoring, action selection
-- `autoplayer_engine.py` - strategy decisions
+### `infra/logging/__init__.py`
 
-### Reemplazos
-- Eliminar `game_core/utils/debug_log.py` completamente
-- Reemplazar todos los `from game_core.utils.debug_log import DebugLog, dbg` con `from game_core.utils.logger import get_logger`
+```python
+_log_file_path: Path | None = None
+_file_handle = None
 
-## Edge Cases a Loggear
+def init_logger(run_dir: Path | None = None) -> None:
+    """Dual output: stderr + debug.log si run_dirProvided."""
+    if run_dir:
+        _log_file_path = run_dir / "debug.log"
+        _file_handle = open(_log_file_path, "a", encoding="utf-8")
 
-1. **get_action timeout** - cuando queue está vacía y usa autoplay
-2. **NPC damage to player** - cada instance, con before/after vitality
-3. **Player death** - trigger, legacy preservation, candidate search, reincarnation result
-4. **Reincarnation failure** - no candidate found
-5. **AI adapter calls** - entrada/salida, timeout, exceptions
-6. **Circle member_count >= 3** - NPC generation trigger
-7. **Conditionals "esto no debería pasar"** - log.warning con contexto
+        def console_and_file_renderer(logger, method_name, event_dict):
+            rendered = console_renderer(logger, method_name, event_dict)
+            if rendered:
+                _file_handle.write(rendered + "\n")
+                _file_handle.flush()
+            return rendered
+
+        structlog.configure(
+            processors=processors + [console_and_file_renderer],
+            ...
+        )
+    else:
+        # Solo stderr
+        structlog.configure(
+            processors=processors + [console_only_renderer],
+            ...
+        )
+```
+
+### `core/utils/logger.py`
+
+```python
+"""Shim que permite a core usar logging sin importar de infra."""
+
+def get_logger(name: str) -> Logger:
+    from infra.logging import get_logger as _get_logger
+    return _get_logger(name)
+
+def init_logger(run_dir: Path | None = None) -> None:
+    from infra.logging import init_logger as _init_logger
+    _init_logger(run_dir)
+```
 
 ## Testing
 
-1. `python -m game_core.cli --max-turns 5 --autoplay` debe correr sin hang
-2. `runs/{run_id}/debug.log` debe existir y tener contenido
-3. stderr debe mostrar logs durante ejecución
-4. JSON válido en debug.log (parseable post-run)
+```bash
+# Test integración
+uv run pytest tests/test_logging_integration.py -v
+
+# Verificar debug.log existe y tiene contenido
+uv run python run.py --headless --turns 3
+ls runs/run_*/debug.log  # Debe existir
+cat runs/run_*/debug.log | head -20  # Debe tener logs
+```
+
+## Archivos
+
+| Archivo | Rol |
+|---------|-----|
+| `infra/logging/__init__.py` | Implementación structlog |
+| `core/utils/logger.py` | Shimp para core |
+| `core/ports/logger.py` | Protocolo Logger |
+| `tests/test_logging_integration.py` | Tests de integración |
+
+## Status History
+
+- 2026-05-26: Implementado con arquitectura hexagonal
+- 2026-05-26: Fix bug closure - ahora usa `_file_handle` global con flush
+- 2026-05-26: Dual output (stderr + debug.log)
