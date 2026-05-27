@@ -184,6 +184,78 @@ essences:
       obedience: 15
       apathy: 10
 
+  individualism:
+    name: "Individualismo"
+    description: "El individuo por encima del grupo"
+    attributes:
+      autonomy: 25
+      independence: 20
+      self_reliance: 20
+      competition: 15
+
+  collectivism:
+    name: "Colectivismo"
+    description: "El grupo por encima del individuo"
+    attributes:
+      social_cohesion: 25
+      conformity: 20
+      group_identity: 20
+      sacrifice: 15
+
+  communism:
+    name: "Comunismo"
+    description: "Propiedad común,sin clases"
+    attributes:
+      equality: 25
+      collectivism: 20
+      state_control: 15
+      redistribution: 20
+
+  extremism:
+    name: "Extremismo"
+    description: "Posturas radicales,sin matices"
+    attributes:
+      conviction: 30
+      polarization: 25
+      intransigence: 20
+      risk_tolerance: 15
+
+  moderation:
+    name: "Moderación"
+    description: "Buscar el punto medio,la balances"
+    attributes:
+      compromise: 25
+      patience: 20
+      tolerance: 20
+      flexibility: 15
+
+  dogmatism:
+    name: "Dogmatismo"
+    description: "Fe ciega en una doctrina"
+    attributes:
+      conviction: 25
+      obedience: 20
+      certainty: 20
+      inflexibility: 15
+
+  spirituality:
+    name: "Espiritualidad"
+    description: "Búsqueda de conexión trascendental"
+    attributes:
+      mysticism: 25
+      transcendence: 20
+      inner_peace: 20
+      connection: 15
+
+  leadership:
+    name: "Liderazgo"
+    description: "Capacidad de guiar y motivar"
+    attributes:
+      charisma: 25
+      vision: 20
+      authority: 20
+      responsibility: 15
+
 # Matriz de compatibilidades entre esencias
 # Niveles: CONFIRMED, HIGH_AFFINITY, MEDIUM_AFFINITY, NEUTRAL, MEDIUM_TENSION, HIGH_TENSION, INCOMPATIBLE
 

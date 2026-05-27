@@ -323,38 +323,57 @@ class SimulationEngine:
             })
 
     def _get_player_action(self, echo):
-        available_actions = list(ACTION_CLASSES.keys())
-        action_name = self._player.select_action(self.turn, self.world, available_actions)
-        self._log.debug("get_action", turn=self.turn, action_name=action_name)
-        if action_name:
-            self._notify("on_action_selected", self.turn, action_name)
-        return action_name
+        try:
+            available_actions = list(ACTION_CLASSES.keys())
+            action_name = self._player.select_action(self.turn, self.world, available_actions)
+            self._log.debug("get_action", turn=self.turn, action_name=action_name)
+            if action_name:
+                self._notify("on_action_selected", self.turn, action_name)
+            return action_name
+        except Exception as e:
+            self._log.error(
+                "get_player_action_failed",
+                turn=self.turn,
+                error=str(e),
+                error_type=type(e).__name__,
+            )
+            raise
 
     def _execute_player_action(self, echo, action_name, should_deal_damage_fn):
         from core.application.actions.base import ActionContext
 
-        result = None
-        if action_name and action_name in ACTION_CLASSES:
-            action = ACTION_CLASSES[action_name]()
-            context = ActionContext(
-                world_tick=self.world.clock.world_tick,
-                action_tick=self.world.clock.action_tick,
-                autoplay=(action_name is None),
+        try:
+            result = None
+            if action_name and action_name in ACTION_CLASSES:
+                action = ACTION_CLASSES[action_name]()
+                context = ActionContext(
+                    world_tick=self.world.clock.world_tick,
+                    action_tick=self.world.clock.action_tick,
+                    autoplay=(action_name is None),
+                )
+                if action.can_execute(echo, self.world, context):
+                    result = action.execute(echo, self.world, context)
+                    self._log.info("action_executed", turn=self.turn, action=action_name, success=result.success, message=result.message)
+                    self._notify("on_action_result", self.turn, action_name, result)
+
+                    track_echo_action(echo, action_name, self.turn)
+
+                    if should_deal_damage_fn(action_name) and result and result.success:
+                        try:
+                            handle_npc_damage_to_player(action_name, self.world, self._notify, self.turn, self._log)
+                        except Exception as e:
+                            self._log.error("npc_damage", turn=self.turn, action=action_name, stage="error", error=str(e), error_type=type(e).__name__)
+
+            return result
+        except Exception as e:
+            self._log.error(
+                "execute_player_action_failed",
+                turn=self.turn,
+                action=action_name,
+                error=str(e),
+                error_type=type(e).__name__,
             )
-            if action.can_execute(echo, self.world, context):
-                result = action.execute(echo, self.world, context)
-                self._log.info("action_executed", turn=self.turn, action=action_name, success=result.success, message=result.message)
-                self._notify("on_action_result", self.turn, action_name, result)
-
-                track_echo_action(echo, action_name, self.turn)
-
-                if should_deal_damage_fn(action_name) and result and result.success:
-                    try:
-                        handle_npc_damage_to_player(action_name, self.world, self._notify, self.turn, self._log)
-                    except Exception as e:
-                        self._log.error("npc_damage", turn=self.turn, action=action_name, stage="error", error=str(e), error_type=type(e).__name__)
-
-        return result
+            raise
 
     # ─── Finale ─────────────────────────────────────────────────────────
 
