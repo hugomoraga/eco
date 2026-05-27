@@ -60,6 +60,11 @@ class PlayerInputSource(InputSource):
             return self._action_queue.get_nowait()
         except queue.Empty:
             pass
+        if self._selector is None:
+            try:
+                return self._action_queue.get(timeout=self.timeout_seconds)
+            except queue.Empty:
+                return None
         return self._request_player_input(turn, world)
 
     def _request_player_input(self, turn: int, world: World) -> str | None:
