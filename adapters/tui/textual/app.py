@@ -274,14 +274,10 @@ class EcoTextualApp(App):
         self.call_after_refresh(self._write_event, title, summary)
 
     def _write_event(self, title: str, summary: str) -> None:
+        from adapters.tui.components import Components
         log_panel = self.query_one(LogPanel)
-        if summary:
-            self._log_text += f"◆ {title}\n  {summary}\n"
-            log_panel.write(f"[magenta]◆ {title}[/magenta]\n")
-            log_panel.write(f"  {summary}\n")
-        else:
-            self._log_text += f"◆ {title}\n"
-            log_panel.write(f"[magenta]◆ {title}[/magenta]\n")
+        panel = Components.event_banner("event", title, summary)
+        log_panel.write(panel)
 
     def _on_crisis(self, turn: int, metric: str, value: float) -> None:
         log.warning("tui_crisis", metric=metric, value=value)
