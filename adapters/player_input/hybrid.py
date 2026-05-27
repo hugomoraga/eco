@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.domain import World
 
-from adapters.ai.input_source.base import InputSource
+from adapters.player_input.base import InputSource
 
 
 class HybridInputSource(InputSource):

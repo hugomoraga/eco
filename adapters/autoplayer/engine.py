@@ -17,7 +17,7 @@ from adapters.autoplayer.types import (
 )
 from core.application.processors.random import SeededRandom
 from infra.logging import get_logger
-from adapters.config.tuning import tuning
+from infra.config.tuning import tuning
 
 if TYPE_CHECKING:
     from core.domain import Echo, World

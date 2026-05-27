@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.application.processors.simulation import SimulationEngine
 
-from adapters.ai.base import GameAdapter
-from adapters.ai.input_source import PlayerInputSource
+from infra.ai.base import GameAdapter
+from adapters.player_input import PlayerInputSource
 
 
 class HumanGameAdapter(GameAdapter):

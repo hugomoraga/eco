@@ -23,7 +23,7 @@ class HumanPlayer(Player):
 
     def __init__(self, timeout_seconds: int = 60, selector=None):
         self._timeout = timeout_seconds
-        from adapters.ai.input_source.player import PlayerInputSource
+        from adapters.player_input.player import PlayerInputSource
         self._input_source = PlayerInputSource(timeout_seconds=timeout_seconds, selector=selector)
 
     def select_action(self, turn: int, world, available_actions: list[str]) -> str | None:

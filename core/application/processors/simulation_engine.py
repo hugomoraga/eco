@@ -222,7 +222,7 @@ class SimulationEngine:
         return {"turns": self.turn, "run_dir": str(self.run_dir), "finale": finale_data}
 
     def _create_ai_adapter(self):
-        from adapters.ai import MiniMaxAdapter, MockAdapter, OpenAIAdapter
+        from infra.ai import MiniMaxAdapter, MockAdapter, OpenAIAdapter
 
         if self.ai_adapter_type == "openai":
             try:

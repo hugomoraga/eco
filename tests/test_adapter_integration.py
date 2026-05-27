@@ -9,7 +9,7 @@ import pytest
 
 from core.application.processors.simulation import SimulationEngine
 from core.application.players.auto import AutoPlayer
-from adapters.ai import AIGameAdapter
+from infra.ai import AIGameAdapter
 
 
 class TestSimulationEngineWithPlayer:

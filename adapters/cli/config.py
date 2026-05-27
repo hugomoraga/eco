@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Literal
 
 from core.ports.player import Player
-from adapters.config.config import get_config
+from infra.config.config import get_config
 
 
 @dataclass

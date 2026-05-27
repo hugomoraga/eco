@@ -27,7 +27,7 @@ class Launcher:
 
         from infra.logging import init_logger
         from core.application.processors.simulation_engine import SimulationEngine
-        from adapters.ai import MockAdapter
+        from infra.ai import MockAdapter
         from adapters.tui.console import Console
         from adapters.tui.display import ConsoleDisplay
 

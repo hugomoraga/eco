@@ -8,7 +8,7 @@ import sys
 
 sys.path.insert(0, '.')
 
-from adapters.ai import MockAdapter
+from infra.ai import MockAdapter
 from core.domain import Circle, Faction, World, WorldClock
 from core.domain.rules.essence_effects import EssenceEffects
 from core.factories import create_npc

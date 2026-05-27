@@ -370,7 +370,7 @@ def _spawn_npc_in_circle(circle: Circle, world: World, rng) -> str | None:
     if rng.random() > 0.2:
         return None
 
-    from adapters.ai import MockAdapter
+    from infra.ai import MockAdapter
     from core.factories.npc import create_npc
 
     npc = create_npc(MockAdapter(), {"essence": circle.essence, "context": "circle_growth"}, seed=rng.randint(0, 99999))

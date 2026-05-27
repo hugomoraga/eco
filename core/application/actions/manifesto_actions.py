@@ -21,7 +21,7 @@ class WriteManifesto(Action):
     }
 
     def execute(self, echo: Echo, world: World, context: ActionContext) -> ActionResult:
-        from adapters.ai import MockAdapter
+        from infra.ai import MockAdapter
         from core.domain import Manifesto
         from adapters.i18n import t
 

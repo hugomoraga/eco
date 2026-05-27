@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 
-from adapters.ai.base import AIAdapter, AIResponse
+from infra.ai.base import AIAdapter, AIResponse
 
 try:
     from openai import OpenAI
