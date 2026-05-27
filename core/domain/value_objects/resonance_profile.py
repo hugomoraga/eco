@@ -4,12 +4,12 @@ resonance_profile.py — ResonanceProfile value object.
 
 from __future__ import annotations
 
-from pydantic import Field
+from pydantic import BaseModel, Field
 
 from core.domain.value_objects.resonance_score import ResonanceScore
 
 
-class ResonanceProfile:
+class ResonanceProfile(BaseModel):
     """
     Profile of resonances (essences) for an entity.
 
@@ -17,14 +17,10 @@ class ResonanceProfile:
         dominant: 1-3 dominant resonances, sum ~100
         underlying: Other resonances, 0-100 each
     """
+    model_config = {"arbitrary_types_allowed": True}
 
-    def __init__(
-        self,
-        dominant: list[ResonanceScore] | None = None,
-        underlying: list[ResonanceScore] | None = None,
-    ):
-        self.dominant = dominant or []
-        self.underlying = underlying or []
+    dominant: list[ResonanceScore] = Field(default_factory=list)
+    underlying: list[ResonanceScore] = Field(default_factory=list)
 
     def get(self, resonance_id: str) -> float:
         """Get value for a resonance_id, returns 0 if not found."""
@@ -56,11 +52,3 @@ class ResonanceProfile:
 
     def __len__(self):
         return len(self.dominant) + len(self.underlying)
-
-    @property
-    def model_dump(self):
-        """Pydantic v2 compatibility."""
-        return {
-            "dominant": [{"resonance_id": s.resonance_id, "value": s.value} for s in self.dominant],
-            "underlying": [{"resonance_id": s.resonance_id, "value": s.value} for s in self.underlying],
-        }
