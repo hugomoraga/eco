@@ -49,6 +49,7 @@ class GameConfig:
 
         from core.application.players.human import HumanPlayer
         from core.application.players.auto import AutoPlayer
+        from adapters.tui.selector import Selector
 
         if headless:
             player = None
@@ -57,7 +58,7 @@ class GameConfig:
         elif autoplay:
             player = AutoPlayer(seed=seed, mode=autoplay_mode, style_id=autoplay_style)
         else:
-            player = HumanPlayer()
+            player = HumanPlayer(selector=Selector(title="Accion", options=[]))
 
         return cls(
             seed=seed,
